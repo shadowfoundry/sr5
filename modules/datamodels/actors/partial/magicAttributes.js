@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class characterMagicAttributesPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,8 +8,12 @@ export class characterMagicAttributesPartialModel extends foundry.abstract.TypeD
     return {
       specialAttributes: new fields.SchemaField({
         magic: new fields.SchemaField({
-          natural: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-          augmented: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+          natural: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+          augmented: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
         }),
       }),
     }

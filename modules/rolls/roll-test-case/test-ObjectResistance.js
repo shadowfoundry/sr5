@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function objectResistanceResultInfo(cardData){
   let labelEnd,
@@ -15,7 +17,9 @@ export default async function objectResistanceResultInfo(cardData){
       let item = await fromUuid(prevData.owner.itemUuid)
       let newItem = foundry.utils.duplicate(item.system)
       if (newItem.duration === "sustained") newItem.isActive = true
-      await item.update({"system": newItem})
+      await item.update({
+        "system": newItem
+      })
     }
   } else {
     labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess")

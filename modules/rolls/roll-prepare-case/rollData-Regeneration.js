@@ -1,4 +1,6 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default function regeneration(rollData, actor){
   //Determine title
@@ -6,8 +8,12 @@ export default function regeneration(rollData, actor){
 
   //Determine dicepool composition
   rollData.dicePool.composition = ([
-    {source: game.i18n.localize("SR5.Magic"), type: "linkedAttribute", value: actor.system.specialAttributes.magic.augmented.value},
-    {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value},
+    {
+      source: game.i18n.localize("SR5.Magic"), type: "linkedAttribute", value: actor.system.specialAttributes.magic.augmented.value
+    },
+    {
+      source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value
+    },
   ])
 
   //Determine base dicepool

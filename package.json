@@ -15,22 +15,24 @@
     "validate:dependencies": "node scripts/validate-dependencies.js",
     "validate:templates": "node scripts/validate-templates.js",
     "validate": "npm run validate:languages && npm run validate:system && npm run validate:dependencies && npm run validate:templates",
-    "check": "npm run lint; npm run test && npm run build:css && npm run validate",
+    "check": "npm run lint && npm run test && npm run build:css && npm run validate",
     "prepare": "husky",
     "release": "node scripts/release.js"
   },
   "lint-staged": {
-    "modules/**/*.js": "eslint",
+    "{modules,tests,scripts}/**/*.js": "eslint",
     "vitest.config.js": "eslint",
     "**/*.json": "node -e \"process.argv.slice(1).forEach(f=>{try{JSON.parse(require('fs').readFileSync(f,'utf8').replace(/^\\uFEFF/,''))}catch(e){process.stderr.write(f+': '+e.message+'\\n');process.exit(1)}})\"",
     "lang/*.json": "node scripts/check-lang-keys.js",
-    "**/*.{hbs,html}": "node scripts/validate-templates.js"
+    "system.json": "node scripts/validate-system.js",
+    "package.json": "node scripts/validate-dependencies.js",
+    "**/*.hbs": "node scripts/validate-templates.js"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@vitest/coverage-v8": "^4.0.18",
-    "eslint": "^8.53.0",
-    "eslint-plugin-foundry-vtt": "^0.0.1",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint": "^10.1.0",
+    "globals": "^17.4.0",
     "husky": "^9.1.7",
     "less": "^4.5.1",
     "lint-staged": "^16.3.3",

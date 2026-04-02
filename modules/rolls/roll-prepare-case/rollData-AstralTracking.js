@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function astralTracking(rollData, actor){
   //Determine title
@@ -21,7 +25,9 @@ export default function astralTracking(rollData, actor){
   rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, actor.system.limits.astralLimit.modifiers)
 
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "astralTracking"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "astralTracking"
+  })
 
   //Add others informations
   rollData.test.type = "astralTracking"

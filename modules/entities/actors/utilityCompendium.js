@@ -1,5 +1,9 @@
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export class SR5_CompendiumUtility extends Actor {
 

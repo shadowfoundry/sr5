@@ -1,7 +1,15 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_CombatHelpers } from "../roll-helpers/combat.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_CombatHelpers 
+} from "../roll-helpers/combat.js"
 
 //Add info for Defense Roll
 export default async function defense(rollData, actor, chatData){
@@ -65,7 +73,9 @@ export default async function defense(rollData, actor, chatData){
     
   //Handle Astral combat defense
   if (chatData.test.typeSub === "astralCombat"){
-    if ((actor.type === "actorDevice" || actor.type === "actorSprite") || !actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_TargetIsNotInAstral", {name:actor.name})}`)
+    if ((actor.type === "actorDevice" || actor.type === "actorSprite") || !actorData.visions.astral.isActive) return ui.notifications.info(`${game.i18n.format("SR5.INFO_TargetIsNotInAstral", {
+      name:actor.name
+    })}`)
     rollData = await handleAstralCombat(rollData, actor, chatData)
   }
                 
@@ -99,8 +109,12 @@ async function handleSuppressiveFire(rollData, actorData){
 
   //Determine dicepool composition
   rollData.dicePool.composition = [
-    {source: game.i18n.localize("SR5.Reaction"), type: "linkedAttribute", value: actorData.attributes.reaction.augmented.value},
-    {source: game.i18n.localize("SR5.Edge"), type: "linkedAttribute", value: (actorData.specialAttributes?.edge?.augmented?.value || 0)},
+    {
+      source: game.i18n.localize("SR5.Reaction"), type: "linkedAttribute", value: actorData.attributes.reaction.augmented.value
+    },
+    {
+      source: game.i18n.localize("SR5.Edge"), type: "linkedAttribute", value: (actorData.specialAttributes?.edge?.augmented?.value || 0)
+    },
   ]
 
   //Add others informations

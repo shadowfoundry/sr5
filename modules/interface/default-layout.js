@@ -3,7 +3,9 @@
  * SR5 actor type. These match the current hardcoded template structure.
  */
 
-import { TAB_ICONS } from './block-registry.js'
+import {
+  TAB_ICONS 
+} from './block-registry.js'
 
 // ---------------------------------------------------------------------------
 //  Helpers
@@ -13,15 +15,23 @@ let _nextId = 0
 function _id() { return `default-${_nextId++}` }
 
 function _panel(label, width, tabs) {
-  return { id: _id(), label, width, tabs }
+  return {
+    id: _id(), label, width, tabs 
+  }
 }
 
 function _tab(label, icon, blocks) {
-  return { id: _id(), label, icon: TAB_ICONS[icon], iconKey: icon, blocks }
+  return {
+    id: _id(), label, icon: TAB_ICONS[icon], iconKey: icon, blocks 
+  }
 }
 
 function _block(id, column) {
-  return column !== undefined ? { id, column } : { id }
+  return column !== undefined ? {
+    id, column 
+  } : {
+    id 
+  }
 }
 
 // ---------------------------------------------------------------------------

@@ -1,9 +1,21 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5 } from "../../config.js"
-import { SR5_ConverterHelpers } from "../roll-helpers/converter.js"
-import { SR5_RollTest } from "../roll-test.js"
-import { SR5_PrepareRollTest } from "../roll-prepare.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_ConverterHelpers 
+} from "../roll-helpers/converter.js"
+import {
+  SR5_RollTest 
+} from "../roll-test.js"
+import {
+  SR5_PrepareRollTest 
+} from "../roll-prepare.js"
 
 export default async function defenseInfo(cardData, actorId){
   let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
@@ -45,7 +57,9 @@ export default async function defenseInfo(cardData, actorId){
     immunity = actorData.specialProperties.hardenedArmors.normalWeapon.value + cardData.combat.armorPenetration
     if (cardData.damage.value + cardData.roll.netHits <= immunity) {
       cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NormalWeaponsImmunity"))
-      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value})}`)
+      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {
+        hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value
+      })}`)
     }
   }
 
@@ -64,7 +78,9 @@ export default async function defenseInfo(cardData, actorId){
       immunity = actorData.specialProperties.hardenedArmors.fire.value + cardData.combat.armorPenetration
       if (cardData.damage.value + cardData.roll.netHits <= immunity) {
         cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.FireImmunity"))
-        return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value})}`)
+        return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {
+          hardenedArmor: immunity, pa: cardData.combat.armorPenetration, damage: cardData.damage.value
+        })}`)
       }
     }
   }
@@ -81,7 +97,9 @@ export default async function defenseInfo(cardData, actorId){
     }
     if (actorData.attributes.armor.augmented.value >= cardData.damage.value && cardData.test.type !== "rammingDefense") {
       cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", game.i18n.localize("SR5.VehicleArmorResistance"))
-      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: actorData.attributes.armor.augmented.value, damage:cardData.damage.value})}`) //
+      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {
+        armor: actorData.attributes.armor.augmented.value, damage:cardData.damage.value
+      })}`) //
     }
   }
 
@@ -126,7 +144,11 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
       break
     case "knockdown":
       if ((cardData.roll.netHits + attacker.system.attributes.strength.augmented.value) > actorData.limits.physicalLimit.value) {
-        cardData.combat.calledShot.effects = {"0": {"name": "prone"}}
+        cardData.combat.calledShot.effects = {
+          "0": {
+            "name": "prone"
+          }
+        }
         cardData.damage.value = 0				
         cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`)
       } else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"))
@@ -135,7 +157,9 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
       if (cardData.combat.calledShot.limitDV === 0) cardData.damage.value = 0
       else cardData.chatCard.calledShotButton = false
       let mod = cardData.combat.calledShot.effects.find(e => e.name === "blastOutOfHand")
-      cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {range: cardData.roll.netHits + mod.modFingerPopper})}`)
+      cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",`${game.i18n.format('SR5.BlastOutOfHand', {
+        range: cardData.roll.netHits + mod.modFingerPopper
+      })}`)
       break
     }
     case "feint":
@@ -215,7 +239,9 @@ async function handleRamming(cardData, actorData) {
   rollData.chatCard.buttons.vehicleTest = SR5_RollMessage.generateChatButton("nonOpposedTest", "vehicleTest", `${game.i18n.localize("SR5.VehicleTest")} (2)`)
     
   // roll a fake test and render chat message
-  rollData.roll = await SR5_RollTest.rollDice({ dicePool: 0 })
+  rollData.roll = await SR5_RollTest.rollDice({
+    dicePool: 0 
+  })
   SR5_RollTest.renderRollCard(rollData)
 
   //Add vehicle test to defender chat Message
@@ -240,6 +266,8 @@ async function handleEnergeticAura(cardData, actorData){
   rollData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard", `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${rollData.damage.value}${game.i18n.localize(SR5.damageTypesShort[rollData.damage.type])}  / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${rollData.combat.armorPenetration}`)
 
   // roll a fake test and render chat message
-  rollData.roll = await SR5_RollTest.rollDice({ dicePool: 0 })
+  rollData.roll = await SR5_RollTest.rollDice({
+    dicePool: 0 
+  })
   SR5_RollTest.renderRollCard(rollData)
 }

@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default async function defenseSimple(rollData, rollKey, actor){
   //Determine title

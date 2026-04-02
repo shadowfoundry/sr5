@@ -1,9 +1,13 @@
-import { SR5_SystemHelpers } from "./system/utilitySystem.js"
+import {
+  SR5_SystemHelpers 
+} from "./system/utilitySystem.js"
 
 export default class Migration {
 
   async migrateWorld() {
-    ui.notifications.info(`Applying SR5 System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`, { permanent: true }) //To Translate
+    ui.notifications.info(`Applying SR5 System Migration for version ${game.system.version}. Please be patient and do not close your game or shut down your server.`, {
+      permanent: true 
+    }) //To Translate
 
     // Migrate World Items
     for (let i of game.items.contents) {
@@ -11,7 +15,9 @@ export default class Migration {
         const updateData = this.migrateItemData(i.toObject())
         if (!foundry.utils.isEmpty(updateData)) {
           SR5_SystemHelpers.srLog(2, `Migrating Item documment ${i.name}`)
-          await i.update(updateData, { enforceTypes: false })
+          await i.update(updateData, {
+            enforceTypes: false 
+          })
         }
       } catch (err) {
         err.message = `Failed sr5 system migration for Item ${i.name}: ${err.message}`
@@ -32,7 +38,9 @@ export default class Migration {
         const updateData = this.migrateActorData(a)
         if (!foundry.utils.isEmpty(updateData)) {
           SR5_SystemHelpers.srLog(2, `Migrating Actor entity ${a.name}`)
-          await a.update(updateData, { enforceTypes: false })
+          await a.update(updateData, {
+            enforceTypes: false 
+          })
         }
       } catch (err) {
         err.message = `Failed sr5 system migration for Actor ${a.name}: ${err.message}`
@@ -46,7 +54,9 @@ export default class Migration {
         const updateData = this.migrateSceneData(s)
         if (!foundry.utils.isEmpty(updateData)) {
           SR5_SystemHelpers.srLog(2, `Migrating Scene entity ${s.name}`)
-          await s.update(updateData, { enforceTypes: false })
+          await s.update(updateData, {
+            enforceTypes: false 
+          })
           // If we do not do this, then synthetic token actors remain in cache
           // with the un-updated actorData.
           s.tokens.contents.forEach(t => t._actor = null)
@@ -59,7 +69,9 @@ export default class Migration {
 
     // Set the migration as complete
     game.settings.set("sr5", "systemMigrationVersion", game.system.version)
-    ui.notifications.info(`SR5 System Migration to version ${game.system.version} completed!`, { permanent: true }) //To Translate.
+    ui.notifications.info(`SR5 System Migration to version ${game.system.version} completed!`, {
+      permanent: true 
+    }) //To Translate.
   }
 
   /* -------------------------------------------- */
@@ -75,7 +87,9 @@ export default class Migration {
 
     // Unlock the pack for editing
     const wasLocked = pack.locked
-    await pack.configure({ locked: false })
+    await pack.configure({
+      locked: false 
+    })
 
     // Begin by requesting server-side data model migration and get the migrated content
     await pack.migrate()
@@ -83,7 +97,8 @@ export default class Migration {
 
     // Iterate over compendium entries - applying fine-tuned migration functions
     for (let doc of documents) {
-      let updateData = {}
+      let updateData = {
+      }
       try {
         switch (documentName) {
           case "Actor":
@@ -111,7 +126,9 @@ export default class Migration {
     }
 
     // Apply the original locked status for the pack
-    await pack.configure({ locked: wasLocked })
+    await pack.configure({
+      locked: wasLocked 
+    })
     SR5_SystemHelpers.srLog(2, `Migrated all ${document} entities from Compendium ${pack.collection}`)
   }
 
@@ -126,7 +143,8 @@ export default class Migration {
 		* @return {Object}         The updateData to apply
 		*/
   migrateActorData(actor) {
-    const updateData = {}
+    const updateData = {
+    }
     // Actor Data Updates
     if (actor.system) {
       //Do stuff on Actor
@@ -281,7 +299,8 @@ export default class Migration {
 	* @return {object}      The updateData to apply
 	*/
   migrateItemData(item, isToken) {
-    const updateData = {}
+    const updateData = {
+    }
 
     //v10 migrate item's token
     if (isToken) {
@@ -453,11 +472,13 @@ export default class Migration {
     const tokens = scene.tokens.map(token => {
       const t = token.toJSON()
       if (!t.actorId || t.actorLink) {
-        t.delta = {}
+        t.delta = {
+        }
       }
       else if (!game.actors.has(t.actorId)) {
         t.actorId = null
-        t.delta = {}
+        t.delta = {
+        }
       }
       else if (!t.actorLink) {
         const actorData = foundry.utils.duplicate(t.delta)
@@ -477,6 +498,8 @@ export default class Migration {
       }
       return t
     })
-    return { tokens }
+    return {
+      tokens 
+    }
   }
 }

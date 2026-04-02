@@ -6,8 +6,12 @@ export default function bindingResistance(rollData, actor, chatData){
 
   //Determine dicepool composition
   rollData.dicePool.composition = [
-    {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value},
-    {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value},
+    {
+      source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value
+    },
+    {
+      source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value
+    },
   ]
 
   //Determine base dicepool

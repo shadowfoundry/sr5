@@ -1,11 +1,27 @@
-import { SR5 } from "../config.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_PrepareRollHelper } from "./roll-prepare-helpers.js"
-import { SR5_ConverterHelpers } from "./roll-helpers/converter.js"
-import { SR5_CombatHelpers } from "./roll-helpers/combat.js"
-import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js"
-import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js"
-import { SR5Combat } from "../system/srcombat.js"
+import {
+  SR5 
+} from "../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_PrepareRollHelper 
+} from "./roll-prepare-helpers.js"
+import {
+  SR5_ConverterHelpers 
+} from "./roll-helpers/converter.js"
+import {
+  SR5_CombatHelpers 
+} from "./roll-helpers/combat.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "./roll-helpers/miscellaneous.js"
+import {
+  SR5_CalledShotHelpers 
+} from "./roll-helpers/calledShot.js"
+import {
+  SR5Combat 
+} from "../system/srcombat.js"
 
 export default class SR5_RollDialog {
 
@@ -13,10 +29,14 @@ export default class SR5_RollDialog {
     this.dialog = dialog
     this.element = element
     this.dialogData = dialogData
-    this.dicePoolModifier = {}
-    this.limitModifier = {}
-    this.drainModifier = {}
-    this.fadingModifier = {}
+    this.dicePoolModifier = {
+    }
+    this.limitModifier = {
+    }
+    this.drainModifier = {
+    }
+    this.fadingModifier = {
+    }
   }
 
   updateDicePoolValue(html) {
@@ -234,9 +254,13 @@ export default class SR5_RollDialog {
         dialogData.combat.actions = []
         if (isChecked) {
           value = 3
-          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "simple", value: 1, source: "castRecklessSpell"})
+          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: "simple", value: 1, source: "castRecklessSpell"
+          })
         } else {
-          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "complex", value: 1, source: "castSpell"})
+          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: "complex", value: 1, source: "castSpell"
+          })
         }
         html.querySelector(name).value = value
         dialogData.magic.drain.modifiers.recklessSpellcasting = {
@@ -251,7 +275,9 @@ export default class SR5_RollDialog {
         break
       case "centering":
         value = actor.system.magic.metamagics.centeringValue.value
-        if (isChecked) dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "useCentering"})
+        if (isChecked) dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+          type: "free", value: 1, source: "useCentering"
+        })
         break
       case "restraintReinforced": {
         if (isChecked) value = 1
@@ -469,7 +495,9 @@ export default class SR5_RollDialog {
           value = 0
         } else if (-value > actor.system.magic.metamagics.spellShapingValue.value){
           value = -actor.system.magic.metamagics.spellShapingValue.value
-          ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {magic: value}))
+          ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {
+            magic: value
+          }))
         }
         dialogData.magic.spell.area = -value
         break
@@ -706,13 +734,21 @@ export default class SR5_RollDialog {
           //actions
           weapon = await fromUuid(dialogData.owner.itemUuid)
           if (weapon.system.choke.current !== dialogData.combat.choke.selected && !dialogData.combat.choke.actionSpent){
-            action = [{type: "simple", value: 1, source: "changeChokeSettings"}]
-            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeChokeSettings"}]
+            action = [{
+              type: "simple", value: 1, source: "changeChokeSettings"
+            }]
+            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{
+              type: "free", value: 1, source: "changeChokeSettings"
+            }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.choke.actionSpent = true
           } else if (weapon.system.choke.current === dialogData.combat.choke.selected && dialogData.combat.choke.actionSpent){
-            action = [{type: "simple", value: -1, source: "changeChokeSettings"}]
-            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1, source: "changeChokeSettings"}]
+            action = [{
+              type: "simple", value: -1, source: "changeChokeSettings"
+            }]
+            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{
+              type: "free", value: -1, source: "changeChokeSettings"
+            }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.choke.actionSpent = false
           }
@@ -728,13 +764,21 @@ export default class SR5_RollDialog {
           //actions
           weapon = await fromUuid(dialogData.owner.itemUuid)
           if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
-            action = [{type: "simple", value: 1, source: "changeFiringMode"}]
-            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "changeFiringMode"}]
+            action = [{
+              type: "simple", value: 1, source: "changeFiringMode"
+            }]
+            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{
+              type: "free", value: 1, source: "changeFiringMode"
+            }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.firingMode.actionSpent = true
           } else if (weapon.system.firingMode.current === dialogData.combat.firingMode.selected && dialogData.combat.firingMode.actionSpent){
-            action = [{type: "simple", value: -1, source: "changeFiringMode"}]
-            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: -1, source: "changeFiringMode"}]
+            action = [{
+              type: "simple", value: -1, source: "changeFiringMode"
+            }]
+            if (weapon.system.isWireless && (weapon.system.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{
+              type: "free", value: -1, source: "changeFiringMode"
+            }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.firingMode.actionSpent = false
           }
@@ -888,7 +932,9 @@ export default class SR5_RollDialog {
           dialogData.healingCondition = ev.target.value
           break
         case "healingSupplies":
-          dialogData.limit.modifiers.healingSupplies = {value:0}
+          dialogData.limit.modifiers.healingSupplies = {
+            value:0
+          }
           html.querySelector('[name="limitModHealingSupplies"]').value = 0
           switch(ev.target.value){
             case "noSupplies":
@@ -1001,7 +1047,9 @@ export default class SR5_RollDialog {
               break
           }
           //Manage actions
-          if (ev.target.value !== "") dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {type: "free", value: 1, source: "calledShot"})
+          if (ev.target.value !== "") dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: "free", value: 1, source: "calledShot"
+          })
           else dialogData.combat.actions = SR5_MiscellaneousHelpers.removeActions(dialogData.combat.actions, "calledShot")
           break
         case "calledShotSpecificTarget":
@@ -1227,7 +1275,9 @@ export default class SR5_RollDialog {
   _updateReagents(value, actor, html, dialogData){
     if (value > actor.system.magic.reagents){
       value = actor.system.magic.reagents
-      ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {reagents: value}))
+      ui.notifications.warn(game.i18n.format('SR5.WARN_MaxReagents', {
+        reagents: value
+      }))
       if (dialogData.test.type === "ritual") html.querySelector('[name="force"]').value = value
     }
     html.querySelector('[data-modifier="reagents"]').checked = true

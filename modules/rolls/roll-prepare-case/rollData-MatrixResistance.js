@@ -1,4 +1,6 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default async function matrixResistance(rollData, actor, chatData){
   //Determine title
@@ -18,8 +20,12 @@ export default async function matrixResistance(rollData, actor, chatData){
     if (matrixTargetItem.system.type !== "baseDevice" && matrixTargetItem.system.type !== "livingPersona" && matrixTargetItem.system.type !== "headcase" && matrixTargetItem.system.type !== "cyberdeck" && matrixTargetItem.system.type !== "commlink"){ 
       rollData.test.title = `${matrixTargetItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.TakeOnDamageShort")} (${chatData.damage.matrix.value})`
       rollData.dicePool.composition = ([
-        {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
-        {source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating},
+        {
+          source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating
+        },
+        {
+          source: game.i18n.localize("SR5.DeviceRating"), type: "linkedAttribute", value: matrixTargetItem.system.deviceRating
+        },
       ])
       rollData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(rollData)
     }

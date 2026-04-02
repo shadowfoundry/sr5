@@ -1,4 +1,6 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
 
 export default async function liftInfo(cardData, actorId){
   let actor = SR5_EntityHelpers.getRealActorFromID(actorId)

@@ -20,7 +20,9 @@ export const BROWSER_FILTERS = {
       options: 'weaponCategories',
     },
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'allWeaponsTypes' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'allWeaponsTypes' 
+      },
     ],
   },
 
@@ -28,7 +30,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemArmor',
     icon: 'fa-shield-alt',
     filters: [
-      { key: 'system.isAccessory', type: 'boolean', label: 'SR5.ArmorAccessory' },
+      {
+        key: 'system.isAccessory', type: 'boolean', label: 'SR5.ArmorAccessory' 
+      },
     ],
   },
 
@@ -40,8 +44,12 @@ export const BROWSER_FILTERS = {
       options: 'augmentationTypes',
     },
     filters: [
-      { key: 'system.category', type: 'select', label: 'SR5.Category', options: 'augmentationCategories' },
-      { key: 'system.grade', type: 'select', label: 'SR5.AugmentationGrade', options: 'augmentationGrades' },
+      {
+        key: 'system.category', type: 'select', label: 'SR5.Category', options: 'augmentationCategories' 
+      },
+      {
+        key: 'system.grade', type: 'select', label: 'SR5.AugmentationGrade', options: 'augmentationGrades' 
+      },
     ],
   },
 
@@ -49,10 +57,18 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemSpell',
     icon: 'fa-hat-wizard',
     filters: [
-      { key: 'system.category', type: 'select', label: 'SR5.SpellCategory', options: 'spellCategories' },
-      { key: 'system.type', type: 'select', label: 'SR5.SpellType', options: 'spellTypes' },
-      { key: 'system.range', type: 'select', label: 'SR5.Range', options: 'spellRanges' },
-      { key: 'system.duration', type: 'select', label: 'SR5.Duration', options: 'spellDurations' },
+      {
+        key: 'system.category', type: 'select', label: 'SR5.SpellCategory', options: 'spellCategories' 
+      },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.SpellType', options: 'spellTypes' 
+      },
+      {
+        key: 'system.range', type: 'select', label: 'SR5.Range', options: 'spellRanges' 
+      },
+      {
+        key: 'system.duration', type: 'select', label: 'SR5.Duration', options: 'spellDurations' 
+      },
     ],
   },
 
@@ -60,8 +76,12 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemComplexForm',
     icon: 'fa-project-diagram',
     filters: [
-      { key: 'system.target', type: 'select', label: 'SR5.Target', options: 'complexFormTargets' },
-      { key: 'system.duration', type: 'select', label: 'SR5.Duration', options: 'spellDurations' },
+      {
+        key: 'system.target', type: 'select', label: 'SR5.Target', options: 'complexFormTargets' 
+      },
+      {
+        key: 'system.duration', type: 'select', label: 'SR5.Duration', options: 'spellDurations' 
+      },
     ],
   },
 
@@ -69,7 +89,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemQuality',
     icon: 'fa-star',
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'qualityTypes' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'qualityTypes' 
+      },
     ],
   },
 
@@ -77,7 +99,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemProgram',
     icon: 'fa-code',
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'programTypes' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'programTypes' 
+      },
     ],
   },
 
@@ -85,7 +109,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemAdeptPower',
     icon: 'fa-hand-sparkles',
     filters: [
-      { key: 'system.actionType', type: 'select', label: 'SR5.ActionType', options: 'powerActionTypes' },
+      {
+        key: 'system.actionType', type: 'select', label: 'SR5.ActionType', options: 'powerActionTypes' 
+      },
     ],
   },
 
@@ -93,7 +119,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemFocus',
     icon: 'fa-gem',
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'focusTypes' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'focusTypes' 
+      },
     ],
   },
 
@@ -105,7 +133,9 @@ export const BROWSER_FILTERS = {
       options: 'vehicleTypes',
     },
     filters: [
-      { key: 'system.category', type: 'select', label: 'SR5.Category', options: 'vehiclesCategories' },
+      {
+        key: 'system.category', type: 'select', label: 'SR5.Category', options: 'vehiclesCategories' 
+      },
     ],
   },
 
@@ -113,7 +143,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemVehicleMod',
     icon: 'fa-wrench',
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'vehicleModType' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'vehicleModType' 
+      },
     ],
   },
 
@@ -121,7 +153,9 @@ export const BROWSER_FILTERS = {
     label: 'TYPES.Item.itemAmmunition',
     icon: 'fa-box',
     filters: [
-      { key: 'system.type', type: 'select', label: 'SR5.Type', options: 'ammunitionTypes' },
+      {
+        key: 'system.type', type: 'select', label: 'SR5.Type', options: 'ammunitionTypes' 
+      },
     ],
   },
 
@@ -142,18 +176,42 @@ export const BROWSER_FILTERS = {
   },
 
   // Types with no specific filters (name search + type filter only)
-  itemGear:        { label: 'TYPES.Item.itemGear', icon: 'fa-briefcase', filters: [] },
-  itemDrug:        { label: 'TYPES.Item.itemDrug', icon: 'fa-syringe', filters: [] },
-  itemEcho:        { label: 'TYPES.Item.itemEcho', icon: 'fa-podcast', filters: [] },
-  itemMetamagic:   { label: 'TYPES.Item.itemMetamagic', icon: 'fa-magic', filters: [] },
-  itemRitual:      { label: 'TYPES.Item.itemRitual', icon: 'fa-book-dead', filters: [] },
-  itemTradition:   { label: 'TYPES.Item.itemTradition', icon: 'fa-scroll', filters: [] },
-  itemContact:     { label: 'TYPES.Item.itemContact', icon: 'fa-address-book', filters: [] },
-  itemPower:       { label: 'TYPES.Item.itemPower', icon: 'fa-bolt', filters: [] },
-  itemSprite:      { label: 'TYPES.Item.itemSprite', icon: 'fa-ghost', filters: [] },
-  itemSpritePower: { label: 'TYPES.Item.itemSpritePower', icon: 'fa-ghost', filters: [] },
-  itemLifestyle:   { label: 'TYPES.Item.itemLifestyle', icon: 'fa-home', filters: [] },
-  itemPreparation: { label: 'TYPES.Item.itemPreparation', icon: 'fa-flask', filters: [] },
+  itemGear:        {
+    label: 'TYPES.Item.itemGear', icon: 'fa-briefcase', filters: [] 
+  },
+  itemDrug:        {
+    label: 'TYPES.Item.itemDrug', icon: 'fa-syringe', filters: [] 
+  },
+  itemEcho:        {
+    label: 'TYPES.Item.itemEcho', icon: 'fa-podcast', filters: [] 
+  },
+  itemMetamagic:   {
+    label: 'TYPES.Item.itemMetamagic', icon: 'fa-magic', filters: [] 
+  },
+  itemRitual:      {
+    label: 'TYPES.Item.itemRitual', icon: 'fa-book-dead', filters: [] 
+  },
+  itemTradition:   {
+    label: 'TYPES.Item.itemTradition', icon: 'fa-scroll', filters: [] 
+  },
+  itemContact:     {
+    label: 'TYPES.Item.itemContact', icon: 'fa-address-book', filters: [] 
+  },
+  itemPower:       {
+    label: 'TYPES.Item.itemPower', icon: 'fa-bolt', filters: [] 
+  },
+  itemSprite:      {
+    label: 'TYPES.Item.itemSprite', icon: 'fa-ghost', filters: [] 
+  },
+  itemSpritePower: {
+    label: 'TYPES.Item.itemSpritePower', icon: 'fa-ghost', filters: [] 
+  },
+  itemLifestyle:   {
+    label: 'TYPES.Item.itemLifestyle', icon: 'fa-home', filters: [] 
+  },
+  itemPreparation: {
+    label: 'TYPES.Item.itemPreparation', icon: 'fa-flask', filters: [] 
+  },
 }
 
 export const ACTOR_BROWSER_FILTERS = {
@@ -161,7 +219,9 @@ export const ACTOR_BROWSER_FILTERS = {
     label: 'TYPES.Actor.actorPc',
     icon: 'fa-user',
     filters: [
-      { key: 'system.metatype', type: 'select', label: 'SR5.Metatype', options: 'metatypes' },
+      {
+        key: 'system.metatype', type: 'select', label: 'SR5.Metatype', options: 'metatypes' 
+      },
     ],
   },
   actorGrunt: {
@@ -187,19 +247,39 @@ export const ACTOR_BROWSER_FILTERS = {
     },
     filters: [],
   },
-  actorDrone:  { label: 'TYPES.Actor.actorDrone', icon: 'fa-car', filters: [] },
-  actorDevice: { label: 'TYPES.Actor.actorDevice', icon: 'fa-laptop', filters: [] },
-  actorAgent:  { label: 'TYPES.Actor.actorAgent', icon: 'fa-robot', filters: [] },
+  actorDrone:  {
+    label: 'TYPES.Actor.actorDrone', icon: 'fa-car', filters: [] 
+  },
+  actorDevice: {
+    label: 'TYPES.Actor.actorDevice', icon: 'fa-laptop', filters: [] 
+  },
+  actorAgent:  {
+    label: 'TYPES.Actor.actorAgent', icon: 'fa-robot', filters: [] 
+  },
 }
 
 export const OTHER_BROWSER_FILTERS = {
-  JournalEntry: { label: 'SR5.BrowserJournalEntry', icon: 'fa-book-open', filters: [] },
-  RollTable:    { label: 'SR5.BrowserRollTable', icon: 'fa-dice', filters: [] },
-  Macro:        { label: 'SR5.BrowserMacro', icon: 'fa-terminal', filters: [] },
-  Scene:        { label: 'SR5.BrowserScene', icon: 'fa-map', filters: [] },
-  Playlist:     { label: 'SR5.BrowserPlaylist', icon: 'fa-music', filters: [] },
-  Adventure:    { label: 'SR5.BrowserAdventure', icon: 'fa-treasure-chest', filters: [] },
-  Cards:        { label: 'SR5.BrowserCards', icon: 'fa-cards', filters: [] },
+  JournalEntry: {
+    label: 'SR5.BrowserJournalEntry', icon: 'fa-book-open', filters: [] 
+  },
+  RollTable:    {
+    label: 'SR5.BrowserRollTable', icon: 'fa-dice', filters: [] 
+  },
+  Macro:        {
+    label: 'SR5.BrowserMacro', icon: 'fa-terminal', filters: [] 
+  },
+  Scene:        {
+    label: 'SR5.BrowserScene', icon: 'fa-map', filters: [] 
+  },
+  Playlist:     {
+    label: 'SR5.BrowserPlaylist', icon: 'fa-music', filters: [] 
+  },
+  Adventure:    {
+    label: 'SR5.BrowserAdventure', icon: 'fa-treasure-chest', filters: [] 
+  },
+  Cards:        {
+    label: 'SR5.BrowserCards', icon: 'fa-cards', filters: [] 
+  },
 }
 
 /** All system.* fields needed in the compendium index for filtering and display */
@@ -227,7 +307,8 @@ export const ACTOR_INDEX_FIELDS = [
  * @returns {string} short info text
  */
 export function getEntryInfo(entry, lists) {
-  const s = entry.system || {}
+  const s = entry.system || {
+  }
   const loc = k => game.i18n.localize(k)
   const parts = []
 

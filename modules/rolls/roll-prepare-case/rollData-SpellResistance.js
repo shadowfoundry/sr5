@@ -1,5 +1,9 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default async function spellResistance(rollData, actor, chatData){
   if (actor.type === "actorAgent" || actor.type === "actorSprite" || actor.type === "actorDevice") return
@@ -12,13 +16,19 @@ export default async function spellResistance(rollData, actor, chatData){
   //Determine base dicepool & composition
   if (actor.type === "actorDrone" || actor.type === "actorDevice"){
     rollData.dicePool.base = 15
-    rollData.dicePool.composition = ([{source: game.i18n.localize("SR5.ObjectHighlyProcessed"), type: "linkedAttribute", value: 15}])
+    rollData.dicePool.composition = ([{
+      source: game.i18n.localize("SR5.ObjectHighlyProcessed"), type: "linkedAttribute", value: 15
+    }])
   } else {
     let firstAttribute = actor.system.attributes[spellData.defenseFirstAttribute].augmented.value
     let secondAttribute = actor.system.attributes[spellData.defenseSecondAttribute].augmented.value
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
-      {source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute},
+      {
+        source: game.i18n.localize(SR5.allAttributes[spellData.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute
+      },
+      {
+        source: game.i18n.localize(SR5.allAttributes[spellData.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute
+      },
     ])
     rollData.dicePool.base = firstAttribute + secondAttribute
   }

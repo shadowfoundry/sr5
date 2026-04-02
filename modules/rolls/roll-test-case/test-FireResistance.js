@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function fireResistanceInfo(cardData){
   if (cardData.roll.hits < cardData.threshold.value) {

@@ -1,9 +1,21 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_CombatHelpers } from "../roll-helpers/combat.js"
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_CombatHelpers 
+} from "../roll-helpers/combat.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 //Add info for weapon Roll
 export default async function weapon(rollData, actor, item){
@@ -54,7 +66,9 @@ export default async function weapon(rollData, actor, item){
   if (actorData.specialProperties.anticoagulant === true) itemData.damageElement = "anticoagulant"
 
   //Handle Actions
-  if (itemData.category === "meleeWeapon") rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "attack"})
+  if (itemData.category === "meleeWeapon") rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "attack"
+  })
     
   //Add others informations
   rollData.test.typeSub = itemData.category
@@ -74,7 +88,8 @@ export default async function weapon(rollData, actor, item){
   rollData.combat.firingMode.burstFire = itemData.firingMode.burstFire
   rollData.combat.firingMode.fullyAutomatic = itemData.firingMode.fullyAutomatic
 
-  rollData.lists.firingModes = {}
+  rollData.lists.firingModes = {
+  }
   if (rollData.combat.firingMode.singleShot) rollData.lists.firingModes.SS = `${game.i18n.localize("SR5.WeaponModeSS")} (${game.i18n.localize("SR5.WeaponModeSSShort")} [-1 ${game.i18n.localize("SR5.Bullet")}]`
   if (rollData.combat.firingMode.semiAutomatic) {
     rollData.lists.firingModes.SA = `${game.i18n.localize("SR5.WeaponModeSA")} (${game.i18n.localize("SR5.WeaponModeSAShort")} [-1 ${game.i18n.localize("SR5.Bullet")}]`
@@ -140,7 +155,9 @@ async function handleTargetInfo(rollData, actor, item){
   rollData.target.range = "short"
     
   //Initialize area environmental modifiers
-  let areaEffect = {visibility:0, light:0, glare:0, wind:0}
+  let areaEffect = {
+    visibility:0, light:0, glare:0, wind:0
+  }
 
   //Get attacker position
   let attacker = SR5_EntityHelpers.getActorCanvasPosition(actor)
@@ -252,8 +269,10 @@ async function handleMartialArtsCalledShot(rollData, actor){
 }
 
 function _buildCalledShotList(rollData){
-  rollData.lists.calledShots = {}
-  rollData.lists.calledShotsSpecific = {}
+  rollData.lists.calledShots = {
+  }
+  rollData.lists.calledShotsSpecific = {
+  }
 
   let ammoType = rollData.combat.ammo.type
 

@@ -1,5 +1,9 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default function matrixDefenseSimple(rollData, rollKey, actor){
   let matrixAction = actor.system.matrix.actions[rollKey]

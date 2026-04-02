@@ -1,8 +1,16 @@
 
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_SystemHelpers } from "./utilitySystem.js"
-import { SR5_SocketHandler } from "../socket.js"
-import { _getSRStatusEffect } from "../system/effectsList.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "./utilitySystem.js"
+import {
+  SR5_SocketHandler 
+} from "../socket.js"
+import {
+  _getSRStatusEffect 
+} from "../system/effectsList.js"
 
 export class SR5_EffectArea {
 
@@ -11,7 +19,11 @@ export class SR5_EffectArea {
     const scene = game.scenes.get(token._object.scene.id)
     for (let t of scene.tokens){
       if (t.id !== token.id) {
-        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({x: token.x, y: token.y}, {x: t.x, y: t.y})
+        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
+          x: token.x, y: token.y
+        }, {
+          x: t.x, y: t.y
+        })
         await SR5_EffectArea.checkAuraJamming(token, t, distance)
       }
     }
@@ -82,7 +94,11 @@ export class SR5_EffectArea {
     for (let token of canvas.tokens.placeables){
       if (token.id !== activeToken.id){
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
-        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({x: activeToken.x, y: activeToken.y}, {x: token.x, y: token.y})
+        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
+          x: activeToken.x, y: activeToken.y
+        }, {
+          x: token.x, y: token.y
+        })
         let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId)
         if (distance < 100 && !jammedEffect){
           if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(activeActor, tokenActor, jamEffect.system.value)
@@ -195,7 +211,9 @@ export class SR5_EffectArea {
             actorId : template.id,
             ownerName: sourceItem.actor.name,
           },
-          roll: {hits: sourceItem.system.hits},
+          roll: {
+            hits: sourceItem.system.hits
+          },
         }
         //If effect is not resisted, apply effect to actor
         if (!sourceItem.system.resisted) await actor.applyExternalEffect(data, "customEffects")
@@ -237,7 +255,11 @@ export class SR5_EffectArea {
 
   //Test if a template contains a given token
   static async checkIfTemplateContainsToken(template, token){
-    let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({x: template.x, y: template.y}, {x: token.x, y: token.y})
+    let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
+      x: template.x, y: template.y
+    }, {
+      x: token.x, y: token.y
+    })
     if (distance <= template.distance) return true
     else return false
   }

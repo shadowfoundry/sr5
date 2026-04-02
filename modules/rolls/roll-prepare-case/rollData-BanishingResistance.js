@@ -5,7 +5,9 @@ export default function banishingResistance(rollData, actor, chatData){
   rollData.test.title = game.i18n.localize("SR5.ResistBanishing")
 
   //Determine dicepool composition
-  rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value}]
+  rollData.dicePool.composition = [{
+    source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: actor.system.force.value
+  }]
 
   //Determine base dicepool
   rollData.dicePool.base = actor.system.force.value

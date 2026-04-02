@@ -1,4 +1,6 @@
-import { SR5 } from "../config.js"
+import {
+  SR5 
+} from "../config.js"
 
 /* -------------------------------------------- */
 /*  Hotbar Macros                               */
@@ -31,7 +33,9 @@ export async function createSR5MacroItem(data, slot) {
       type: "script",
       command: command,
       scope: "actor",
-      flags: {"sr5.itemMacro": true}
+      flags: {
+        "sr5.itemMacro": true
+      }
     })
   }
 
@@ -64,7 +68,9 @@ export async function createSR5Macro(data, slot){
       type: "script",
       command: command,
       scope: "actor",
-      flags: {"sr5.macro": true}
+      flags: {
+        "sr5.macro": true
+      }
     })
   }
 

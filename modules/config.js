@@ -1,5 +1,6 @@
 // Namespace SR5 Configuration Values
-export const SR5 = {}
+export const SR5 = {
+}
 
 
 // Attributes
@@ -84,7 +85,9 @@ SR5.characterSpecialDefenses = {
   parryClubs                : "SR5.ParryBlunt",
 }
 
-SR5.characterSpecialDefensesDodge = {dodge                     : "SR5.Dodge"}
+SR5.characterSpecialDefensesDodge = {
+  dodge                     : "SR5.Dodge"
+}
 
 // Resistances
 SR5.characterResistances = {
@@ -204,7 +207,9 @@ SR5.characterOtherMonitors = {
   edge                      : "SR5.Edge",
 }
 // Device Condition Monitors
-SR5.deviceConditionMonitors = {matrix                    : "SR5.ConditionMonitorMatrix"}
+SR5.deviceConditionMonitors = {
+  matrix                    : "SR5.ConditionMonitorMatrix"
+}
 
 // Drone Condition Monitors
 SR5.droneConditionMonitors = {
@@ -213,7 +218,9 @@ SR5.droneConditionMonitors = {
 }
 
 // Grunt Condition Monitors
-SR5.gruntConditionMonitors = {condition                 : "SR5.ConditionMonitor"}
+SR5.gruntConditionMonitors = {
+  condition                 : "SR5.ConditionMonitor"
+}
 
 // Spirit Condition Monitors
 SR5.spiritConditionMonitors = {
@@ -352,7 +359,9 @@ SR5.socialSkills = {
 }
 
 // Special Skills
-SR5.specialSkills = {flight                    : "SR5.SkillFly"}
+SR5.specialSkills = {
+  flight                    : "SR5.SkillFly"
+}
 
 // Technical Skills
 SR5.technicalSkills = {
@@ -1117,9 +1126,13 @@ SR5.ammunitionCannonTypes = {
   gauss                     : "SR5.AmmunitionTypeGauss"
 }
 
-SR5.ammunitionTaserTypes = {taserDart                 : "SR5.AmmunitionTypeTaserDart"}
+SR5.ammunitionTaserTypes = {
+  taserDart                 : "SR5.AmmunitionTypeTaserDart"
+}
 
-SR5.ammunitionSpecialTypes = {special                   : "SR5.Special"}
+SR5.ammunitionSpecialTypes = {
+  special                   : "SR5.Special"
+}
 
 SR5.allAmmunitionTypes = {
   ...SR5.ammunitionTypes,
@@ -1426,9 +1439,13 @@ SR5.legalTypesShort = {
   F                         : "SR5.ForbiddenShort",
 }
 
-SR5.valueMultipliersNoCapacity = {rating                    : "SR5.ItemRating"}
+SR5.valueMultipliersNoCapacity = {
+  rating                    : "SR5.ItemRating"
+}
 
-SR5.valueMultipliersNoRating = {capacity                  : "SR5.Capacity"}
+SR5.valueMultipliersNoRating = {
+  capacity                  : "SR5.Capacity"
+}
 
 SR5.valueMultipliersVehicle = {
   acceleration              : "SR5.VehicleStat_AccelerationShort",
@@ -2511,14 +2528,18 @@ SR5.vehicleSecondaryPropulsionMode = {
 }
 
 // Vehicle and Drone Control mode
-SR5.vehicleControlModesAutopilot = {autopilot                 : "SR5.ControlAutopilot"}
+SR5.vehicleControlModesAutopilot = {
+  autopilot                 : "SR5.ControlAutopilot"
+}
 
 SR5.vehicleControlModesSimple = {
   manual                    : "SR5.ControlManual",
   remote                    : "SR5.ControlRemote",
 }
 
-SR5.vehicleControlModesRigging = {rigging                   : "SR5.ControlRigging"}
+SR5.vehicleControlModesRigging = {
+  rigging                   : "SR5.ControlRigging"
+}
 
 SR5.vehicleControlModes = {
   autopilot                 : "SR5.ControlAutopilot",
@@ -3477,7 +3498,9 @@ SR5.hardenedAstralArmorValueTypes = {
   willpower                 : "SR5.Willpower"
 }
 
-SR5.fullDefense = {fullDefense               : "SR5.FullDefense"}
+SR5.fullDefense = {
+  fullDefense               : "SR5.FullDefense"
+}
 
 //-----------------------------------//
 //             MODIFIERS             //
@@ -3796,13 +3819,21 @@ SR5.statusEffects = [
     img: "systems/sr5/img/status/StatusUnconsciousOn.svg",
     id: "unconscious",
     name: "SR5.STATUSES_Unconscious_F",
-    flags: {core: {overlay: true}}
+    flags: {
+      core: {
+        overlay: true
+      }
+    }
   },
   {
     img: "systems/sr5/img/status/StatusDeadOn.svg",
     id: "dead",
     name: "SR5.STATUSES_Dead_F",
-    flags: {core: {overlay: true}},
+    flags: {
+      core: {
+        overlay: true
+      }
+    },
   },
   {
     img: "systems/sr5/img/status/StatusProneOn.svg",
@@ -3820,7 +3851,11 @@ SR5.statusEffects = [
     img: "systems/sr5/img/status/StatusNoActionOn.svg",
     id: "noAction",
     name: "SR5.EffectNoAction",
-    flags: {core: {overlay: true}},
+    flags: {
+      core: {
+        overlay: true
+      }
+    },
     origin: "noAction"
   },
   {

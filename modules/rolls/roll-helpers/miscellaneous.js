@@ -1,5 +1,9 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SocketHandler } from "../../socket.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
 
 export class SR5_MiscellaneousHelpers {
   /** Update an actor with given data
@@ -16,8 +20,12 @@ export class SR5_MiscellaneousHelpers {
     //change value
     if (boolean) {
       let oldvalue = path.split('.').reduce((previous, current) => previous[current], actorData)
-      foundry.utils.mergeObject(actorData, {[path]: !oldvalue})
-    } else foundry.utils.mergeObject(actorData, {[path]: value})
+      foundry.utils.mergeObject(actorData, {
+        [path]: !oldvalue
+      })
+    } else foundry.utils.mergeObject(actorData, {
+      [path]: value
+    })
 
     //update actor
     if (!game.user?.isGM) {
@@ -25,19 +33,25 @@ export class SR5_MiscellaneousHelpers {
         actorId: actorId,
         dataToUpdate: actorData,
       })
-    } else await actor.update({"system": actorData})
+    } else await actor.update({
+      "system": actorData
+    })
   }
 
   //Socket for updating an actor
   static async _socketUpdateActorData(message) {
     let actor = SR5_EntityHelpers.getRealActorFromID(message.data.actorId)
-    await actor.update({'system': message.data.dataToUpdate})
+    await actor.update({
+      'system': message.data.dataToUpdate
+    })
   }
 
   //Socket for updating an item
   static async _socketUpdateItem(message) {
     let target = await fromUuid(message.data.item)
-    await target.update({'system': message.data.info})
+    await target.update({
+      'system': message.data.info
+    })
   }
 
   //Socket for deleting an item
@@ -47,7 +61,8 @@ export class SR5_MiscellaneousHelpers {
   }
 
   static findMedkitRating(actor){
-    let medkit = {}
+    let medkit = {
+    }
     let item = actor.items.find(i => i.system.isMedkit)
     if (item && item.system.charge > 0){
       medkit.rating = item.system.itemRating

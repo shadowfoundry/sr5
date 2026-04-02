@@ -1,7 +1,15 @@
-import { SR5_RollTest } from "./roll-test.js"
-import { SR5_PrepareRollHelper } from "./roll-prepare-helpers.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_SystemHelpers } from "../system/utilitySystem.js"
+import {
+  SR5_RollTest 
+} from "./roll-test.js"
+import {
+  SR5_PrepareRollHelper 
+} from "./roll-prepare-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../system/utilitySystem.js"
 import * as SR5_GetRollData from "./roll-prepare-case/index.js"
 
 export class SR5_PrepareRollTest {
@@ -244,7 +252,8 @@ export class SR5_PrepareRollTest {
         canEditResult: false,
         templatePlace: false,
         templateRemove: false,
-        buttons: {},
+        buttons: {
+        },
       },
       combat: {
         actions: [],
@@ -277,7 +286,8 @@ export class SR5_PrepareRollTest {
             breakWeapon: false,
             feint: false,
           },
-          martialArtsModifiers: {},
+          martialArtsModifiers: {
+          },
         },
         firingMode: {
           singleShot: false,
@@ -318,14 +328,16 @@ export class SR5_PrepareRollTest {
         type: "",
         element: null,
         elementSecond: null,
-        toxin: {},
+        toxin: {
+        },
         isContinuous: false,
         source: "",
         resistanceType: "",
         matrix: {
           value: 0,
           base: 0,
-          modifiers:{},
+          modifiers:{
+          },
         },
       },
       dialogSwitch:{
@@ -363,7 +375,8 @@ export class SR5_PrepareRollTest {
       limit: {
         base: 0,
         composition: [],
-        modifiers: {},
+        modifiers: {
+        },
         modifiersTotal: 0,
         type: "",
         value: 0,
@@ -408,7 +421,8 @@ export class SR5_PrepareRollTest {
         drain: {
           value: 0,
           type: "",
-          modifiers: {},
+          modifiers: {
+          },
         },
         force: null,
         hasUsedReagents: false,
@@ -441,7 +455,8 @@ export class SR5_PrepareRollTest {
         fading: {
           value: 0,
           type: "",
-          modifiers: {},
+          modifiers: {
+          },
         }
       },
       owner: {
@@ -462,7 +477,8 @@ export class SR5_PrepareRollTest {
         messageId: null,
         hits: 0,
       },
-      roll: {},
+      roll: {
+      },
       systemRules:{
         calledShots: false,
         grid: false,
@@ -472,7 +488,8 @@ export class SR5_PrepareRollTest {
         actorId: null,
         actorType: "",
         itemUuid: null,
-        itemList: {},
+        itemList: {
+        },
         grid: "",
         rangeInMeters: 0,
         range: 0,
@@ -494,7 +511,8 @@ export class SR5_PrepareRollTest {
         value: 0,
         type: null,
       },
-      various: {},
+      various: {
+      },
     }
 
     return rollData

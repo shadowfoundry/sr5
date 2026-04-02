@@ -4,8 +4,12 @@ export class characterResistancesPartialModel extends foundry.abstract.TypeDataM
 
     const resistance = () => {
       return new fields.SchemaField({
-        dicePool: new fields.NumberField({initial: 0}),
-        base: new fields.NumberField({initial: 0}),
+        dicePool: new fields.NumberField({
+          initial: 0
+        }),
+        base: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
       })
     }

@@ -1,9 +1,13 @@
-import {sr5ModsPartialModel} from '../../common/mods.js'
+import {
+  sr5ModsPartialModel
+} from '../../common/mods.js'
 
 export class matrixPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     const fields = foundry.data.fields
-    return {matrix: new fields.SchemaField(matrixPartialModel.matrixFields())}
+    return {
+      matrix: new fields.SchemaField(matrixPartialModel.matrixFields())
+    }
   }
 
   /** Returns the inner matrix field definitions (fresh instances each call). */
@@ -11,95 +15,207 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
 
     const dicePoolSchema = () => new fields.SchemaField({
-      dicePool: new fields.NumberField({initial: 0}),
-      base: new fields.NumberField({initial: 0}),
+      dicePool: new fields.NumberField({
+        initial: 0
+      }),
+      base: new fields.NumberField({
+        initial: 0
+      }),
       modifiers: new fields.ArrayField(new fields.ObjectField()),
     })
 
     const fullActionSchema = (actionType, source, increaseOverwatchScore, neededMarks, linkedAttribute) => new fields.SchemaField({
-      actionType: new fields.StringField({initial: actionType}),
-      source: new fields.StringField({initial: source}),
-      increaseOverwatchScore: new fields.BooleanField({initial: increaseOverwatchScore}),
-      neededMarks: typeof neededMarks === 'string' ? new fields.StringField({initial: neededMarks}) : new fields.NumberField({initial: neededMarks}),
-      specialization: new fields.BooleanField({initial: false}),
+      actionType: new fields.StringField({
+        initial: actionType
+      }),
+      source: new fields.StringField({
+        initial: source
+      }),
+      increaseOverwatchScore: new fields.BooleanField({
+        initial: increaseOverwatchScore
+      }),
+      neededMarks: typeof neededMarks === 'string' ? new fields.StringField({
+        initial: neededMarks
+      }) : new fields.NumberField({
+        initial: neededMarks
+      }),
+      specialization: new fields.BooleanField({
+        initial: false
+      }),
       test: dicePoolSchema(),
       limit: new fields.SchemaField({
-        base: new fields.NumberField({initial: 0}),
-        value: new fields.NumberField({initial: 0}),
+        base: new fields.NumberField({
+          initial: 0
+        }),
+        value: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
-        linkedAttribute: new fields.StringField({initial: linkedAttribute}),
+        linkedAttribute: new fields.StringField({
+          initial: linkedAttribute
+        }),
       }),
       defense: dicePoolSchema(),
     })
 
     const simpleActionSchema = (actionType, neededMarks) => new fields.SchemaField({
-      actionType: new fields.StringField({initial: actionType}),
-      neededMarks: new fields.NumberField({initial: neededMarks}),
+      actionType: new fields.StringField({
+        initial: actionType
+      }),
+      neededMarks: new fields.NumberField({
+        initial: neededMarks
+      }),
     })
 
     const resonanceTestActionSchema = (actionType, increaseOverwatchScore) => new fields.SchemaField({
-      actionType: new fields.StringField({initial: actionType}),
-      increaseOverwatchScore: new fields.BooleanField({initial: increaseOverwatchScore}),
-      neededMarks: new fields.NumberField({initial: 0}),
-      specialization: new fields.BooleanField({initial: false}),
+      actionType: new fields.StringField({
+        initial: actionType
+      }),
+      increaseOverwatchScore: new fields.BooleanField({
+        initial: increaseOverwatchScore
+      }),
+      neededMarks: new fields.NumberField({
+        initial: 0
+      }),
+      specialization: new fields.BooleanField({
+        initial: false
+      }),
       test: dicePoolSchema(),
     })
 
     const resonanceLimitActionSchema = (actionType, increaseOverwatchScore, limitBase) => new fields.SchemaField({
-      actionType: new fields.StringField({initial: actionType}),
-      increaseOverwatchScore: new fields.BooleanField({initial: increaseOverwatchScore}),
-      specialization: new fields.BooleanField({initial: false}),
-      neededMarks: new fields.NumberField({initial: 0}),
+      actionType: new fields.StringField({
+        initial: actionType
+      }),
+      increaseOverwatchScore: new fields.BooleanField({
+        initial: increaseOverwatchScore
+      }),
+      specialization: new fields.BooleanField({
+        initial: false
+      }),
+      neededMarks: new fields.NumberField({
+        initial: 0
+      }),
       test: dicePoolSchema(),
       limit: new fields.SchemaField({
-        base: new fields.StringField({initial: limitBase}),
-        value: new fields.NumberField({initial: 0}),
+        base: new fields.StringField({
+          initial: limitBase
+        }),
+        value: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
       }),
     })
 
     const resonanceSimpleActionSchema = (actionType, increaseOverwatchScore) => new fields.SchemaField({
-      actionType: new fields.StringField({initial: actionType}),
-      increaseOverwatchScore: new fields.BooleanField({initial: increaseOverwatchScore}),
-      neededMarks: new fields.NumberField({initial: 0}),
+      actionType: new fields.StringField({
+        initial: actionType
+      }),
+      increaseOverwatchScore: new fields.BooleanField({
+        initial: increaseOverwatchScore
+      }),
+      neededMarks: new fields.NumberField({
+        initial: 0
+      }),
     })
 
-    const programSchema = () => new fields.SchemaField({isActive: new fields.BooleanField({initial: false})})
+    const programSchema = () => new fields.SchemaField({
+      isActive: new fields.BooleanField({
+        initial: false
+      })
+    })
 
     return {
-      userMode: new fields.StringField({initial: 'ar'}),
-      userGrid: new fields.StringField({initial: 'local'}),
+      userMode: new fields.StringField({
+        initial: 'ar'
+      }),
+      userGrid: new fields.StringField({
+        initial: 'local'
+      }),
       attributesCollection: new fields.SchemaField({
-        value1: new fields.NumberField({initial: 0}),
-        value2: new fields.NumberField({initial: 0}),
-        value3: new fields.NumberField({initial: 0}),
-        value4: new fields.NumberField({initial: 0}),
-        value1isSet: new fields.BooleanField({initial: false}),
-        value2isSet: new fields.BooleanField({initial: false}),
-        value3isSet: new fields.BooleanField({initial: false}),
-        value4isSet: new fields.BooleanField({initial: false}),
+        value1: new fields.NumberField({
+          initial: 0
+        }),
+        value2: new fields.NumberField({
+          initial: 0
+        }),
+        value3: new fields.NumberField({
+          initial: 0
+        }),
+        value4: new fields.NumberField({
+          initial: 0
+        }),
+        value1isSet: new fields.BooleanField({
+          initial: false
+        }),
+        value2isSet: new fields.BooleanField({
+          initial: false
+        }),
+        value3isSet: new fields.BooleanField({
+          initial: false
+        }),
+        value4isSet: new fields.BooleanField({
+          initial: false
+        }),
       }),
       attributes: new fields.SchemaField({
-        attack: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        dataProcessing: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        firewall: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        noiseReduction: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        sharing: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        sleaze: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+        attack: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        dataProcessing: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        firewall: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        noiseReduction: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        sharing: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        sleaze: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
       }),
       complexFormList: new fields.ObjectField(),
-      deviceRating: new fields.NumberField({initial: 0}),
-      deviceType: new fields.StringField({initial: ''}),
-      deviceSubType: new fields.StringField({initial: ''}),
-      deviceName: new fields.StringField({initial: ''}),
-      isLinkLocked: new fields.BooleanField({initial: false}),
-      isJamming: new fields.BooleanField({initial: false}),
-      hasLocalAutosoftRunning: new fields.BooleanField({initial: false}),
-      runningSilent: new fields.BooleanField({initial: false}),
-      overwatchScore: new fields.NumberField({initial: 0}),
-      concentration: new fields.BooleanField({initial: false}),
-      programsCurrentActive: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-      programsMaximumActive: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      deviceRating: new fields.NumberField({
+        initial: 0
+      }),
+      deviceType: new fields.StringField({
+        initial: ''
+      }),
+      deviceSubType: new fields.StringField({
+        initial: ''
+      }),
+      deviceName: new fields.StringField({
+        initial: ''
+      }),
+      isLinkLocked: new fields.BooleanField({
+        initial: false
+      }),
+      isJamming: new fields.BooleanField({
+        initial: false
+      }),
+      hasLocalAutosoftRunning: new fields.BooleanField({
+        initial: false
+      }),
+      runningSilent: new fields.BooleanField({
+        initial: false
+      }),
+      overwatchScore: new fields.NumberField({
+        initial: 0
+      }),
+      concentration: new fields.BooleanField({
+        initial: false
+      }),
+      programsCurrentActive: new fields.SchemaField({
+        ...sr5ModsPartialModel.defineSchema()
+      }),
+      programsMaximumActive: new fields.SchemaField({
+        ...sr5ModsPartialModel.defineSchema()
+      }),
       programs: new fields.SchemaField({
         armor: programSchema(),
         babyMonitor: programSchema(),
@@ -203,23 +319,39 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
         compileSprite: resonanceTestActionSchema('complex', false),
         decompileSprite: resonanceLimitActionSchema('complex', false, 'socialLimit'),
         eraseResonanceSignature: new fields.SchemaField({
-          actionType: new fields.StringField({initial: 'complex'}),
-          increaseOverwatchScore: new fields.BooleanField({initial: true}),
-          specialization: new fields.BooleanField({initial: false}),
-          neededMarks: new fields.NumberField({initial: 0}),
+          actionType: new fields.StringField({
+            initial: 'complex'
+          }),
+          increaseOverwatchScore: new fields.BooleanField({
+            initial: true
+          }),
+          specialization: new fields.BooleanField({
+            initial: false
+          }),
+          neededMarks: new fields.NumberField({
+            initial: 0
+          }),
           test: dicePoolSchema(),
           limit: new fields.SchemaField({
-            base: new fields.NumberField({initial: 0}),
-            value: new fields.NumberField({initial: 0}),
+            base: new fields.NumberField({
+              initial: 0
+            }),
+            value: new fields.NumberField({
+              initial: 0
+            }),
             modifiers: new fields.ArrayField(new fields.ObjectField()),
-            linkedAttribute: new fields.StringField({initial: 'attack'}),
+            linkedAttribute: new fields.StringField({
+              initial: 'attack'
+            }),
           }),
         }),
         killComplexForm: resonanceLimitActionSchema('complex', false, 'mentalLimit'),
         registerSprite: resonanceTestActionSchema('complex', false),
         threadComplexForm: resonanceTestActionSchema('complex', false),
       }),
-      submersionGrade: new fields.NumberField({initial: 0}),
+      submersionGrade: new fields.NumberField({
+        initial: 0
+      }),
       connectedObject: new fields.SchemaField({
         augmentations: new fields.ObjectField(),
         weapons: new fields.ObjectField(),
@@ -235,14 +367,24 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
         vehicles: new fields.ObjectField(),
       }),
       pan: new fields.SchemaField({
-        max: new fields.NumberField({initial: 0}),
-        current: new fields.NumberField({initial: 0}),
+        max: new fields.NumberField({
+          initial: 0
+        }),
+        current: new fields.NumberField({
+          initial: 0
+        }),
         content: new fields.ArrayField(new fields.ObjectField()),
       }),
-      noise: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      noise: new fields.SchemaField({
+        ...sr5ModsPartialModel.defineSchema()
+      }),
       registeredSprite: new fields.SchemaField({
-        current: new fields.NumberField({initial: 0}),
-        max: new fields.NumberField({initial: 0}),
+        current: new fields.NumberField({
+          initial: 0
+        }),
+        max: new fields.NumberField({
+          initial: 0
+        }),
       }),
     }
   }

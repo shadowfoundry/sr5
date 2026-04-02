@@ -1,4 +1,6 @@
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function iceAttack(rollData, actor){
   //Determine title
@@ -9,8 +11,12 @@ export default function iceAttack(rollData, actor){
 
   //Determine dicepool composition
   rollData.dicePool.composition = [
-    {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
-    {source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating},
+    {
+      source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating
+    },
+    {
+      source: game.i18n.localize("SR5.HostRating"), type: "linkedAttribute", value: actor.system.matrix.deviceRating
+    },
   ]
 
   //Determine base limit
@@ -18,7 +24,9 @@ export default function iceAttack(rollData, actor){
   rollData.limit.type = "attack"
     
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "iceAttack"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "iceAttack"
+  })
 
   //Add others informations
   rollData.test.type = "iceAttack"

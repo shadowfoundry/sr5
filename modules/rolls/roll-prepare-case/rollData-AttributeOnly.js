@@ -1,4 +1,6 @@
-import { SR5 } from "../../config.js"
+import {
+  SR5 
+} from "../../config.js"
 
 //Add info for Attribute only roll
 export default function attributeOnly(rollData, rollKey, actor){
@@ -11,7 +13,9 @@ export default function attributeOnly(rollData, rollKey, actor){
   else rollData.dicePool.base = actor.system.attributes[rollKey]?.augmented.value
     
   //Determine dicepool composition
-  rollData.dicePool.composition = ([{source: game.i18n.localize(SR5.allAttributes[rollKey]), type: "linkedAttribute", value: rollData.dicePool.base}])
+  rollData.dicePool.composition = ([{
+    source: game.i18n.localize(SR5.allAttributes[rollKey]), type: "linkedAttribute", value: rollData.dicePool.base
+  }])
 
   //Add others informations
   rollData.dialogSwitch.attribute = true

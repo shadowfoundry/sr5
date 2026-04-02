@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function vehicleTest(rollData, actor, chatData){
   //Determine title
@@ -26,7 +30,9 @@ export default function vehicleTest(rollData, actor, chatData){
   rollData.test.type = "vehicleTest"
 
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "vehicleTest"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "vehicleTest"
+  })
 
   //Special, for ramming test
   if (chatData){

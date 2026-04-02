@@ -1,6 +1,12 @@
-import { descriptionPartialModel } from './partial/description.js'
-import { ratingPartialModel } from './partial/rating.js'
-import { boughtOrSoldPartialModel } from './partial/boughtOrSold.js'
+import {
+  descriptionPartialModel 
+} from './partial/description.js'
+import {
+  ratingPartialModel 
+} from './partial/rating.js'
+import {
+  boughtOrSoldPartialModel 
+} from './partial/boughtOrSold.js'
 
 export class sr5ItemSinDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -9,8 +15,12 @@ export class sr5ItemSinDataModel extends foundry.abstract.TypeDataModel {
       ...descriptionPartialModel.defineSchema(),
       ...ratingPartialModel.defineSchema(),
       ...boughtOrSoldPartialModel.defineSchema(),
-      nationality: new fields.StringField({initial: ''}),
-      familySituation: new fields.StringField({initial: ''}),
+      nationality: new fields.StringField({
+        initial: ''
+      }),
+      familySituation: new fields.StringField({
+        initial: ''
+      }),
       license: new fields.ArrayField(new fields.ObjectField()),
     }
   }

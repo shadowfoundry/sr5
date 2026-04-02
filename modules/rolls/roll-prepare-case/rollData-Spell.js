@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 //Add info for skill dicePool roll
 export default async function spell(rollData, actor, item){
@@ -24,7 +28,9 @@ export default async function spell(rollData, actor, item){
   rollData.limit.base = actorData.specialAttributes.magic.augmented.value
 
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "castSpell"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "castSpell"
+  })
 
   //Add others informations
   rollData.test.type = "spell"

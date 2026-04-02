@@ -1,8 +1,18 @@
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5Combat } from "../../system/srcombat.js"
-import { SR5 } from "../../config.js"
-import { _getSRStatusEffect } from "../../system/effectsList.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  _getSRStatusEffect 
+} from "../../system/effectsList.js"
 
 
 export class SR5_CharacterUtility extends Actor {
@@ -52,7 +62,9 @@ export class SR5_CharacterUtility extends Actor {
       if (actorData.initiatives[key]) {
         actorData.initiatives[key].value = 0
         actorData.initiatives[key].modifiers = []
-        if (!actorData.initiatives[key].dice) { actorData.initiatives[key].dice = { value: 0, base: 1, modifiers: [] } }
+        if (!actorData.initiatives[key].dice) { actorData.initiatives[key].dice = {
+          value: 0, base: 1, modifiers: [] 
+        } }
         actorData.initiatives[key].dice.value = 0
         actorData.initiatives[key].dice.modifiers = []
       }
@@ -481,7 +493,8 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       actorData.matrix.concentration = false
-      actorData.matrix.complexFormList = {}
+      actorData.matrix.complexFormList = {
+      }
 
       //Reset public grid if Grid rules are not active
       if (!game.settings.get("sr5", "sr5MatrixGridRules")) {
@@ -490,20 +503,30 @@ export class SR5_CharacterUtility extends Actor {
 
       //Reset connected Objects
       if (actorData.matrix.connectedObject) {
-        actorData.matrix.connectedObject.augmentations = {}
-        actorData.matrix.connectedObject.weapons = {}
-        actorData.matrix.connectedObject.armors = {}
-        actorData.matrix.connectedObject.gears = {}
-        actorData.matrix.connectedObject.vehicles = {}
+        actorData.matrix.connectedObject.augmentations = {
+        }
+        actorData.matrix.connectedObject.weapons = {
+        }
+        actorData.matrix.connectedObject.armors = {
+        }
+        actorData.matrix.connectedObject.gears = {
+        }
+        actorData.matrix.connectedObject.vehicles = {
+        }
       }
 
       //Reset potential PanO Objects
       if (actorData.matrix.potentialPanObject) {
-        actorData.matrix.potentialPanObject.augmentations = {}
-        actorData.matrix.potentialPanObject.weapons = {}
-        actorData.matrix.potentialPanObject.armors = {}
-        actorData.matrix.potentialPanObject.gears = {}
-        actorData.matrix.potentialPanObject.vehicles = {}
+        actorData.matrix.potentialPanObject.augmentations = {
+        }
+        actorData.matrix.potentialPanObject.weapons = {
+        }
+        actorData.matrix.potentialPanObject.armors = {
+        }
+        actorData.matrix.potentialPanObject.gears = {
+        }
+        actorData.matrix.potentialPanObject.vehicles = {
+        }
       }
 
       //Reset regiseterd sprite
@@ -514,7 +537,8 @@ export class SR5_CharacterUtility extends Actor {
 
       // Reset Concentration
       actorData.magic.concentration = false
-      actorData.magic.spellList = {}
+      actorData.magic.spellList = {
+      }
 
       // Reset Elements
       for (let key of Object.keys(SR5.spellCategories)) {
@@ -875,10 +899,16 @@ export class SR5_CharacterUtility extends Actor {
       else actorData.visions[key].isActive = false
     }
 
-    await actor.update({ 'system': actorData })
+    await actor.update({
+      'system': actorData 
+    })
     if (vision === "astral" || currentVision === "astral") {
-      if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, [{ type: "simple", value: 1, source: "switchPerception" }])
-      else SR5Combat.changeActionInCombat(actor.id, [{ type: "simple", value: 1, source: "switchPerception" }])
+      if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, [{
+        type: "simple", value: 1, source: "switchPerception" 
+      }])
+      else SR5Combat.changeActionInCombat(actor.id, [{
+        type: "simple", value: 1, source: "switchPerception" 
+      }])
       this.handleAstralVision(actor)
     }
   }
@@ -1703,7 +1733,9 @@ export class SR5_CharacterUtility extends Actor {
     initiatives[initiative].isActive = true
     if (initiative === "astralInit") actorData.visions.astral.isActive = true
 
-    await actor.update({ 'system': actorData })
+    await actor.update({
+      'system': actorData 
+    })
     //check if previous effect is on
     let previousInitiativeEffect = actor.effects.find(effect => effect.origin === "initiativeMode")
     //generate effect
@@ -1713,14 +1745,22 @@ export class SR5_CharacterUtility extends Actor {
     // if initiative is physical remove effect, else add or update active effect
     if (initiative === "physicalInit") {
       if (previousInitiativeEffect) await actor.deleteEmbeddedDocuments('ActiveEffect', [previousInitiativeEffect.id])
-      if (currentInitiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{ type: "complex", value: 1, source: "switchInitToPhysical" }])
-      else if (currentInitiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{ type: "simple", value: 1, source: "switchInitToPhysical" }])
+      if (currentInitiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{
+        type: "complex", value: 1, source: "switchInitToPhysical" 
+      }])
+      else if (currentInitiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{
+        type: "simple", value: 1, source: "switchInitToPhysical" 
+      }])
     } else {
       if (previousInitiativeEffect) await previousInitiativeEffect.update(initiativeEffect)
       else await actor.createEmbeddedDocuments('ActiveEffect', [initiativeEffect])
       //Manage actions
-      if (initiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{ type: "complex", value: 1, source: "switchInitToAstral" }])
-      else if (initiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{ type: "simple", value: 1, source: "switchInitToMatrix" }])
+      if (initiative === "astralInit" && game.combat) SR5Combat.changeActionInCombat(actorId, [{
+        type: "complex", value: 1, source: "switchInitToAstral" 
+      }])
+      else if (initiative === "matrixInit" && game.combat && actorData.matrix.userMode !== "ar") SR5Combat.changeActionInCombat(actorId, [{
+        type: "simple", value: 1, source: "switchInitToMatrix" 
+      }])
     }
 
     if (initiative === "astralInit" || currentInitiative === "astralInit") this.handleAstralVision(entity)
@@ -3995,7 +4035,9 @@ export class SR5_CharacterUtility extends Actor {
     //Handle Ice attack and defense
     if (matrix.deviceType === "ice") {
       actorData.description = game.i18n.localize(SR5.iceTypes[matrix.deviceSubType] + "_GE")
-      if (!matrix.ice) matrix.ice = { attackDicepool: 0, defenseFirstAttribute: "", defenseSecondAttribute: "" }
+      if (!matrix.ice) matrix.ice = {
+        attackDicepool: 0, defenseFirstAttribute: "", defenseSecondAttribute: "" 
+      }
       matrix.ice.attackDicepool = matrix.deviceRating * 2
       matrix.actions.matrixPerception.test.dicePool = matrix.deviceRating * 2
       SR5_EntityHelpers.updateValue(matrixAttributes.dataProcessing, 0)
@@ -4174,7 +4216,9 @@ export class SR5_CharacterUtility extends Actor {
     if (game.actors) {
       for (let a of game.actors) {
         if (a.type === "actorAgent" && a.system.creatorId === actor.id) {
-          await a.update({"system.creatorData.items": actorObject.items})
+          await a.update({
+            "system.creatorData.items": actorObject.items
+          })
         }
       }
     }
@@ -4182,7 +4226,9 @@ export class SR5_CharacterUtility extends Actor {
     if (canvas.scene) {
       for (let t of canvas.tokens.placeables) {
         if (t.actor.type === "actorAgent" && t.actor.system.creatorId === actor.id) {
-          await t.actor.update({"system.creatorData.items": actorObject.items})
+          await t.actor.update({
+            "system.creatorData.items": actorObject.items
+          })
         }
       }
     }

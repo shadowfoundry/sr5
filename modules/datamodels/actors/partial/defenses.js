@@ -4,16 +4,24 @@ export class characterDefensesPartialModel extends foundry.abstract.TypeDataMode
 
     const defenseLimit = (base) => {
       return new fields.SchemaField({
-        base: new fields.StringField({initial: base}),
-        value: new fields.NumberField({initial: 0}),
+        base: new fields.StringField({
+          initial: base
+        }),
+        value: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
       })
     }
 
     const defense = (limitBase) => {
       return new fields.SchemaField({
-        dicePool: new fields.NumberField({initial: 0}),
-        base: new fields.NumberField({initial: 0}),
+        dicePool: new fields.NumberField({
+          initial: 0
+        }),
+        base: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
         limit: defenseLimit(limitBase),
       })

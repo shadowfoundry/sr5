@@ -1,6 +1,12 @@
-import { SR5 } from "../config.js"
-import { SR5_SystemHelpers } from "../system/utilitySystem.js"
-import { _getSRStatusEffect } from "../system/effectsList.js"
+import {
+  SR5 
+} from "../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../system/utilitySystem.js"
+import {
+  _getSRStatusEffect 
+} from "../system/effectsList.js"
 
 export class SR5_EntityHelpers {
 
@@ -102,12 +108,16 @@ export class SR5_EntityHelpers {
         } else {
           newValue = Math.min(oldModifier.value, modifierValue)
         }
-        modifiersArray[index] = { source: modifierLabel, type: modifierType, value: newValue, isMultiplier: isMultiplier }
+        modifiersArray[index] = {
+          source: modifierLabel, type: modifierType, value: newValue, isMultiplier: isMultiplier 
+        }
         modified = true
       }
     })
     if (!modified) {
-      modifiersArray.push({ source: modifierLabel, type: modifierType, value: modifierValue, isMultiplier: isMultiplier , details: details})
+      modifiersArray.push({
+        source: modifierLabel, type: modifierType, value: modifierValue, isMultiplier: isMultiplier , details: details
+      })
     }
   }
 
@@ -150,9 +160,13 @@ export class SR5_EntityHelpers {
     conditionMonitors[monitorType].boxes = []
     for (let loop = 1; loop < monitorMaximum + 1; loop++) {
       if (monitorType == 'overflow' && conditionMonitors['physical'].actual.value < conditionMonitors['physical'].value)
-        conditionMonitors[monitorType].boxes.push({ filled: false, locked: true })
+        conditionMonitors[monitorType].boxes.push({
+          filled: false, locked: true 
+        })
       else
-        conditionMonitors[monitorType].boxes.push({ filled: (loop <= currentMonitorValue ? true : false) })
+        conditionMonitors[monitorType].boxes.push({
+          filled: (loop <= currentMonitorValue ? true : false) 
+        })
     }
   }
 
@@ -200,10 +214,14 @@ export class SR5_EntityHelpers {
   static getActorCanvasPosition(actor){
     let actorPosition = 0
     if (actor.token) {
-      actorPosition = { x: actor.token.x, y: actor.token.y }
+      actorPosition = {
+        x: actor.token.x, y: actor.token.y 
+      }
     } else {
       let t = canvas.scene?.tokens.find((token) => token.actorId === actor.id)
-      if (t !== undefined) actorPosition = { x: t.x, y: t.y }
+      if (t !== undefined) actorPosition = {
+        x: t.x, y: t.y 
+      }
     }
     return actorPosition
   }
@@ -223,7 +241,8 @@ export class SR5_EntityHelpers {
       SR5_SystemHelpers.srLog(0, `Missing or inexistant translation '${table}' table`)
       return object
     }
-    const newObject = {}
+    const newObject = {
+    }
     const arrayTerms = []
     for (let [key, data] of Object.entries(object)) {
       if (Object.prototype.toString.call(data) !== "[object Object]") {
@@ -361,7 +380,9 @@ export class SR5_EntityHelpers {
     tokenDocument.sight.visionMode = 'astralvision'
     tokenDocument.sight.range = 300
     tokenDocument.sight.color = "#303c50"
-    tokenDocument.detectionModes.push({id: 'astralvision', enabled: true, range: 100})
+    tokenDocument.detectionModes.push({
+      id: 'astralvision', enabled: true, range: 100
+    })
     return tokenDocument
   }
 

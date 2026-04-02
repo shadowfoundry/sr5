@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function sidekickResistanceInfo(cardData, type){
   let originalMessage = game.messages.get(cardData.previousMessage.messageId)

@@ -1,5 +1,9 @@
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5 } from "../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5 
+} from "../config.js"
 
 export class SR5_PrepareRollHelper {
   //Get rolling actor
@@ -28,7 +32,9 @@ export class SR5_PrepareRollHelper {
     rollData.dicePool.modifiers = []
     for (let m of modifiers){
       if (m.type !== "skillRating" && m.type !== "linkedAttribute" && m.type !== "skillGroup" && m.type !== "matrixAttribute" && m.type !== "devicRating"){
-        rollData.dicePool.modifiers.push({type: m.type, label: m.source, value: m.value})
+        rollData.dicePool.modifiers.push({
+          type: m.type, label: m.source, value: m.value
+        })
       }
     }
     return rollData.dicePool.modifiers
@@ -45,7 +51,8 @@ export class SR5_PrepareRollHelper {
   //Return limit modifiers object
   static getLimitModifiers(rollData, limitModifiers){
     for (let m of limitModifiers){
-      rollData.limit.modifiers[m.type] = {}
+      rollData.limit.modifiers[m.type] = {
+      }
       rollData.limit.modifiers[m.type].label = m.source
       rollData.limit.modifiers[m.type].value = m.value
     }

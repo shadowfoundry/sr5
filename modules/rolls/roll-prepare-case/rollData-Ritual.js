@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function ritual(rollData, actor, item){
   if (!actor.system.magic.reagents > 0) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoReagents")}`)
@@ -29,7 +33,9 @@ export default function ritual(rollData, actor, item){
   }
 
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "performRitual"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "performRitual"
+  })
 
   //Add others informations
   rollData.test.type = "ritual"

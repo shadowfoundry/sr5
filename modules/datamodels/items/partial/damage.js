@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class damagePartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,15 +8,27 @@ export class damagePartialModel extends foundry.abstract.TypeDataModel {
     return {
       damageValue: new fields.SchemaField({
         ...sr5ModsPartialModel.defineSchema(),
-        isStrengthBased: new fields.BooleanField({initial: false}),
+        isStrengthBased: new fields.BooleanField({
+          initial: false
+        }),
       }),
-      damageType: new fields.StringField({initial: ''}),
-      damageElement: new fields.StringField({initial: ''}),
-      damageElementSecond: new fields.StringField({initial: ''}),
-      armorPenetration: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+      damageType: new fields.StringField({
+        initial: ''
+      }),
+      damageElement: new fields.StringField({
+        initial: ''
+      }),
+      damageElementSecond: new fields.StringField({
+        initial: ''
+      }),
+      armorPenetration: new fields.SchemaField({
+        ...sr5ModsPartialModel.defineSchema()
+      }),
       accuracy: new fields.SchemaField({
         ...sr5ModsPartialModel.defineSchema(),
-        isPhysicalLimitBased: new fields.BooleanField({initial: false}),
+        isPhysicalLimitBased: new fields.BooleanField({
+          initial: false
+        }),
       }),
     }
   }

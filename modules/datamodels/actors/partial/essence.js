@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class characterEssencePartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,7 +8,9 @@ export class characterEssencePartialModel extends foundry.abstract.TypeDataModel
     return {
       essence: new fields.SchemaField({
         ...sr5ModsPartialModel.defineSchema(),
-        base: new fields.NumberField({initial: 6}),
+        base: new fields.NumberField({
+          initial: 6
+        }),
       }),
     }
   }

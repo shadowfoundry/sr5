@@ -1,7 +1,15 @@
-import { SR5 } from "../../config.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { WEAPON_ACCESSORY_CATALOG } from "../../data/weaponAccessoryCatalog.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  WEAPON_ACCESSORY_CATALOG 
+} from "../../data/weaponAccessoryCatalog.js"
 
 export class SR5_UtilityItem extends Actor {
   //************************************************//
@@ -1164,36 +1172,36 @@ export class SR5_UtilityItem extends Actor {
       if (!effectType) continue
 
       switch (effectType) {
-          case "flashLightInfrared":
-            if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
-            }
-            break
-          case "flashLightLowLight":
-            if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
-            }
-            break
-          case "imagingScope":
-            if (a.isActive && itemData.isActive) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, label, "weaponAccessory", -1, false, false)
-            }
-            break
-          case "smartgunInternal":
-          case "smartgunExternal": {
-            let hasSmartlink = false
-            for (let i of actor.items) {
-              if ((i.type === "itemAugmentation" || i.type === "itemGear") && i.system.isActive && Object.keys(i.system.customEffects).length) {
-                for (let [, value] of Object.entries(i.system.customEffects)) {
-                  if (value.target === 'system.specialProperties.smartlink' && (value.value > 0)) hasSmartlink = true
-                }
+        case "flashLightInfrared":
+          if (actor.system.visions.thermographic.isActive && a.isActive && itemData.isActive) {
+            SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
+          }
+          break
+        case "flashLightLowLight":
+          if (actor.system.visions.lowLight.isActive && a.isActive && itemData.isActive) {
+            SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.light, label, "weaponAccessory", -1, false, true)
+          }
+          break
+        case "imagingScope":
+          if (a.isActive && itemData.isActive) {
+            SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, label, "weaponAccessory", -1, false, false)
+          }
+          break
+        case "smartgunInternal":
+        case "smartgunExternal": {
+          let hasSmartlink = false
+          for (let i of actor.items) {
+            if ((i.type === "itemAugmentation" || i.type === "itemGear") && i.system.isActive && Object.keys(i.system.customEffects).length) {
+              for (let [, value] of Object.entries(i.system.customEffects)) {
+                if (value.target === 'system.specialProperties.smartlink' && (value.value > 0)) hasSmartlink = true
               }
             }
-            if (a.isActive && itemData.isActive && hasSmartlink) {
-              SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), "weaponAccessory", -1, false, false)
-            }
-            break
           }
+          if (a.isActive && itemData.isActive && hasSmartlink) {
+            SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.Smartlink'), "weaponAccessory", -1, false, false)
+          }
+          break
+        }
       }
     }
   }
@@ -1477,7 +1485,9 @@ export class SR5_UtilityItem extends Actor {
     let spellList = []
     for (let i of actor.items) {
       if (i.type === "itemSpell" && i.system.category === itemData.subType && !i.system.preparation) {
-        spellList.push({name: i.name})
+        spellList.push({
+          name: i.name
+        })
       }
     }
     return spellList
@@ -1687,7 +1697,9 @@ export class SR5_UtilityItem extends Actor {
         itemData.neighborhood.max = 4
         itemData.point.base = 4
         itemData.level = 0
-        if (itemData.options.map(c => c.name).indexOf("notAHome") == -1) itemData.options.push({name: "notAHome"})
+        if (itemData.options.map(c => c.name).indexOf("notAHome") == -1) itemData.options.push({
+          name: "notAHome"
+        })
         break
       case "traveler":
         itemData.price.base = 3000

@@ -1,5 +1,9 @@
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
 
 export default async function resonanceActionInfo(cardData){
   cardData.previousMessage.hits = cardData.roll.hits
@@ -7,13 +11,19 @@ export default async function resonanceActionInfo(cardData){
 
   switch (cardData.test.typeSub){
     case "compileSprite":
-      cardData.chatCard.buttons.compileSpriteResist = SR5_RollMessage.generateChatButton("nonOpposedTest", "compileSpriteResist", game.i18n.localize("SR5.SpriteResistance"), {gmAction: true})
+      cardData.chatCard.buttons.compileSpriteResist = SR5_RollMessage.generateChatButton("nonOpposedTest", "compileSpriteResist", game.i18n.localize("SR5.SpriteResistance"), {
+        gmAction: true
+      })
       break
     case "decompileSprite":
-      cardData.chatCard.buttons.decompilingResistance = SR5_RollMessage.generateChatButton(testType, "decompilingResistance", game.i18n.localize("SR5.SpriteResistance"), {gmAction: true})
+      cardData.chatCard.buttons.decompilingResistance = SR5_RollMessage.generateChatButton(testType, "decompilingResistance", game.i18n.localize("SR5.SpriteResistance"), {
+        gmAction: true
+      })
       break
     case "registerSprite":
-      cardData.chatCard.buttons.registeringResistance = SR5_RollMessage.generateChatButton(testType, "registeringResistance", game.i18n.localize("SR5.SpriteResistance"), {gmAction: true})
+      cardData.chatCard.buttons.registeringResistance = SR5_RollMessage.generateChatButton(testType, "registeringResistance", game.i18n.localize("SR5.SpriteResistance"), {
+        gmAction: true
+      })
       break
     case "killComplexForm":
       if (cardData.target.itemUuid) {
@@ -24,7 +34,9 @@ export default async function resonanceActionInfo(cardData){
         else cardData.fadingType = "stun"
         cardData.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${cardData.matrix.fading.value})`)
 
-        if (cardData.roll.hits > 0) cardData.chatCard.buttons.killComplexFormResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "killComplexFormResistance", game.i18n.localize("SR5.ComplexFormResistance"), {gmAction: true})
+        if (cardData.roll.hits > 0) cardData.chatCard.buttons.killComplexFormResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "killComplexFormResistance", game.i18n.localize("SR5.ComplexFormResistance"), {
+          gmAction: true
+        })
       }
       break
     default:

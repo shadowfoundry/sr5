@@ -31,7 +31,8 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
 
   static fromItem(item) {
     let target = 0
-    let flags = {}
+    let flags = {
+    }
 
     //Add base flags
     flags.sr5= {
@@ -45,7 +46,9 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
       for (let e of Object.values(item.system.customEffects)){
         if (e.category === "environmentalModifiers" && e.transfer){
           let modifierType = e.target.replace('system.itemsProperties.environmentalMod.','')
-          flags.sr5.environmentalModifiers = {[modifierType]: e.value}
+          flags.sr5.environmentalModifiers = {
+            [modifierType]: e.value
+          }
         }
       }
     }
@@ -82,7 +85,9 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     }
 
     const cls = CONFIG.MeasuredTemplate.documentClass
-    const template = new cls(templateData, {parent: canvas.scene})
+    const template = new cls(templateData, {
+      parent: canvas.scene
+    })
     const object = new this(template)
     object.item = item
     object.actorSheet = item.actor?.sheet || null
@@ -160,8 +165,12 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     let now = Date.now() // Apply a 20ms throttle
     if ( now - this.#moveTime <= 20 ) return
     const center = event.data.getLocalPosition(this.layer)
-    const snapped = canvas.grid.getSnappedPoint(center, {mode: CONST.GRID_SNAPPING_MODES.CENTER})
-    this.document.updateSource({x: snapped.x, y: snapped.y})
+    const snapped = canvas.grid.getSnappedPoint(center, {
+      mode: CONST.GRID_SNAPPING_MODES.CENTER
+    })
+    this.document.updateSource({
+      x: snapped.x, y: snapped.y
+    })
     this.refresh()
     this.#moveTime = now
   }
@@ -177,7 +186,9 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     event.stopPropagation()
     let delta = canvas.grid.type > CONST.GRID_TYPES.SQUARE ? 30 : 15
     let snap = event.shiftKey ? delta : 5
-    const update = {direction: this.document.direction + (snap * Math.sign(event.deltaY))}
+    const update = {
+      direction: this.document.direction + (snap * Math.sign(event.deltaY))
+    }
     this.document.updateSource(update)
     this.refresh()
   }
@@ -190,7 +201,9 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
 	*/
   async _onConfirmPlacement(event) {
     await this._finishPlacement(event)
-    const destination = canvas.grid.getSnappedPoint(this.document, {mode: CONST.GRID_SNAPPING_MODES.CENTER})
+    const destination = canvas.grid.getSnappedPoint(this.document, {
+      mode: CONST.GRID_SNAPPING_MODES.CENTER
+    })
     this.document.updateSource(destination)
     await this.#events.resolve(canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [this.document.toObject()]))
   }

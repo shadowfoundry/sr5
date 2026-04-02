@@ -47,12 +47,16 @@ export class SR5_ConverterHelpers {
       case "SA":
       case "BF":
       case "FA":
-        return {type: "simple", value: 1, source: "attack"}
+        return {
+          type: "simple", value: 1, source: "attack"
+        }
       case "SB":
       case "LB":
       case "FAc":
       case "SF":
-        return {type: "complex", value: 1, source: "attack"}
+        return {
+          type: "complex", value: 1, source: "attack"
+        }
       default: 
     }
   }      

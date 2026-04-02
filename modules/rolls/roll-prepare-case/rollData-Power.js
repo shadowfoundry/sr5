@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function power(rollData, rollType, item){
   //Determine title
@@ -16,7 +20,9 @@ export default function power(rollData, rollType, item){
 
   //Handle Actions
   if (item.system.actionType && item.system.actionType !== "permanent" && item.system.actionType !== "automatic") {
-    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: item.system.actionType, value: 1, source: "usePower"})
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+      type: item.system.actionType, value: 1, source: "usePower"
+    })
   }
 
   //Add others informations

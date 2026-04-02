@@ -1,5 +1,6 @@
 /** @override */
-export const measureDistances = function(segments, _options={}) {
+export const measureDistances = function(segments, _options={
+}) {
   const canvasSize = canvas.dimensions.size
   const gridDistance = canvas.scene.grid.distance
 

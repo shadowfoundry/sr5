@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function complexFormDefenseInfo(cardData){
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits

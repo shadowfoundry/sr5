@@ -1,34 +1,84 @@
-import { SR5 } from "./config.js"
-import { SR5_SystemHelpers, SR5_UiModifications } from "./system/utilitySystem.js"
-import { SR5_EntityHelpers } from "./entities/helpers.js"
-import { registerHandlebarsHelpers } from "./handlebars.js"
-import { preloadHandlebarsTemplates } from "./templates.js"
-import { SR5_SocketHandler } from "./socket.js"
-import { SR5Actor } from "./entities/actors/entityActor.js"
-import { SR5_CharacterUtility } from "./entities/actors/utilityActor.js"
-import { SR5ActorSheet } from "./entities/actors/characterSheet.js"
-import { SR5SpiritSheet } from "./entities/actors/spiritSheet.js"
-import { SR5GruntSheet } from "./entities/actors/gruntSheet.js"
-import { SR5DroneSheet } from "./entities/actors/droneSheet.js"
-import { SR5AppareilSheet } from "./entities/actors/deviceSheet.js"
-import { SR5SpriteSheet } from "./entities/actors/spriteSheet.js"
-import { SR5AgentSheet } from "./entities/actors/agentSheet.js"
-import { SR5Item } from "./entities/items/entityItem.js"
-import { SR5ItemSheet } from "./entities/items/itemSheet.js"
-import { SR5_RollMessage } from "./rolls/roll-message.js"
-import { SR5Combat, _getInitiativeFormula } from "./system/srcombat.js"
-import { SR5Token } from "./interface/token.js"
+import {
+  SR5 
+} from "./config.js"
+import {
+  SR5_SystemHelpers, SR5_UiModifications 
+} from "./system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "./entities/helpers.js"
+import {
+  registerHandlebarsHelpers 
+} from "./handlebars.js"
+import {
+  preloadHandlebarsTemplates 
+} from "./templates.js"
+import {
+  SR5_SocketHandler 
+} from "./socket.js"
+import {
+  SR5Actor 
+} from "./entities/actors/entityActor.js"
+import {
+  SR5_CharacterUtility 
+} from "./entities/actors/utilityActor.js"
+import {
+  SR5ActorSheet 
+} from "./entities/actors/characterSheet.js"
+import {
+  SR5SpiritSheet 
+} from "./entities/actors/spiritSheet.js"
+import {
+  SR5GruntSheet 
+} from "./entities/actors/gruntSheet.js"
+import {
+  SR5DroneSheet 
+} from "./entities/actors/droneSheet.js"
+import {
+  SR5AppareilSheet 
+} from "./entities/actors/deviceSheet.js"
+import {
+  SR5SpriteSheet 
+} from "./entities/actors/spriteSheet.js"
+import {
+  SR5AgentSheet 
+} from "./entities/actors/agentSheet.js"
+import {
+  SR5Item 
+} from "./entities/items/entityItem.js"
+import {
+  SR5ItemSheet 
+} from "./entities/items/itemSheet.js"
+import {
+  SR5_RollMessage 
+} from "./rolls/roll-message.js"
+import {
+  SR5Combat, _getInitiativeFormula 
+} from "./system/srcombat.js"
+import {
+  SR5Token 
+} from "./interface/token.js"
 import * as SRVision from "./system/vision.js"
-import { SR5CombatTracker } from "./interface/srcombat-tracker.js"
-import { SR5_EffectArea } from "./system/effectArea.js"
+import {
+  SR5CombatTracker 
+} from "./interface/srcombat-tracker.js"
+import {
+  SR5_EffectArea 
+} from "./system/effectArea.js"
 import  SR5TokenHud from "./interface/tokenHud.js"
 import  SR5SceneConfig  from "./interface/sceneConfig.js"
 import  SR5MeasuredTemplateConfig  from "./interface/measuredTemplateConfig.js"
-import {SR5CompendiumInfo} from "./interface/compendium.js"
+import {
+  SR5CompendiumInfo
+} from "./interface/compendium.js"
 import * as macros from "./interface/macros.js"
 import Migration from "./migration.js"
-import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js"
-import { enhanceSelects } from "./helpers/enhance-selects.js"
+import {
+  SR5_ActorHelper 
+} from "./entities/actors/entityActor-helpers.js"
+import {
+  enhanceSelects 
+} from "./helpers/enhance-selects.js"
 
 /** Merge aside footer buttons into a single full-width footer */
 function _promoteAsideFooter(html) {
@@ -87,51 +137,137 @@ function _promoteAsideFooter(html) {
 }
 
 // Item DataModels
-import { sr5ItemAdeptPowerDataModel } from "./datamodels/items/itemAdeptPower.js"
-import { sr5ItemAmmunitionDataModel } from "./datamodels/items/itemAmmunition.js"
-import { sr5ItemArmorDataModel } from "./datamodels/items/itemArmor.js"
-import { sr5ItemAugmentationDataModel } from "./datamodels/items/itemAugmentation.js"
-import { sr5ItemComplexFormDataModel } from "./datamodels/items/itemComplexForm.js"
-import { sr5ItemContactDataModel } from "./datamodels/items/itemContact.js"
-import { sr5ItemDeviceDataModel } from "./datamodels/items/itemDevice.js"
-import { sr5ItemDrugDataModel } from "./datamodels/items/itemDrug.js"
-import { sr5ItemEchoDataModel } from "./datamodels/items/itemEcho.js"
-import { sr5ItemEffectDataModel } from "./datamodels/items/itemEffect.js"
-import { sr5ItemFocusDataModel } from "./datamodels/items/itemFocus.js"
-import { sr5ItemGearDataModel } from "./datamodels/items/itemGear.js"
-import { sr5ItemKarmaDataModel } from "./datamodels/items/itemKarma.js"
-import { sr5ItemKnowledgeDataModel } from "./datamodels/items/itemKnowledge.js"
-import { sr5ItemLanguageDataModel } from "./datamodels/items/itemLanguage.js"
-import { sr5ItemLifestyleDataModel } from "./datamodels/items/itemLifestyle.js"
-import { sr5ItemMarkDataModel } from "./datamodels/items/itemMark.js"
-import { sr5ItemMartialArtDataModel } from "./datamodels/items/itemMartialArt.js"
-import { sr5ItemMetamagicDataModel } from "./datamodels/items/itemMetamagic.js"
-import { sr5ItemNuyenDataModel } from "./datamodels/items/itemNuyen.js"
-import { sr5ItemPowerDataModel } from "./datamodels/items/itemPower.js"
-import { sr5ItemPreparationDataModel } from "./datamodels/items/itemPreparation.js"
-import { sr5ItemProgramDataModel } from "./datamodels/items/itemProgram.js"
-import { sr5ItemQualityDataModel } from "./datamodels/items/itemQuality.js"
-import { sr5ItemReputationDataModel } from "./datamodels/items/itemReputation.js"
-import { sr5ItemRitualDataModel } from "./datamodels/items/itemRitual.js"
-import { sr5ItemSinDataModel } from "./datamodels/items/itemSin.js"
-import { sr5ItemSpellDataModel } from "./datamodels/items/itemSpell.js"
-import { sr5ItemSpiritDataModel } from "./datamodels/items/itemSpirit.js"
-import { sr5ItemSpriteDataModel } from "./datamodels/items/itemSprite.js"
-import { sr5ItemSpritePowerDataModel } from "./datamodels/items/itemSpritePower.js"
-import { sr5ItemTraditionDataModel } from "./datamodels/items/itemTradition.js"
-import { sr5ItemVehicleDataModel } from "./datamodels/items/itemVehicle.js"
-import { sr5ItemVehicleModDataModel } from "./datamodels/items/itemVehicleMod.js"
-import { sr5ItemWeaponDataModel } from "./datamodels/items/itemWeapon.js"
+import {
+  sr5ItemAdeptPowerDataModel 
+} from "./datamodels/items/itemAdeptPower.js"
+import {
+  sr5ItemAmmunitionDataModel 
+} from "./datamodels/items/itemAmmunition.js"
+import {
+  sr5ItemArmorDataModel 
+} from "./datamodels/items/itemArmor.js"
+import {
+  sr5ItemAugmentationDataModel 
+} from "./datamodels/items/itemAugmentation.js"
+import {
+  sr5ItemComplexFormDataModel 
+} from "./datamodels/items/itemComplexForm.js"
+import {
+  sr5ItemContactDataModel 
+} from "./datamodels/items/itemContact.js"
+import {
+  sr5ItemDeviceDataModel 
+} from "./datamodels/items/itemDevice.js"
+import {
+  sr5ItemDrugDataModel 
+} from "./datamodels/items/itemDrug.js"
+import {
+  sr5ItemEchoDataModel 
+} from "./datamodels/items/itemEcho.js"
+import {
+  sr5ItemEffectDataModel 
+} from "./datamodels/items/itemEffect.js"
+import {
+  sr5ItemFocusDataModel 
+} from "./datamodels/items/itemFocus.js"
+import {
+  sr5ItemGearDataModel 
+} from "./datamodels/items/itemGear.js"
+import {
+  sr5ItemKarmaDataModel 
+} from "./datamodels/items/itemKarma.js"
+import {
+  sr5ItemKnowledgeDataModel 
+} from "./datamodels/items/itemKnowledge.js"
+import {
+  sr5ItemLanguageDataModel 
+} from "./datamodels/items/itemLanguage.js"
+import {
+  sr5ItemLifestyleDataModel 
+} from "./datamodels/items/itemLifestyle.js"
+import {
+  sr5ItemMarkDataModel 
+} from "./datamodels/items/itemMark.js"
+import {
+  sr5ItemMartialArtDataModel 
+} from "./datamodels/items/itemMartialArt.js"
+import {
+  sr5ItemMetamagicDataModel 
+} from "./datamodels/items/itemMetamagic.js"
+import {
+  sr5ItemNuyenDataModel 
+} from "./datamodels/items/itemNuyen.js"
+import {
+  sr5ItemPowerDataModel 
+} from "./datamodels/items/itemPower.js"
+import {
+  sr5ItemPreparationDataModel 
+} from "./datamodels/items/itemPreparation.js"
+import {
+  sr5ItemProgramDataModel 
+} from "./datamodels/items/itemProgram.js"
+import {
+  sr5ItemQualityDataModel 
+} from "./datamodels/items/itemQuality.js"
+import {
+  sr5ItemReputationDataModel 
+} from "./datamodels/items/itemReputation.js"
+import {
+  sr5ItemRitualDataModel 
+} from "./datamodels/items/itemRitual.js"
+import {
+  sr5ItemSinDataModel 
+} from "./datamodels/items/itemSin.js"
+import {
+  sr5ItemSpellDataModel 
+} from "./datamodels/items/itemSpell.js"
+import {
+  sr5ItemSpiritDataModel 
+} from "./datamodels/items/itemSpirit.js"
+import {
+  sr5ItemSpriteDataModel 
+} from "./datamodels/items/itemSprite.js"
+import {
+  sr5ItemSpritePowerDataModel 
+} from "./datamodels/items/itemSpritePower.js"
+import {
+  sr5ItemTraditionDataModel 
+} from "./datamodels/items/itemTradition.js"
+import {
+  sr5ItemVehicleDataModel 
+} from "./datamodels/items/itemVehicle.js"
+import {
+  sr5ItemVehicleModDataModel 
+} from "./datamodels/items/itemVehicleMod.js"
+import {
+  sr5ItemWeaponDataModel 
+} from "./datamodels/items/itemWeapon.js"
 
 // Actor DataModels
-import { sr5ActorPcDataModel } from "./datamodels/actors/actorPc.js"
-import { sr5ActorGruntDataModel } from "./datamodels/actors/actorGrunt.js"
-import { sr5ActorSpiritDataModel } from "./datamodels/actors/actorSpirit.js"
-import { sr5ActorDroneDataModel } from "./datamodels/actors/actorDrone.js"
-import { sr5ActorDeviceDataModel } from "./datamodels/actors/actorDevice.js"
-import { sr5ActorSpriteDataModel } from "./datamodels/actors/actorSprite.js"
-import { sr5ActorAgentDataModel } from "./datamodels/actors/actorAgent.js"
-import { SR5CompendiumBrowser } from "./interface/compendium-browser.js"
+import {
+  sr5ActorPcDataModel 
+} from "./datamodels/actors/actorPc.js"
+import {
+  sr5ActorGruntDataModel 
+} from "./datamodels/actors/actorGrunt.js"
+import {
+  sr5ActorSpiritDataModel 
+} from "./datamodels/actors/actorSpirit.js"
+import {
+  sr5ActorDroneDataModel 
+} from "./datamodels/actors/actorDrone.js"
+import {
+  sr5ActorDeviceDataModel 
+} from "./datamodels/actors/actorDevice.js"
+import {
+  sr5ActorSpriteDataModel 
+} from "./datamodels/actors/actorSprite.js"
+import {
+  sr5ActorAgentDataModel 
+} from "./datamodels/actors/actorAgent.js"
+import {
+  SR5CompendiumBrowser 
+} from "./interface/compendium-browser.js"
 
 export const registerHooks = function () {
   Hooks.once("init", async function () {
@@ -257,9 +393,13 @@ export const registerHooks = function () {
       makeDefault: true,
       label: "SR5.Sheet.Item"
     })
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Scene, "SR5", SR5SceneConfig, {makeDefault: true})
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Scene, "SR5", SR5SceneConfig, {
+      makeDefault: true
+    })
     //foundry.applications.apps.DocumentSheetConfig.unregisterSheet("core", foundry.applications.sheets.MeasuredTemplateConfig);
-    foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {makeDefault: true})
+    foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.MeasuredTemplateDocument, "SR5", SR5MeasuredTemplateConfig, {
+      makeDefault: true
+    })
 
     // Preload Handlebars Templates
     await preloadHandlebarsTemplates()
@@ -273,10 +413,17 @@ export const registerHooks = function () {
       const cls = CONFIG[docName]?.documentClass
       if (!cls?.createDialog) continue
       const original = cls.createDialog
-      cls.createDialog = function(data={}, createOptions={}, options={}) {
+      cls.createDialog = function(data={
+      }, createOptions={
+      }, options={
+      }) {
         const icon = CONFIG[docName]?.sidebarIcon
         if (icon && !options?.ok?.icon) {
-          options = foundry.utils.mergeObject({ ok: { icon } }, options)
+          options = foundry.utils.mergeObject({
+            ok: {
+              icon 
+            } 
+          }, options)
         }
         return original.call(this, data, createOptions, options)
       }
@@ -375,7 +522,9 @@ export const registerHooks = function () {
     })
     new ResizeObserver(() => {
       if (wasAtBottom) {
-        scroll.scrollTo({ top: scroll.scrollHeight, behavior: "instant" })
+        scroll.scrollTo({
+          top: scroll.scrollHeight, behavior: "instant" 
+        })
       }
     }).observe(log)
   })
@@ -480,7 +629,9 @@ export const registerHooks = function () {
   })
 
   Hooks.on("updateCombatant", (combatant) => {
-    if (combatant.isDefeated && !combatant.flags.sr5.hasPlayed) combatant.update({"flags.sr5.hasPlayed": true})
+    if (combatant.isDefeated && !combatant.flags.sr5.hasPlayed) combatant.update({
+      "flags.sr5.hasPlayed": true
+    })
   })
 
   Hooks.on("deleteCombat", async (combat) => {
@@ -497,13 +648,17 @@ export const registerHooks = function () {
             actorData.specialProperties.actions[key].current = actorData.specialProperties.actions[key].value
           }
         }
-        await actor.update({system: actorData})
+        await actor.update({
+          system: actorData
+        })
       }
     }
   })
 
   Hooks.on("closeCombatantConfig", (combatant) => {
-    combatant.document.update({"flags.sr5.baseCombatantInitiative": combatant.document.initiative})
+    combatant.document.update({
+      "flags.sr5.baseCombatantInitiative": combatant.document.initiative
+    })
   })
 
   Hooks.on("updateItem", async(document, data, _options, _userId) => {
@@ -572,7 +727,9 @@ export const registerHooks = function () {
         let newItem = foundry.utils.duplicate(panItem.system)
         newItem.isSlavedToPan = false
         newItem.panMaster = ""
-        await panItem.update({"system": newItem})
+        await panItem.update({
+          "system": newItem
+        })
       }
     }
     //Remove item from PAN if it was slaved
@@ -598,7 +755,9 @@ export const registerHooks = function () {
       let itemEffect = effect.parent.items.find(i => i.type === "itemEffect" && i.system.type === "prone")
       let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id)
       if (itemEffect) await SR5_ActorHelper.deleteItemEffectLinkedToActiveEffect(actorId, itemEffect.id)
-      SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "standUp"}])
+      SR5Combat.changeActionInCombat(actorId, [{
+        type: "simple", value: 1, source: "standUp"
+      }])
     }
   })
 
@@ -606,7 +765,9 @@ export const registerHooks = function () {
     if (!game.user.isGM ) return
     let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id)
     if (effect.statuses === "signalJam") SR5_EffectArea.onJamCreation(actorId)
-    if ((effect.statuses === "cover" || effect.statuses === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "takeCover"}])
+    if ((effect.statuses === "cover" || effect.statuses === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source: "takeCover"
+    }])
   })
 
   Hooks.on("createActor", async (actor) =>{

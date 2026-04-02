@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function vehicleTestInfo(cardData, _actorId){
   if (cardData.test.typeSub !== ""){

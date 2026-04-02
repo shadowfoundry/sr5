@@ -1,5 +1,9 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function resistanceResultInfo(cardData, type){
   let key, label, labelEnd, applyEffect = true, actor, weapon, originalMessage, prevData
@@ -58,7 +62,9 @@ export default async function resistanceResultInfo(cardData, type){
       labelEnd = game.i18n.localize("SR5.ObjectResistanceSuccess")
       cardData.roll.netHits = cardData.damage.value - cardData.roll.hits
       if (cardData.combat.structure > (cardData.damage.value)) {
-        ui.notifications.info(`${game.i18n.format("SR5.INFO_StructureGreaterThanDV", {structure: cardData.combat.structure, damage: cardData.damage.value})}`)
+        ui.notifications.info(`${game.i18n.format("SR5.INFO_StructureGreaterThanDV", {
+          structure: cardData.combat.structure, damage: cardData.damage.value
+        })}`)
       } else {
         weapon = await fromUuid(cardData.target.itemUuid)
         if (weapon.system.accuracy.value <= 3 && weapon.system.reach.value === 0){

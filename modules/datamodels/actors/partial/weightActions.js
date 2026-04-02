@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class characterWeightActionsPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,16 +8,24 @@ export class characterWeightActionsPartialModel extends foundry.abstract.TypeDat
 
     const test = () => {
       return new fields.SchemaField({
-        dicePool: new fields.NumberField({initial: 0}),
-        base: new fields.NumberField({initial: 0}),
+        dicePool: new fields.NumberField({
+          initial: 0
+        }),
+        base: new fields.NumberField({
+          initial: 0
+        }),
         modifiers: new fields.ArrayField(new fields.ObjectField()),
       })
     }
 
     const weightAction = () => {
       return new fields.SchemaField({
-        baseWeight: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-        extraWeight: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+        baseWeight: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
+        extraWeight: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema()
+        }),
         test: test(),
       })
     }

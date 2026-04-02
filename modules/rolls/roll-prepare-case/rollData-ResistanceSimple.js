@@ -1,6 +1,12 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5 
+} from "../../config.js"
 
 //Add info for Resistance Roll
 export default async function resistanceSimple(rollData, rollKey, actor){

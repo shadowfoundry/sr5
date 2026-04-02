@@ -1,4 +1,6 @@
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function actionHitInfo(cardData, type){
   let key, label, labelEnd, testType, gmAction = false

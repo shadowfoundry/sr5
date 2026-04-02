@@ -1,10 +1,14 @@
 export default class SR5_SpendDialog {
 
-  static async create({title, content, data, buttons, onOk}) {
+  static async create({
+    title, content, data, buttons, onOk
+  }) {
     const dialogData = data
 
     return foundry.applications.api.DialogV2.wait({
-      window: { title },
+      window: {
+        title 
+      },
       content,
       buttons: [
         {
@@ -13,13 +17,17 @@ export default class SR5_SpendDialog {
           default: true,
           callback: (event, button, dialog) => {
             if (onOk) onOk()
-            return { action: "ok", element: dialog.element }
+            return {
+              action: "ok", element: dialog.element 
+            }
           },
         },
         {
           action: "cancel",
           label: buttons.cancel?.label ?? "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,

@@ -1,4 +1,6 @@
-import { SR5 } from "../../config.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default function iceDefense(rollData, actor, chatData){
   if (actor.type !== "actorPc" && actor.type !== "actorGrunt" && 
@@ -11,8 +13,12 @@ export default function iceDefense(rollData, actor, chatData){
   let firstAttribute = actor.system.attributes[chatData.various.defenseFirstAttribute].augmented.value || 0
   let secondAttribute = actor.system.matrix.attributes[chatData.various.defenseSecondAttribute].value || 0
   rollData.dicePool.composition = ([
-    {source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
-    {source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: secondAttribute},
+    {
+      source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute
+    },
+    {
+      source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: secondAttribute
+    },
   ])
   rollData.dicePool.base = firstAttribute + secondAttribute
 

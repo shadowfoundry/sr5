@@ -5,16 +5,25 @@
  * Outputs JSON files to the target compendium directory.
  */
 
-import { WEAPON_ACCESSORY_CATALOG } from './weaponAccessoryCatalog.js'
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
-import { join } from 'path'
-import { randomBytes } from 'crypto'
+import {
+  WEAPON_ACCESSORY_CATALOG 
+} from './weaponAccessoryCatalog.js'
+import {
+  readFileSync, writeFileSync, mkdirSync, existsSync 
+} from 'fs'
+import {
+  join 
+} from 'path'
+import {
+  randomBytes 
+} from 'crypto'
 
 // Load i18n for names and descriptions
 const lang = JSON.parse(readFileSync(join(import.meta.dirname, '../../lang/fr.json'), 'utf8'))
 
 // Config key → i18n key mapping (matches SR5.weaponAccessories in config.js)
-const ACCESSORY_I18N = {}
+const ACCESSORY_I18N = {
+}
 const configSrc = readFileSync(join(import.meta.dirname, '../config.js'), 'utf8')
 const match = configSrc.match(/SR5\.weaponAccessories\s*=\s*\{([^}]+)\}/s)
 if (match) {
@@ -34,7 +43,9 @@ function sanitizeFilename(name) {
 const outputDir = join(import.meta.dirname, '../../..', 'sr5-compendiums/packs/fr_weapon-accessories/_source')
 
 if (!existsSync(outputDir)) {
-  mkdirSync(outputDir, { recursive: true })
+  mkdirSync(outputDir, {
+    recursive: true 
+  })
 }
 
 const now = Date.now()
@@ -92,7 +103,9 @@ for (const [key, catalog] of Object.entries(WEAPON_ACCESSORY_CATALOG)) {
       customEffects: [],
       itemEffects: itemEffects,
       systemEffects: [],
-      concealment: { value: 0, base: 0, modifiers: [] },
+      concealment: {
+        value: 0, base: 0, modifiers: [] 
+      },
       weaponAccessory: {
         slot: catalog.slot || '',
         type: catalog.type || 'accessory',
@@ -103,8 +116,11 @@ for (const [key, catalog] of Object.entries(WEAPON_ACCESSORY_CATALOG)) {
     effects: [],
     folder: null,
     sort: count * 100000,
-    ownership: { default: 0 },
-    flags: {},
+    ownership: {
+      default: 0 
+    },
+    flags: {
+    },
     _stats: {
       systemId: 'sr5',
       systemVersion: '13.0.0-alpha.17',

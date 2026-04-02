@@ -1,6 +1,12 @@
-import { SR5_RollMessage } from "./roll-message.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_SocketHandler } from "../socket.js"
+import {
+  SR5_RollMessage 
+} from "./roll-message.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_SocketHandler 
+} from "../socket.js"
 
 export class SR5_RollTestHelper {
 
@@ -39,7 +45,9 @@ export class SR5_RollTestHelper {
       label: game.i18n.localize("SR5.Edge"),
       value: edgeActor.system.specialAttributes.edge.augmented.value,
     })
-    edgeActor.update({"system.conditionMonitors.edge.actual.base": edgeActor.system.conditionMonitors.edge.actual.base + 1})
+    edgeActor.update({
+      "system.conditionMonitors.edge.actual.base": edgeActor.system.conditionMonitors.edge.actual.base + 1
+    })
     dialogData.edge.canUseEdge = false
     return dialogData
   }
@@ -60,11 +68,15 @@ export class SR5_RollTestHelper {
   static async removeEdgeFromActor(messageData, actor) {
     if (actor.type === "actorSpirit") {
       let creator = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId)
-      creator.update({ "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 })
+      creator.update({
+        "system.conditionMonitors.edge.actual.base": creator.system.conditionMonitors.edge.actual.base + 1 
+      })
     } else {
       //If actor is grunt, change actor to parent
       if (actor.isToken) actor = game.actors.get(actor.id)
-      actor.update({ "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 })
+      actor.update({
+        "system.conditionMonitors.edge.actual.base": actor.system.conditionMonitors.edge.actual.base + 1 
+      })
     }
   }
 

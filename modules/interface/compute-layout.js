@@ -5,8 +5,12 @@
  * Ported from SR6's block-registry.js computeLayout / _buildSections.
  */
 
-import { BLOCK_REGISTRY, BLOCK_SIZE, TAB_ICONS } from './block-registry.js'
-import { getDefaultLayout } from './default-layout.js'
+import {
+  BLOCK_REGISTRY, BLOCK_SIZE, TAB_ICONS 
+} from './block-registry.js'
+import {
+  getDefaultLayout 
+} from './default-layout.js'
 
 // ---------------------------------------------------------------------------
 //  _buildSections — group blocks into rendering sections
@@ -37,9 +41,13 @@ function _buildSections(blocks, panelCols) {
       if (type === 'columns') {
         const cols = []
         for (let i = 0; i < panelCols; i++) cols.push([])
-        current = { type: 'columns', columns: cols }
+        current = {
+          type: 'columns', columns: cols 
+        }
       } else {
-        current = { type: 'full', blocks: [] }
+        current = {
+          type: 'full', blocks: [] 
+        }
       }
       sections.push(current)
     }
@@ -77,7 +85,8 @@ function _buildSections(blocks, panelCols) {
  * @param {object} prefs     – actor.system.sheetPreferences
  * @returns {{ panels: Array }}  Layout ready for template consumption
  */
-export function computeLayout(actorType, prefs = {}) {
+export function computeLayout(actorType, prefs = {
+}) {
   const source = (prefs.customLayout?.panels?.length) ?
     prefs.customLayout :
     getDefaultLayout(actorType)
@@ -123,5 +132,7 @@ export function computeLayout(actorType, prefs = {}) {
     })
   }
 
-  return { panels }
+  return {
+    panels 
+  }
 }

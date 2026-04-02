@@ -3,8 +3,8 @@ on:
   pull_request:
     branches: ['**']
     paths:
-      - 'scripts/**/*.js'
-      - '.eslintrc.json'
+      - 'modules/**/*.js'
+      - 'eslint.config.js'
       - 'package.json'
 
 jobs:
@@ -21,4 +21,4 @@ jobs:
         run: npm ci
       - name: Run ESLint
         continue-on-error: true
-        run: npx eslint scripts/
+        run: npx eslint modules/

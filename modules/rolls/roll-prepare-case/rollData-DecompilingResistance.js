@@ -5,7 +5,9 @@ export default function decompilingResistance(rollData, actor, chatData){
   rollData.test.title = game.i18n.localize("SR5.ResistDecompiling")
 
   //Determine dicepool composition
-  rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level}]
+  rollData.dicePool.composition = [{
+    source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level
+  }]
 
   //Determine base dicepool
   rollData.dicePool.base = actor.system.level

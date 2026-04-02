@@ -1,6 +1,12 @@
-import { SR5 } from "./config.js"
-import { SR5_SystemHelpers } from "./system/utilitySystem.js"
-import { SR5_EntityHelpers } from "./entities/helpers.js"
+import {
+  SR5 
+} from "./config.js"
+import {
+  SR5_SystemHelpers 
+} from "./system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "./entities/helpers.js"
 
 export const registerHandlebarsHelpers = function () {
 
@@ -71,9 +77,13 @@ export const registerHandlebarsHelpers = function () {
     if (!amount) return "0 ¥"
     let lang = game.settings.get("core", "language")
     if (lang === "fr")
-      return amount.toLocaleString('fr-FR', { maximumFractionDigits: 2 }).concat(" ¥")
+      return amount.toLocaleString('fr-FR', {
+        maximumFractionDigits: 2 
+      }).concat(" ¥")
     else
-      return amount.toLocaleString('en-US', { maximumFractionDigits: 2 }).concat(" ¥")
+      return amount.toLocaleString('en-US', {
+        maximumFractionDigits: 2 
+      }).concat(" ¥")
   })
 
   // Display nummber
@@ -81,9 +91,13 @@ export const registerHandlebarsHelpers = function () {
     if (!amount) return "0"
     let lang = game.settings.get("core", "language")
     if (lang === "fr")
-      return amount.toLocaleString('fr-FR', { maximumFractionDigits: 2 })
+      return amount.toLocaleString('fr-FR', {
+        maximumFractionDigits: 2 
+      })
     else
-      return amount.toLocaleString('en-US', { maximumFractionDigits: 2 })
+      return amount.toLocaleString('en-US', {
+        maximumFractionDigits: 2 
+      })
   })
 
   // get translation key from config.js of

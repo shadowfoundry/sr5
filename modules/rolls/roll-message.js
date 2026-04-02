@@ -1,17 +1,45 @@
-import { SR5 } from "../config.js"
-import { SR5_SystemHelpers } from "../system/utilitySystem.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_RollTest } from "./roll-test.js"
-import { SR5_SocketHandler } from "../socket.js"
-import { SR5Combat } from "../system/srcombat.js"
-import { SR5_RollTestHelper } from "./roll-test-helper.js"
-import { SR5_MarkHelpers } from "./roll-helpers/mark.js"
-import { SR5_CalledShotHelpers } from "./roll-helpers/calledShot.js"
-import { SR5_MatrixHelpers } from "./roll-helpers/matrix.js"
-import { SR5_CombatHelpers } from "./roll-helpers/combat.js"
-import { SR5_MiscellaneousHelpers } from "./roll-helpers/miscellaneous.js"
-import { SR5_ThirdPartyHelpers } from "./roll-helpers/thirdparty.js"
-import { SR5_ActorHelper } from "../entities/actors/entityActor-helpers.js"
+import {
+  SR5 
+} from "../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_RollTest 
+} from "./roll-test.js"
+import {
+  SR5_SocketHandler 
+} from "../socket.js"
+import {
+  SR5Combat 
+} from "../system/srcombat.js"
+import {
+  SR5_RollTestHelper 
+} from "./roll-test-helper.js"
+import {
+  SR5_MarkHelpers 
+} from "./roll-helpers/mark.js"
+import {
+  SR5_CalledShotHelpers 
+} from "./roll-helpers/calledShot.js"
+import {
+  SR5_MatrixHelpers 
+} from "./roll-helpers/matrix.js"
+import {
+  SR5_CombatHelpers 
+} from "./roll-helpers/combat.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "./roll-helpers/miscellaneous.js"
+import {
+  SR5_ThirdPartyHelpers 
+} from "./roll-helpers/thirdparty.js"
+import {
+  SR5_ActorHelper 
+} from "../entities/actors/entityActor-helpers.js"
 
 export class SR5_RollMessage {
   //Handle reaction to roll ChatMessage
@@ -87,7 +115,9 @@ export class SR5_RollMessage {
         if (newMessage.owner.itemUuid) SR5_RollTestHelper.updateItemAfterRoll(newMessage, actor)
 
         //Update message with new data
-        await message.update({[`flags.sr5data.chatCard.-=buttons`]: null})
+        await message.update({
+          [`flags.sr5data.chatCard.-=buttons`]: null
+        })
         await SR5_RollMessage.updateRollCardHelper(messageId, newMessage)
       })
     })
@@ -216,8 +246,11 @@ export class SR5_RollMessage {
         break
       case "firstAid": {
         let healData = {
-          test: {},
-          roll:{netHits: messageData.roll.netHits},
+          test: {
+          },
+          roll:{
+            netHits: messageData.roll.netHits
+          },
         }
         if (actor.type === "actorPc") healData.test.typeSub = await SR5_CombatHelpers.chooseDamageType()
         else healData.test.typeSub = "condition"
@@ -373,7 +406,9 @@ export class SR5_RollMessage {
         break
       case "eraseMarkSuccess":
         if (!game.user?.isGM) {
-          SR5_SocketHandler.emitForGM("eraseMark", {cardData: messageData})
+          SR5_SocketHandler.emitForGM("eraseMark", {
+            cardData: messageData
+          })
         } else SR5_MarkHelpers.eraseMark(messageData)
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
@@ -501,7 +536,11 @@ export class SR5_RollMessage {
     if (!message) return
     let messageData = foundry.utils.duplicate(message.flags?.sr5data)
     for (let key in messageData.chatCard.buttons){
-      if (key === buttonToUpdate) await message.update({[`flags.sr5data.chatCard.buttons.-=${key}`]: null}, {render: false})
+      if (key === buttonToUpdate) await message.update({
+        [`flags.sr5data.chatCard.buttons.-=${key}`]: null
+      }, {
+        render: false
+      })
     }
     messageData = foundry.utils.duplicate(message.flags.sr5data)
 
@@ -528,18 +567,26 @@ export class SR5_RollMessage {
         break
       case "reduceTask":
         if ((actor.system.tasks.value - messageData.roll.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.DecompiledSprite")
-        else endLabel = `${game.i18n.format('SR5.INFO_TasksReduced', {task: messageData.roll.netHits})}`
+        else endLabel = `${game.i18n.format('SR5.INFO_TasksReduced', {
+          task: messageData.roll.netHits
+        })}`
         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel)
         break
       case "reduceService":
         if ((actor.system.services.value - messageData.roll.netHits) <= 0 ) endLabel = game.i18n.localize("SR5.BanishedSpirit")
-        else endLabel = `${game.i18n.format('SR5.INFO_ServicesReduced', {service: messageData.roll.netHits})}`
+        else endLabel = `${game.i18n.format('SR5.INFO_ServicesReduced', {
+          service: messageData.roll.netHits
+        })}`
         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel)
         break
       case "reduceComplexForm": {
         let targetedComplexForm = await fromUuid(messageData.target.itemUuid)
-        if (targetedComplexForm.system.hits <= 0) endLabel = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {name: targetedComplexForm.name})}`
-        else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {name: targetedComplexForm.name, hits: messageData.roll.netHits})}`
+        if (targetedComplexForm.system.hits <= 0) endLabel = `${game.i18n.format('SR5.INFO_ComplexFormKilled', {
+          name: targetedComplexForm.name
+        })}`
+        else endLabel = `${game.i18n.format('SR5.INFO_ComplexFormReduced', {
+          name: targetedComplexForm.name, hits: messageData.roll.netHits
+        })}`
         messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", endLabel)
         break
       }
@@ -566,16 +613,24 @@ export class SR5_RollMessage {
             break
           case "iceAcid":
           case "iceCatapult":
-            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {hits: hits})}`)
+            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceFirewallDone', {
+              hits: hits
+            })}`)
             break
           case "iceJammer":
-            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceAttackDone', {hits: hits})}`)
+            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceAttackDone', {
+              hits: hits
+            })}`)
             break
           case "iceBinder":
-            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceDataProcessingDone', {hits: hits})}`)
+            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceDataProcessingDone', {
+              hits: hits
+            })}`)
             break
           case "iceMarker":
-            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {hits: hits})}`)
+            messageData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest", "", `${game.i18n.format('SR5.EffectReduceSleazeDone', {
+              hits: hits
+            })}`)
             break
                     
         }

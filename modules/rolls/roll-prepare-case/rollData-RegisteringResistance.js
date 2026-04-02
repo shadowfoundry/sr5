@@ -6,8 +6,12 @@ export default function registeringResistance(rollData, actor, chatData){
 
   //Determine dicepool composition
   rollData.dicePool.composition = [
-    {source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level},
-    {source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level},
+    {
+      source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level
+    },
+    {
+      source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: actor.system.level
+    },
   ]
 
   //Determine base dicepool

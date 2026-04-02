@@ -1,8 +1,18 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5 } from "../../config.js"
-import { SR5Combat } from "../../system/srcombat.js"
-import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
+import {
+  SR5_ActorHelper 
+} from "../../entities/actors/entityActor-helpers.js"
 
 export default async function resistanceInfo(cardData, actorId){
   let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
@@ -30,13 +40,17 @@ export default async function resistanceInfo(cardData, actorId){
             
       //Get Speed info
       let speed = game.i18n.localize("SR5.ApplyToxinEffectAtTheEndOfTheRound")
-      if (cardData.damage.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: cardData.damage.toxin.speed})}`
+      if (cardData.damage.toxin.speed > 0) speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {
+        round: cardData.damage.toxin.speed
+      })}`
             
       //If Actor is in combat, adjust speed to display the good round
       let combatant = SR5Combat.getCombatantFromActor(actor)
       if (combatant){
         let speedRound = combatant.combat.round + cardData.damage.toxin.speed
-        speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {round: speedRound})}`
+        speed = `${game.i18n.format('SR5.ApplyToxinEffectAtTheEndOfXRound', {
+          round: speedRound
+        })}`
       }
       if (cardData.damage.toxin.type === "airEngulf") return cardData.chatCard.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`)
       else return cardData.chatCard.buttons.toxinEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "toxinEffect",`${game.i18n.localize("SR5.ApplyToxinEffect")} ${damage}<br> ${speed}`)
@@ -80,7 +94,11 @@ export default async function resistanceInfo(cardData, actorId){
 
   //Handle anticoagulant effect
   if(cardData.damage.element === "anticoagulant") {
-    cardData.combat.calledShot.effects = {"0": {"name": "anticoagulant"}}
+    cardData.combat.calledShot.effects = {
+      "0": {
+        "name": "anticoagulant"
+      }
+    }
   }
 
   //Handle called Shot specifics
@@ -125,7 +143,9 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
 
   //Handle specific target limit damage if any 
   if (cardData.combat.calledShot.limitDV !== 0) {
-    if (cardData.combat.calledShot.limitDV < cardData.damage.value) ui.notifications.info(`${game.i18n.format("SR5.INFO_DVLimitByCalledShot", {value: cardData.combat.calledShot.limitDV})}`)
+    if (cardData.combat.calledShot.limitDV < cardData.damage.value) ui.notifications.info(`${game.i18n.format("SR5.INFO_DVLimitByCalledShot", {
+      value: cardData.combat.calledShot.limitDV
+    })}`)
     cardData.damage.value = Math.min(cardData.damage.value, cardData.combat.calledShot.limitDV)
   }
 
@@ -143,16 +163,24 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
       break
     case "ricochetShot":
       cardData.chatCard.buttons.fear = SR5_RollMessage.generateChatButton("nonOpposedTest","calledShotFear",`${game.i18n.localize('SR5.Composure')} (2)`)
-      cardData.combat.calledShot.effects = {"0":  {"name": "shaked"}}
+      cardData.combat.calledShot.effects = {
+        "0":  {
+          "name": "shaked"
+        }
+      }
       break
     case "bellringer":
       SR5Combat.changeInitInCombatHelper(actorId, -10)
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_Stunned", {initiative: 10})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_Stunned", {
+        initiative: 10
+      })}`)
       cardData.chatCard.buttons.bellringerEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Stunned")})`)
       break
     case "shakeUp":
       SR5Combat.changeInitInCombatHelper(actorId, cardData.combat.calledShot.initiative)			
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ShakeUp", {value: cardData.combat.calledShot.initiative})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ShakeUp", {
+        value: cardData.combat.calledShot.initiative
+      })}`)
       cardData.chatCard.buttons.shakeUpEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","", `${game.i18n.localize("SR5.EffectApplied")} (${game.i18n.localize("SR5.STATUSES_Shaked")})`)
       break
     case "pin":
@@ -168,7 +196,11 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
       break
     case "dirtyTrick":
       if (cardData.roll.netHits > 0){
-        cardData.combat.calledShot.effects = {"0": {"name": "dirtyTrick"}}
+        cardData.combat.calledShot.effects = {
+          "0": {
+            "name": "dirtyTrick"
+          }
+        }
         cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`)
       }
       break
@@ -185,16 +217,24 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
     for (let effect of Object.values(cardData.combat.calledShot.effects)) {
       switch (effect.name){
         case "stunned":
-          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotStunned",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])})}`)
+          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotStunned",`${game.i18n.format('SR5.EffectResistanceTest', {
+            effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])
+          })}`)
           break
         case "buckled":
-          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotBuckled",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])})}`)
+          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotBuckled",`${game.i18n.format('SR5.EffectResistanceTest', {
+            effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])
+          })}`)
           break
         case "nauseous":
-          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotNauseous",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])})}`)
+          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotNauseous",`${game.i18n.format('SR5.EffectResistanceTest', {
+            effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])
+          })}`)
           break
         case "knockdown":
-          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotKnockdown",`${game.i18n.format('SR5.EffectResistanceTest', {effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])})}`)
+          cardData.chatCard.buttons[effect.name] = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotKnockdown",`${game.i18n.format('SR5.EffectResistanceTest', {
+            effect: game.i18n.localize(SR5.calledShotsEffects[effect.name])
+          })}`)
           break
         case "fatigued":
           break

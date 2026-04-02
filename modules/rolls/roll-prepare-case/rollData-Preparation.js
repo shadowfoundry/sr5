@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default function preparation(rollData, actor, item){
   let itemData = item.system
@@ -34,7 +38,9 @@ export default function preparation(rollData, actor, item){
   rollData.owner.itemUuid = item.uuid
 
   //Manage actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "simple", value: 1, source: "usePreparation"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "simple", value: 1, source: "usePreparation"
+  })
 
   //Background count limit modifier
   if (actor.system.magic.bgCount.value > 0){

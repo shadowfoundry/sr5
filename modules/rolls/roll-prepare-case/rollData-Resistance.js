@@ -1,7 +1,15 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_CombatHelpers } from "../roll-helpers/combat.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_CombatHelpers 
+} from "../roll-helpers/combat.js"
+import {
+  SR5 
+} from "../../config.js"
 
 //Add info for Resistance Roll
 export default async function resistance(rollData, rollType, actor, chatData){
@@ -43,11 +51,15 @@ export default async function resistance(rollData, rollType, actor, chatData){
       rollData = await handlePhysicalDamage(rollData, actor, chatData, rollType)
       break
     case "directSpellMana":
-      if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`)
+      if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {
+        type: game.i18n.localize(SR5.actorTypes[actor.type])
+      })}`)
       rollData = await handleDirectSpell(rollData, actorData, chatData)
       break
     case "directSpellPhysical":
-      if (actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToPhysicalSpell", {type: game.i18n.localize(SR5.actorTypes[actor.type])})}`)
+      if (actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToPhysicalSpell", {
+        type: game.i18n.localize(SR5.actorTypes[actor.type])
+      })}`)
       rollData = await handleDirectSpell(rollData, actorData, chatData)
       break
     case "biofeedback":
@@ -148,7 +160,9 @@ async function handleNormalPhysicalDamage(rollData, actor, chatData, armor){
   if (rollData.damage.base < (armor + chatData.combat.armorPenetration) && chatData.combat.calledShot.name !== "splittingDamage"){
     rollData.test.title = `${game.i18n.localize("SR5.TakeOnDamage")} ${game.i18n.localize(SR5.damageTypes[rollData.damage.type])} (${rollData.damage.base})`
     rollData.damage.type = "stun"
-    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {armor: armor + chatData.combat.armorPenetration, damage:rollData.damage.base})}`) 
+    ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoStun", {
+      armor: armor + chatData.combat.armorPenetration, damage:rollData.damage.base
+    })}`) 
   }
 
   return rollData
@@ -225,7 +239,9 @@ async function handleDroneDamage(rollData, actorData, chatData){
     
   //Check if AP is greater than Armor
   if ((rollData.damage.base < (armor + chatData.combat.armorPenetration)) && 
-        chatData.test.typeSub !== "accident" && chatData.test.type !== "rammingDefense") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base})}`)
+        chatData.test.typeSub !== "accident" && chatData.test.type !== "rammingDefense") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {
+    armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base
+  })}`)
   if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor
     
   //Add AP modifiers to dicepool
@@ -251,7 +267,9 @@ async function handleSpiritDamage(rollData, actorData, chatData){
     armor = actorData.itemsProperties.armor.value
 
     //Check if AP is greater than Armor
-    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base})}`)
+    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {
+      essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base
+    })}`)
         
     //Add AP modifiers to dicepool
     if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor
@@ -374,6 +392,10 @@ async function handleGrenade(rollData, chatData, actor){
   let modToDamage = distance * chatData.combat.grenade.damageFallOff
   rollData.damage.base  = chatData.damage.base + modToDamage
   if (rollData.damage.base <= 0 && chatData.damage.element !== "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)  
-  if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {distance:distance})}`)
-  else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {distance:distance, modifiedDamage: modToDamage, finalDamage: rollData.damage.base})}`)
+  if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {
+    distance:distance
+  })}`)
+  else ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistanceFallOff", {
+    distance:distance, modifiedDamage: modToDamage, finalDamage: rollData.damage.base
+  })}`)
 }

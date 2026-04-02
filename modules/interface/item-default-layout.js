@@ -6,7 +6,9 @@
  * SIDEBAR always has 1 tab (Summary). MAIN tabs vary by item type.
  */
 
-import { ITEM_TAB_ICONS } from './item-block-registry.js'
+import {
+  ITEM_TAB_ICONS 
+} from './item-block-registry.js'
 
 // ---------------------------------------------------------------------------
 //  Helpers
@@ -16,15 +18,21 @@ let _nextId = 0
 function _id() { return `item-default-${_nextId++}` }
 
 function _panel(label, width, tabs) {
-  return { id: _id(), label, width, tabs }
+  return {
+    id: _id(), label, width, tabs 
+  }
 }
 
 function _tab(label, icon, blocks) {
-  return { id: _id(), label, icon: ITEM_TAB_ICONS[icon], iconKey: icon, blocks }
+  return {
+    id: _id(), label, icon: ITEM_TAB_ICONS[icon], iconKey: icon, blocks 
+  }
 }
 
 function _block(id) {
-  return { id }
+  return {
+    id 
+  }
 }
 
 // ---------------------------------------------------------------------------

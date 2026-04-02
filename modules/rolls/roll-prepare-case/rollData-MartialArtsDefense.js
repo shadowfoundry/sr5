@@ -1,5 +1,9 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default async function martialArtsDefense(rollData, actor, chatData){
   if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return
@@ -31,8 +35,12 @@ export default async function martialArtsDefense(rollData, actor, chatData){
   }
 
   rollData.dicePool.composition = ([
-    {source: firstLabel, type: firstType, value: firstAttribute},
-    {source: secondLabel, type: secondType, value: secondAttribute},
+    {
+      source: firstLabel, type: firstType, value: firstAttribute
+    },
+    {
+      source: secondLabel, type: secondType, value: secondAttribute
+    },
   ])
 
   //Determine base dicepool

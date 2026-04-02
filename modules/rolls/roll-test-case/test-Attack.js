@@ -1,5 +1,9 @@
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default async function attackInfo(cardData){
   cardData.damage.resistanceType = "physicalDamage"

@@ -1,6 +1,12 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default async function matrixResistanceInfo(cardData, actorId){
   let actor = SR5_EntityHelpers.getRealActorFromID(actorId),

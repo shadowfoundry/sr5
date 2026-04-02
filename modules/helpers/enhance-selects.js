@@ -101,7 +101,9 @@ function _enhanceOneSelect(select) {
       cleanupObserver.disconnect()
     }
   })
-  cleanupObserver.observe(document.body, { childList: true, subtree: true })
+  cleanupObserver.observe(document.body, {
+    childList: true, subtree: true 
+  })
 
   // ── Event listeners ────────────────────────────────────────────────────
 
@@ -140,7 +142,9 @@ function _enhanceOneSelect(select) {
     menu.querySelectorAll('.sr-dropdown-item.selected').forEach(el => el.classList.remove('selected'))
     item.classList.add('selected')
 
-    select.dispatchEvent(new Event('change', { bubbles: true }))
+    select.dispatchEvent(new Event('change', {
+      bubbles: true 
+    }))
   })
 
   trigger.addEventListener('keydown', (event) => {
@@ -158,7 +162,9 @@ function _enhanceOneSelect(select) {
       event.preventDefault()
       const focused = menu.querySelector('.sr-dropdown-item.sr-dropdown-focused')
       if (focused && menu.classList.contains('sr-dropdown-menu-visible')) {
-        focused.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+        focused.dispatchEvent(new MouseEvent('mousedown', {
+          bubbles: true 
+        }))
       } else if (!menu.classList.contains('sr-dropdown-menu-visible')) {
         _openMenu(host, trigger, menu)
       } else {
@@ -175,7 +181,9 @@ function _enhanceOneSelect(select) {
     label.textContent = _getSelectedLabel(select)
     _syncSelectedClass(menu, select.value)
   })
-  observer.observe(select, { attributes: true, childList: true, subtree: true })
+  observer.observe(select, {
+    attributes: true, childList: true, subtree: true 
+  })
 }
 
 // ── Open / Close helpers ──────────────────────────────────────────────────
@@ -208,7 +216,9 @@ function _openMenu(host, trigger, menu) {
   }
 
   const selectedItem = menu.querySelector('.sr-dropdown-item.selected')
-  if (selectedItem) selectedItem.scrollIntoView({ block: 'nearest' })
+  if (selectedItem) selectedItem.scrollIntoView({
+    block: 'nearest' 
+  })
 }
 
 function _closeMenu(host, menu) {
@@ -277,5 +287,7 @@ function _moveFocus(menu, direction) {
   }
 
   items[nextIndex].classList.add('sr-dropdown-focused')
-  items[nextIndex].scrollIntoView({ block: 'nearest' })
+  items[nextIndex].scrollIntoView({
+    block: 'nearest' 
+  })
 }

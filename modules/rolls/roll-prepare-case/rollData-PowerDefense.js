@@ -1,5 +1,9 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default async function powerDefense(rollData, actor, chatData){
   if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return
@@ -17,8 +21,12 @@ export default async function powerDefense(rollData, actor, chatData){
   else secondAttribute = actorData.attributes[chatData.various.defenseSecondAttribute].augmented.value
 
   rollData.dicePool.composition = ([
-    {source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute},
-    {source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute},
+    {
+      source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseFirstAttribute]), type: "linkedAttribute", value: firstAttribute
+    },
+    {
+      source: game.i18n.localize(SR5.allAttributes[chatData.various.defenseSecondAttribute]), type: "linkedAttribute", value: secondAttribute
+    },
   ])
 
   //Determine base dicepool

@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class characterResonanceAttributesPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,8 +8,12 @@ export class characterResonanceAttributesPartialModel extends foundry.abstract.T
     return {
       specialAttributes: new fields.SchemaField({
         resonance: new fields.SchemaField({
-          natural: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
-          augmented: new fields.SchemaField({...sr5ModsPartialModel.defineSchema()}),
+          natural: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+          augmented: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
         }),
       }),
     }

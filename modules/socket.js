@@ -1,10 +1,24 @@
-import { SR5Combat } from "./system/srcombat.js"
-import { SR5_SystemHelpers } from "./system/utilitySystem.js"
-import { SR5Actor } from "./entities/actors/entityActor.js"
-import { SR5_RollMessage } from "./rolls/roll-message.js"
-import { SR5_MarkHelpers } from "./rolls/roll-helpers/mark.js"
-import { SR5_MiscellaneousHelpers } from "./rolls/roll-helpers/miscellaneous.js"
-import { SR5_ActorHelper } from "./entities/actors/entityActor-helpers.js"
+import {
+  SR5Combat 
+} from "./system/srcombat.js"
+import {
+  SR5_SystemHelpers 
+} from "./system/utilitySystem.js"
+import {
+  SR5Actor 
+} from "./entities/actors/entityActor.js"
+import {
+  SR5_RollMessage 
+} from "./rolls/roll-message.js"
+import {
+  SR5_MarkHelpers 
+} from "./rolls/roll-helpers/mark.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "./rolls/roll-helpers/miscellaneous.js"
+import {
+  SR5_ActorHelper 
+} from "./entities/actors/entityActor-helpers.js"
 
 export class SR5_SocketHandler {
   static registerSocketListeners() {
@@ -51,7 +65,9 @@ export class SR5_SocketHandler {
   }
 
   static _createMessage(type, data, userId) {
-    return {type, data, userId}
+    return {
+      type, data, userId
+    }
   }
 
   static async emit(type, data) {

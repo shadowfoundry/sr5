@@ -1,14 +1,36 @@
-import { SR5 } from "../../config.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5Combat } from "../../system/srcombat.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_CompendiumUtility } from "./utilityCompendium.js"
-import { SR5_CombatHelpers } from "../../rolls/roll-helpers/combat.js"
-import { SR5_CalledShotHelpers } from "../../rolls/roll-helpers/calledShot.js"
-import { SR5_MarkHelpers } from "../../rolls/roll-helpers/mark.js"
-import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js"
-import { SR5_SocketHandler } from "../../socket.js"
-import { _getSRStatusEffect } from "../../system/effectsList.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_CompendiumUtility 
+} from "./utilityCompendium.js"
+import {
+  SR5_CombatHelpers 
+} from "../../rolls/roll-helpers/combat.js"
+import {
+  SR5_CalledShotHelpers 
+} from "../../rolls/roll-helpers/calledShot.js"
+import {
+  SR5_MarkHelpers 
+} from "../../rolls/roll-helpers/mark.js"
+import {
+  SR5_PrepareRollTest 
+} from "../../rolls/roll-prepare.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
+import {
+  _getSRStatusEffect 
+} from "../../system/effectsList.js"
 
 export class SR5_ActorHelper {
     
@@ -107,7 +129,9 @@ export class SR5_ActorHelper {
         break
     }
 
-    await realActor.update({system: actorData})
+    await realActor.update({
+      system: actorData
+    })
 
     //Status
     switch (actor.type){
@@ -179,9 +203,15 @@ export class SR5_ActorHelper {
     let statusEffect = await _getSRStatusEffect("prone")
     await actor.createEmbeddedDocuments('ActiveEffect', [statusEffect])
     await actor.createEmbeddedDocuments("Item", [effect])
-    if (damage >= 10) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneTen", {damage: damage})}`)
-    else if (gelAmmo < 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneGel", {damage: damage, limit: actorData.limits.physicalLimit.value})}`)
-    else if (damage > 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProne", {damage: damage, limit: actorData.limits.physicalLimit.value})}`)
+    if (damage >= 10) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneTen", {
+      damage: damage
+    })}`)
+    else if (gelAmmo < 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProneGel", {
+      damage: damage, limit: actorData.limits.physicalLimit.value
+    })}`)
+    else if (damage > 0) ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DamageDropProne", {
+      damage: damage, limit: actorData.limits.physicalLimit.value
+    })}`)
     else ui.notifications.info(`${actor.name} ${game.i18n.format("SR5.INFO_DropProne")}`)
   }
 
@@ -290,7 +320,9 @@ export class SR5_ActorHelper {
       }
       updatedArmor.system.itemEffects.push(armorEffect)
       await actor.updateEmbeddedDocuments("Item", [updatedArmor])
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {
+        armor: armor.name
+      })}`)
     }
 
     let duration
@@ -357,7 +389,9 @@ export class SR5_ActorHelper {
 
     if (actorData.matrix.overwatchScore === null) actorData.matrix.overwatchScore = 0
     actorData.matrix.overwatchScore += defenseHits
-    actor.update({system: actorData})
+    actor.update({
+      system: actorData
+    })
     ui.notifications.info(`${actor.name}, ${game.i18n.localize("SR5.OverwatchScoreActual")} ${actorData.matrix.overwatchScore}`)
   }
 
@@ -378,7 +412,9 @@ export class SR5_ActorHelper {
             i--
           }
         }
-        await itemToClean.update({"system" : cleanData})
+        await itemToClean.update({
+          "system" : cleanData
+        })
         //For Host, keep slaved device marks synchro
         if (itemToClean.parent.system.matrix.deviceType === "host") SR5_MarkHelpers.markSlavedDevice(itemToClean.parent.id)
       } else {
@@ -409,7 +445,9 @@ export class SR5_ActorHelper {
       index++
     }
 
-    await deck.update({"system": deckData})
+    await deck.update({
+      "system": deckData
+    })
 
     //For host, update all unlinked token with same marked items
     if (actor.system.matrix.deviceType === "host" && canvas.scene){
@@ -418,7 +456,9 @@ export class SR5_ActorHelper {
           let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive)
           let tokenDeckData = foundry.utils.duplicate(tokenDeck.system)
           tokenDeckData.markedItems = deckData.markedItems
-          await tokenDeck.update({"system": tokenDeckData})
+          await tokenDeck.update({
+            "system": tokenDeckData
+          })
         }
       }
     }
@@ -454,7 +494,9 @@ export class SR5_ActorHelper {
     // Give permission to player
     if (userId) {
       permissionPath = 'ownership.' + userId
-      sideKickData = foundry.utils.mergeObject(sideKickData, {[permissionPath]: 3})
+      sideKickData = foundry.utils.mergeObject(sideKickData, {
+        [permissionPath]: 3
+      })
     }
 
     // Handle specific data for Actor creation
@@ -638,7 +680,9 @@ export class SR5_ActorHelper {
     }
 
     let originalItem = ownerActor.getEmbeddedDocument("Item", item._id)
-    await originalItem.update({"system.isCreated": true})
+    await originalItem.update({
+      "system.isCreated": true
+    })
 
     //Create actor
     await Actor.createDocuments([sideKickData])
@@ -874,7 +918,9 @@ export class SR5_ActorHelper {
 
     itemToAdd.system.isSlavedToPan = true
     itemToAdd.system.panMaster = actorId
-    await item.update({"system": itemToAdd.system})
+    await item.update({
+      "system": itemToAdd.system
+    })
 
     let currentPan = foundry.utils.duplicate(deck.system.pan)
     let panObject = {
@@ -882,7 +928,9 @@ export class SR5_ActorHelper {
       "uuid": targetItem,
     }
     currentPan.content.push(panObject)
-    await deck.update({"system.pan": currentPan})
+    await deck.update({
+      "system.pan": currentPan
+    })
   }
 
   static async _socketAddItemToPan(message){
@@ -901,7 +949,9 @@ export class SR5_ActorHelper {
       let newItem = foundry.utils.duplicate(item.system)
       newItem.isSlavedToPan = false
       newItem.panMaster = ""
-      await item.update({"system": newItem})
+      await item.update({
+        "system": newItem
+      })
     }
 
     let currentPan = foundry.utils.duplicate(deck.system.pan)
@@ -920,7 +970,9 @@ export class SR5_ActorHelper {
       }
     }
 
-    await deck.update({"system.pan": currentPan})
+    await deck.update({
+      "system.pan": currentPan
+    })
   }
 
   static async _socketDeleteItemFromPan(message){
@@ -935,7 +987,9 @@ export class SR5_ActorHelper {
     if (newItem.duration === "sustained") newItem.isActive = true
     if (item.type === "itemAdeptPower" || item.type === "itemPower") newItem.isActive = true
     newItem.targetOfEffect.push(effectUuid)
-    await item.update({"system": newItem})
+    await item.update({
+      "system": newItem
+    })
   }
 
   static async _socketLinkEffectToSource(message){
@@ -970,7 +1024,9 @@ export class SR5_ActorHelper {
           }
           index++
         }
-        if (needUpdate) await i.update({"system": dataToUpdate})
+        if (needUpdate) await i.update({
+          "system": dataToUpdate
+        })
       }
     }
   }
@@ -993,7 +1049,9 @@ export class SR5_ActorHelper {
     if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
       let updatedActor = foundry.utils.duplicate(agent.system)
       updatedActor.conditionMonitors.matrix = ownerDeck.system.conditionMonitors.matrix
-      await agent.update({"system": updatedActor})
+      await agent.update({
+        "system": updatedActor
+      })
     }
   }
 
@@ -1006,7 +1064,9 @@ export class SR5_ActorHelper {
     if (ownerDeck.system.conditionMonitors.matrix.actual.value !== agent.system.conditionMonitors.matrix.actual.value){
       let newDeck = foundry.utils.duplicate(ownerDeck.system)
       newDeck.conditionMonitors.matrix = agent.system.conditionMonitors.matrix
-      await ownerDeck.update({"system": newDeck})
+      await ownerDeck.update({
+        "system": newDeck
+      })
     }
   }
 
@@ -1018,7 +1078,9 @@ export class SR5_ActorHelper {
         let actor = SR5_EntityHelpers.getRealActorFromID(t.document.id)
         let updatedActor = foundry.utils.duplicate(actor.system)
         updatedActor.conditionMonitors.edge = document.system.conditionMonitors.edge
-        actor.update({"system": updatedActor})
+        actor.update({
+          "system": updatedActor
+        })
       }
     }
   }
@@ -1033,7 +1095,9 @@ export class SR5_ActorHelper {
     actorData = actorData.toObject(false)
     actorData.system.conditionMonitors[damageType].actual.base -= damageToRemove
     await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors[damageType].actual, 0)
-    await targetActor.update({system: actorData.system})
+    await targetActor.update({
+      system: actorData.system
+    })
   }
 
   //Manage Healing by socket
@@ -1072,7 +1136,9 @@ export class SR5_ActorHelper {
       }
     }
 
-    await actor.update({system: actorData.system})
+    await actor.update({
+      system: actorData.system
+    })
   }
 
   //Apply an external effect to actor (such spell, complex form). Data is provided by chatMessage
@@ -1096,7 +1162,9 @@ export class SR5_ActorHelper {
           if(newData.conditionMonitors[key]){
             newData.conditionMonitors[key].actual.base -= value
             SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0)
-            await actor.update({"system": newData})
+            await actor.update({
+              "system": newData
+            })
             continue
           } else continue
         }
@@ -1108,7 +1176,9 @@ export class SR5_ActorHelper {
           if(newData.conditionMonitors[key]){
             newData.conditionMonitors[key].actual.base += value
             SR5_EntityHelpers.updateValue(newData.conditionMonitors[key].actual, 0)
-            await actor.update({"system": newData})
+            await actor.update({
+              "system": newData
+            })
             continue
           } else continue
         }
@@ -1142,7 +1212,9 @@ export class SR5_ActorHelper {
             },
           })
         } else if (effectType === "itemEffects"){
-          itemEffect = foundry.utils.mergeObject(itemEffect, {"system.hasEffectOnItem": true})
+          itemEffect = foundry.utils.mergeObject(itemEffect, {
+            "system.hasEffectOnItem": true
+          })
         }
         await actor.createEmbeddedDocuments("Item", [itemEffect])
 

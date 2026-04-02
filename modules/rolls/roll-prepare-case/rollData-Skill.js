@@ -1,7 +1,15 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5 } from "../../config.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 //Add info for skill dicePool roll
 export default async function skill(rollData, rollType, rollKey, actor, chatData){
@@ -41,7 +49,9 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
   rollData.limit.modifiers = SR5_PrepareRollHelper.getLimitModifiers(rollData, actor.system.skills[rollKey].limit.modifiers)
 
   //Handle Actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: "complex", value: 1, source: "useSkill"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: "complex", value: 1, source: "useSkill"
+  })
 
   //Add others informations
   rollData.test.type = "skillDicePool"
@@ -67,7 +77,9 @@ export default async function skill(rollData, rollType, rollKey, actor, chatData
   //Special case for Astral combat
   if (rollKey === "astralCombat"){
     if (!actor.system.visions.astral.isActive) {
-      ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {name:actor.name})}`)
+      ui.notifications.info(`${game.i18n.format("SR5.INFO_ActorIsNotInAstral", {
+        name:actor.name
+      })}`)
       return
     }
     rollData.damage.base = actor.system.magic.astralDamage.value
@@ -171,8 +183,12 @@ function getOpposedData(rollData, chatData, rollKey, actor){
     rollData.limit.base = actorData.limits.socialLimit.value
     rollData.limit.type = "socialLimit"
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value},
-      {source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value },
+      {
+        source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value
+      },
+      {
+        source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value 
+      },
     ])
   }
 
@@ -180,8 +196,12 @@ function getOpposedData(rollData, chatData, rollKey, actor){
     rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.skills[rollKey]) + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.roll.hits + ")"}`
     rollData.dicePool.base = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
-      {source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value },
+      {
+        source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value
+      },
+      {
+        source: game.i18n.localize("SR5.SkillPerception"), type: "skillRating", value: actorData.skills[rollKey].rating.value 
+      },
     ])
   }
 
@@ -189,8 +209,12 @@ function getOpposedData(rollData, chatData, rollKey, actor){
     rollData.test.title = `${game.i18n.localize("SR5.OpposedTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize("SR5.Charisma") + " + " + game.i18n.localize("SR5.Willpower") + " (" + chatData.roll.hits + ")"}`
     rollData.dicePool.base = actorData.skills[rollKey].rating.value + actorData.attributes.willpower.augmented.value
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value},
-      {source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value},
+      {
+        source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actorData.attributes.willpower.augmented.value
+      },
+      {
+        source: game.i18n.localize("SR5.Charisma"), type: "linkedAttribute", value: actorData.attributes.charisma.augmented.value
+      },
     ])
   }
 

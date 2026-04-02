@@ -1,4 +1,6 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default function rammingDefense(rollData, actor, chatData){
   //Determine title

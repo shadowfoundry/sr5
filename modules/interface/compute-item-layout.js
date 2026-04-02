@@ -5,8 +5,12 @@
  * Mirrors compute-layout.js but uses ITEM_BLOCK_REGISTRY.
  */
 
-import { ITEM_BLOCK_REGISTRY, ITEM_BLOCK_SIZE, ITEM_TAB_ICONS } from './item-block-registry.js'
-import { getItemDefaultLayout } from './item-default-layout.js'
+import {
+  ITEM_BLOCK_REGISTRY, ITEM_BLOCK_SIZE, ITEM_TAB_ICONS 
+} from './item-block-registry.js'
+import {
+  getItemDefaultLayout 
+} from './item-default-layout.js'
 
 // ---------------------------------------------------------------------------
 //  _buildSections — group blocks into rendering sections
@@ -28,9 +32,13 @@ function _buildSections(blocks, panelCols) {
       if (type === 'columns') {
         const cols = []
         for (let i = 0; i < panelCols; i++) cols.push([])
-        current = { type: 'columns', columns: cols }
+        current = {
+          type: 'columns', columns: cols 
+        }
       } else {
-        current = { type: 'full', blocks: [] }
+        current = {
+          type: 'full', blocks: [] 
+        }
       }
       sections.push(current)
     }
@@ -102,5 +110,7 @@ export function computeItemLayout(itemType) {
     })
   }
 
-  return { panels }
+  return {
+    panels 
+  }
 }

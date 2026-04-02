@@ -1,6 +1,12 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5_MiscellaneousHelpers } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5_MiscellaneousHelpers 
+} from "../roll-helpers/miscellaneous.js"
 
 export default async function matrixAction(rollData, rollKey, actor){
   let matrixAction = actor.system.matrix.actions[rollKey]
@@ -32,7 +38,9 @@ export default async function matrixAction(rollData, rollKey, actor){
   rollData.dialogSwitch.specialization = true
 
   //Manage actions
-  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {type: matrixAction.actionType, value: 1, source: "matrixAction"})
+  rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+    type: matrixAction.actionType, value: 1, source: "matrixAction"
+  })
 
   //Add public grid switch
   if (actor.system.matrix.userGrid === "public") rollData.dialogSwitch.publicGrid = true

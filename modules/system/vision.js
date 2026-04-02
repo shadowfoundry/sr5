@@ -10,17 +10,25 @@ export const astralVision = new VisionMode({
   label: "SR5.VISION.ModeAstralvision",
   canvas: {
     shader: AmplificationSamplerShader,
-    uniforms: { enable: true, contrast: 0, saturation: -0.5, exposure: -0.25, tint: [0.75, 0.75, 1] }
+    uniforms: {
+      enable: true, contrast: 0, saturation: -0.5, exposure: -0.25, tint: [0.75, 0.75, 1] 
+    }
   },
   lighting: {
-    background: { visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED },
+    background: {
+      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED 
+    },
     illumination: {
       postProcessingModes: ["EXPOSURE"],
-      uniforms: { exposure: 0.8 }
+      uniforms: {
+        exposure: 0.8 
+      }
     },
     coloration: {
       //postProcessingModes: ["SATURATION", "TINT", "EXPOSURE"], BUG in v11
-      uniforms: { saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1] }
+      uniforms: {
+        saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1] 
+      }
     },
     levels: {
       [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT,
@@ -28,9 +36,17 @@ export const astralVision = new VisionMode({
     }
   },
   vision: {
-    darkness: { adaptive: false },
-    defaults: { attenuation: 0, contrast: 0, saturation: -0.5, brightness: 1 },
-    background: { shader: AmplificationBackgroundVisionShader, uniforms: {tint: [0.75, 0.75, 1]} }
+    darkness: {
+      adaptive: false 
+    },
+    defaults: {
+      attenuation: 0, contrast: 0, saturation: -0.5, brightness: 1 
+    },
+    background: {
+      shader: AmplificationBackgroundVisionShader, uniforms: {
+        tint: [0.75, 0.75, 1]
+      } 
+    }
   }
 })
 

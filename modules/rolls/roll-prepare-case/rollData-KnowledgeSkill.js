@@ -1,4 +1,6 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 //Add info for Knowledge / language skill roll
 export default function knowledgeSkill(rollData, rollType, item){

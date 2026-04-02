@@ -1,5 +1,9 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_RollMessage } from "../roll-message.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
 
 export default async function spellInfo(cardData){
   let actionType, label, item
@@ -41,7 +45,9 @@ export default async function spellInfo(cardData){
     if (cardData.magic.spell.objectCanResist){
       actionType = "objectResistance"
       label = game.i18n.localize("SR5.ObjectResistanceTest")
-      cardData.chatCard.buttons[actionType] = SR5_RollMessage.generateChatButton("nonOpposedTest", actionType, label, {gmAction: true})
+      cardData.chatCard.buttons[actionType] = SR5_RollMessage.generateChatButton("nonOpposedTest", actionType, label, {
+        gmAction: true
+      })
     }
 			
     //Handle spell Area

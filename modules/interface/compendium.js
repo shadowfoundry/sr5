@@ -1,5 +1,9 @@
-import { SR5 } from "../config.js"
-import { SR5_SystemHelpers } from "../system/utilitySystem.js"
+import {
+  SR5 
+} from "../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../system/utilitySystem.js"
 
 export class SR5CompendiumInfo {
   static async onRenderCompendium(compendium, html, _compendiumData) {

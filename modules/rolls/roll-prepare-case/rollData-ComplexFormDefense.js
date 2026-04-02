@@ -1,5 +1,9 @@
-import { SR5 } from "../../config.js"
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
 
 export default async function complexFormDefense(rollData, actor, chatData){
   if (actor.type === "actorSpirit") return
@@ -33,8 +37,12 @@ export default async function complexFormDefense(rollData, actor, chatData){
   }
 
   rollData.dicePool.composition = ([
-    {source: firstLabel, type: "linkedAttribute", value: defenseAttribute},
-    {source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute},
+    {
+      source: firstLabel, type: "linkedAttribute", value: defenseAttribute
+    },
+    {
+      source: game.i18n.localize(SR5.matrixAttributes[chatData.various.defenseSecondAttribute]), type: "matrixAttribute", value: defenseMatrixAttribute
+    },
   ])
 
   //Determine base dicepool

@@ -1,4 +1,6 @@
-import { sr5ModsPartialModel } from '../../common/mods.js'
+import {
+  sr5ModsPartialModel 
+} from '../../common/mods.js'
 
 export class skillGroupsPartialModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
@@ -6,7 +8,9 @@ export class skillGroupsPartialModel extends foundry.abstract.TypeDataModel {
 
     const skillGroupSchema = () => new fields.SchemaField({
       ...sr5ModsPartialModel.defineSchema(),
-      isHidden: new fields.BooleanField({initial: false}),
+      isHidden: new fields.BooleanField({
+        initial: false
+      }),
     })
 
     return {

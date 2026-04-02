@@ -1,5 +1,9 @@
-import { SR5_PrepareRollHelper } from "../roll-prepare-helpers.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_PrepareRollHelper 
+} from "../roll-prepare-helpers.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default function healing(rollData, rollKey, actor){
   //Determine title
@@ -8,13 +12,21 @@ export default function healing(rollData, rollKey, actor){
   //Determine dicepool composition
   if (rollKey === "stun"){
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value},
-      {source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actor.system.attributes.willpower.augmented.value},
+      {
+        source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value
+      },
+      {
+        source: game.i18n.localize("SR5.Willpower"), type: "linkedAttribute", value: actor.system.attributes.willpower.augmented.value
+      },
     ])
   } else {
     rollData.dicePool.composition = ([
-      {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value},
-      {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value},
+      {
+        source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value
+      },
+      {
+        source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: actor.system.attributes.body.augmented.value
+      },
     ])
   }
 

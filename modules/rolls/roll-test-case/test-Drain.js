@@ -1,5 +1,9 @@
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5 } from "../../config.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
 
 export default async function drainInfo(cardData, _actorId){
   let damageValue = cardData.magic.drain.value - cardData.roll.hits

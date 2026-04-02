@@ -1,4 +1,6 @@
-import { SR5Combat } from "../system/srcombat.js"
+import {
+  SR5Combat 
+} from "../system/srcombat.js"
 
 // Custom Combat Tracker (v13 AppV2 — builds on Foundry's native rendering)
 export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTracker {
@@ -106,7 +108,8 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
       if (combatant.isOwner) {
         const controls = li.querySelector('.combatant-controls')
         if (controls && !controls.querySelector('.actionControlToggle')) {
-          const actions = combatant.flags.sr5?.actions || {}
+          const actions = combatant.flags.sr5?.actions || {
+          }
           const actionsDiv = document.createElement('div')
           actionsDiv.classList.add('flexrow', 'actionControlToggle')
           actionsDiv.innerHTML =
@@ -138,7 +141,9 @@ export class SR5CombatTracker extends foundry.applications.sidebar.tabs.CombatTr
         break
     }
 
-    let actions = [{ type: target, value: combatant.flags.sr5.actions[target] - value, source: "manual" }]
+    let actions = [{
+      type: target, value: combatant.flags.sr5.actions[target] - value, source: "manual" 
+    }]
     if (actor.isToken) SR5Combat.changeActionInCombat(actor.token.id, actions)
     else SR5Combat.changeActionInCombat(actor.id, actions)
   }
