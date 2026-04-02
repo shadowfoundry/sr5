@@ -60,7 +60,7 @@ Styles are in `styles/` and compiled to `css/`:
 npm run build:css
 ```
 
-With the Easy LESS extension, files compile on save automatically. **Never edit `css/sr5.css` directly** — it is gitignored and rebuilt on every compilation.
+With the Easy LESS extension, files compile on save automatically. **Never edit `css/shadowrun.css` directly** — it is gitignored and rebuilt on every compilation.
 
 ## What to Check Before Submitting
 
