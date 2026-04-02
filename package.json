@@ -3,7 +3,6 @@
   "version": "13.0.0-alpha.19",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "npm run build:css",
     "build:css": "lessc less/sr5.less css/sr5.css",
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest --reporter=verbose",
