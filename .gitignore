@@ -14,6 +14,6 @@
 !RELEASE.md
 !docs/*.md
 !.github/**/*.md
-/css/*.css
+/css
 /coverage
 /drk-doc
