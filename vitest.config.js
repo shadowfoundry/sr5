@@ -4,9 +4,7 @@ import {
 
 export default defineConfig({
   test: {
-    // No unit tests yet — tests/ contains Foundry macro scripts that
-    // require a live Foundry environment and cannot run in Node.js/vitest.
-    // Set passWithNoTests so 'npm test' exits 0 until unit tests are added.
+    setupFiles: ['./tests/setup.js'],
     passWithNoTests: true,
     coverage: {
       provider: 'v8',
