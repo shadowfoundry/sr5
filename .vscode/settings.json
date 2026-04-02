@@ -6,7 +6,7 @@
   },
   "eslint.validate": ["javascript"],
   "less.compile": {
-    "main": "${workspaceFolder}/less/sr5.less",
+    "main": "${workspaceFolder}/styles/sr5.less",
     "out": "${workspaceFolder}/css/sr5.css",
     "compress": false,
     "sourceMap": false
