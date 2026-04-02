@@ -26,42 +26,54 @@ The **MINOR** and **PATCH** numbers are system-specific and independent from Fou
 
 When Foundry releases a new major version, bump the MAJOR and reset MINOR and PATCH (e.g. `13.2.1` -> `14.0.0-alpha.1`).
 
-## Prerequisites
+## Creating a Release
 
-Before tagging, make sure the version is updated in `system.json` (`"version"` field). It must match the tag you are about to create.
+The `npm run release` script automates the entire process: it validates your environment, bumps the version in `system.json` and `package.json`, regenerates `package-lock.json`, runs all checks, commits, and creates the git tag.
 
-## Creating a Pre-release
+### Pre-release
 
-Pre-releases can be tagged from any branch except `main` (e.g. `dev`, `feat/xxx`, `fix/xxx`).
+Pre-releases can be created from any branch except `main`/`master`.
 
-1. Switch to your working branch and pull latest
+```bash
+git checkout dev        # or any non-main branch
+git pull
+npm run release -- 13.0.1-alpha.3
+```
 
-   Pre-releases can be created from any branch except `main`/`master`.
+Then push:
 
-   ```
-   git checkout dev        # or any non-main branch
-   git pull
-   ```
+```bash
+git push origin HEAD --tags
+```
 
-2. Update version in `system.json`
+### Stable release
 
-   ```json
-   "version": "13.0.1-alpha.1"
-   ```
+Stable releases must be created from the `main` branch.
 
-3. Commit the version bump
+```bash
+git checkout main
+git pull origin main
+git merge dev
+npm run release -- 13.0.1
+```
 
-   ```
-   git add system.json
-   git commit -m "Bump version to 13.0.1-alpha.1"
-   ```
+Then push:
 
-4. Tag and push
+```bash
+git push origin main --tags
+```
 
-   ```
-   git tag 13.0.1-alpha.1
-   git push origin HEAD --tags
-   ```
+### What `npm run release` does
+
+1. Validates the version format (semver)
+2. Checks the working directory is clean (no uncommitted changes)
+3. Checks you are on the correct branch (main for stable, non-main for pre-release)
+4. Checks the tag does not already exist
+5. Bumps version in `system.json` and `package.json`
+6. Regenerates `package-lock.json`
+7. Runs `npm run check` (lint, tests, CSS build, validators)
+8. Commits the version bump
+9. Creates the git tag
 
 ### Pre-release progression examples
 
@@ -75,53 +87,22 @@ Pre-releases can be tagged from any branch except `main` (e.g. `dev`, `feat/xxx`
                                                                               13.0.0  (stable)
 ```
 
-## Creating a Stable Release
-
-Stable releases are tagged from the `main` branch.
-
-1. Merge dev into main
-
-   ```
-   git checkout main
-   git pull origin main
-   git merge dev
-   ```
-
-2. Update version in `system.json`
-
-   ```json
-   "version": "13.0.0"
-   ```
-
-3. Commit the version bump
-
-   ```
-   git add system.json
-   git commit -m "Release 13.0.0"
-   ```
-
-4. Tag and push
-
-   ```
-   git tag 13.0.0
-   git push origin main --tags
-   ```
-
 ## What the CI Does
 
 When a tag is pushed, a single workflow (`shadowfoundry-release-system.yml`) runs and automatically detects whether it is a pre-release or stable release:
 
-1. **Validates** the tag format (semver pre-release or stable)
-2. **Verifies** the tag is on the correct branch (`main` for stable releases, any non-main branch for pre-releases)
-3. **Patches** `system.json` with the correct version, manifest URL, and download URL
-4. **Cleans up** development files (less, node_modules, config files)
-5. **Creates** a zip archive (`sr5_<tag>.zip`)
-6. **Creates** a GitHub release with:
+1. **Installs** dependencies and **runs** `npm run check` (lint, tests, validators)
+2. **Verifies** the tag is on the correct branch (`main` for stable, non-main for pre-releases)
+3. **Patches** the manifest with the correct version, manifest URL, and download URL
+4. **Creates** a zip archive containing only the release contents (allowlist-based packaging)
+5. **Creates** a GitHub release with:
    - The system zip (`sr5_<tag>.zip`)
    - A standalone `system.json` (for Foundry manifest updates)
-   - Auto-generated release notes with commit history since the previous tag of the same kind
-7. **Updates** the persistent pre-release manifest (for pre-releases only) — uploads `system.json` to a dedicated `pre-release-<identifier>` GitHub release, providing a stable manifest URL per channel
-8. **Sends** the zip to Discord (or posts a download link if over 8 MB)
+   - Auto-generated release notes with chronological commit history since the previous tag of the same kind
+6. **Updates** the persistent pre-release manifest (for pre-releases only) -- uploads `system.json` to a dedicated `pre-release-<identifier>` GitHub release, providing a stable manifest URL per channel
+7. **Sends** a Discord notification:
+   - Public repos: text message with link to the GitHub release page
+   - Private repos: text message + zip file upload (chunked if over 9.9 MB)
 
 ## Manifest URLs
 
