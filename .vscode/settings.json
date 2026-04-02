@@ -6,8 +6,8 @@
   },
   "eslint.validate": ["javascript"],
   "less.compile": {
-    "main": "${workspaceFolder}/styles/sr5.less",
-    "out": "${workspaceFolder}/css/sr5.css",
+    "main": "${workspaceFolder}/styles/shadowrun.less",
+    "out": "${workspaceFolder}/css/shadowrun.css",
     "compress": false,
     "sourceMap": false
   }

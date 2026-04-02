@@ -3,7 +3,7 @@
   "version": "13.0.0-alpha.19",
   "license": "GPL-3.0",
   "scripts": {
-    "build:css": "lessc styles/sr5.less css/sr5.css",
+    "build:css": "lessc styles/shadowrun.less css/shadowrun.css && lessc styles/base.less /dev/null",
     "test": "vitest run --reporter=verbose",
     "test:watch": "vitest --reporter=verbose",
     "test:coverage": "vitest run --coverage",
