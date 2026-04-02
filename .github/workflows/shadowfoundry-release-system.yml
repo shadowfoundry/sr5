@@ -21,7 +21,7 @@ env:
   PROJECT_NAME: sr5
   PROJECT_TITLE: Shadowrun 5 System
   PROJECT_TYPE: system
-  RELEASE_CONTENTS: system.json modules css templates lang assets README.md LICENCE.md BUG_REPORT.md CONTRIBUTING.md
+  RELEASE_CONTENTS: system.json sr5.js modules css templates lang img README.md LICENCE.md BUG_REPORT.md CONTRIBUTING.md
 
 jobs:
   release:
@@ -309,9 +309,17 @@ jobs:
         env:
           WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
           RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
+          IS_PRIVATE: ${{ steps.repo_visibility.outputs.private }}
         run: |
-          RELEASE_URL="<https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}>"
-          BODY=$(printf '%s\n\nDownload: %s' "$RELEASE_NOTES" "$RELEASE_URL")
+          # Build Discord message body
+          BODY="$RELEASE_NOTES"
+          if [ "$IS_PRIVATE" = "true" ]; then
+            # Strip manifest URL and download link (not reachable for private repos)
+            BODY=$(echo "$BODY" | grep -v '^\*\*Manifest URL')
+          else
+            RELEASE_URL="<https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}>"
+            BODY=$(printf '%s\n\nDownload: %s' "$BODY" "$RELEASE_URL")
+          fi
           if [ ${#BODY} -gt 1990 ]; then
             BODY="${BODY:0:1987}..."
           fi
@@ -321,7 +329,7 @@ jobs:
             curl -sf -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
 
           # Upload file(s) only for private repos
-          if [ "${{ steps.repo_visibility.outputs.private }}" = "true" ]; then
+          if [ "$IS_PRIVATE" = "true" ]; then
             ZIP_FILE="${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip"
             if [ "${{ steps.zip_check.outputs.over_limit }}" = "true" ]; then
               # Split into 9.9 MB chunks and upload each
