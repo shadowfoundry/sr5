@@ -8,7 +8,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       include: ['modules/**/*.js'],
-      exclude: ['modules/sr5.js', 'modules/hooks.js'],
+      exclude: ['modules/sr5.js', 'modules/hooks/**'],
       reporter: ['text', 'html'],
       reportsDirectory: './coverage',
     },
