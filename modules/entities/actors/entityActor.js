@@ -57,7 +57,7 @@ export class SR5Actor extends Actor {
     })
 
     // Render the document creation form
-    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.hbs`, {
+    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
       folders,
       name: data.name || '',
       defaultName: this.defaultName({

@@ -691,7 +691,7 @@ export class SR5Item extends Item {
 		
     // Render the document creation form
     const defaultType = data.type || types[0]
-    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.hbs`, {
+    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
       name: data.name || '',
       defaultName: this.defaultName({
         type: defaultType, parent, pack
