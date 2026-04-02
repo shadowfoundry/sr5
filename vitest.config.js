@@ -5,7 +5,6 @@ import {
 export default defineConfig({
   test: {
     setupFiles: ['./tests/setup.js'],
-    passWithNoTests: true,
     coverage: {
       provider: 'v8',
       include: ['modules/**/*.js'],
