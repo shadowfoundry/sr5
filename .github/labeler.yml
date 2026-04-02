@@ -1,6 +1,6 @@
 javascript:
   - changed-files:
-      - any-glob-to-any-file: 'scripts/**/*.js'
+      - any-glob-to-any-file: 'modules/**/*.js'
 
 templates:
   - changed-files:
@@ -21,3 +21,7 @@ assets:
 ci:
   - changed-files:
       - any-glob-to-any-file: '.github/**'
+
+data-models:
+  - changed-files:
+      - any-glob-to-any-file: 'modules/datamodels/**'
