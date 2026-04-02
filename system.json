@@ -16,7 +16,7 @@
     "verified": "13.344"
   },
   "esmodules": [
-    "sr5.js"
+    "modules/sr5.js"
   ],
   "styles": [
     {"src": "css/shadowrun.css", "layer": null}
