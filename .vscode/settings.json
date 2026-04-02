@@ -1,0 +1,14 @@
+{
+  "eslint.enable": true,
+  "eslint.useFlatConfig": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.validate": ["javascript"],
+  "less.compile": {
+    "main": "${workspaceFolder}/less/sr5.less",
+    "out": "${workspaceFolder}/css/sr5.css",
+    "compress": false,
+    "sourceMap": false
+  }
+}
