@@ -1,4 +1,6 @@
-import { ActorSheetSR5 } from "./baseSheet.js"
+import {
+  ActorSheetSR5 
+} from "./baseSheet.js"
 
 /**
  * An Actor sheet for sprite type actors in the Shadowrun 5 system.
@@ -17,13 +19,17 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor", "sprite"],
-    position: { width: 800, height: 618 },
-    window: { resizable: false },
+    position: {
+      width: 800, height: 618 
+    },
+    window: {
+      resizable: false 
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/actors/sprite-sheet.html",
+      template: "systems/sr5/templates/actors/sprite-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },
@@ -45,7 +51,8 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
   }
 
   _prepareSkills(actor) {
-    const activeSkills = {}
+    const activeSkills = {
+    }
     for (let [key, skill] of Object.entries(actor.system.skills)) {
       if (skill.rating.value > 0 || this._shownUntrainedSkills)
         activeSkills[key] = skill
@@ -54,7 +61,8 @@ export class SR5SpriteSheet extends ActorSheetSR5 {
   }
 
   _prepareMatrixActions(actor) {
-    const activeMatrixActions = {}
+    const activeMatrixActions = {
+    }
     let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules")
     let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions")
 

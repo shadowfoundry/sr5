@@ -1,11 +1,25 @@
-import { SR5_UtilityItem } from "./utilityItem.js"
-import { SR5_CharacterUtility } from "../actors/utilityActor.js"
+import {
+  SR5_UtilityItem 
+} from "./utilityItem.js"
+import {
+  SR5_CharacterUtility 
+} from "../actors/utilityActor.js"
 import AbilityTemplate from "../../interface/canvas-template.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js"
-import { SR5_RollMessage } from "../../rolls/roll-message.js"
-import { SR5 } from "../../config.js"
-import { SR5Combat } from "../../system/srcombat.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5_PrepareRollTest 
+} from "../../rolls/roll-prepare.js"
+import {
+  SR5_RollMessage 
+} from "../../rolls/roll-message.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
 
 /**
  * Override and extend the basic :class:`Item` implementation
@@ -20,7 +34,9 @@ export class SR5Item extends Item {
     await super._preCreate(data, options, user)
     const defaultImg = `systems/sr5/img/items/${data.type}.svg`
     if (!data.img || data.img === "icons/svg/item-bag.svg") {
-      this.updateSource({ img: defaultImg })
+      this.updateSource({
+        img: defaultImg 
+      })
     }
   }
 
@@ -200,7 +216,8 @@ export class SR5Item extends Item {
     }
 
     //Etiquette pour afficher le label des jets.
-    const labels = {}
+    const labels = {
+    }
     this.labels = labels
     return item
   }
@@ -264,7 +281,9 @@ export class SR5Item extends Item {
               if (a.system) {
                 // Item-based accessory — shown as interactive toggles, not tags
                 const liveActive = this.actor?.items?.get(a._id)?.system?.isActive ?? a.isActive
-                accessories.push({ name: a.name, _id: a._id, isActive: liveActive })
+                accessories.push({
+                  name: a.name, _id: a._id, isActive: liveActive 
+                })
               } else if (a.name) {
                 // Legacy accessory — shown as tags
                 tags.push([game.i18n.localize(lists.weaponAccessories[a.name]), a.gameEffects])
@@ -488,37 +507,63 @@ export class SR5Item extends Item {
     if (game.combat){
       switch (option){
         case "insert":
-          if (weaponData.ammunition.casing === "clip") action = [{type: "simple", value: 1, source: "insertClip"}]
-          else action = [{type: "complex", value: 1, source: "insertClip"}]
+          if (weaponData.ammunition.casing === "clip") action = [{
+            type: "simple", value: 1, source: "insertClip"
+          }]
+          else action = [{
+            type: "complex", value: 1, source: "insertClip"
+          }]
           break
         case "replace":
           if (weaponData.ammunition.casing === "clip") {
             if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)){
-              action = [{type: "free", value: 1, source: "removeClip"}, {type: "simple", value: 1, source: "insertClip"}]
-            } else action = [{type: "simple", value: 2, source: "replaceClip"}]
+              action = [{
+                type: "free", value: 1, source: "removeClip"
+              }, {
+                type: "simple", value: 1, source: "insertClip"
+              }]
+            } else action = [{
+              type: "simple", value: 2, source: "replaceClip"
+            }]
           }
-          else action = [{type: "complex", value: 2, source: "replaceClip"}]
+          else action = [{
+            type: "complex", value: 2, source: "replaceClip"
+          }]
           break
         case "insertRound":
-          if (weaponData.type === "bow")  action = [{type: "simple", value: 1, source: "insertRound"}]
-          else action = [{type: "complex", value: 1, source: "insertRound"}]
+          if (weaponData.type === "bow")  action = [{
+            type: "simple", value: 1, source: "insertRound"
+          }]
+          else action = [{
+            type: "complex", value: 1, source: "insertRound"
+          }]
           break
         case "insertRoundFull":
-          if (weaponData.ammunition.casing === "cylinder") action = [{type: "complex", value: 1, source: "insertRound"}]
+          if (weaponData.ammunition.casing === "cylinder") action = [{
+            type: "complex", value: 1, source: "insertRound"
+          }]
           else return ui.notifications.warn(game.i18n.format('SR5.WARN_NotPossibleInCombat'))
           break
         case "remove":
           if (weaponData.ammunition.casing === "clip") {
-            if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{type: "free", value: 1, source: "removeClip"}]
-            else action = [{type: "simple", value: 1, source: "removeClip"}]
+            if (weaponData.isWireless && (weaponData.accessory.find(a => a.name === "smartgunSystemInternal" || a.name === "smartgunSystemExternal")) && (actor.system.specialProperties.smartlink.value > 0)) action = [{
+              type: "free", value: 1, source: "removeClip"
+            }]
+            else action = [{
+              type: "simple", value: 1, source: "removeClip"
+            }]
           }
-          else action = [{type: "complex", value: 1, source: "removeClip"}]
+          else action = [{
+            type: "complex", value: 1, source: "removeClip"
+          }]
           break
       }
 
       //chek if actor has enought action left
       for (let a of action){
-        if (a.value > actor.system.specialProperties.actions[a.type].current) return ui.notifications.warn(game.i18n.format('SR5.WARN_NotEnoughAction', {value: a.value, action: game.i18n.localize(SR5.actionTypes[a.type])}))
+        if (a.value > actor.system.specialProperties.actions[a.type].current) return ui.notifications.warn(game.i18n.format('SR5.WARN_NotEnoughAction', {
+          value: a.value, action: game.i18n.localize(SR5.actionTypes[a.type])
+        }))
       }
     }
 
@@ -526,7 +571,9 @@ export class SR5Item extends Item {
     if (option === "remove"){
       weaponData.ammunition.value = 0
       weaponData.ammunition.clipInserted = false
-      this.update({system: weaponData})
+      this.update({
+        system: weaponData
+      })
 
       //Update actions in combat
       if (game.combat){
@@ -538,11 +585,14 @@ export class SR5Item extends Item {
 
     //Check if actor has good type of rounds in inventory
     let ammo = actor.items.find((i) => i.type === "itemAmmunition" && (i.system.type === weaponData.ammunition.type) && (i.system.class === weaponData.type))
-    let ammoData = ammo ? foundry.utils.duplicate(ammo.system) : {}
+    let ammoData = ammo ? foundry.utils.duplicate(ammo.system) : {
+    }
 
     if (!ammo || ammo.system.quantity <= 0) {
       const confirmed = await foundry.applications.api.DialogV2.confirm({
-        window: { title: game.i18n.localize('SR5.DIALOG_WarningNoAmmoTypeTitle') },
+        window: {
+          title: game.i18n.localize('SR5.DIALOG_WarningNoAmmoTypeTitle') 
+        },
         content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + 
           game.i18n.format('SR5.DIALOG_WarningNoAmmoType', 
             {
@@ -586,12 +636,16 @@ export class SR5Item extends Item {
 
 
     //update weapon
-    this.update({system: weaponData})
+    this.update({
+      system: weaponData
+    })
 
     //Update ammo in inventory if needed
     if (!falseAmmo){
       ammoData.quantity -= ammoNeeded
-      ammo.update({system: ammoData})
+      ammo.update({
+        system: ammoData
+      })
     }
 
     //Update actions in combat
@@ -622,7 +676,11 @@ export class SR5Item extends Item {
   }
 
   /** Overide Item's create Dialog to hide certain items and sort them alphabetically*/
-  static async createDialog(data={}, {parent=null, pack=null, ..._options}={}) {
+  static async createDialog(data={
+  }, {
+    parent=null, pack=null, ..._options
+  }={
+  }) {
     // Collect data
     const documentName = this.metadata.name
     const hiddenTypes = ["itemKarma", "itemMark", "itemNuyen", "itemEffect", "base"]
@@ -633,9 +691,11 @@ export class SR5Item extends Item {
 		
     // Render the document creation form
     const defaultType = data.type || types[0]
-    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
+    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.hbs`, {
       name: data.name || '',
-      defaultName: this.defaultName({type: defaultType, parent, pack}),
+      defaultName: this.defaultName({
+        type: defaultType, parent, pack
+      }),
       folder: data.folder,
       folders: folders,
       hasFolders: folders.length >= 1,
@@ -644,14 +704,17 @@ export class SR5Item extends Item {
         const label = CONFIG[documentName]?.typeLabels?.[t] ?? t
         obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t
         return SR5_EntityHelpers.sortObjectValue(obj)
-      }, {}),
+      }, {
+      }),
       hasTypes: types.length > 1,
       presets: CONFIG.Cards.presets
     })
 		
     // Render the confirmation dialog window
     return foundry.applications.api.DialogV2.wait({
-      window: { title },
+      window: {
+        title 
+      },
       content: html,
       buttons: [
         {
@@ -662,15 +725,21 @@ export class SR5Item extends Item {
           callback: async (event, button, dialog) => {
             const form = dialog.element.querySelector("form")
             const fd = new foundry.applications.ux.FormDataExtended(form)
-            foundry.utils.mergeObject(data, fd.object, {inplace: true})
+            foundry.utils.mergeObject(data, fd.object, {
+              inplace: true
+            })
             if ( !data.folder ) delete data["folder"]
-            if ( !data.name?.trim() ) data.name = this.defaultName({type: data.type, parent, pack})
+            if ( !data.name?.trim() ) data.name = this.defaultName({
+              type: data.type, parent, pack
+            })
             const preset = CONFIG.Cards.presets[data.preset]
             if ( preset && (preset.type === data.type) ) {
               const presetData = await fetch(preset.src).then(r => r.json())
               data = foundry.utils.mergeObject(presetData, data)
             }
-            return this.create(data, {parent, pack, renderSheet: true})
+            return this.create(data, {
+              parent, pack, renderSheet: true
+            })
           },
         },
       ],

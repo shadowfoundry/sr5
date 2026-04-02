@@ -205,7 +205,9 @@ export class SR5_SystemHelpers {
     if (templateItem) {
       //token position is based on top left grid.
       //player will probably launch grenade on the token, so we need to tweak the position of the grenade template
-      templatePosition = { x: templateItem.x - (gridUnit/2), y: templateItem.y - (gridUnit/2)}
+      templatePosition = {
+        x: templateItem.x - (gridUnit/2), y: templateItem.y - (gridUnit/2)
+      }
     }
     return templatePosition
   }
@@ -221,7 +223,7 @@ export class SR5_UiModifications {
   }
 
   static async addHelpWindow() {
-    let template = "systems/sr5/templates/interface/help.html"
+    let template = "systems/sr5/templates/interface/help.hbs"
     const html = await foundry.applications.handlebars.renderTemplate(template)
 
     if (game.settings.get("sr5", "sr5Help.active")) {

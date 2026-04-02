@@ -1,5 +1,9 @@
-import {BLOCK_REGISTRY, BLOCK_SIZE, BLOCK_MIN_COLUMNS, TAB_ICONS} from './block-registry.js'
-import { getDefaultLayout } from './default-layout.js'
+import {
+  BLOCK_REGISTRY, BLOCK_SIZE, BLOCK_MIN_COLUMNS, TAB_ICONS
+} from './block-registry.js'
+import {
+  getDefaultLayout 
+} from './default-layout.js'
 
 /**
  * Sheet customization dialog — panel-first architecture.
@@ -11,7 +15,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   foundry.applications.api.ApplicationV2
 ) {
 
-  constructor(actor, options = {}) {
+  constructor(actor, options = {
+  }) {
     super(options)
     this.actor = actor
     this._draft = this._buildDraft()
@@ -25,8 +30,12 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     id: 'sr5-sheet-config-{id}',
     tag: 'form',
     classes: ['sr5', 'sr-sheet-config'],
-    position: { width: 750, height: 750 },
-    window: { title: 'SR5.CustomizeSheetDisplay', resizable: true },
+    position: {
+      width: 750, height: 750 
+    },
+    window: {
+      title: 'SR5.CustomizeSheetDisplay', resizable: true 
+    },
     actions: {
       addPanel: SR5SheetConfigDialog._onAddPanel,
       deletePanel: SR5SheetConfigDialog._onDeletePanel,
@@ -51,7 +60,11 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     },
   }
 
-  static PARTS = {content: { template: 'systems/sr5/templates/interface/sheet-config.html' }}
+  static PARTS = {
+    content: {
+      template: 'systems/sr5/templates/interface/sheet-config.hbs' 
+    }
+  }
 
   /* ---------------------------------------------------------------------- */
   /*  Singleton per actor                                                    */
@@ -67,7 +80,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       dialog.bringToFront()
       return dialog
     }
-    const opts = {}
+    const opts = {
+    }
     const saved = SR5SheetConfigDialog._positions.get(key)
     if (saved) opts.position = saved
     dialog = new SR5SheetConfigDialog(actor, opts)
@@ -96,7 +110,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   /* ---------------------------------------------------------------------- */
 
   _buildDraft() {
-    const prefs = this.actor.system.sheetPreferences ?? {}
+    const prefs = this.actor.system.sheetPreferences ?? {
+    }
     const draft = (prefs.customLayout?.panels?.length) ?
       foundry.utils.deepClone(prefs.customLayout) :
       getDefaultLayout(this.actor.sheet?.constructor?.name ?? 'SR5ActorSheet')
@@ -118,7 +133,8 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const draft = this._draft
 
     // Count how many times each block is placed
-    const assignedCounts = {}
+    const assignedCounts = {
+    }
     for (const panel of (draft.panels ?? [])) {
       for (const tab of (panel.tabs ?? [])) {
         for (const block of (tab.blocks ?? [])) {
@@ -128,7 +144,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     }
 
     // Build block catalog grouped by size
-    const catalogBlocks = { single: [], double: [], triple: [] }
+    const catalogBlocks = {
+      single: [], double: [], triple: [] 
+    }
     for (const [blockId, def] of Object.entries(BLOCK_REGISTRY)) {
       catalogBlocks[def.size].push({
         id: blockId,
@@ -198,7 +216,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       label: game.i18n.localize(`SR5.SheetConfig.Icon.${key}`),
     }))
 
-    return { catalogBlocks, panels, icons, canAddPanel }
+    return {
+      catalogBlocks, panels, icons, canAddPanel 
+    }
   }
 
   /* ---------------------------------------------------------------------- */
@@ -319,7 +339,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       // Close on scroll
       const scrollParent = target.closest('.sr-config-panels-list')
       const onScroll = () => { picker.classList.remove('open'); scrollParent?.removeEventListener('scroll', onScroll) }
-      scrollParent?.addEventListener('scroll', onScroll, { once: true })
+      scrollParent?.addEventListener('scroll', onScroll, {
+        once: true 
+      })
     }
   }
 
@@ -369,7 +391,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const blockUid = el.dataset.blockUid ?? null
     const tabId = el.closest('[data-tab-id]')?.dataset.tabId ?? null
     const panelId = el.closest('[data-panel-id]')?.dataset.panelId ?? null
-    event.dataTransfer.setData('application/sr5-block', JSON.stringify({blockId, blockUid, panelId, tabId}))
+    event.dataTransfer.setData('application/sr5-block', JSON.stringify({
+      blockId, blockUid, panelId, tabId
+    }))
     event.dataTransfer.effectAllowed = 'move'
     el.classList.add('sr-config-dragging')
     event.stopPropagation()
@@ -408,7 +432,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     try { data = JSON.parse(event.dataTransfer.getData('application/sr5-block')) } catch { return }
     if (!data?.blockId) return
 
-    const { blockId, blockUid, panelId: sourcePanelId, tabId: sourceTabId } = data
+    const {
+      blockId, blockUid, panelId: sourcePanelId, tabId: sourceTabId 
+    } = data
     const def = BLOCK_REGISTRY[blockId]
     if (!def) return
 
@@ -465,7 +491,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
         }
       }
 
-      const blockEntry = { id: blockId, uid: blockUid ?? foundry.utils.randomID() }
+      const blockEntry = {
+        id: blockId, uid: blockUid ?? foundry.utils.randomID() 
+      }
       if (def.size === BLOCK_SIZE.SINGLE && targetPanel.width > 1) {
         blockEntry.column = 0
       } else if (def.size === BLOCK_SIZE.DOUBLE && targetPanel.width === 3) {
@@ -487,7 +515,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const el = event.currentTarget
     const tabId = el.dataset.tabId
     const panelId = el.closest('[data-panel-id]')?.dataset.panelId
-    event.dataTransfer.setData('application/sr5-tab', JSON.stringify({ tabId, panelId }))
+    event.dataTransfer.setData('application/sr5-tab', JSON.stringify({
+      tabId, panelId 
+    }))
     event.dataTransfer.effectAllowed = 'move'
     el.classList.add('sr-config-dragging')
     event.stopPropagation()
@@ -517,7 +547,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     if (!data?.tabId) return
     event.preventDefault()
 
-    const { tabId: draggedTabId, panelId: sourcePanelId } = data
+    const {
+      tabId: draggedTabId, panelId: sourcePanelId 
+    } = data
     const targetTabId = event.currentTarget.dataset.tabId
     const targetPanelId = event.currentTarget.closest('[data-panel-id]')?.dataset.panelId
     if (!targetTabId || draggedTabId === targetTabId) return
@@ -549,7 +581,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     if (event.target.closest('.sr-config-tab-section') || event.target.closest('.sr-config-block')) return
     const el = event.currentTarget
     const panelId = el.dataset.panelId
-    event.dataTransfer.setData('application/sr5-panel', JSON.stringify({ panelId }))
+    event.dataTransfer.setData('application/sr5-panel', JSON.stringify({
+      panelId 
+    }))
     event.dataTransfer.effectAllowed = 'move'
     el.classList.add('sr-config-dragging')
   }
@@ -578,7 +612,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     if (!data?.panelId) return
     event.preventDefault()
 
-    const { panelId: draggedPanelId } = data
+    const {
+      panelId: draggedPanelId 
+    } = data
     const targetPanelId = event.currentTarget.dataset.panelId
     if (!targetPanelId || draggedPanelId === targetPanelId) return
 
@@ -623,7 +659,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const blockCount = panel.tabs?.reduce((s, t) => s + (t.blocks?.length ?? 0), 0) ?? 0
     if (blockCount > 0) {
       const yes = await foundry.applications.api.DialogV2.confirm({
-        window: { title: 'Delete Panel' },
+        window: {
+          title: 'Delete Panel' 
+        },
         content: '<p>This panel contains blocks. Delete anyway?</p>',
       })
       if (!yes) return
@@ -657,7 +695,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
       }
       if (removeCount > 0) {
         const yes = await foundry.applications.api.DialogV2.confirm({
-          window: { title: 'Reduce Panel Width' },
+          window: {
+            title: 'Reduce Panel Width' 
+          },
           content: `<p>${removeCount} block(s) will be removed because they no longer fit. Continue?</p>`,
         })
         if (!yes) return
@@ -708,7 +748,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
     const tab = panel.tabs.find(t => t.id === tabId)
     if (tab?.blocks?.length) {
       const yes = await foundry.applications.api.DialogV2.confirm({
-        window: { title: 'Delete Tab' },
+        window: {
+          title: 'Delete Tab' 
+        },
         content: '<p>This tab contains blocks. Delete anyway?</p>',
       })
       if (!yes) return
@@ -810,17 +852,23 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
 
   static async _onClearAll(_event) {
     const yes = await foundry.applications.api.DialogV2.confirm({
-      window: { title: 'Clear All' },
+      window: {
+        title: 'Clear All' 
+      },
       content: '<p>Remove all panels and blocks? This cannot be undone.</p>',
     })
     if (!yes) return
-    this._draft = { panels: [] }
+    this._draft = {
+      panels: [] 
+    }
     this.render()
   }
 
   static async _onResetDefaults(_event) {
     const yes = await foundry.applications.api.DialogV2.confirm({
-      window: { title: 'Reset to Defaults' },
+      window: {
+        title: 'Reset to Defaults' 
+      },
       content: '<p>Reset the layout to defaults? Any custom changes will be lost.</p>',
     })
     if (!yes) return
@@ -833,7 +881,9 @@ export class SR5SheetConfigDialog extends foundry.applications.api.HandlebarsApp
   /* ---------------------------------------------------------------------- */
 
   async _persistDraft() {
-    await this.actor.update({'system.sheetPreferences.customLayout': foundry.utils.deepClone(this._draft)})
+    await this.actor.update({
+      'system.sheetPreferences.customLayout': foundry.utils.deepClone(this._draft)
+    })
   }
 
   static async _onApply(_event) {

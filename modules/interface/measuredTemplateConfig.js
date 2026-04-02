@@ -1,17 +1,25 @@
-import { SR5 } from "../config.js"
+import {
+  SR5 
+} from "../config.js"
 
 export default class SR5MeasuredTemplateConfig extends foundry.applications.sheets.MeasuredTemplateConfig {
 
   static PARTS = {
     ...foundry.applications.sheets.MeasuredTemplateConfig.PARTS,
-    sr5tabs: { template: "systems/sr5/templates/interface/template-sr5-tabs.html" }
+    sr5tabs: {
+      template: "systems/sr5/templates/interface/template-sr5-tabs.hbs" 
+    }
   }
 
   static TABS = {
     sheet: {
       tabs: [
-        { id: "main", icon: "fa-solid fa-ruler-combined", label: "CONTROLS.MeasureConfigHint" },
-        { id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" },
+        {
+          id: "main", icon: "fa-solid fa-ruler-combined", label: "CONTROLS.MeasureConfigHint" 
+        },
+        {
+          id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" 
+        },
       ],
       initial: "main"
     }

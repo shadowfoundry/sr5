@@ -1,17 +1,43 @@
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5_UtilityItem } from "../items/utilityItem.js"
-import { SR5_CharacterUtility } from "./utilityActor.js"
-import { SR5_SocketHandler } from "../../socket.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5_UtilityItem 
+} from "../items/utilityItem.js"
+import {
+  SR5_CharacterUtility 
+} from "./utilityActor.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
 import SR5_PanDialog from "../../interface/pan-dialog.js"
-import { SR5 } from "../../config.js"
-import { SR5_ActorHelper } from "./entityActor-helpers.js"
-import { SR5_RollMessage } from "../../rolls/roll-message.js"
-import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js"
-import { SR5Combat } from "../../system/srcombat.js"
-import { computeLayout } from "../../interface/compute-layout.js"
-import { SR5SheetConfigDialog } from "../../interface/sheet-config-dialog.js"
-import { enhanceSelects } from "../../helpers/enhance-selects.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_ActorHelper 
+} from "./entityActor-helpers.js"
+import {
+  SR5_RollMessage 
+} from "../../rolls/roll-message.js"
+import {
+  SR5_PrepareRollTest 
+} from "../../rolls/roll-prepare.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
+import {
+  computeLayout 
+} from "../../interface/compute-layout.js"
+import {
+  SR5SheetConfigDialog 
+} from "../../interface/sheet-config-dialog.js"
+import {
+  enhanceSelects 
+} from "../../helpers/enhance-selects.js"
 
 /**
  * Extend the basic ActorSheet class to do all the SR5 things!
@@ -23,7 +49,9 @@ import { enhanceSelects } from "../../helpers/enhance-selects.js"
 export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.sheets.ActorSheetV2
 ) {
-  static MODES = Object.freeze({ PLAY: 1, EDIT: 2 })
+  static MODES = Object.freeze({
+    PLAY: 1, EDIT: 2 
+  })
 
   _mode = ActorSheetSR5.MODES.EDIT
 
@@ -37,7 +65,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor"],
-    form: { submitOnChange: true },
+    form: {
+      submitOnChange: true 
+    },
     // Note: DragDrop config is an AppV1 feature. In AppV2 we bind dragstart manually in _onRender.
     actions: {
       toggleMode: ActorSheetSR5._onToggleMode,
@@ -55,7 +85,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (!button || button.classList.contains("active") || (event.button !== 0)) return
     const tab = button.dataset.tab
     const group = button.dataset.group
-    this.changeTab(tab, group, { event })
+    this.changeTab(tab, group, {
+      event 
+    })
   }
 
   /** @override — refresh scroll indicators when tabs change */
@@ -73,14 +105,18 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       const wrap = panel.closest('.sr-panel-wrap')
       if (!wrap) continue
       const update = () => {
-        const { scrollTop, scrollHeight, clientHeight } = panel
+        const {
+          scrollTop, scrollHeight, clientHeight 
+        } = panel
         wrap.classList.toggle('can-scroll-up', scrollTop > 2)
         wrap.classList.toggle('can-scroll-down', scrollTop + clientHeight < scrollHeight - 2)
       }
       update()
       if (!panel.dataset.scrollFade) {
         panel.dataset.scrollFade = '1'
-        panel.addEventListener('scroll', update, { passive: true })
+        panel.addEventListener('scroll', update, {
+          passive: true 
+        })
       }
     }
   }
@@ -92,7 +128,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (!this.isEditable) return
     const newMode = this.isPlayMode ? ActorSheetSR5.MODES.EDIT : ActorSheetSR5.MODES.PLAY
     game.user?.setFlag("sr5", `playMode.${this.actor.id}`, newMode)
-    await this.render({ mode: newMode })
+    await this.render({
+      mode: newMode 
+    })
   }
 
   static _onCustomizeDisplay(event) {
@@ -144,7 +182,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     context.owner = this.actor.isOwner
     context.editable = this.isEditable
     context.isEmbedded = true  // Items rendered on actor sheets are always embedded
-    context.filters = this._filters || {}
+    context.filters = this._filters || {
+    }
     context.lists = this.actor.system.lists
     context.isPlay = this.isPlayMode
     // Provide cssClass for template compatibility
@@ -168,7 +207,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	 * Each panel gets its own independent tab group.
 	 */
   _computeSheetLayout(actor) {
-    const prefs = actor.system.sheetPreferences ?? {}
+    const prefs = actor.system.sheetPreferences ?? {
+    }
     const layout = computeLayout(this.constructor.name, prefs)
 
     // Sync Foundry's tabGroups — one independent group per panel
@@ -265,7 +305,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
     // Activate initial tabs for all groups (AppV2 doesn't auto-activate on render)
     for (const [group, tab] of Object.entries(this.tabGroups)) {
-      if (tab) this.changeTab(tab, group, { force: true, updatePosition: false })
+      if (tab) this.changeTab(tab, group, {
+        force: true, updatePosition: false 
+      })
     }
 
     // Tab nav click handlers — explicit listeners because data-action="tab" doesn't
@@ -277,7 +319,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
         const tab = link.dataset.tab
         const group = link.dataset.group
         if (tab && group && !link.classList.contains("active")) {
-          this.changeTab(tab, group, { event })
+          this.changeTab(tab, group, {
+            event 
+          })
         }
       })
     })
@@ -484,9 +528,15 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
           const deplieEl = li.querySelector(".deplie")
           if (deplieEl) {
             // Simulate a click event targeted at the deplie element itself (not a child)
-            const syntheticEvent = new MouseEvent("click", { bubbles: false })
-            Object.defineProperty(syntheticEvent, 'target', { value: deplieEl })
-            Object.defineProperty(syntheticEvent, 'currentTarget', { value: deplieEl })
+            const syntheticEvent = new MouseEvent("click", {
+              bubbles: false 
+            })
+            Object.defineProperty(syntheticEvent, 'target', {
+              value: deplieEl 
+            })
+            Object.defineProperty(syntheticEvent, 'currentTarget', {
+              value: deplieEl 
+            })
             this._onItemSummary(syntheticEvent)
           }
         }
@@ -496,7 +546,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
   async _onDragStart(event) {
     if (!canvas.ready) return
-    let dragData = {}
+    let dragData = {
+    }
     // v13: DragDrop uses event delegation, so event.currentTarget is the app root.
     // Use event.target.closest() to find the actual dragged element.
     const target = event.target.closest('.draggableAttribute, [data-skill], [data-matrix], [data-resonance]') ?? event.target
@@ -559,7 +610,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (dropData.valueFromCollection){
       if (!dropZone) return
       const existingValue = parseInt(dropZone.dataset.droppedvalue)
-      const updates = {}
+      const updates = {
+      }
       // Release the existing value back to the collection if the slot was occupied.
       // Read from prepared data (this.actor.system) since collection values are derived.
       if (existingValue > 0) {
@@ -590,7 +642,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       }
       await this.actor.update(updates)
       const actorId = this.actor.isToken ? this.actor.token.id : this.actor.id
-      SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"switchAttributes"}], false)
+      SR5Combat.changeActionInCombat(actorId, [{
+        type: "free", value: 1, source:"switchAttributes"
+      }], false)
       return
     }
 
@@ -609,7 +663,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       }
       if (item){
         let value = foundry.utils.getProperty(item, "system.isActive")
-        item.update({"system.isActive": !value})
+        item.update({
+          "system.isActive": !value
+        })
       }
     }
   }
@@ -641,7 +697,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
 
     // v13: spread dataset to plain object (DOMStringMap doesn't deep-clone reliably)
-    const systemData = {...header.dataset}
+    const systemData = {
+      ...header.dataset
+    }
     delete systemData.title
     delete systemData.type
 
@@ -696,7 +754,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     // check window state
     const wasRendered = item.sheet.rendered
     SR5_SystemHelpers.srLog(3, "item.sheet", item.sheet)
-    item.sheet.render({ force: true })
+    item.sheet.render({
+      force: true 
+    })
     SR5_SystemHelpers.srLog(3, "item.sheet", item.sheet)
     // if window already exists, bring it to top
     if (wasRendered) item.sheet.bringToTop()
@@ -721,8 +781,12 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       }
     } else {
       const confirmed = await foundry.applications.api.DialogV2.confirm({
-        window: { title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}` },
-        content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name}) + "</p>",
+        window: {
+          title: `${game.i18n.localize('SR5.Delete')} '${item.name}'${game.i18n.localize('SR5.QuestionMark')}` 
+        },
+        content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + game.i18n.format('SR5.DIALOG_WarningPermanentDelete', {
+          type: game.i18n.localize("ITEM.Type" + item.type.replace(/^\w/, c => c.toUpperCase())), actor: this.actor.name, itemName: item.name
+        }) + "</p>",
       })
       if (confirmed) {
         item.delete()
@@ -768,7 +832,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       // convert back manually to array... so stupid to have to do this.
       if (typeof removed === "object") { removed = Object.values(removed) } 
       removed.splice(Number(li.dataset.key), 1)
-      return this.actor.update({[key]: removed })
+      return this.actor.update({
+        [key]: removed 
+      })
     }
   }
 
@@ -789,7 +855,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (!li) return
     let item = this.actor.items.get(li.dataset.itemId)
     if (!item) return
-    let expandData = await item.getExpandData({ secrets: this.actor.isOwner })
+    let expandData = await item.getExpandData({
+      secrets: this.actor.isOwner 
+    })
 
     if (!expandData.properties.length && (expandData.gameEffect === "" || !expandData.gameEffect)) return
     // Déplie les informations de jeu pour un Objet.
@@ -849,7 +917,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
           const accId = event.currentTarget.dataset.accessoryId
           const accItem = this.actor.items.get(accId)
           if (accItem) {
-            await accItem.update({"system.isActive": !accItem.system.isActive})
+            await accItem.update({
+              "system.isActive": !accItem.system.isActive
+            })
           }
         })
         el.addEventListener("mousedown", (event) => {
@@ -1086,7 +1156,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
               interactionDiceResult = await roll.evaluate()
 
               for (let d of interactionDrug){						
-                await d.update({"system.interact": true})
+                await d.update({
+                  "system.interact": true
+                })
                 drugs.push(d.name)
                 console.log("for (let d of interactionDrug) : " + JSON.stringify(d))
               }
@@ -1104,7 +1176,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
                     let duration, onUseDuration 
                     if (d.system.handleShot.duration) duration = d.system.handleShot.duration * 2
                     if (d.system.onUse.duration) onUseDuration = `${d.system.handleShot.duration * 2} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationType])}` 
-                    let updatedDrug = {}
+                    let updatedDrug = {
+                    }
                     foundry.utils.mergeObject(updatedDrug, {
                       "system.handleShot.duration": duration || 0,
                       "system.onUse.duration": onUseDuration || 0,
@@ -1133,7 +1206,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
                     let contrecoup, onUseContrecoup 
                     if (d.system.handleShot.durationContrecoup) contrecoup = d.system.handleShot.durationContrecoup * 2
                     if (d.system.onUse.contrecoup) onUseContrecoup = `${d.system.handleShot.durationContrecoup} ${game.i18n.localize(SR5.extendedIntervals[d.system.handleShot.durationContrecoupType])}`
-                    let updatedDrug = {}
+                    let updatedDrug = {
+                    }
                     foundry.utils.mergeObject(updatedDrug, {
                       "system.handleShot.durationContrecoup": contrecoup || 0,
                       "system.onUse.contrecoup": onUseContrecoup || 0,
@@ -1267,7 +1341,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     //Manage actions
     if (item.type === "itemFocus" && target === "system.isActive"){
       if(oldValue === false) {
-        actions = [{type: "simple", value: 1, source: "activateFocus"}]
+        actions = [{
+          type: "simple", value: 1, source: "activateFocus"
+        }]
         actorData.specialProperties.actions.simple.current -=1
 
         // Handle focus addicition
@@ -1288,19 +1364,29 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
         }
 
       } else {
-        actions = [{type: "free", value: 1, source: "desactivateFocus"}]
+        actions = [{
+          type: "free", value: 1, source: "desactivateFocus"
+        }]
         actorData.specialProperties.actions.free.current -=1
 
       }
     }
     if (item.type === "itemProgram" && target === "system.isActive"){
-      if(oldValue === false) actions = [{type: "free", value: 1, source: "loadProgram"}]
-      else actions = [{type: "free", value: 1, source: "unloadProgram"}]
+      if(oldValue === false) actions = [{
+        type: "free", value: 1, source: "loadProgram"
+      }]
+      else actions = [{
+        type: "free", value: 1, source: "unloadProgram"
+      }]
       actorData.specialProperties.actions.free.current -=1
     }
     if (target === "system.wirelessTurnedOn"){
-      if(oldValue === false) actions = [{type: "free", value: 1, source: "turnOnWifi"}]
-      else actions = [{type: "free", value: 1, source: "turnOffWifi"}]
+      if(oldValue === false) actions = [{
+        type: "free", value: 1, source: "turnOnWifi"
+      }]
+      else actions = [{
+        type: "free", value: 1, source: "turnOffWifi"
+      }]
       actorData.specialProperties.actions.simple.current -=1
     }
 
@@ -1326,7 +1412,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
         if (item.system.targetOfEffect.length){
           for (let e of item.system.targetOfEffect){
             if (!game.user?.isGM) {
-              await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {targetItem: e})
+              await SR5_SocketHandler.emitForGM("deleteSustainedEffect", {
+                targetItem: e
+              })
             } else {
               await SR5_ActorHelper.deleteSustainedEffect(e)
             }
@@ -1432,7 +1520,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
     foundry.utils.setProperty(actor, target, value)
     let actorData = actor.system
-    this.actor.update({'system': actorData})
+    this.actor.update({
+      'system': actorData
+    })
   }
 
 
@@ -1584,7 +1674,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
   //Handle controler choice of a drone / Vehicle
   async _onChooseControler(_event){
     //let worldActors = await Array.from(game.actors);
-    let controlerList = {}
+    let controlerList = {
+    }
     for (let a of game.actors){
       if (a.system.type === "actorPc" || (a.system.type === "actorGrunt" && a.system.token.actorLink)){
         if (game.user.isGM) {
@@ -1594,22 +1685,30 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
         }
       }
     }
-    let dialogData = {controlerList: controlerList}
-    const ctrlDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseControler.html", dialogData)
+    let dialogData = {
+      controlerList: controlerList
+    }
+    const ctrlDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseControler.hbs", dialogData)
     const ctrlResult = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseControler') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseControler') 
+      },
       content: ctrlDlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -1658,16 +1757,24 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
 
     //manage actions
-    if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source:"loadAgent"}])
-    else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSprite"}])
-    else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"callSpirit"}])
+    if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{
+      type: "free", value: 1, source:"loadAgent"
+    }])
+    else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source:"callSprite"
+    }])
+    else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source:"callSpirit"
+    }])
   }
 
   //
   async _OnDismissActor(event){
     event.preventDefault()
     if (!game.user?.isGM) {
-      await SR5_SocketHandler.emitForGM("dismissSidekick", {actor: this.actor.toObject(false)})
+      await SR5_SocketHandler.emitForGM("dismissSidekick", {
+        actor: this.actor.toObject(false)
+      })
     } else {
       await SR5_ActorHelper.dimissSidekick(this.actor.toObject(false))
     }
@@ -1689,25 +1796,37 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
     if(sidekick !== undefined) {
       if (!game.user?.isGM) {
-        await SR5_SocketHandler.emitForGM("dismissSidekick", {actor: sidekick})
+        await SR5_SocketHandler.emitForGM("dismissSidekick", {
+          actor: sidekick
+        })
       } else {
         await SR5_ActorHelper.dimissSidekick(sidekick)
       }
     } else {
-      item.update({"system.isCreated": false})
+      item.update({
+        "system.isCreated": false
+      })
     }
 
     //manage actions
     if (this.actor.isToken) actorId = this.actor.token.id
-    if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{type: "free", value: 1, source: "unloadAgent"}])
-    else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSprite"}])
-    else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source:"dismissSpirit"}])
+    if (item.type === "itemProgram") SR5Combat.changeActionInCombat(actorId, [{
+      type: "free", value: 1, source: "unloadAgent"
+    }])
+    else if (item.type === "itemSprite") SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source:"dismissSprite"
+    }])
+    else if (item.type === "itemSpirit") SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source:"dismissSpirit"
+    }])
   }
 
   async _onAddItemToPan(_event){
     let actor = this.actor,
-      list = {},
-      actorList = {},
+      list = {
+      },
+      actorList = {
+      },
       baseActor = this.actor.id
 
     if (actor.system.matrix.pan.current === actor.system.matrix.pan.max){
@@ -1744,7 +1863,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       actorList: actorList,
     }
 
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.html", dialogData)
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/addItemToPan.hbs", dialogData)
     const result = await SR5_PanDialog.create({
       title: game.i18n.localize('SR5.ChooseItemToPan'),
       content: dlg,
@@ -1802,7 +1921,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (this.actor.isToken) actorId = this.actor.token.id
 
     //manage actions
-    SR5Combat.changeActionInCombat(actorId, [{type: "simple", value: 1, source: "switchInitToMatrix"}])
+    SR5Combat.changeActionInCombat(actorId, [{
+      type: "simple", value: 1, source: "switchInitToMatrix"
+    }])
   }
 
   _onChangeSilentMode(_event){
@@ -1810,7 +1931,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (this.actor.isToken) actorId = this.actor.token.id
 		
     //manage actions
-    let action = [{type: "free", value: 1, source: "changeSilentMode"}]
+    let action = [{
+      type: "free", value: 1, source: "changeSilentMode"
+    }]
     //action = [{type: "simple", value: 1}];
     SR5Combat.changeActionInCombat(actorId, action)
   }

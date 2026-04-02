@@ -1,8 +1,18 @@
-import { SR5 } from "../../config.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5_UtilityItem } from "./utilityItem.js"
-import { computeItemLayout } from "../../interface/compute-item-layout.js"
-import { enhanceSelects } from "../../helpers/enhance-selects.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5_UtilityItem 
+} from "./utilityItem.js"
+import {
+  computeItemLayout 
+} from "../../interface/compute-item-layout.js"
+import {
+  enhanceSelects 
+} from "../../helpers/enhance-selects.js"
 
 // Item types that include a footer (condition monitors, price/availability)
 const ITEM_FOOTER_TYPES = new Set([
@@ -20,7 +30,9 @@ const ITEM_FOOTER_TYPES = new Set([
 export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.sheets.ItemSheetV2
 ) {
-  static MODES = Object.freeze({ PLAY: 1, EDIT: 2 })
+  static MODES = Object.freeze({
+    PLAY: 1, EDIT: 2 
+  })
 
   _mode = SR5ItemSheet.MODES.EDIT
 
@@ -29,15 +41,23 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "SR-Item"],
-    position: { width: 650, height: 445 },
-    window: { resizable: false },
-    form: { submitOnChange: true },
-    actions: {toggleMode: SR5ItemSheet._onToggleMode},
+    position: {
+      width: 650, height: 445 
+    },
+    window: {
+      resizable: false 
+    },
+    form: {
+      submitOnChange: true 
+    },
+    actions: {
+      toggleMode: SR5ItemSheet._onToggleMode
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/items/item-sheet.html",
+      template: "systems/sr5/templates/items/item-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },
@@ -53,7 +73,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     if (!button || button.classList.contains("active") || (event.button !== 0)) return
     const tab = button.dataset.tab
     const group = button.dataset.group
-    this.changeTab(tab, group, { event })
+    this.changeTab(tab, group, {
+      event 
+    })
   }
 
   /** @override — refresh scroll indicators when tabs change */
@@ -71,14 +93,18 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       const wrap = panel.closest('.sr-panel-wrap')
       if (!wrap) continue
       const update = () => {
-        const { scrollTop, scrollHeight, clientHeight } = panel
+        const {
+          scrollTop, scrollHeight, clientHeight 
+        } = panel
         wrap.classList.toggle('can-scroll-up', scrollTop > 2)
         wrap.classList.toggle('can-scroll-down', scrollTop + clientHeight < scrollHeight - 2)
       }
       update()
       if (!panel.dataset.scrollFade) {
         panel.dataset.scrollFade = '1'
-        panel.addEventListener('scroll', update, { passive: true })
+        panel.addEventListener('scroll', update, {
+          passive: true 
+        })
       }
     }
   }
@@ -88,7 +114,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     if (!this.isEditable) return
     const newMode = this.isPlayMode ? SR5ItemSheet.MODES.EDIT : SR5ItemSheet.MODES.PLAY
     game.user?.setFlag("sr5", `playMode.${this.item.id}`, newMode)
-    await this.render({ mode: newMode })
+    await this.render({
+      mode: newMode 
+    })
   }
 
   /** Re-render when sibling items change on the parent actor (e.g. weapon list for weapon focus). */
@@ -261,7 +289,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
     // Activate initial tabs for all groups
     for (const [group, tab] of Object.entries(this.tabGroups)) {
-      if (tab) this.changeTab(tab, group, { force: true, updatePosition: false })
+      if (tab) this.changeTab(tab, group, {
+        force: true, updatePosition: false 
+      })
     }
 
     // Tab nav click handlers — explicit listeners because data-action="tab" doesn't
@@ -273,7 +303,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
         const tab = link.dataset.tab
         const group = link.dataset.group
         if (tab && group && !link.classList.contains("active")) {
-          this.changeTab(tab, group, { event })
+          this.changeTab(tab, group, {
+            event 
+          })
         }
       })
     })
@@ -357,7 +389,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
     if (action === "add") {
       if (typeof itemData[target] === "object") { itemData[target] = Object.values(itemData[target]) }
-      return this.item.update({[key]: itemData[target].concat([[""]])})
+      return this.item.update({
+        [key]: itemData[target].concat([[""]])
+      })
     }
 
     if (action === "delete") {
@@ -365,7 +399,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       let removed = foundry.utils.duplicate(this.item.system[target])
       if (typeof removed === "object") { removed = Object.values(removed) }
       removed.splice(Number(li.dataset.key), 1)
-      return this.item.update({[key]: removed })
+      return this.item.update({
+        [key]: removed 
+      })
     }
 
     if (action === "clone") {
@@ -373,14 +409,17 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       let cloned = foundry.utils.duplicate(this.item.system[target])
       if (typeof cloned === "object") { cloned = Object.values(cloned) }
       cloned.push(cloned[Number(li.dataset.key)])
-      return this.item.update({[key]: cloned })
+      return this.item.update({
+        [key]: cloned 
+      })
     }
   }
 
   // Manage accessory choice
   async #onAccessoryChoice(event) {
     let type = event.currentTarget.dataset.type
-    let accessoriesList = {}
+    let accessoriesList = {
+    }
 
     // For weapons, build set of already-attached accessory IDs
     let attachedIds = new Set()
@@ -410,23 +449,31 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
 
     let sortedList = SR5_EntityHelpers.sortObjectValue(accessoriesList)
 
-    let dialogData = {accessoriesList: sortedList}
+    let dialogData = {
+      accessoriesList: sortedList
+    }
 
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseAccessory.html", dialogData)
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseAccessory.hbs", dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseAccessory') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseAccessory') 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -442,7 +489,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       let cloned = foundry.utils.deepClone(this.item.system.accessory)
       if (typeof cloned === "object" && !Array.isArray(cloned)) cloned = Object.values(cloned)
       cloned.push(accObj)
-      await this.item.update({"system.accessory": cloned})
+      await this.item.update({
+        "system.accessory": cloned
+      })
       await aItem.update({
         "system.isActive": this.item.system.isActive,
         "system.wirelessTurnedOn": this.item.system.wirelessTurnedOn,
@@ -464,7 +513,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     }
     if (accessories[index]) {
       accessories[index][field] = checked
-      await this.item.update({"system.accessory": accessories})
+      await this.item.update({
+        "system.accessory": accessories
+      })
     }
   }
 

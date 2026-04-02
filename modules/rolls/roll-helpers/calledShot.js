@@ -1,8 +1,16 @@
-import { SR5 } from "../../config.js"
-import { SR5_RollMessage } from "../roll-message.js"
-import { SR5_RollTest } from "../roll-test.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_RollMessage 
+} from "../roll-message.js"
+import {
+  SR5_RollTest 
+} from "../roll-test.js"
 import SR5_SpendDialog from "../../interface/spendNetHits-dialog.js"
-import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js"
+import {
+  SR5_ActorHelper 
+} from "../../entities/actors/entityActor-helpers.js"
 
 export class SR5_CalledShotHelpers {
 
@@ -54,12 +62,18 @@ export class SR5_CalledShotHelpers {
       disposableHits: messageData.roll.netHits - 1,
     }
 
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.html", dialogData)
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseSpendNetHits.hbs", dialogData)
     const result = await SR5_SpendDialog.create({
       title: game.i18n.localize('SR5.SpendHitsForStatus'),
       content: dlg,
       data: dialogData,
-      buttons: { ok: { label: "Ok" }, cancel: { label: "Cancel" } },
+      buttons: {
+        ok: {
+          label: "Ok" 
+        }, cancel: {
+          label: "Cancel" 
+        } 
+      },
     })
 
     if (!result || result.action === "cancel") return
@@ -74,7 +88,9 @@ export class SR5_CalledShotHelpers {
         initialDV: messageData.damage.value,
       })
     }
-    ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {checkedEffects: checkedInputs.length})}`)
+    ui.notifications.info(`${game.i18n.format('SR5.INFO_SpendHitsOnEffects', {
+      checkedEffects: checkedInputs.length
+    })}`)
     messageData = foundry.utils.mergeObject(messageData, {
       "combat.calledShot.hitsSpent": true,
       "combat.calledShot.effects": effects,
@@ -269,7 +285,9 @@ export class SR5_CalledShotHelpers {
                 "forceAdd": true,
               }
             },                    
-            "system.gameEffect": game.i18n.format("SR5.STATUSES_DirtyTrick_GE", {value: effecType.value || -4}),
+            "system.gameEffect": game.i18n.format("SR5.STATUSES_DirtyTrick_GE", {
+              value: effecType.value || -4
+            }),
           })
           itemEffects.push(effect)
         }
@@ -943,16 +961,32 @@ export class SR5_CalledShotHelpers {
       case "dirtyTrick":
         switch(ammoType) { 
           case "exExplosive":  
-            return {"0": {"name": calledShot, "value": -6}}
+            return {
+              "0": {
+                "name": calledShot, "value": -6
+              }
+            }
           case "explosive":
           case "frangible": 
           case "hollowPoint": 
-            return {"0": {"name": calledShot, "value": -5}}
+            return {
+              "0": {
+                "name": calledShot, "value": -5
+              }
+            }
           case "gel":
           case "gyrojet":
-            return {"0": {"name": calledShot, "value": -4}}
+            return {
+              "0": {
+                "name": calledShot, "value": -4
+              }
+            }
           default:                     
-            return {"0": {"name": calledShot, "value": -4}}
+            return {
+              "0": {
+                "name": calledShot, "value": -4
+              }
+            }
         }
       case "antenna":
       case "axle":
@@ -963,24 +997,49 @@ export class SR5_CalledShotHelpers {
       case "onPinsAndNeedles":
       case "trickShot":
       case "feint":
-        return {"0": {"name": calledShot}}
+        return {
+          "0": {
+            "name": calledShot
+          }
+        }
       case "blastOutOfHand":
         switch(ammoType) {
           case "explosive": 
           case "gel": 
           case "hollowPoint": 
-            return {"0": {"name": calledShot, "modFingerPopper": 0}}
+            return {
+              "0": {
+                "name": calledShot, "modFingerPopper": 0
+              }
+            }
           case "exExplosive": 
-            return {"0": {"name": calledShot, "modFingerPopper": 1}}
+            return {
+              "0": {
+                "name": calledShot, "modFingerPopper": 1
+              }
+            }
           default:                     
-            return {"0": {"name": calledShot, "modFingerPopper": -1}}
+            return {
+              "0": {
+                "name": calledShot, "modFingerPopper": -1
+              }
+            }
         }
       case "flashBlind":
-        return {"0": {"name": "flared"}}               
+        return {
+          "0": {
+            "name": "flared"
+          }
+        }               
       case "shreddedFlesh":
-        return {"0": {"name": "bleedOut"}}
+        return {
+          "0": {
+            "name": "bleedOut"
+          }
+        }
       default:
-        return {}
+        return {
+        }
     }
   }
 

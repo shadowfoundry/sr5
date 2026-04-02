@@ -1,4 +1,6 @@
-import { ActorSheetSR5 } from "./baseSheet.js"
+import {
+  ActorSheetSR5 
+} from "./baseSheet.js"
 
 /**
  * An Actor sheet for player character type actors in the Shadowrun 5 system.
@@ -25,13 +27,17 @@ export class SR5ActorSheet extends ActorSheetSR5 {
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor", "pc"],
-    position: { width: 800, height: 618 },
-    window: { resizable: false },
+    position: {
+      width: 800, height: 618 
+    },
+    window: {
+      resizable: false 
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/actors/pc-sheet.html",
+      template: "systems/sr5/templates/actors/pc-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },
@@ -54,7 +60,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   }
 
   _prepareSkills(actor) {
-    const activeSkills = {}
+    const activeSkills = {
+    }
     for (let [key, skill] of Object.entries(actor.system.skills)) {
       if (skill.rating.value > 0 || this._shownUntrainedSkills) activeSkills[key] = skill
     }
@@ -62,7 +69,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   }
 
   _prepareSkillGroups(actor) {
-    const activeGroups = {}
+    const activeGroups = {
+    }
     for (let [key, group] of Object.entries(actor.system.skillGroups)) {
       if (group.value > 0 || this._shownUntrainedGroups) {
         activeGroups[key] = group
@@ -72,7 +80,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   }
 
   _prepareMatrixActions(actor) {
-    const activeMatrixActions = {}
+    const activeMatrixActions = {
+    }
     let hasAttack = (actor.system.matrix.attributes.attack.value > 0) ? true : false
     let hasSleaze = (actor.system.matrix.attributes.sleaze.value > 0) ? true : false
     let killCodeRules = game.settings.get("sr5", "sr5KillCodeRules") ? true : false

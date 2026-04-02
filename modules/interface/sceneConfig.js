@@ -1,13 +1,22 @@
-import { SR5 } from "../config.js"
+import {
+  SR5 
+} from "../config.js"
 
 export default class SR5SceneConfig extends foundry.applications.sheets.SceneConfig {
 
   static PARTS = (() => {
-    const { footer, ...rest } = foundry.applications.sheets.SceneConfig.PARTS
+    const {
+      footer, ...rest 
+    } = foundry.applications.sheets.SceneConfig.PARTS
     return {
       ...rest,
-      sr5tabs: { template: "systems/sr5/templates/interface/scene-sr5-tabs.html" },
-      ...(footer ? { footer } : {})
+      sr5tabs: {
+        template: "systems/sr5/templates/interface/scene-sr5-tabs.hbs" 
+      },
+      ...(footer ? {
+        footer 
+      } : {
+      })
     }
   })()
 
@@ -15,9 +24,15 @@ export default class SR5SceneConfig extends foundry.applications.sheets.SceneCon
     sheet: {
       tabs: [
         ...foundry.applications.sheets.SceneConfig.TABS.sheet.tabs,
-        { id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" },
-        { id: "matrixNoise", icon: "fa-solid fa-wifi", label: "SR5.SceneMatrixNoise" },
-        { id: "backgroundCount", icon: "fa-solid fa-hat-wizard", label: "SR5.SceneBackgroundCount" },
+        {
+          id: "environmentalMod", icon: "fa-solid fa-cloud-sun-rain", label: "SR5.EnvironmentalModifiers" 
+        },
+        {
+          id: "matrixNoise", icon: "fa-solid fa-wifi", label: "SR5.SceneMatrixNoise" 
+        },
+        {
+          id: "backgroundCount", icon: "fa-solid fa-hat-wizard", label: "SR5.SceneBackgroundCount" 
+        },
       ],
       initial: "basics",
       labelPrefix: "SCENE.TABS.SHEET"

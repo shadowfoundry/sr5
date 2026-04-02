@@ -1,4 +1,6 @@
-import { ActorSheetSR5 } from "./baseSheet.js"
+import {
+  ActorSheetSR5 
+} from "./baseSheet.js"
 
 /**
  * An Actor sheet for drone type actors in the Shadowrun 5 system.
@@ -10,18 +12,24 @@ export class SR5DroneSheet extends ActorSheetSR5 {
     this._shownInactiveMatrixPrograms = true
     this._shownUntrainedSkills = false
     this._shownUntrainedGroups = false
-    this._filters = {skills: ""}
+    this._filters = {
+      skills: ""
+    }
   }
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor", "drone"],
-    position: { width: 800, height: 618 },
-    window: { resizable: false },
+    position: {
+      width: 800, height: 618 
+    },
+    window: {
+      resizable: false 
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/actors/drone-sheet.html",
+      template: "systems/sr5/templates/actors/drone-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },

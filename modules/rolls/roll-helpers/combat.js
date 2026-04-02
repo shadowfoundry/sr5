@@ -1,12 +1,22 @@
-import { SR5 } from "../../config.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_ConverterHelpers } from "./converter.js"
-import { _getSRStatusEffect } from "../../system/effectsList.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_ConverterHelpers 
+} from "./converter.js"
+import {
+  _getSRStatusEffect 
+} from "../../system/effectsList.js"
 
 export class SR5_CombatHelpers {
 
   //Handle environmental modifiers
-  static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {visibility:0, light:0, glare:0, wind:0}){
+  static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {
+    visibility:0, light:0, glare:0, wind:0
+  }){
     let actorData = actor.itemsProperties.environmentalMod
     let visibilityMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + areaEffect.visibility + actorData.visibility.value, 0), 4)
     let lightMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light + actorData.light.value, 0), 4)
@@ -77,9 +87,13 @@ export class SR5_CombatHelpers {
     await distanceRoll.evaluate()
 
     if (distanceRoll.total < 1) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_NoScattering")}`)
-    else ui.notifications.info(`${game.i18n.format("SR5.INFO_ScatterDistance", {distance: distanceRoll.total})}`)
+    else ui.notifications.info(`${game.i18n.format("SR5.INFO_ScatterDistance", {
+      distance: distanceRoll.total
+    })}`)
         
-    let coordinate = {x:0, y:0}
+    let coordinate = {
+      x:0, y:0
+    }
     switch(directionRoll.total){
       case 1:
         coordinate = {
@@ -139,22 +153,30 @@ export class SR5_CombatHelpers {
   }
 
   static async chooseDamageType(){
-    let dialogData = {list: SR5.PCConditionMonitors}
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseDamageType.html", dialogData)
+    let dialogData = {
+      list: SR5.PCConditionMonitors
+    }
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseDamageType.hbs", dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseDamageType') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseDamageType') 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -164,22 +186,30 @@ export class SR5_CombatHelpers {
   }
 
   static async chooseToxinVector(vectors){
-    let dialogData = {list: vectors}
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseVector.html", dialogData)
+    let dialogData = {
+      list: vectors
+    }
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseVector.hbs", dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseToxinVector') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseToxinVector') 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,

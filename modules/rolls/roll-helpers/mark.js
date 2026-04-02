@@ -1,6 +1,12 @@
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SocketHandler } from "../../socket.js"
-import { SR5_ActorHelper } from "../../entities/actors/entityActor-helpers.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
+import {
+  SR5_ActorHelper 
+} from "../../entities/actors/entityActor-helpers.js"
 
 export class SR5_MarkHelpers {
 
@@ -44,7 +50,9 @@ export class SR5_MarkHelpers {
       }
       itemToMark.marks.push(newMark)
     }
-    await item.update({"system": itemToMark})
+    await item.update({
+      "system": itemToMark
+    })
 
     //Update attacker deck with info
     if (!game.user?.isGM) {
@@ -61,7 +69,9 @@ export class SR5_MarkHelpers {
         })
       }
       if (targetActor.system.matrix.deviceType === "host"){
-        await SR5_SocketHandler.emitForGM("markSlavedDevice", {targetActorID: targetActorID})
+        await SR5_SocketHandler.emitForGM("markSlavedDevice", {
+          targetActorID: targetActorID
+        })
       }
     } else {  
       await SR5_MarkHelpers.updateDeckMarkedItems(realAttackerID, item.uuid, mark)
@@ -97,7 +107,9 @@ export class SR5_MarkHelpers {
         let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive)
         let tokenDeckData = foundry.utils.duplicate(tokenDeck.system)
         tokenDeckData.marks = item.system.marks
-        await tokenDeck.update({"system": tokenDeckData})
+        await tokenDeck.update({
+          "system": tokenDeckData
+        })
       }
     }
   }
@@ -132,7 +144,9 @@ export class SR5_MarkHelpers {
       }
       deckData.markedItems.push(newMark)
     }
-    await ownerDeck.update({"system": deckData})
+    await ownerDeck.update({
+      "system": deckData
+    })
 
     //For host, update all unlinked token with same marked items
     if (owner.system.matrix.deviceType === "host"){
@@ -141,7 +155,9 @@ export class SR5_MarkHelpers {
           let tokenDeck = token.actor.items.find(i => i.type === "itemDevice" && i.system.isActive)
           let tokenDeckData = foundry.utils.duplicate(tokenDeck.system)
           tokenDeckData.markedItems = deckData.markedItems
-          await tokenDeck.update({"system": tokenDeckData})
+          await tokenDeck.update({
+            "system": tokenDeckData
+          })
         }
       }
     }
@@ -175,27 +191,35 @@ export class SR5_MarkHelpers {
 
     //Build marked items list
     let markedItems = actor.items.filter(i => i.system.marks?.length > 0)
-    let dialogData = {list: markedItems}
+    let dialogData = {
+      list: markedItems
+    }
 
     //Check if at least one item has a mark
     if (!markedItems.length) return ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize('SR5.INFO_NoMarksToDelete')}`)
 
     //Render dialog to choose marked item
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseMark.html", dialogData)
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseMark.hbs", dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseMarkToErase') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseMarkToErase') 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -227,7 +251,9 @@ export class SR5_MarkHelpers {
         }
       }
     }
-    await item.update({"system": itemData})
+    await item.update({
+      "system": itemData
+    })
     //Delete mark from owner deck
     await SR5_ActorHelper.deleteMarkInfo(cardData.owner.actorId, cardData.previousMessage.itemUuid)
   }

@@ -1,8 +1,18 @@
-import { SR5 } from "../config.js"
-import { SR5_CharacterUtility } from "../entities/actors/utilityActor.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_SocketHandler } from "../socket.js"
-import { SR5_PrepareRollTest } from "../rolls/roll-prepare.js"
+import {
+  SR5 
+} from "../config.js"
+import {
+  SR5_CharacterUtility 
+} from "../entities/actors/utilityActor.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_SocketHandler 
+} from "../socket.js"
+import {
+  SR5_PrepareRollTest 
+} from "../rolls/roll-prepare.js"
 
 export class SR5Combat extends Combat {
   get initiativePass(){
@@ -38,7 +48,9 @@ export class SR5Combat extends Combat {
     if (!combatant.flags.sr5.hasPlayed && (combatant.id !== combatant.combat.current.combatantId)) {
       let actualCombatant = combatant.combat.combatants.find(c => c.id === combatant.combat.current.combatantId)
       if (actualCombatant.initiative > (combatant.initiative + adjustment)) {
-        udpateData = foundry.utils.mergeObject(udpateData, {"flags.sr5.baseCombatantInitiative": Number(combatant.initiative) + adjustment})
+        udpateData = foundry.utils.mergeObject(udpateData, {
+          "flags.sr5.baseCombatantInitiative": Number(combatant.initiative) + adjustment
+        })
       }
     }
     await combatant.update(udpateData)
@@ -51,7 +63,9 @@ export class SR5Combat extends Combat {
     if (actorData.conditionMonitors.edge?.actual?.value < actorData.conditionMonitors.edge?.value){
       await combatant.setFlag("sr5", "seizeInitiative", true)
       actorData.conditionMonitors.edge.actual.base += 1
-      await actor.update({system: actorData})
+      await actor.update({
+        system: actorData
+      })
       ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiative")}`)
     } else {
       ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorSeizeInitiativeFailed")}`)
@@ -68,7 +82,9 @@ export class SR5Combat extends Combat {
         "flags.sr5.blitz": true,
       })
       actorData.conditionMonitors.edge.actual.base += 1
-      await actor.update({system: actorData})
+      await actor.update({
+        system: actorData
+      })
       ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitz")}`)
     } else {
       ui.notifications.info(`${actor.name} ${game.i18n.localize("SR5.INFO_ActorUseBlitzFailed")}`)
@@ -101,7 +117,9 @@ export class SR5Combat extends Combat {
     }
 
     await SR5Combat.setInitiativePass(combat, initiativePass)
-    await combat.update({turn})
+    await combat.update({
+      turn
+    })
     return
   }
 
@@ -122,7 +140,9 @@ export class SR5Combat extends Combat {
     await combat.rollAll()
 
     const turn = 0
-    await combat.update({ turn })
+    await combat.update({
+      turn 
+    })
   }
 
   setupTurns(){
@@ -308,17 +328,25 @@ export class SR5Combat extends Combat {
 	*/
   async rollAll(){
     const combat = await super.rollAll()
-    if (combat.turn !== 0) await combat.update({turn: 0})
+    if (combat.turn !== 0) await combat.update({
+      turn: 0
+    })
     return combat
   }
 
   async rollNPC(){
     const combat = await super.rollNPC()
-    if (combat.turn !== 0) await combat.update({turn: 0})
+    if (combat.turn !== 0) await combat.update({
+      turn: 0
+    })
     return combat
   }
 
-  async rollInitiative(ids, {formula=null, updateTurn=true, messageOptions={}}={}) {
+  async rollInitiative(ids, {
+    formula=null, updateTurn=true, messageOptions={
+    }
+  }={
+  }) {
 
     // Structure input data
     ids = typeof ids === "string" ? [ids] : ids
@@ -368,7 +396,7 @@ export class SR5Combat extends Combat {
         roll: roll,
       }
 
-      const template = `systems/sr5/templates/rolls/roll-init.html`
+      const template = `systems/sr5/templates/rolls/roll-init.hbs`
       const html = await foundry.applications.handlebars.renderTemplate(template, templateData)
 
       const messageData = foundry.utils.mergeObject(
@@ -389,7 +417,9 @@ export class SR5Combat extends Combat {
         messageOptions
       )
 
-      let chatData = new ChatMessage(messageData, {create: false})
+      let chatData = new ChatMessage(messageData, {
+        create: false
+      })
 
       // If the combatant is hidden, use a private roll unless an alternative rollMode was explicitly requested
       chatData.rollMode = "rollMode" in messageOptions ? messageOptions.rollMode :
@@ -407,10 +437,14 @@ export class SR5Combat extends Combat {
 
     // Ensure the turn order remains with the same combatant
     if ( updateTurn && currentId ) {
-      await this.update({turn: this.turns.findIndex(t => t.id === currentId)})
+      await this.update({
+        turn: this.turns.findIndex(t => t.id === currentId)
+      })
     }
 
-    if (this.initiativePass === 1) await this.update({turn: 0})
+    if (this.initiativePass === 1) await this.update({
+      turn: 0
+    })
 
     // Create multiple chat messages
     await ChatMessage.implementation.create(messages)
@@ -461,11 +495,15 @@ export class SR5Combat extends Combat {
   }
 
   async _createDoNextRoundSocketMessage() {
-    await SR5_SocketHandler.emitForGM("doNextRound", {id: this.id})
+    await SR5_SocketHandler.emitForGM("doNextRound", {
+      id: this.id
+    })
   }
 
   async _createDoIniPassSocketMessage() {
-    await SR5_SocketHandler.emitForGM("doInitPass", {id: this.id})
+    await SR5_SocketHandler.emitForGM("doInitPass", {
+      id: this.id
+    })
   }
 
   static getActorFromCombatant(combatant){
@@ -518,8 +556,12 @@ export class SR5Combat extends Combat {
       if (initRatingChange > 0) signRating = "+"
       else signRating = "-"
 
-      if (diceToRoll > 0) ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange})}`)
-      else ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {initFinalChange: initFinalChange})}`)
+      if (diceToRoll > 0) ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombat", {
+        signRating: signRating, signDice: signDice, diceToRoll: diceToRoll, initDiceChange: initDiceValue, initRatingChange: initRatingValue, initFinalChange: initFinalChange
+      })}`)
+      else ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_ChangeInitInCombatNoDices", {
+        initFinalChange: initFinalChange
+      })}`)
     }
   }
 
@@ -549,7 +591,9 @@ export class SR5Combat extends Combat {
         if (action.type === "special") continue
         actorData.specialProperties.actions[action.type].current -= action.value
       }
-      await actor.update({system: actorData})
+      await actor.update({
+        system: actorData
+      })
     }
 
     //... and combatant actions
@@ -563,9 +607,13 @@ export class SR5Combat extends Combat {
       if (action.source === "manual") {
         action.value = -action.value
         let sign = action.value > 0 ? "+" : ""
-        ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign})}`) 
+        ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActionsManually", {
+          actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), sign: sign
+        })}`) 
       }
-      else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])})}`) 
+      else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {
+        actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])
+      })}`) 
       if (action.type === "interruption") {
         initModifier = -5
       }
@@ -584,10 +632,16 @@ export class SR5Combat extends Combat {
           if (itemData.duration <= 0){
             await actor.deleteEmbeddedDocuments("Item", [item.id])
             await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type)
-            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`)
+            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {
+              effect: item.name
+            })}`)
           } else {
-            await item.update({system: itemData})
-            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`)
+            await item.update({
+              system: itemData
+            })
+            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {
+              effect: item.name
+            })}`)
           }
         }
       }
@@ -609,7 +663,9 @@ export class SR5Combat extends Combat {
       "flags.sr5.actions.simple": actorData.specialProperties.actions.simple.current,
       "flags.sr5.actions.complex": actorData.specialProperties.actions.complex.current,
     })
-    await actor.update({system: actorData})
+    await actor.update({
+      system: actorData
+    })
   }
 
   //Do stuff on actor when turn is ending
@@ -632,10 +688,16 @@ export class SR5Combat extends Combat {
           if (itemData.duration <= 0){
             await actor.deleteEmbeddedDocuments("Item", [item.id])
             await SR5_EntityHelpers.deleteEffectOnActor(actor, item.system.type)
-            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {effect: item.name})}`)
+            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {
+              effect: item.name
+            })}`)
           } else {
-            await item.update({system: itemData})
-            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {effect: item.name})}`)
+            await item.update({
+              system: itemData
+            })
+            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationReduceOneRound", {
+              effect: item.name
+            })}`)
           }
         }
 
@@ -659,7 +721,9 @@ export class SR5Combat extends Combat {
               updatedArmor.system.itemEffects.push(armorEffect)
             }
             await actor.updateEmbeddedDocuments("Item", [updatedArmor])
-            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {armor: armor.name})}`)
+            ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_AcidReduceArmor", {
+              armor: armor.name
+            })}`)
           }
 
           itemData.value -= 1
@@ -680,8 +744,12 @@ export class SR5Combat extends Combat {
 
           await actor.takeDamage(damageInfo)
           itemData.value += 1
-          ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {fire: itemData.value})}`)
-          await item.update({system: itemData})
+          ui.notifications.info(`${combatant.name} ${game.i18n.format("SR5.INFO_FireDamageIncrease", {
+            fire: itemData.value
+          })}`)
+          await item.update({
+            system: itemData
+          })
         }
       }
 
@@ -696,7 +764,9 @@ export class SR5Combat extends Combat {
     //Reset Spell defense dice pool
     if (actorData.magic?.counterSpellPool?.current !== actorData.magic?.counterSpellPool?.value){
       actorData.magic.counterSpellPool.current = actorData.magic.counterSpellPool.value
-      await actor.update({system: actorData})
+      await actor.update({
+        system: actorData
+      })
     }
 
     //Handle Regeneration

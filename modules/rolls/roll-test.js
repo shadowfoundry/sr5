@@ -1,19 +1,33 @@
-import { SR5_SystemHelpers } from "../system/utilitySystem.js"
-import { SR5_EntityHelpers } from "../entities/helpers.js"
-import { SR5_RollMessage } from "./roll-message.js"
-import { SR5_RollTestHelper } from "./roll-test-helper.js"
+import {
+  SR5_SystemHelpers 
+} from "../system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "../entities/helpers.js"
+import {
+  SR5_RollMessage 
+} from "./roll-message.js"
+import {
+  SR5_RollTestHelper 
+} from "./roll-test-helper.js"
 import * as SR5_AddRollInfo from "./roll-test-case/index.js"
-import { SR5Combat } from "../system/srcombat.js"
+import {
+  SR5Combat 
+} from "../system/srcombat.js"
 import SR5_RollDialog from "./roll-dialog.js"
-import { SR5_ConverterHelpers } from "./roll-helpers/converter.js"
-import { SR5_CombatHelpers } from "./roll-helpers/combat.js"
+import {
+  SR5_ConverterHelpers 
+} from "./roll-helpers/converter.js"
+import {
+  SR5_CombatHelpers 
+} from "./roll-helpers/combat.js"
 
 export class SR5_RollTest {
   //Prepare the roll window
   static async generateRollDialog(dialogData, edge = false) {
     let actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
       actorData = actor.system,
-      template = "systems/sr5/templates/rolls/roll-dialog.html"
+      template = "systems/sr5/templates/rolls/roll-dialog.hbs"
 
     //Handle Edge
     dialogData.edge.canUseEdge = await SR5_RollTestHelper.canUseEdge(actor, dialogData)
@@ -47,9 +61,13 @@ export class SR5_RollTest {
     // Render template and show dialog
     const dlg = await foundry.applications.handlebars.renderTemplate(template, dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: dialogData.test.title },
+      window: {
+        title: dialogData.test.title 
+      },
       id: "jet",
-      position: { width: 450 },
+      position: {
+        width: 450 
+      },
       content: dlg,
       buttons,
       rejectClose: false,
@@ -72,7 +90,9 @@ export class SR5_RollTest {
     //Verify if reagents are used, if so, remove from actor
     if (dialogData.magic.hasUsedReagents) {
       dialogData.magic.reagentsSpent = result.reagentsSpent
-      actor.update({ "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent})
+      actor.update({
+        "system.magic.reagents": actorData.magic.reagents - dialogData.magic.reagentsSpent
+      })
     }
 
     //Rename chatCard title for extended test
@@ -145,13 +165,19 @@ export class SR5_RollTest {
       let spiritItem = await fromUuid(dialogData.magic.spiritAid.id)
       let spiritItemData = foundry.utils.duplicate(spiritItem.system)
       spiritItemData.services.value -= 1
-      await spiritItem.update({'data': spiritItemData})
-      ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: 1})}`)
+      await spiritItem.update({
+        'data': spiritItemData
+      })
+      ui.notifications.info(`${spiritItem.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {
+        service: 1
+      })}`)
       let spiritActor = game.actors.find(a => a.system.creatorItemId === spiritItem.id)
       if (spiritActor){
         let spiritActorData = foundry.utils.duplicate(spiritActor.system)
         spiritActorData.services.value -= 1
-        await spiritActor.update({'data': spiritActorData})
+        await spiritActor.update({
+          'data': spiritActorData
+        })
       }
     }
 
@@ -180,7 +206,9 @@ export class SR5_RollTest {
 	 * @param {Number} limit - Limit maximum success
 	 * @param {Boolean} explose - Handle explosing 6 result
 	 */
-  static async rollDice({ dicePool, limit, explose, edgeRoll }) {
+  static async rollDice({
+    dicePool, limit, explose, edgeRoll 
+  }) {
     let formula = `${dicePool}d6`
     if (explose) formula += "x6"
     if (limit) formula += `kh${limit}`
@@ -234,7 +262,9 @@ export class SR5_RollTest {
       dicePool = messageData.dicePool.value - 1
 
     //roll new test
-    let newRoll = await SR5_RollTest.rollDice({ dicePool: dicePool, limit: messageData.limit.value })
+    let newRoll = await SR5_RollTest.rollDice({
+      dicePool: dicePool, limit: messageData.limit.value 
+    })
 
     //Keep only original hits and concatenat with new hits
     let dicesKeeped = messageData.roll.dices.filter(function (d) {
@@ -276,7 +306,9 @@ export class SR5_RollTest {
     if (dicePool < 0) dicePool = 0
     let limit = messageData.limit.value - messageData.roll.hits
     if (limit < 0) limit = 0
-    let chance = await SR5_RollTest.rollDice({ dicePool: dicePool, limit: limit, edgeRoll: true})
+    let chance = await SR5_RollTest.rollDice({
+      dicePool: dicePool, limit: limit, edgeRoll: true
+    })
     let chanceHit = chance.hits
     if (chance.hits > limit && (limit !== 0)) chanceHit = limit
     let dicesKeeped = messageData.roll.dices.filter(function (d) {
@@ -349,7 +381,7 @@ export class SR5_RollTest {
     //if (game.user.isGM) cardData.chatCard.canEditResult = true;
 
     const templateData = cardData
-    const template = `systems/sr5/templates/rolls/roll-card.html`
+    const template = `systems/sr5/templates/rolls/roll-card.hbs`
     let html = await foundry.applications.handlebars.renderTemplate(template, templateData)
 
     //Add chat buttons to chat card
@@ -384,7 +416,9 @@ export class SR5_RollTest {
     // Convert user.color to string (v13 Color object)
     cardData.owner.borderColor = typeof userActive.color === "string" ? userActive.color : String(userActive.color ?? "")
     cardData.sr5template = template
-    chatData.flags = {sr5data: cardData}
+    chatData.flags = {
+      sr5data: cardData
+    }
 
     //Handle Dice so Nice
     if (cardData.roll.originalRoll) await SR5_RollTest.showDiceSoNice(cardData.roll.originalRoll, cardData.roll.rollMode)
@@ -425,7 +459,8 @@ export class SR5_RollTest {
   //Iterate througt test type to handle results
   static async addInfoToCard(cardData, actorId) {
     //Reset button
-    cardData.chatCard.buttons = {}
+    cardData.chatCard.buttons = {
+    }
 
     //Handle Extended Test
     if (cardData.test.isExtended){

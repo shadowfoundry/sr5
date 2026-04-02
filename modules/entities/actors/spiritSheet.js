@@ -1,4 +1,6 @@
-import { ActorSheetSR5 } from "./baseSheet.js"
+import {
+  ActorSheetSR5 
+} from "./baseSheet.js"
 
 /**
  * An Actor sheet for spirit type actors in the Shadowrun 5 system.
@@ -8,18 +10,24 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
     super(...args)
 
     this._shownUntrainedSkills = false
-    this._filters = {skills: ""}
+    this._filters = {
+      skills: ""
+    }
   }
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor", "spirit"],
-    position: { width: 800, height: 618 },
-    window: { resizable: false },
+    position: {
+      width: 800, height: 618 
+    },
+    window: {
+      resizable: false 
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/actors/spirit-sheet.html",
+      template: "systems/sr5/templates/actors/spirit-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },
@@ -35,7 +43,8 @@ export class SR5SpiritSheet extends ActorSheetSR5 {
   }
 
   _prepareSkills(actor) {
-    const activeSkills = {}
+    const activeSkills = {
+    }
     for (let [key, skill] of Object.entries(actor.system.skills)) {
       if (skill.rating.value > 0 || this._shownUntrainedSkills) activeSkills[key] = skill
     }

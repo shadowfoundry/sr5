@@ -1,4 +1,6 @@
-import { ActorSheetSR5 } from "./baseSheet.js"
+import {
+  ActorSheetSR5 
+} from "./baseSheet.js"
 
 /**
  * An Actor sheet for device type actors in the Shadowrun 5 system.
@@ -10,13 +12,17 @@ export class SR5AppareilSheet extends ActorSheetSR5 {
 
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "actor", "device"],
-    position: { width: 800, height: 448 },
-    window: { resizable: false },
+    position: {
+      width: 800, height: 448 
+    },
+    window: {
+      resizable: false 
+    },
   }
 
   static PARTS = {
     sheet: {
-      template: "systems/sr5/templates/actors/device-sheet.html",
+      template: "systems/sr5/templates/actors/device-sheet.hbs",
       root: true,
       scrollable: [".sr-panel"],
     },

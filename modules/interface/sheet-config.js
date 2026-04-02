@@ -7,25 +7,33 @@ export class SRActorSheetConfig {
     let actorData = foundry.utils.duplicate(actor.system)
     let template
 
-    if (actor.type === "actorPc") template = "systems/sr5/templates/interface/sheetConfigActor.html"
-    if (actor.type === "actorGrunt") template = "systems/sr5/templates/interface/sheetConfigGrunt.html"
+    if (actor.type === "actorPc") template = "systems/sr5/templates/interface/sheetConfigActor.hbs"
+    if (actor.type === "actorGrunt") template = "systems/sr5/templates/interface/sheetConfigGrunt.hbs"
 
     const dlg = await foundry.applications.handlebars.renderTemplate(template, dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.CharacterSheetCustomization') },
-      position: { width: 650 },
+      window: {
+        title: game.i18n.localize('SR5.CharacterSheetCustomization') 
+      },
+      position: {
+        width: 650 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -64,7 +72,9 @@ export class SRActorSheetConfig {
       const path = "sheetPreferences." + o.value
       foundry.utils.setProperty(actorData, path, isChecked)
     }
-    actor.update({"system": actorData})
+    actor.update({
+      "system": actorData
+    })
   }
 
 }

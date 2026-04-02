@@ -1,9 +1,19 @@
-import { SR5 } from '../config.js'
-import { SR5_EntityHelpers } from '../entities/helpers.js'
-import { BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, ITEM_INDEX_FIELDS, ACTOR_INDEX_FIELDS, getEntryInfo } from './compendium-browser-filters.js'
-import { enhanceSelects } from '../helpers/enhance-selects.js'
+import {
+  SR5 
+} from '../config.js'
+import {
+  SR5_EntityHelpers 
+} from '../entities/helpers.js'
+import {
+  BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, ITEM_INDEX_FIELDS, ACTOR_INDEX_FIELDS, getEntryInfo 
+} from './compendium-browser-filters.js'
+import {
+  enhanceSelects 
+} from '../helpers/enhance-selects.js'
 
-const ALL_FILTERS = { ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS }
+const ALL_FILTERS = {
+  ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS 
+}
 
 export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
@@ -30,7 +40,9 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
   static DEFAULT_OPTIONS = {
     id: 'sr5-compendium-browser',
     classes: ['sr5', 'sr-application', 'sr-compendium-browser'],
-    position: { width: 900, height: 700 },
+    position: {
+      width: 900, height: 700 
+    },
     window: {
       title: 'SR5.CompendiumBrowser',
       icon: 'fas fa-search',
@@ -43,13 +55,19 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     },
   }
 
-  static PARTS = { browser: { template: 'systems/sr5/templates/interface/compendium-browser.html' } }
+  static PARTS = {
+    browser: {
+      template: 'systems/sr5/templates/interface/compendium-browser.hbs' 
+    } 
+  }
 
-  constructor(options = {}) {
+  constructor(options = {
+  }) {
     super(options)
     this._selectedTypes = new Set()
     this._searchText = ''
-    this._activeFilters = {}
+    this._activeFilters = {
+    }
     this._sortKey = 'name'
     this._sortDirection = 'asc'
     this._indexCache = null
@@ -66,7 +84,9 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
 
     const indexPack = async (pack, docName, fields, useDocNameAsType) => {
       try {
-        const index = await pack.getIndex({ fields })
+        const index = await pack.getIndex({
+          fields 
+        })
         for (const entry of index) {
           allEntries.push({
             ...entry,
@@ -175,8 +195,10 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const allEntries = this._indexCache
 
     // Build type/subtype counts
-    const typeCounts = {}
-    const subtypeCounts = {}
+    const typeCounts = {
+    }
+    const subtypeCounts = {
+    }
     for (const e of allEntries) {
       typeCounts[e.type] = (typeCounts[e.type] || 0) + 1
       const def = ALL_FILTERS[e.type]
@@ -192,7 +214,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     for (const [key, def] of Object.entries(ALL_FILTERS)) {
       if (!typeCounts[key]) continue
       if (def.subtypes) {
-        const optionsMap = SR5[def.subtypes.options] || {}
+        const optionsMap = SR5[def.subtypes.options] || {
+        }
         for (const [subVal, i18nKey] of Object.entries(optionsMap)) {
           const compoundKey = `${key}:${subVal}`
           const count = subtypeCounts[compoundKey] || 0
@@ -227,9 +250,12 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       for (const f of typeDef.filters) {
         if (seenFilterKeys.has(f.key)) continue
         seenFilterKeys.add(f.key)
-        const def = { ...f, label: game.i18n.localize(f.label) }
+        const def = {
+          ...f, label: game.i18n.localize(f.label) 
+        }
         if (f.type === 'select' && f.options) {
-          const configOptions = SR5[f.options] || {}
+          const configOptions = SR5[f.options] || {
+          }
           def.choices = Object.entries(configOptions).map(([k, v]) => ({
             key: k,
             label: game.i18n.localize(v),
@@ -255,7 +281,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       let typeLabel = game.i18n.localize(def?.label || e.type)
       if (def?.subtypes) {
         const subVal = foundry.utils.getProperty(e, def.subtypes.field)
-        const optionsMap = SR5[def.subtypes.options] || {}
+        const optionsMap = SR5[def.subtypes.options] || {
+        }
         if (subVal && optionsMap[subVal]) typeLabel = game.i18n.localize(optionsMap[subVal])
       }
       return {
@@ -371,7 +398,9 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       row.addEventListener('dragstart', (event) => {
         const uuid = event.currentTarget.dataset.uuid
         const docType = event.currentTarget.dataset.docName || 'Item'
-        event.dataTransfer.setData('text/plain', JSON.stringify({ type: docType, uuid }))
+        event.dataTransfer.setData('text/plain', JSON.stringify({
+          type: docType, uuid 
+        }))
       })
     })
   }
@@ -389,7 +418,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
 
   static #onClearFilters() {
     this._searchText = ''
-    this._activeFilters = {}
+    this._activeFilters = {
+    }
     this._selectedTypes.clear()
     this._page = 0
     this.render()

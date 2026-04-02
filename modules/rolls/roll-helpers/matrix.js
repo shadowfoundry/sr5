@@ -1,12 +1,30 @@
-import { SR5 } from "../../config.js"
-import { SR5_SocketHandler } from "../../socket.js"
-import { SR5_RollTest } from "../roll-test.js"
-import { SR5_ConverterHelpers } from "./converter.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_MarkHelpers } from "./mark.js"
-import { SR5_PrepareRollTest } from "../roll-prepare.js"
-import { _getSRStatusEffect } from "../../system/effectsList.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
+import {
+  SR5_RollTest 
+} from "../roll-test.js"
+import {
+  SR5_ConverterHelpers 
+} from "./converter.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_MarkHelpers 
+} from "./mark.js"
+import {
+  SR5_PrepareRollTest 
+} from "../roll-prepare.js"
+import {
+  _getSRStatusEffect 
+} from "../../system/effectsList.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
 
 export class SR5_MatrixHelpers {
   //Get time spent on a matrix search
@@ -54,20 +72,28 @@ export class SR5_MatrixHelpers {
     SR5_EntityHelpers.updateValue(newItem.system.conditionMonitors.matrix.actual, 0, newItem.system.conditionMonitors.matrix.value)
     if (newItem.system.conditionMonitors.matrix.actual.value >= newItem.system.conditionMonitors.matrix.value){
       if (targetItem.type === "itemDevice" && targetActor.system.matrix.userMode !== "ar"){
-        let dumpshockData = {damage:{resistanceType: "dumpshock"}}
+        let dumpshockData = {
+          damage:{
+            resistanceType: "dumpshock"
+          }
+        }
         targetActor.rollTest("resistanceCard", null, dumpshockData)
         ui.notifications.info(`${targetActor.name} ${game.i18n.localize("SR5.INFO_IsDisconnected")}.`)
       }
       newItem.system.isActive = false
       newItem.system.wirelessTurnedOn = false
     }
-    if (game.user?.isGM) targetItem.update({system: newItem.system})
+    if (game.user?.isGM) targetItem.update({
+      system: newItem.system
+    })
     else SR5_SocketHandler.emitForGM("updateItem", {
       item: targetItem.uuid,
       info: newItem.system,
     })
 
-    if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {damageValue: damageValue})} ${targetActor.name}.`) 
+    if (defender) ui.notifications.info(`${defender.name} ${game.i18n.format("SR5.INFO_ActorDoMatrixDamage", {
+      damageValue: damageValue
+    })} ${targetActor.name}.`) 
     else ui.notifications.info(`${targetActor.name} (${targetItem.name})${game.i18n.localize("SR5.Colons")} ${damageValue} ${game.i18n.localize("SR5.AppliedMatrixDamage")}.`)
   }
 
@@ -86,7 +112,8 @@ export class SR5_MatrixHelpers {
         mark = await SR5_MarkHelpers.findMarkValue(item.system, attacker.id)
       }
     }
-    cardData.damage.matrix.modifiers = {}
+    cardData.damage.matrix.modifiers = {
+    }
     cardData.damage.matrix.modifiers.netHits = netHits
     cardData.damage.matrix.modifiers.markQty = mark
         
@@ -117,7 +144,8 @@ export class SR5_MatrixHelpers {
   }
 
   static async chooseMatrixDefender(cardData, actor){
-    let list = {}
+    let list = {
+    }
     for (let key of Object.keys(actor.system.matrix.connectedObject)){
       if (Object.keys(actor.system.matrix.connectedObject[key]).length) {
         list[key] = SR5_EntityHelpers.sortObjectValue(actor.system.matrix.connectedObject[key])
@@ -127,21 +155,27 @@ export class SR5_MatrixHelpers {
       device: actor.system.matrix.deviceName,
       list: list,
     }
-    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.html", dialogData)
+    const dlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/itemMatrixTarget.hbs", dialogData)
     const result = await foundry.applications.api.DialogV2.wait({
-      window: { title: game.i18n.localize('SR5.ChooseMatrixTarget') },
+      window: {
+        title: game.i18n.localize('SR5.ChooseMatrixTarget') 
+      },
       content: dlg,
       buttons: [
         {
           action: "ok",
           label: "Ok",
           default: true,
-          callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
         },
         {
           action: "cancel",
           label: "Cancel",
-          callback: () => ({ action: "cancel" }),
+          callback: () => ({
+            action: "cancel" 
+          }),
         },
       ],
       rejectClose: false,
@@ -163,7 +197,9 @@ export class SR5_MatrixHelpers {
     rollData.previousMessage.actorId = cardData.owner.actorId
     rollData.previousMessage.hits = cardData.roll.hits
 
-    rollData.roll = await SR5_RollTest.rollDice({ dicePool: 6 })
+    rollData.roll = await SR5_RollTest.rollDice({
+      dicePool: 6 
+    })
 
     await SR5_RollTest.addInfoToCard(rollData, cardData.owner.actorId)
     SR5_RollTest.renderRollCard(rollData)
@@ -194,7 +230,9 @@ export class SR5_MatrixHelpers {
     rollData.dicePool.value = dicePool
     rollData.previousMessage.hits = cardData.roll.hits
     rollData.previousMessage.itemUuid = itemEffectID
-    rollData.roll = await SR5_RollTest.rollDice({ dicePool: dicePool })
+    rollData.roll = await SR5_RollTest.rollDice({
+      dicePool: dicePool 
+    })
 
     await SR5_RollTest.addInfoToCard(rollData, cardData.previousMessage.actorId)
     SR5_RollTest.renderRollCard(rollData)
@@ -400,7 +438,9 @@ export class SR5_MatrixHelpers {
       "system.gameEffect": game.i18n.localize("SR5.MatrixActionIntervene_GE"),
     }
     await actor.createEmbeddedDocuments("Item", [effect])
-    ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffect', {hits: hits})}`)
+    ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffect', {
+      hits: hits
+    })}`)
 
   }
 
@@ -509,7 +549,9 @@ export class SR5_MatrixHelpers {
           }
         }
         let randomProgram = programs[Math.floor(Math.random()*programs.length)]
-        randomProgram.update({"system.isActive": false})
+        randomProgram.update({
+          "system.isActive": false
+        })
         ui.notifications.info(`${randomProgram.name} ${game.i18n.localize("SR5.INFO_CrashProgram")}`)
         break
       }

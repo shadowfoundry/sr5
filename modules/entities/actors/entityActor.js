@@ -1,14 +1,36 @@
-import { SR5 } from "../../config.js"
-import { SR5_EntityHelpers } from "../helpers.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_UtilityItem } from "../items/utilityItem.js"
-import { SR5_CharacterUtility } from "./utilityActor.js"
-import { SR5_CompendiumUtility } from "./utilityCompendium.js"
-import { SR5_PrepareRollTest } from "../../rolls/roll-prepare.js"
-import { _getSRStatusEffect } from "../../system/effectsList.js"
-import { SR5_SocketHandler } from "../../socket.js"
-import { SR5_ActorHelper } from "./entityActor-helpers.js"
-import { SR5Combat } from "../../system/srcombat.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_EntityHelpers 
+} from "../helpers.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_UtilityItem 
+} from "../items/utilityItem.js"
+import {
+  SR5_CharacterUtility 
+} from "./utilityActor.js"
+import {
+  SR5_CompendiumUtility 
+} from "./utilityCompendium.js"
+import {
+  SR5_PrepareRollTest 
+} from "../../rolls/roll-prepare.js"
+import {
+  _getSRStatusEffect 
+} from "../../system/effectsList.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
+import {
+  SR5_ActorHelper 
+} from "./entityActor-helpers.js"
+import {
+  SR5Combat 
+} from "../../system/srcombat.js"
 
 /**
  * Extend the base Actor class to implement additional logic specialized for Shadowrun 5.
@@ -17,7 +39,11 @@ import { SR5Combat } from "../../system/srcombat.js"
 export class SR5Actor extends Actor {
 
   /** Overide Actor's create Dialog to hide certain type and sort them alphabetically*/
-  static async createDialog(data={}, {parent=null, pack=null, ..._options}={}) {
+  static async createDialog(data={
+  }, {
+    parent=null, pack=null, ..._options
+  }={
+  }) {
 
     // Collect data
     const documentName = this.metadata.name
@@ -26,13 +52,17 @@ export class SR5Actor extends Actor {
     const types = originalTypes.filter((actorType) => !hiddenTypes.includes(actorType))
     const folders = parent ? [] : game.folders.filter(f => (f.type === documentName) && f.displayed)
     const label = game.i18n.localize(this.metadata.label)
-    const title = game.i18n.format("DOCUMENT.Create", {type: label})
+    const title = game.i18n.format("DOCUMENT.Create", {
+      type: label
+    })
 
     // Render the document creation form
-    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.html`, {
+    const html = await foundry.applications.handlebars.renderTemplate(`templates/sidebar/document-create.hbs`, {
       folders,
       name: data.name || '',
-      defaultName: this.defaultName({type: data.type || CONFIG[documentName]?.defaultType || types[0], parent, pack}),
+      defaultName: this.defaultName({
+        type: data.type || CONFIG[documentName]?.defaultType || types[0], parent, pack
+      }),
       folder: data.folder,
       hasFolders: folders.length >= 1,
       type: data.type || CONFIG[documentName]?.defaultType || types[0],
@@ -40,13 +70,16 @@ export class SR5Actor extends Actor {
         const label = CONFIG[documentName]?.typeLabels?.[t] ?? t
         obj[t] = game.i18n.has(label) ? game.i18n.localize(label) : t
         return SR5_EntityHelpers.sortObjectValue(obj)
-      }, {}),
+      }, {
+      }),
       hasTypes: types.length > 1
     })
 
     // Render the confirmation dialog window
     return foundry.applications.api.DialogV2.wait({
-      window: { title },
+      window: {
+        title 
+      },
       content: html,
       buttons: [
         {
@@ -57,11 +90,17 @@ export class SR5Actor extends Actor {
           callback: (event, button, dialog) => {
             const form = dialog.element.querySelector("form")
             const fd = new foundry.applications.ux.FormDataExtended(form)
-            foundry.utils.mergeObject(data, fd.object, {inplace: true})
+            foundry.utils.mergeObject(data, fd.object, {
+              inplace: true
+            })
             if ( !data.folder ) delete data.folder
             if ( types.length === 1 ) data.type = types[0]
-            if ( !data.name?.trim() ) data.name = this.defaultName({type: data.type, parent, pack})
-            return this.create(data, {parent, pack, renderSheet: true})
+            if ( !data.name?.trim() ) data.name = this.defaultName({
+              type: data.type, parent, pack
+            })
+            return this.create(data, {
+              parent, pack, renderSheet: true
+            })
           },
         },
       ],
@@ -80,21 +119,27 @@ export class SR5Actor extends Actor {
     data.effects = []
 
     // Handle special create method
-    let dialogData = {lists: SR5_EntityHelpers.sortTranslations(SR5)}
+    let dialogData = {
+      lists: SR5_EntityHelpers.sortTranslations(SR5)
+    }
     let baseItems
 
     switch (data.type){
       case "actorSpirit": {
-        const spiritDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSpirit.html", dialogData)
+        const spiritDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSpirit.hbs", dialogData)
         const spiritResult = await foundry.applications.api.DialogV2.wait({
-          window: { title: game.i18n.localize('SR5.SpiritType') },
+          window: {
+            title: game.i18n.localize('SR5.SpiritType') 
+          },
           content: spiritDlg,
           buttons: [
             {
               action: "ok",
               label: "Ok",
               default: true,
-              callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+              callback: (event, button, dialog) => ({
+                action: "ok", element: dialog.element 
+              }),
             },
           ],
           rejectClose: false,
@@ -122,16 +167,20 @@ export class SR5Actor extends Actor {
         break
       }
       case "actorSprite": {
-        const spriteDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSprite.html", dialogData)
+        const spriteDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/createSprite.hbs", dialogData)
         const spriteResult = await foundry.applications.api.DialogV2.wait({
-          window: { title: game.i18n.localize('SR5.SpriteType') },
+          window: {
+            title: game.i18n.localize('SR5.SpriteType') 
+          },
           content: spriteDlg,
           buttons: [
             {
               action: "ok",
               label: "Ok",
               default: true,
-              callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+              callback: (event, button, dialog) => ({
+                action: "ok", element: dialog.element 
+              }),
             },
           ],
           rejectClose: false,
@@ -169,7 +218,9 @@ export class SR5Actor extends Actor {
         let initiativeEffect = new CONFIG.ActiveEffect.documentClass(effect)
         const effects = data.effects.map(e => e.toObject())
         effects.push(initiativeEffect.toObject())
-        foundry.utils.mergeObject(data, {"effects": effects })
+        foundry.utils.mergeObject(data, {
+          "effects": effects 
+        })
         super.create(data, options)
         break
       }
@@ -188,7 +239,8 @@ export class SR5Actor extends Actor {
 
   async _preCreate(data, options, user) {
     await super._preCreate(data, options, user)
-    let createData = {}
+    let createData = {
+    }
     foundry.utils.mergeObject(createData, {
       "prototypeToken.sight.enabled": true,
       "prototypeToken.sight.range": 0,
@@ -209,23 +261,33 @@ export class SR5Actor extends Actor {
         foundry.utils.mergeObject(createData, {
           "prototypeToken.actorLink": actorLink,
           "prototypeToken.lockRotation": true,
-          "prototypeToken.bar1": {attribute: "statusBars.physical"},
-          "prototypeToken.bar2": {attribute: "statusBars.stun"},
+          "prototypeToken.bar1": {
+            attribute: "statusBars.physical"
+          },
+          "prototypeToken.bar2": {
+            attribute: "statusBars.stun"
+          },
         })
         break
       case "actorGrunt":
         foundry.utils.mergeObject(createData, {
           "prototypeToken.lockRotation": true,
           "prototypeToken.disposition": CONST.TOKEN_DISPOSITIONS.HOSTILE,
-          "prototypeToken.bar1": {attribute: "statusBars.condition"},
+          "prototypeToken.bar1": {
+            attribute: "statusBars.condition"
+          },
         })
         break
       case "actorSpirit":
         foundry.utils.mergeObject(createData, {
           "prototypeToken.lockRotation": true,
           "prototypeToken.actorLink": actorLink,
-          "prototypeToken.bar1": {attribute: "statusBars.physical"},
-          "prototypeToken.bar2": {attribute: "statusBars.stun"},
+          "prototypeToken.bar1": {
+            attribute: "statusBars.physical"
+          },
+          "prototypeToken.bar2": {
+            attribute: "statusBars.stun"
+          },
           "prototypeToken.texture.src": this.img,
         })
         break
@@ -233,8 +295,12 @@ export class SR5Actor extends Actor {
         foundry.utils.mergeObject(createData, {
           "prototypeToken.lockRotation": true,
           "prototypeToken.actorLink": actorLink,
-          "prototypeToken.bar1": {attribute: "statusBars.condition"},
-          "prototypeToken.bar2": {attribute: "statusBars.matrix"},
+          "prototypeToken.bar1": {
+            attribute: "statusBars.condition"
+          },
+          "prototypeToken.bar2": {
+            attribute: "statusBars.matrix"
+          },
           "prototypeToken.texture.src": this.img,
         })
         break
@@ -244,7 +310,9 @@ export class SR5Actor extends Actor {
         foundry.utils.mergeObject(createData, {
           "prototypeToken.lockRotation": true,
           "prototypeToken.actorLink": actorLink,
-          "prototypeToken.bar2": {attribute: "statusBars.matrix"},
+          "prototypeToken.bar2": {
+            attribute: "statusBars.matrix"
+          },
           "prototypeToken.texture.src": this.img,
         })
         break
@@ -253,7 +321,9 @@ export class SR5Actor extends Actor {
     }
 
     if (this.system.sideKickPrototypeToken) {
-      foundry.utils.mergeObject(createData, {"prototypeToken": this.system.sideKickPrototypeToken})
+      foundry.utils.mergeObject(createData, {
+        "prototypeToken": this.system.sideKickPrototypeToken
+      })
     }
 
     this.updateSource(createData)
@@ -300,7 +370,8 @@ export class SR5Actor extends Actor {
 
   prepareDerivedData() {
     let actor = this
-    if (actor.flags.sr5 === undefined) actor.flags.sr5 = {}
+    if (actor.flags.sr5 === undefined) actor.flags.sr5 = {
+    }
     switch (actor.type) {
       case "actorDrone":
         if (actor.system.vehicleOwner.items.length) SR5_CharacterUtility.applyAutosoftEffect(actor)
@@ -810,7 +881,9 @@ export class SR5Actor extends Actor {
       messageData.damage.value = messageData.damage.splittedTwo
       await this.takeDamage(messageData)
     } else {
-      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoNoDamage", {armor: this.itemsProperties.armor.value + messageData.combat.armorPenetration, damage:originalDamage})}`) 
+      return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDVSoNoDamage", {
+        armor: this.itemsProperties.armor.value + messageData.combat.armorPenetration, damage:originalDamage
+      })}`) 
     }
   }
 
@@ -818,7 +891,8 @@ export class SR5Actor extends Actor {
   //Reboot deck = reset Overwatch score and delete any marks on or from the actor
   async rebootDeck() {
     let actorId = (this.isToken ? this.token.id : this.id)
-    let dataToUpdate = {}
+    let dataToUpdate = {
+    }
     let updatedItems = foundry.utils.duplicate(this.items)
 
     //Reset le SS à 0
@@ -884,7 +958,9 @@ export class SR5Actor extends Actor {
 
     //Manage action in combat
     if(game.combat){
-      SR5Combat.changeActionInCombat(actorId, [{type: "complex", value: 1, source: "rebootDeck"}], false)
+      SR5Combat.changeActionInCombat(actorId, [{
+        type: "complex", value: 1, source: "rebootDeck"
+      }], false)
     }
   }
 
@@ -896,13 +972,16 @@ export class SR5Actor extends Actor {
 
   //Reset Addiction
   async resetAddiction(){
-    let dataToUpdate = {}
+    let dataToUpdate = {
+    }
 
     //Reset le SS à 0
     let actorData = foundry.utils.duplicate(this.system)
     actorData.addictions = []
 
-    dataToUpdate = foundry.utils.mergeObject(dataToUpdate, {"system": actorData})
+    dataToUpdate = foundry.utils.mergeObject(dataToUpdate, {
+      "system": actorData
+    })
     await this.update(dataToUpdate)
 
     ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.AddictionsSettoNone")}.`)

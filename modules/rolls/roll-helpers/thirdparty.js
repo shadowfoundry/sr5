@@ -1,10 +1,24 @@
-import { SR5 } from "../../config.js"
-import { SR5_SystemHelpers } from "../../system/utilitySystem.js"
-import { SR5_EntityHelpers } from "../../entities/helpers.js"
-import { SR5_SocketHandler } from "../../socket.js"
-import { SR5_ConverterHelpers } from "./converter.js"
-import { SR5_RollTest } from "../roll-test.js"
-import { SR5_PrepareRollTest } from "../roll-prepare.js"
+import {
+  SR5 
+} from "../../config.js"
+import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
+  SR5_EntityHelpers 
+} from "../../entities/helpers.js"
+import {
+  SR5_SocketHandler 
+} from "../../socket.js"
+import {
+  SR5_ConverterHelpers 
+} from "./converter.js"
+import {
+  SR5_RollTest 
+} from "../roll-test.js"
+import {
+  SR5_PrepareRollTest 
+} from "../roll-prepare.js"
 
 export class SR5_ThirdPartyHelpers {
   /** Handle spirit, sprite or preparation resistance
@@ -26,7 +40,9 @@ export class SR5_ThirdPartyHelpers {
       rollData.magic.force = cardData.magic.force
       rollData.test.type = "summoningResistance"
       rollData.test.title = `${game.i18n.localize("SR5.SummoningResistance")} (${rollData.previousMessage.hits})`
-      rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force}]
+      rollData.dicePool.composition = [{
+        source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force
+      }]
       rollData.dicePool.base = rollData.magic.force
       rollData.dicePool.value = rollData.magic.force
     }
@@ -37,7 +53,9 @@ export class SR5_ThirdPartyHelpers {
       rollData.matrix.level = cardData.matrix.level
       rollData.test.type = "compilingResistance"
       rollData.test.title = `${game.i18n.localize("SR5.CompilingResistance")} (${rollData.previousMessage.hits})`
-      rollData.dicePool.composition = [{source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: rollData.matrix.level}]
+      rollData.dicePool.composition = [{
+        source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: rollData.matrix.level
+      }]
       rollData.dicePool.base = rollData.matrix.level
       rollData.dicePool.value = rollData.matrix.level
     }
@@ -47,12 +65,18 @@ export class SR5_ThirdPartyHelpers {
       targetItem = await fromUuid(cardData.target.itemUuid)
       rollData.dicePool.value = targetItem.system.casterMagic + targetItem.system.force
       rollData.dicePool.composition = ([
-        {source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.system.casterMagic},
-        {source: game.i18n.localize("SR5.SpellForce"), type: "linkedAttribute", value: targetItem.system.force},
+        {
+          source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.system.casterMagic
+        },
+        {
+          source: game.i18n.localize("SR5.SpellForce"), type: "linkedAttribute", value: targetItem.system.force
+        },
       ])
       if (targetItem.system.quickening && targetItem.actor?.system.magic?.metamagics?.quickening) {
         rollData.dicePool.value += targetItem.system.karmaSpent
-        rollData.dicePool.composition.push({source: game.i18n.localize("SR5.MetamagicQuickening"), type: "metamagic", value: targetItem.system.karmaSpent})
+        rollData.dicePool.composition.push({
+          source: game.i18n.localize("SR5.MetamagicQuickening"), type: "metamagic", value: targetItem.system.karmaSpent
+        })
       }
       rollData.dicePool.base = rollData.dicePool.value
       rollData.test.type = "dispellResistance"
@@ -68,8 +92,12 @@ export class SR5_ThirdPartyHelpers {
         rollData.test.type = "enchantmentResistance"
         rollData.test.title = `${game.i18n.localize("SR5.EnchantmentResistance")} (${targetItem.name})`
         rollData.dicePool.composition = ([
-          {source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.parent.system.specialAttributes.magic.augmented.value},
-          {source: game.i18n.localize("SR5.ItemRating"), type: "linkedAttribute", value: targetItem.system.itemRating},
+          {
+            source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.parent.system.specialAttributes.magic.augmented.value
+          },
+          {
+            source: game.i18n.localize("SR5.ItemRating"), type: "linkedAttribute", value: targetItem.system.itemRating
+          },
         ])
       }
       if (targetItem.type === "itemPreparation") {
@@ -78,8 +106,12 @@ export class SR5_ThirdPartyHelpers {
         rollData.test.typeSub = "preparation"
         rollData.test.title = `${game.i18n.localize("SR5.DisjointingResistance")} (${targetItem.name})`
         rollData.dicePool.composition = ([
-          {source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.parent.system.specialAttributes.magic.augmented.value},
-          {source: game.i18n.localize("SR5.ItemRating"), type: "linkedAttribute", value: targetItem.system.force},
+          {
+            source: game.i18n.localize("SR5.CasterMagic"), type: "linkedAttribute", value: targetItem.parent.system.specialAttributes.magic.augmented.value
+          },
+          {
+            source: game.i18n.localize("SR5.ItemRating"), type: "linkedAttribute", value: targetItem.system.force
+          },
         ])
       }
       rollData.dicePool.base = rollData.dicePool.value
@@ -104,8 +136,12 @@ export class SR5_ThirdPartyHelpers {
       rollData.dicePool.value = cardData.magic.force * 2
       rollData.dicePool.base = rollData.dicePool.value
       rollData.dicePool.composition = [
-        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force},
-        {source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force},
+        {
+          source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force
+        },
+        {
+          source: game.i18n.localize("SR5.Force"), type: "linkedAttribute", value: rollData.magic.force
+        },
       ]
       rollData.owner.itemId = cardData.owner.itemId
       rollData.owner.itemUuid = cardData.owner.itemUuid
@@ -121,8 +157,12 @@ export class SR5_ThirdPartyHelpers {
       rollData.dicePool.value = targetItem.system.threaderResonance + targetItem.system.level
       rollData.dicePool.base = rollData.dicePool.value
       rollData.dicePool.composition = ([
-        {source: game.i18n.localize("SR5.ThreaderResonance"), type: "linkedAttribute", value: targetItem.system.threaderResonance},
-        {source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: targetItem.system.level},
+        {
+          source: game.i18n.localize("SR5.ThreaderResonance"), type: "linkedAttribute", value: targetItem.system.threaderResonance
+        },
+        {
+          source: game.i18n.localize("SR5.Level"), type: "linkedAttribute", value: targetItem.system.level
+        },
       ])
       rollData.target.itemUuid = cardData.target.itemUuid
       rollData.test.type = "complexFormResistance"
@@ -135,8 +175,12 @@ export class SR5_ThirdPartyHelpers {
       rollData.dicePool.value = spirit.system.attributes.body.augmented.value + spirit.system.specialAttributes.magic.augmented.value
       rollData.dicePool.base = rollData.dicePool.value
       rollData.dicePool.composition = ([
-        {source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: spirit.system.attributes.body.augmented.value},
-        {source: game.i18n.localize("SR5.Magic"), type: "linkedAttribute", value: spirit.system.specialAttributes.magic.augmented.value},
+        {
+          source: game.i18n.localize("SR5.Body"), type: "linkedAttribute", value: spirit.system.attributes.body.augmented.value
+        },
+        {
+          source: game.i18n.localize("SR5.Magic"), type: "linkedAttribute", value: spirit.system.specialAttributes.magic.augmented.value
+        },
       ])
       rollData.test.type = "engulfResistance"
       rollData.test.title = `${game.i18n.localize("SR5.SpiritResistance")} (${rollData.previousMessage.hits})`
@@ -153,21 +197,27 @@ export class SR5_ThirdPartyHelpers {
         },
         barrierType, weapon
             
-      const tpDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.html", dialogData)
+      const tpDlg = await foundry.applications.handlebars.renderTemplate("systems/sr5/templates/interface/chooseWeaponMaterial.hbs", dialogData)
       const tpResult = await foundry.applications.api.DialogV2.wait({
-        window: { title: game.i18n.localize('SR5.ChooseWeaponMaterial') },
+        window: {
+          title: game.i18n.localize('SR5.ChooseWeaponMaterial') 
+        },
         content: tpDlg,
         buttons: [
           {
             action: "ok",
             label: "Ok",
             default: true,
-            callback: (event, button, dialog) => ({ action: "ok", element: dialog.element }),
+            callback: (event, button, dialog) => ({
+              action: "ok", element: dialog.element 
+            }),
           },
           {
             action: "cancel",
             label: "Cancel",
-            callback: () => ({ action: "cancel" }),
+            callback: () => ({
+              action: "cancel" 
+            }),
           },
         ],
         rejectClose: false,
@@ -182,8 +232,12 @@ export class SR5_ThirdPartyHelpers {
       rollData.dicePool.value = armor + structure
       rollData.dicePool.base = rollData.dicePool.value
       rollData.dicePool.composition = ([
-        {source: game.i18n.localize("SR5.Armor"), type: "linkedAttribute", value: armor},
-        {source: game.i18n.localize("SR5.Structure"), type: "linkedAttribute", value: structure},
+        {
+          source: game.i18n.localize("SR5.Armor"), type: "linkedAttribute", value: armor
+        },
+        {
+          source: game.i18n.localize("SR5.Structure"), type: "linkedAttribute", value: structure
+        },
       ])
       rollData.damage.value = cardData.damage.value
       rollData.test.type = "weaponResistance"
@@ -192,7 +246,9 @@ export class SR5_ThirdPartyHelpers {
       rollData.target.actorId = cardData.owner.actorId
     }
 
-    rollData.roll = await SR5_RollTest.rollDice({ dicePool: rollData.dicePool.value })
+    rollData.roll = await SR5_RollTest.rollDice({
+      dicePool: rollData.dicePool.value 
+    })
 
     await SR5_RollTest.addInfoToCard(rollData, cardData.owner.actorId)
     SR5_RollTest.renderRollCard(rollData)
@@ -205,14 +261,20 @@ export class SR5_ThirdPartyHelpers {
 
     if (actor.type === "actorSprite"){
       key = "tasks"
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_TasksReduced', {task: cardData.roll.netHits})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_TasksReduced', {
+        task: cardData.roll.netHits
+      })}`)
     } else if (actor.type === "actorSpirit"){
       key = "services"
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {service: cardData.roll.netHits})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_ServicesReduced', {
+        service: cardData.roll.netHits
+      })}`)
     }
     actorData[key].value -= cardData.roll.netHits
     if (actorData[key].value < 0) actorData[key].value = 0
-    await actor.update({'system': actorData})
+    await actor.update({
+      'system': actorData
+    })
   }
 
   static async enslavedSidekick(cardData, type){
@@ -223,14 +285,20 @@ export class SR5_ThirdPartyHelpers {
       actorData.isRegistered = true
       actorData.tasks.value += cardData.roll.netHits
       actorData.tasks.max += cardData.roll.netHits
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpriteRegistered', {task: cardData.roll.netHits})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpriteRegistered', {
+        task: cardData.roll.netHits
+      })}`)
     } else if (type === "bindSpirit"){
       actorData.isBounded = true
       actorData.services.value += cardData.roll.netHits
       actorData.services.max += cardData.roll.netHits
-      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpiritBounded', {service: cardData.roll.netHits})}`)
+      ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format('SR5.INFO_SpiritBounded', {
+        service: cardData.roll.netHits
+      })}`)
     }
-    await actor.update({'system': actorData})
+    await actor.update({
+      'system': actorData
+    })
         
     if (actorData.creatorItemId){
       let creator = SR5_EntityHelpers.getRealActorFromID(actorData.creatorId)
@@ -245,7 +313,9 @@ export class SR5_ThirdPartyHelpers {
         itemData.services.value += cardData.roll.netHits
         itemData.services.max += cardData.roll.netHits
       }
-      await itemSideKick.update({'system': itemData})
+      await itemSideKick.update({
+        'system': itemData
+      })
     }
   }
 
@@ -259,7 +329,9 @@ export class SR5_ThirdPartyHelpers {
         item: cardData.target.itemUuid,
         info: itemData,
       })
-    } else await item.update({'system': itemData})
+    } else await item.update({
+      'system': itemData
+    })
   }
 
   static async reduceTransferedEffect(cardData){
@@ -277,7 +349,9 @@ export class SR5_ThirdPartyHelpers {
       if (newEffect.targetOfEffect) {
         for (let e of newEffect.targetOfEffect){
           let effect = await fromUuid(e)
-          if (!game.user?.isGM) SR5_SocketHandler.emitForGM("deleteItem", {item: e})
+          if (!game.user?.isGM) SR5_SocketHandler.emitForGM("deleteItem", {
+            item: e
+          })
           else await effect.delete()
         }
       }
@@ -298,7 +372,9 @@ export class SR5_ThirdPartyHelpers {
               item: e,
               info: updatedEffect,
             })
-          } else await effect.update({'system': updatedEffect})
+          } else await effect.update({
+            'system': updatedEffect
+          })
         }
       }
     }
@@ -309,7 +385,9 @@ export class SR5_ThirdPartyHelpers {
         item: cardData.target.itemUuid,
         info: newEffect,
       })
-    } else await targetedEffect.update({'system': newEffect})
+    } else await targetedEffect.update({
+      'system': newEffect
+    })
   }
 
   static async sealRitual(cardData){
@@ -322,7 +400,9 @@ export class SR5_ThirdPartyHelpers {
         item: cardData.owner.itemUuid,
         info: itemData,
       })
-    } else await item.update({'system': itemData})
+    } else await item.update({
+      'system': itemData
+    })
   }
 
   static async applyEffectToItem(info, type){
@@ -395,7 +475,9 @@ export class SR5_ThirdPartyHelpers {
         break
       case "createPreparation": {
         let preparation = actor.items.find(i => i.uuid === messageData.owner.itemUuid)
-        buildItem = {"system": preparation.system}
+        buildItem = {
+          "system": preparation.system
+        }
         buildItem = foundry.utils.mergeObject(buildItem, {
           name: `${game.i18n.localize("SR5.Preparation")}${game.i18n.localize("SR5.Colons")} ${preparation.name}`,
           type: "itemPreparation",
