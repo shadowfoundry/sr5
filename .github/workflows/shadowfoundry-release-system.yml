@@ -1,4 +1,14 @@
-name: Foundry VTT Shadowrun 5 System Release Builder
+# Unified Foundry VTT release workflow for ShadowFoundry projects.
+# Works for both systems (system.json) and modules (module.json).
+#
+# Per-project configuration — update these env vars when copying to a new repo:
+#   PROJECT_NAME    — archive directory and zip prefix (e.g. sr6, sr5, sr6-compendiums)
+#   PROJECT_TITLE   — human-readable name for release notes
+#   PROJECT_TYPE    — "system" or "module" (determines manifest filename)
+#   RELEASE_CONTENTS — space-separated list of files/dirs to include in the archive
+#                      For packs, use "packs" (the _source dirs are excluded automatically)
+
+name: Foundry VTT ShadowFoundry Release Builder
 on:
   push:
     tags:
@@ -7,10 +17,17 @@ on:
 permissions:
   contents: write
 
+env:
+  PROJECT_NAME: sr5
+  PROJECT_TITLE: Shadowrun 5 System
+  PROJECT_TYPE: system
+  RELEASE_CONTENTS: system.json sr5.js scripts css templates lang img README.md LICENCE.md BUG_REPORT.md CONTRIBUTING.md
+
 jobs:
-  sr5-system:
+  release:
     runs-on: ubuntu-latest
     steps:
+      # ── 1. Detect release type ──────────────────────────────────────────
       - name: Detect release type
         id: vars
         run: |
@@ -29,7 +46,6 @@ jobs:
             echo "type=stable" >> $GITHUB_OUTPUT
             echo "identifier=" >> $GITHUB_OUTPUT
             echo "title=[Release] ${TAG}" >> $GITHUB_OUTPUT
-            echo "branch=main" >> $GITHUB_OUTPUT
             echo "prerelease_flag=" >> $GITHUB_OUTPUT
             echo "Detected stable release"
           else
@@ -37,6 +53,7 @@ jobs:
             echo "type=skip" >> $GITHUB_OUTPUT
           fi
 
+      # ── 2. Setup ────────────────────────────────────────────────────────
       - name: Install Node
         if: steps.vars.outputs.type != 'skip'
         uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
@@ -65,62 +82,93 @@ jobs:
             fi
           fi
 
-      - name: Update system.json for release
+      # ── 3. Validate ─────────────────────────────────────────────────────
+      - name: Install dependencies
+        if: steps.vars.outputs.type != 'skip'
+        run: npm ci
+
+      - name: Run checks
+        if: steps.vars.outputs.type != 'skip'
+        run: npm run check
+
+      # ── 4. Detect manifest file ─────────────────────────────────────────
+      - name: Detect manifest
+        if: steps.vars.outputs.type != 'skip'
+        id: manifest
+        run: |
+          if [ "${{ env.PROJECT_TYPE }}" = "system" ]; then
+            echo "file=system.json" >> $GITHUB_OUTPUT
+          else
+            echo "file=module.json" >> $GITHUB_OUTPUT
+          fi
+
+      # ── 5. Update manifest for release ──────────────────────────────────
+      - name: Update manifest for release
         if: steps.vars.outputs.type != 'skip'
         run: |
           TAG="${{ steps.vars.outputs.tag }}"
           REPO="${{ github.repository }}"
           TYPE="${{ steps.vars.outputs.type }}"
           IDENTIFIER="${{ steps.vars.outputs.identifier }}"
+          MANIFEST_FILE="${{ steps.manifest.outputs.file }}"
 
           if [ "$TYPE" = "prerelease" ]; then
-            MANIFEST="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/system.json"
+            MANIFEST_URL="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/${MANIFEST_FILE}"
           else
-            MANIFEST="https://github.com/${REPO}/releases/latest/download/system.json"
+            MANIFEST_URL="https://github.com/${REPO}/releases/latest/download/${MANIFEST_FILE}"
           fi
 
           jq \
             --arg ver "$TAG" \
-            --arg manifest "$MANIFEST" \
-            --arg download "https://github.com/${REPO}/releases/download/${TAG}/sr5_${TAG}.zip" \
+            --arg manifest "$MANIFEST_URL" \
+            --arg download "https://github.com/${REPO}/releases/download/${TAG}/${{ env.PROJECT_NAME }}_${TAG}.zip" \
             '.version = $ver | .manifest = $manifest | .download = $download' \
-            system.json > system_updated.json
-          mv system_updated.json system.json
-          cp system.json /tmp/system.json
+            "$MANIFEST_FILE" > manifest_updated.json
+          mv manifest_updated.json "$MANIFEST_FILE"
+          cp "$MANIFEST_FILE" /tmp/manifest.json
 
-      - name: Cleaning up directory
+      # ── 6. Package ──────────────────────────────────────────────────────
+      - name: Build compendiums
+        if: steps.vars.outputs.type != 'skip' && env.PROJECT_TYPE == 'module'
+        run: npm run build
+
+      - name: Prepare archive
         if: steps.vars.outputs.type != 'skip'
         run: |
-          rm -rf less
-          rm -rf node_modules
-          rm -rf jsconfig.json
-          rm -rf package*.json
-          rm -rf gulpfile.js
-          rm -rf MIGRATION_PLAN.md
-          # Save Discord push scripts before packaging
+          # Save Discord scripts before packaging
           cp -r scripts/push_to_discord /tmp/push_to_discord
-          rm -rf scripts/push_to_discord
-          mkdir sr5
-          shopt -s extglob
-          mv !(sr5) sr5/
+          # Copy only the declared release contents into the archive directory
+          mkdir -p "${{ env.PROJECT_NAME }}"
+          for item in ${{ env.RELEASE_CONTENTS }}; do
+            [ ! -e "$item" ] && continue
+            if [ "$item" = "packs" ]; then
+              # Copy pack data excluding _source directories
+              mkdir -p "${{ env.PROJECT_NAME }}/packs"
+              for dir in packs/*/; do
+                pack=$(basename "$dir")
+                mkdir -p "${{ env.PROJECT_NAME }}/packs/$pack"
+                find "$dir" -maxdepth 1 -not -name '_source' -not -path "$dir" -exec cp -r {} "${{ env.PROJECT_NAME }}/packs/$pack/" \;
+              done
+            else
+              cp -r "$item" "${{ env.PROJECT_NAME }}/"
+            fi
+          done
+          zip -r "${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip" "${{ env.PROJECT_NAME }}"
 
-      - name: Zipping system
-        if: steps.vars.outputs.type != 'skip'
-        run: |
-          zip -r sr5_${{ steps.vars.outputs.tag }}.zip sr5
-
+      # ── 7. Zip size check ───────────────────────────────────────────────
       - name: Check zip size
         if: steps.vars.outputs.type != 'skip'
         id: zip_check
         run: |
-          ZIP_FILE="sr5_${{ steps.vars.outputs.tag }}.zip"
+          ZIP_FILE="${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip"
           SIZE_BYTES=$(stat --format="%s" "$ZIP_FILE")
           SIZE_MB=$(awk "BEGIN {printf \"%.2f\", $SIZE_BYTES / 1048576}")
+          echo "size_bytes=$SIZE_BYTES" >> $GITHUB_OUTPUT
           echo "size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
           echo "Total zip size: ${SIZE_MB} MB"
-          LIMIT=8388608
+          LIMIT=10383360  # 9.9 MB
           if [ "$SIZE_BYTES" -ge "$LIMIT" ]; then
-            echo "::warning::Zip file is ${SIZE_MB} MB, exceeds Discord's 8 MB upload limit"
+            echo "::warning::Zip file is ${SIZE_MB} MB, exceeds Discord's 9.9 MB upload limit"
             echo "over_limit=true" >> $GITHUB_OUTPUT
             echo ""
             echo "=== Top 30 files by size ==="
@@ -130,9 +178,10 @@ jobs:
             unzip -l "$ZIP_FILE" | grep -v '/$' | tail -n +4 | head -n -2 | awk '{dir=$4; sub(/\/[^\/]*$/, "", dir); sizes[dir]+=$1} END {for (d in sizes) printf "%8.1f KB  %s\n", sizes[d]/1024, d}' | sort -rn -k1 2>/dev/null | head -20
           else
             echo "over_limit=false" >> $GITHUB_OUTPUT
-            echo "Zip is under 8 MB, ready for Discord upload"
+            echo "Zip is under 9.9 MB, ready for Discord upload"
           fi
 
+      # ── 8. Release notes ────────────────────────────────────────────────
       - name: Build pre-release notes
         if: steps.vars.outputs.type == 'prerelease'
         id: prerelease_notes
@@ -168,7 +217,7 @@ jobs:
               ;;
           esac
           REPO="${{ github.repository }}"
-          MANIFEST_URL="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/system.json"
+          MANIFEST_URL="https://github.com/${REPO}/releases/download/pre-release-${IDENTIFIER}/${{ steps.manifest.outputs.file }}"
           {
             echo "notes<<NOTES_EOF"
             echo "$WARNING"
@@ -191,10 +240,10 @@ jobs:
             CHANGELOG=$(git log --reverse --pretty=format:"- %s" "${GITHUB_REF_NAME}")
           fi
           REPO="${{ github.repository }}"
-          MANIFEST_URL="https://github.com/${REPO}/releases/latest/download/system.json"
+          MANIFEST_URL="https://github.com/${REPO}/releases/latest/download/${{ steps.manifest.outputs.file }}"
           {
             echo "notes<<NOTES_EOF"
-            echo "Shadowrun 5 System release ${{ steps.vars.outputs.tag }} (${{ steps.zip_check.outputs.size_mb }} MB)"
+            echo "${{ env.PROJECT_TITLE }} release ${{ steps.vars.outputs.tag }} (${{ steps.zip_check.outputs.size_mb }} MB)"
             echo ""
             echo "**Changes since ${PREV_TAG:-initial}:**"
             echo "$CHANGELOG"
@@ -203,6 +252,7 @@ jobs:
             echo "NOTES_EOF"
           } >> $GITHUB_OUTPUT
 
+      # ── 9. GitHub release ───────────────────────────────────────────────
       - name: Create GitHub release
         if: steps.vars.outputs.type != 'skip'
         env:
@@ -210,8 +260,8 @@ jobs:
           RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
         run: |
           gh release create "${{ steps.vars.outputs.tag }}" \
-            "sr5_${{ steps.vars.outputs.tag }}.zip" \
-            "/tmp/system.json" \
+            "${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip" \
+            "/tmp/manifest.json#${{ steps.manifest.outputs.file }}" \
             --title "${{ steps.vars.outputs.title }}" \
             ${{ steps.vars.outputs.prerelease_flag }} \
             --notes "$RELEASE_NOTES"
@@ -221,20 +271,22 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          MANIFEST_FILE="${{ steps.manifest.outputs.file }}"
           CHANNEL="pre-release-${{ steps.vars.outputs.identifier }}"
-          INSTALL_URL="https://github.com/${{ github.repository }}/releases/download/${CHANNEL}/system.json"
+          INSTALL_URL="https://github.com/${{ github.repository }}/releases/download/${CHANNEL}/${MANIFEST_FILE}"
           if gh release view "$CHANNEL" &>/dev/null; then
             gh release upload "$CHANNEL" \
-              "/tmp/system.json" \
+              "/tmp/manifest.json#${MANIFEST_FILE}" \
               --clobber
           else
             gh release create "$CHANNEL" \
-              "/tmp/system.json" \
+              "/tmp/manifest.json#${MANIFEST_FILE}" \
               --title "${{ steps.vars.outputs.identifier }} Channel Manifest" \
               --prerelease \
               --notes "Persistent ${{ steps.vars.outputs.identifier }} manifest. Install URL: ${INSTALL_URL}"
           fi
 
+      # ── 10. Discord notification ────────────────────────────────────────
       - name: Prepare Discord scripts
         if: steps.vars.outputs.type != 'skip'
         run: |
@@ -242,23 +294,42 @@ jobs:
           npm install
           chmod +x *.js
 
-      - name: Send zip to Discord
-        if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'false'
+      - name: Check repository visibility
+        if: steps.vars.outputs.type != 'skip'
+        id: repo_visibility
         env:
-          WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
-          RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
+          GH_TOKEN: ${{ github.token }}
         run: |
-          RELEASE_URL="<https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}>"
-          BODY=$(printf '%s\n\nDownload: %s' "$RELEASE_NOTES" "$RELEASE_URL")
-          jq -n --arg content "$BODY" '{content: $content, flags: 4}' | curl -sf -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
-          /tmp/push_to_discord/file_webhook.js "$WEBHOOK_URL" "sr5_${{ steps.vars.outputs.tag }}.zip"
+          PRIVATE=$(gh api repos/${{ github.repository }} --jq .private)
+          echo "private=$PRIVATE" >> $GITHUB_OUTPUT
+          echo "Repository is $([ "$PRIVATE" = 'true' ] && echo 'private' || echo 'public')"
 
-      - name: Send oversized zip warning to Discord
-        if: steps.vars.outputs.type != 'skip' && steps.zip_check.outputs.over_limit == 'true'
+      - name: Send Discord notification
+        if: steps.vars.outputs.type != 'skip'
         env:
           WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
           RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
         run: |
           RELEASE_URL="<https://github.com/${{ github.repository }}/releases/tag/${{ steps.vars.outputs.tag }}>"
           BODY=$(printf '%s\n\nDownload: %s' "$RELEASE_NOTES" "$RELEASE_URL")
-          jq -n --arg content "$BODY" '{content: $content, flags: 4}' | curl -sf -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
+          if [ ${#BODY} -gt 1990 ]; then
+            BODY="${BODY:0:1987}..."
+          fi
+
+          # Send text message
+          jq -n --arg content "$BODY" '{content: $content, flags: 4}' | \
+            curl -sf -H "Content-Type: application/json" -d @- "$WEBHOOK_URL"
+
+          # Upload file(s) only for private repos
+          if [ "${{ steps.repo_visibility.outputs.private }}" = "true" ]; then
+            ZIP_FILE="${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip"
+            if [ "${{ steps.zip_check.outputs.over_limit }}" = "true" ]; then
+              # Split into 9.9 MB chunks and upload each
+              split -b 10383360 -d --additional-suffix=.zip.part "$ZIP_FILE" "${ZIP_FILE%.zip}_chunk_"
+              for chunk in ${ZIP_FILE%.zip}_chunk_*; do
+                /tmp/push_to_discord/file_webhook.js "$WEBHOOK_URL" "$chunk"
+              done
+            else
+              /tmp/push_to_discord/file_webhook.js "$WEBHOOK_URL" "$ZIP_FILE"
+            fi
+          fi
