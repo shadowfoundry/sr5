@@ -81,7 +81,6 @@ module.exports = [
     ignores: [
       'node_modules/',
       'scripts/push_to_discord/',
-      'tests/',
       '*.css',
       '*.less',
       'templates/',
