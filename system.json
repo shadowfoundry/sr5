@@ -19,7 +19,7 @@
     "modules/sr5.js"
   ],
   "styles": [
-    {"src": "css/shadowrun.css", "layer": null}
+    "css/shadowrun.css"
   ],
   "languages": [
     {
