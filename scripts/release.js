@@ -104,18 +104,18 @@ function buildChoices(parsed, isMainBranch, existingTags) {
         version: formatVersion({
           ...v, identifier: null, num: null
         }),
-        hint: 'production-ready, merged and validated',
+        desc: 'Ship it! Production-ready, merged and validated.',
       })
     }
     choices.push({
       label: 'Enter manually',
       version: null,
-      hint: null,
     })
     return choices
   }
 
   // On non-main branch
+  const cycle = `${v.major}.${v.minor}.${v.patch}`
   if (v.isPrerelease) {
     // Next increment of same identifier
     choices.push({
@@ -123,7 +123,8 @@ function buildChoices(parsed, isMainBranch, existingTags) {
       version: formatVersion({
         ...v, num: v.num + 1
       }),
-      hint: 'bug fixes, incremental changes, work in progress',
+      desc: 'Keep adding changes to this release.',
+      section: `continue`,
     })
 
     // Promote to next identifier in the chain
@@ -135,61 +136,65 @@ function buildChoices(parsed, isMainBranch, existingTags) {
         version: formatVersion({
           ...v, identifier: next, num: 1
         }),
-        hint: next === 'beta' ?
-          'feature-complete, needs broader testing' :
-          'release candidate, final validation before stable',
+        desc: next === 'beta' ?
+          'No more new features — only bug fixes and testing from now on.' :
+          'Feature-complete and stable. Final validation before going live.',
+        section: 'continue',
       })
     }
     if (v.identifier === 'rc') {
-      // RC can go stable (but only from main — will be caught later)
       choices.push({
         label: 'Promote to stable',
         version: formatVersion({
           ...v, identifier: null, num: null
         }),
-        hint: 'production-ready (must be on main branch)',
+        desc: 'Ship it! (must be on main branch)',
+        section: 'continue',
       })
     }
 
     // New patch cycle
     choices.push({
-      label: 'New patch alpha',
+      label: 'New patch release',
       version: formatVersion({
         major: v.major, minor: v.minor, patch: v.patch + 1, identifier: 'alpha', num: 1
       }),
-      hint: 'start a new patch cycle after the current one',
+      desc: `Start fresh for a new round of fixes (close ${cycle} cycle).`,
+      section: 'new',
     })
 
     // New minor cycle
     choices.push({
-      label: 'New minor alpha',
+      label: 'New minor release',
       version: formatVersion({
         major: v.major, minor: v.minor + 1, patch: 0, identifier: 'alpha', num: 1
       }),
-      hint: 'significant new features or breaking changes',
+      desc: 'Start fresh for a bigger release with new features.',
+      section: 'new',
     })
   } else {
     // Current version is stable, on a non-main branch (post-merge or development)
     choices.push({
-      label: 'New patch alpha',
+      label: 'New patch release',
       version: formatVersion({
         major: v.major, minor: v.minor, patch: v.patch + 1, identifier: 'alpha', num: 1
       }),
-      hint: 'bug fixes and small improvements',
+      desc: 'Bug fixes and small improvements.',
+      section: 'new',
     })
     choices.push({
-      label: 'New minor alpha',
+      label: 'New minor release',
       version: formatVersion({
         major: v.major, minor: v.minor + 1, patch: 0, identifier: 'alpha', num: 1
       }),
-      hint: 'significant new features or breaking changes',
+      desc: 'Significant new features or breaking changes.',
+      section: 'new',
     })
   }
 
   choices.push({
     label: 'Enter manually',
     version: null,
-    hint: null,
   })
 
   // Filter out versions that already have a tag
@@ -212,38 +217,33 @@ async function interactiveSelect() {
   const choices = buildChoices(parsed, isMainBranch, existingTags)
 
   console.log(`\nCurrent version: ${currentVersion}  (branch: ${branch})`)
-  console.log('')
 
-  if (!isMainBranch && parsed.isPrerelease) {
-    console.log('  Pre-release (current cycle):')
-    let i = 1
-    for (const c of choices) {
-      if (c.label === 'New patch alpha') {
-        console.log('')
-        console.log('  New version:')
+  let lastSection = null
+  let i = 1
+  for (const c of choices) {
+    // Section headers
+    if (c.section && c.section !== lastSection) {
+      console.log('')
+      if (c.section === 'continue') {
+        const cycle = `${parsed.major}.${parsed.minor}.${parsed.patch}`
+        console.log(`  Continue current release (${cycle}):`)
+      } else if (c.section === 'new') {
+        console.log('  Start a new release:')
       }
-      if (c.label === 'Enter manually') {
-        console.log('')
-      }
-      if (c.version) {
-        const hint = c.hint ? `  (${c.hint})` : ''
-        console.log(`    ${i}. ${c.label.padEnd(22)} → ${c.version}${hint}`)
-      } else {
-        console.log(`    ${i}. ${c.label}`)
-      }
-      i++
+      lastSection = c.section
     }
-  } else {
-    let i = 1
-    for (const c of choices) {
-      if (c.version) {
-        const hint = c.hint ? `  (${c.hint})` : ''
-        console.log(`    ${i}. ${c.label.padEnd(22)} → ${c.version}${hint}`)
-      } else {
-        console.log(`    ${i}. ${c.label}`)
-      }
-      i++
+    if (!c.section && lastSection) {
+      console.log('')
+      lastSection = null
     }
+
+    if (c.version) {
+      console.log(`    ${i}. ${c.label.padEnd(22)} → ${c.version}`)
+      if (c.desc) console.log(`       ${c.desc}`)
+    } else {
+      console.log(`    ${i}. ${c.label}`)
+    }
+    i++
   }
 
   console.log('')
