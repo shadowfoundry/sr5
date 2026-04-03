@@ -28,52 +28,66 @@ When Foundry releases a new major version, bump the MAJOR and reset MINOR and PA
 
 ## Creating a Release
 
-The `npm run release` script automates the entire process: it validates your environment, bumps the version in `system.json` and `package.json`, regenerates `package-lock.json`, runs all checks, commits, and creates the git tag.
+Just run `npm run release` and follow the prompts. The script guides you through version selection, validates everything, and creates the tag for you.
 
-### Pre-release
+### Interactive mode
 
-Pre-releases can be created from any branch except `main`/`master`.
+This is the recommended way to release. Run without arguments:
 
 ```bash
-git checkout dev        # or any non-main branch
-git pull
-npm run release -- 13.0.1-alpha.3
+npm run release
 ```
 
-Then push:
+The script reads the current version and branch, then offers contextual choices:
 
-```bash
-git push origin HEAD --tags
+```
+Current version: 13.0.1-alpha.7  (branch: dev)
+
+  Continue current release (13.0.1):
+    1. Next alpha             → 13.0.1-alpha.8
+       Keep adding changes to this release.
+    2. Promote to beta        → 13.0.1-beta.1
+       No more new features — only bug fixes and testing from now on.
+
+  Start a new release:
+    3. New patch release      → 13.0.2-alpha.1
+       Start fresh for a new round of fixes (close 13.0.1 cycle).
+    4. New minor release      → 13.1.0-alpha.1
+       Start fresh for a bigger release with new features.
+
+    5. Enter manually
+
+Choice [1]:
 ```
 
-### Stable release
-
-Stable releases must be created from the `main` branch.
+After the script completes, push the commit and tag:
 
 ```bash
-git checkout main
-git pull origin main
-git merge dev
-npm run release -- 13.0.1
+git push origin HEAD --tags   # pre-release (from dev or feature branch)
+git push origin main --tags   # stable (from main)
 ```
 
-Then push:
+### Direct mode (advanced)
+
+If you already know the exact version, you can skip the interactive menu:
 
 ```bash
-git push origin main --tags
+npm run release -- 13.0.1-alpha.3   # pre-release (from any non-main branch)
+npm run release -- 13.0.1            # stable release (from main branch only)
 ```
 
 ### What `npm run release` does
 
-1. Validates the version format (semver)
-2. Checks the working directory is clean (no uncommitted changes)
-3. Checks you are on the correct branch (main for stable, non-main for pre-release)
-4. Checks the tag does not already exist
-5. Bumps version in `system.json` and `package.json`
-6. Regenerates `package-lock.json`
-7. Runs `npm run check` (lint, tests, CSS build, validators)
-8. Commits the version bump
-9. Creates the git tag
+1. Offers interactive version selection (if no version argument given)
+2. Validates the version format (semver)
+3. Checks the working directory is clean (no uncommitted changes)
+4. Checks you are on the correct branch (main for stable, non-main for pre-release)
+5. Checks the tag does not already exist
+6. Bumps version in `system.json` and `package.json`
+7. Regenerates `package-lock.json`
+8. Runs `npm run check` (lint, tests, CSS build, validators)
+9. Commits the version bump
+10. Creates the git tag
 
 ### Pre-release progression examples
 
