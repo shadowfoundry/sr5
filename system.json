@@ -52,7 +52,7 @@
         "templates",
         "css",
         "lang",
-        "js"
+        "modules"
       ]
     }
   },
