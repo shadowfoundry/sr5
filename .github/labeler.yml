@@ -12,7 +12,7 @@ i18n:
 
 styles:
   - changed-files:
-      - any-glob-to-any-file: 'less/**'
+      - any-glob-to-any-file: 'styles/**'
 
 assets:
   - changed-files:
