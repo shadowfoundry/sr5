@@ -2,6 +2,45 @@ name: Feature Request
 description: Suggest a new feature or improvement
 labels: ["enhancement"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Have an idea for the system? We'd love to hear it! Please describe what you'd like and why.
+
+  - type: dropdown
+    id: subsystem
+    attributes:
+      label: Area / Subsystem
+      description: Which part of the system does this relate to?
+      options:
+        - Sheet / UI
+        - Combat (attacks, defense, damage)
+        - Magic (spells, spirits, drain)
+        - Matrix (hacking, devices, programs)
+        - Rigging (vehicles, drones)
+        - Rolls / Dice
+        - Effects / Modifiers
+        - Items / Inventory
+        - Compendiums
+        - Localization (translations)
+        - Theming / Visual
+        - Automation / Quality of life
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      description: How big is this request?
+      options:
+        - Small tweak (wording, layout, minor adjustment)
+        - Medium feature (new option, dialog, or workflow)
+        - Large feature (new subsystem or major rework)
+    validations:
+      required: true
+
   - type: textarea
     id: description
     attributes:
@@ -14,7 +53,15 @@ body:
     id: use-case
     attributes:
       label: Use Case
-      description: How would this help your game? What problem does it solve?
+      description: How would this help your game? What problem does it solve? What Shadowrun rule or situation does it address?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots / Mockups
+      description: Attach images, mockups, or reference screenshots showing what you have in mind
     validations:
       required: false
 
@@ -23,5 +70,14 @@ body:
     attributes:
       label: Alternatives Considered
       description: Have you found any workarounds or alternative approaches?
+    validations:
+      required: false
+
+  - type: input
+    id: rulebook
+    attributes:
+      label: Rulebook Reference
+      description: If this relates to a specific Shadowrun rule, cite the book and page
+      placeholder: "SR6 Core Rulebook p. 175"
     validations:
       required: false
