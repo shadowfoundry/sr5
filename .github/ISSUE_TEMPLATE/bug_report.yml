@@ -35,7 +35,54 @@ body:
         - PC
         - Grunt
         - Spirit
+        - Sprite
         - Drone
+        - Device
+        - Agent
+    validations:
+      required: false
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Item Type (if applicable)
+      description: Which item type is affected?
+      options:
+        - N/A
+        - Weapon
+        - Armor
+        - Ammunition
+        - Augmentation
+        - Complex Form
+        - Contact
+        - Device
+        - Drug
+        - Echo
+        - Effect
+        - Focus
+        - Gear
+        - Karma
+        - Knowledge
+        - Language
+        - Lifestyle
+        - Mark
+        - Martial Art
+        - Metamagic
+        - Nuyen
+        - Power
+        - Preparation
+        - Program
+        - Quality
+        - Reputation
+        - Ritual
+        - SIN
+        - Spell
+        - Spirit
+        - Sprite
+        - Sprite Power
+        - Tradition
+        - Vehicle
+        - Vehicle Mod
     validations:
       required: false
 
@@ -77,6 +124,17 @@ body:
     attributes:
       label: Screenshots
       description: Attach screenshots if they help illustrate the issue
+    validations:
+      required: false
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      description: Which visual theme are you using?
+      options:
+        - SR5 (default)
+        - SR6
     validations:
       required: false
 
