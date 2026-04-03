@@ -1,4 +1,7 @@
 {
+  "editor.formatOnSave": false,
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
   "eslint.enable": true,
   "eslint.useFlatConfig": true,
   "editor.codeActionsOnSave": {

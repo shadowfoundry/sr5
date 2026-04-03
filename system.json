@@ -13,7 +13,8 @@
   "version": "13.0.0-alpha.19",
   "compatibility": {
     "minimum": "13",
-    "verified": "13.344"
+    "maximum": "13",
+    "verified": "13.351"
   },
   "esmodules": [
     "modules/sr5.js"
