@@ -294,22 +294,12 @@ jobs:
           npm install
           chmod +x *.js
 
-      - name: Check repository visibility
-        if: steps.vars.outputs.type != 'skip'
-        id: repo_visibility
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          PRIVATE=$(gh api repos/${{ github.repository }} --jq .private)
-          echo "private=$PRIVATE" >> $GITHUB_OUTPUT
-          echo "Repository is $([ "$PRIVATE" = 'true' ] && echo 'private' || echo 'public')"
-
       - name: Send Discord notification
         if: steps.vars.outputs.type != 'skip'
         env:
           WEBHOOK_URL: ${{ steps.vars.outputs.type == 'prerelease' && secrets.DISCORD_ALPHA_CHANNEL_URL || secrets.DISCORD_STABLE_CHANNEL_URL }}
           RELEASE_NOTES: ${{ steps.prerelease_notes.outputs.notes }}${{ steps.stable_notes.outputs.notes }}
-          IS_PRIVATE: ${{ steps.repo_visibility.outputs.private }}
+          IS_PRIVATE: ${{ github.event.repository.private }}
         run: |
           # Build Discord message body
           BODY="$RELEASE_NOTES"
