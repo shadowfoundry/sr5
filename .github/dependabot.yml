@@ -11,7 +11,11 @@ updates:
     labels:
       - "github"
       - "dependencies"
-    target-branch: "dev"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    groups:
+      actions:
+        update-types: ["minor", "patch"]
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
@@ -23,7 +27,12 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    target-branch: "dev"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        update-types: ["minor", "patch"]
 
   # Maintain dependencies for Discord webhook script
   - package-ecosystem: "npm"
@@ -35,4 +44,8 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    target-branch: "dev"
+    target-branch: "main"
+    open-pull-requests-limit: 10
+    groups:
+      discord-dependencies:
+        update-types: ["minor", "patch"]
