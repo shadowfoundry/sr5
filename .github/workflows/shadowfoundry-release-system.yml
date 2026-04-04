@@ -311,7 +311,20 @@ jobs:
             BODY=$(printf '%s\n\nDownload: %s' "$BODY" "$RELEASE_URL")
           fi
           if [ ${#BODY} -gt 1990 ]; then
-            BODY="${BODY:0:1987}..."
+            # Truncate the changelog section while preserving header and footer
+            HEADER=$(echo "$BODY" | sed -n '1,/^\*\*Changes since/p')
+            FOOTER=$(echo "$BODY" | sed -n '/^\*\*Manifest URL\|^Download:/,$p')
+            FOOTER_LEN=${#FOOTER}
+            HEADER_LEN=${#HEADER}
+            # Reserve space for header + footer + ellipsis + newlines
+            MAX_CHANGELOG=$((1990 - HEADER_LEN - FOOTER_LEN - 10))
+            if [ $MAX_CHANGELOG -gt 20 ]; then
+              CHANGELOG=$(echo "$BODY" | sed -n '/^\*\*Changes since/,/^\*\*Manifest URL\|^Download:/{ /^\*\*Changes since/d; /^\*\*Manifest URL\|^Download:/d; p; }')
+              CHANGELOG="${CHANGELOG:0:$MAX_CHANGELOG}..."
+              BODY=$(printf '%s\n%s\n\n%s' "$HEADER" "$CHANGELOG" "$FOOTER")
+            else
+              BODY="${BODY:0:1987}..."
+            fi
           fi
 
           # Send text message
