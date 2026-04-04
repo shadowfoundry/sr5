@@ -11,7 +11,7 @@ updates:
     labels:
       - "github"
       - "dependencies"
-    target-branch: "main"
+    target-branch: "dev"
     open-pull-requests-limit: 10
     groups:
       actions:
@@ -27,7 +27,7 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    target-branch: "main"
+    target-branch: "dev"
     open-pull-requests-limit: 10
     groups:
       dev-dependencies:
@@ -44,7 +44,7 @@ updates:
     labels:
       - "npm"
       - "dependencies"
-    target-branch: "main"
+    target-branch: "dev"
     open-pull-requests-limit: 10
     groups:
       discord-dependencies:
