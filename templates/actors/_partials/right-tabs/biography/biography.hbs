@@ -15,23 +15,23 @@
 				<div >{{localize 'SR5.CharacterName'}}{{localize 'SR5.Colons'}}</div>
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CharacterName'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioNameMsg'}}">
-					<input type="text" data-dtype="String" name="system.biography.characterName" value="{{system.biography.characterName}}" placeholder="{{localize 'SR5.CharacterName'}}" />
+					<input type="text" data-dtype="String" name="system.biography.name" value="{{system.biography.name}}" placeholder="{{localize 'SR5.CharacterName'}}" />
 				</div>
 			</li>
 			<li class="SR-BioLigne">
 				<div >{{localize 'SR5.CharacterNickname'}}{{localize 'SR5.Colons'}}</div>
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.CharacterNickname'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioNicknameMsg'}}">
-					<input type="text" data-dtype="String" class="input" name="system.biography.characterAlias" value="{{system.biography.characterAlias}}" placeholder="{{localize 'SR5.CharacterNickname'}}" />
+					<input type="text" data-dtype="String" class="input" name="system.biography.alias" value="{{system.biography.alias}}" placeholder="{{localize 'SR5.CharacterNickname'}}" />
 					</div>
 			</li>
 			<li class="SR-BioLigne">
 				<div >{{localize 'SR5.Metatype'}}{{localize 'SR5.Colons'}}&nbsp;</div>
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Metatype'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioMetatypeMsg'}}">
-					<select name="system.biography.characterMetatype" data-dtype="String" required>
+					<select name="system.biography.metatype" data-dtype="String" required>
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{selectOptions lists.metatypes selected=system.biography.characterMetatype localize=true}}
+						{{selectOptions lists.metatypes selected=system.biography.metatype localize=true}}
 					</select>
 				</div>
 			</li>
@@ -40,8 +40,8 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.MetatypeVariant'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioMetatypeVariantMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterMetatypeVariant"
-						value="{{system.biography.characterMetatypeVariant}}"
+						name="system.biography.metatypeVariant"
+						value="{{system.biography.metatypeVariant}}"
 						placeholder="{{localize 'SR5.MetatypeVariant'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -49,7 +49,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.EthnicalGroup'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioEthnicalGroupMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterEthnicalGroup" value="{{system.biography.characterEthnicalGroup}}"
+						name="system.biography.ethnicalGroup" value="{{system.biography.ethnicalGroup}}"
 						placeholder="{{localize 'SR5.EthnicalGroup'}}" />
 					</div>
 			</li>
@@ -57,9 +57,9 @@
 				<div >{{localize 'SR5.Gender'}}{{localize 'SR5.Colons'}}&nbsp;</div>
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Gender'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioGenderMsg'}}">
-					<select name="system.biography.characterGender" data-dtype="String" required>
+					<select name="system.biography.gender" data-dtype="String" required>
 						<option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-						{{selectOptions lists.genders selected=system.biography.characterGender localize=true}}
+						{{selectOptions lists.genders selected=system.biography.gender localize=true}}
 					</select>
 				</div>
 			</li>
@@ -68,7 +68,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Nationality'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioNationalityMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterNationality" value="{{system.biography.characterNationality}}"
+						name="system.biography.nationality" value="{{system.biography.nationality}}"
 						placeholder="{{localize 'SR5.Nationality'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -76,7 +76,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.BirthPlace'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioBirthPlaceMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterBirthPlace" value="{{system.biography.characterBirthPlace}}"
+						name="system.biography.birthPlace" value="{{system.biography.birthPlace}}"
 						placeholder="{{localize 'SR5.BirthPlace'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -84,7 +84,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Age'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioAgeMsg'}}">
 					<input type="number" data-dtype="Number" class="input"
-						name="system.biography.characterAge" value="{{system.biography.characterAge}}"
+						name="system.biography.age" value="{{system.biography.age}}"
 						placeholder="{{localize 'SR5.Age'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -92,8 +92,8 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.FamilialStatus'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioFamilialStatusMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterFamilySituation"
-						value="{{system.biography.characterFamilySituation}}"
+						name="system.biography.familySituation"
+						value="{{system.biography.familySituation}}"
 						placeholder="{{localize 'SR5.FamilialStatus'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -101,7 +101,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Dependants'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioDependantsMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterDependants" value="{{system.biography.characterDependants}}"
+						name="system.biography.dependants" value="{{system.biography.dependants}}"
 						placeholder="{{localize 'SR5.Dependants'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -110,7 +110,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Height'}}"
 				  data-helpMessage="{{localize 'SR5.HELP_BioHeightMsg'}}">
 					<input type="number" data-dtype="Number" class="input"
-						name="system.biography.characterHeight" value="{{system.biography.characterHeight}}"
+						name="system.biography.height" value="{{system.biography.height}}"
 						placeholder="{{localize 'SR5.Height'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -118,7 +118,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Weight'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioWeightMsg'}}">
 					<input type="number" data-dtype="Number" class="input"
-						name="system.biography.characterWeight" value="{{system.biography.characterWeight}}"
+						name="system.biography.weight" value="{{system.biography.weight}}"
 						placeholder="{{localize 'SR5.Weight'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -126,7 +126,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Eyes'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioEyesMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterEyes" value="{{system.biography.characterEyes}}"
+						name="system.biography.eyes" value="{{system.biography.eyes}}"
 						placeholder="{{localize 'SR5.Eyes'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -134,7 +134,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Hair'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioHairMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterHair" value="{{system.biography.characterHair}}"
+						name="system.biography.hair" value="{{system.biography.hair}}"
 						placeholder="{{localize 'SR5.Hair'}}" /></div>
 			</li>
 			<li class="SR-BioLigne">
@@ -142,7 +142,7 @@
 				<div class="SR-BioInput" data-helpTitle="{{localize 'SR5.Skin'}}"
 				data-helpMessage="{{localize 'SR5.HELP_BioSkinMsg'}}">
 					<input type="text" data-dtype="String" class="input"
-						name="system.biography.characterSkin" value="{{system.biography.characterSkin}}"
+						name="system.biography.skin" value="{{system.biography.skin}}"
 						placeholder="{{localize 'SR5.Skin'}}" /></div>
 			</li>
 		</ul>
