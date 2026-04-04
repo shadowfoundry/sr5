@@ -494,7 +494,7 @@
 
                 .editor {
                     height  : auto;
-                    position: unset;
+                    position: relative;
                     height  : 100%;
                 }
 
@@ -506,8 +506,10 @@
                     border-radius: 0;
                     box-shadow: none;
                     padding      : 0;
-                    top          : -17px;
+                    position     : absolute;
+                    top          : 2px;
                     right        : 5px;
+                    z-index      : 1;
                     color        : color-mix(in srgb, var(--sr-text-color-flash) 50%, transparent);
 
                     &:hover {
