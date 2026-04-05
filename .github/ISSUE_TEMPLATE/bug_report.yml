@@ -1,0 +1,221 @@
+name: Bug Report
+description: Report a bug with the Shadowrun 5 system
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please fill out the sections below so we can reproduce and fix the issue.
+
+  - type: input
+    id: system-version
+    attributes:
+      label: System Version
+      description: Found in Foundry's system management screen or in `system.json`
+      placeholder: "13.0.1-alpha.8"
+    validations:
+      required: true
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Foundry VTT Version
+      description: Found in the bottom-right of Foundry's setup screen
+      placeholder: "13.351"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: subsystem
+    attributes:
+      label: Area / Subsystem
+      description: Which part of the system is affected?
+      options:
+        - Sheet / UI
+        - Combat (attacks, defense, damage)
+        - Magic (spells, spirits, drain)
+        - Matrix (hacking, devices, programs)
+        - Rigging (vehicles, drones)
+        - Rolls / Dice
+        - Effects / Modifiers
+        - Items / Inventory
+        - Compendiums
+        - Localization (translations)
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: actor-type
+    attributes:
+      label: Actor Type (if applicable)
+      description: Which actor type is affected?
+      options:
+        - N/A
+        - Character (PC)
+        - Grunt (NPC)
+        - Spirit
+        - Sprite
+        - Agent
+        - Vehicle
+        - Drone
+        - Device
+    validations:
+      required: false
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Item Type (if applicable)
+      description: Which item type is affected?
+      options:
+        - N/A
+        - Weapon
+        - Armor
+        - Ammunition
+        - Augmentation
+        - Adept Power
+        - Complex Form
+        - Contact
+        - Device
+        - Drug
+        - Echo
+        - Effect
+        - Focus
+        - Gear
+        - Karma
+        - Knowledge
+        - Language
+        - Lifestyle
+        - Mark
+        - Martial Art
+        - Metamagic
+        - Nuyen
+        - Power
+        - Preparation
+        - Program
+        - Quality
+        - Reputation
+        - Ritual
+        - SIN
+        - Spell
+        - Spirit
+        - Sprite
+        - Sprite Power
+        - Tradition
+        - Vehicle
+        - Vehicle Mod
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened? What did you expect to happen instead?
+      placeholder: |
+        When I open a character sheet and click on the combat tab, the weapons list is empty even though the character has weapons.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Exact steps to trigger the bug, starting from a known state
+      placeholder: |
+        1. Create a new character
+        2. Add a weapon from the compendium
+        3. Open the character sheet
+        4. Click the Combat tab
+        5. Weapon list is empty
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproducibility
+      description: How often does this happen?
+      options:
+        - Always
+        - Sometimes (intermittent)
+        - Once (could not reproduce again)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Impact
+      description: How much does this affect gameplay?
+      options:
+        - Blocks gameplay (cannot continue playing)
+        - Major (feature broken, but workaround exists)
+        - Minor (visual glitch, cosmetic, or edge case)
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Console Errors
+      description: Open browser DevTools (F12) and paste any red error messages from the Console tab
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Attach screenshots or screen recordings if they help illustrate the issue
+    validations:
+      required: false
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Theme
+      description: Which visual theme are you using?
+      options:
+        - SR6 (default)
+        - SR5
+        - SRA2
+    validations:
+      required: false
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      description: How are you running Foundry?
+      options:
+        - Foundry desktop app (Electron)
+        - Chrome / Chromium
+        - Firefox
+        - Safari
+        - Other
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: modules-disabled
+    attributes:
+      label: Tested without modules
+      description: Have you confirmed the bug still happens with all modules disabled?
+      options:
+        - label: I have tested with all modules disabled and the bug still occurs
+    validations:
+      required: false
+
+  - type: textarea
+    id: modules
+    attributes:
+      label: Active Modules
+      description: If you have not disabled modules, list the ones that are active
+      placeholder: |
+        - Dice So Nice
+        - PopOut!
+    validations:
+      required: false

@@ -1,0 +1,110 @@
+name: Data Correction
+description: Report incorrect stats, values, or translations in compendium items
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found wrong data in a compendium entry? Please provide the correct values with a sourcebook reference so we can verify and fix it.
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Item Type
+      description: What kind of compendium entry is affected?
+      options:
+        - Weapon
+        - Armor
+        - Ammunition
+        - Augmentation
+        - Adept Power
+        - Complex Form
+        - Device
+        - Drug
+        - Echo
+        - Focus
+        - Gear
+        - Martial Art
+        - Metamagic
+        - Power
+        - Preparation
+        - Program
+        - Quality
+        - Ritual
+        - Spell
+        - Sprite Power
+        - Tradition
+        - Vehicle
+        - Vehicle Mod
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: entry-name
+    attributes:
+      label: Entry Name
+      description: The exact name of the compendium entry
+      placeholder: "Ares Predator V"
+    validations:
+      required: true
+
+  - type: input
+    id: compendium
+    attributes:
+      label: Compendium Pack
+      description: Which compendium pack contains the entry (if known)?
+      placeholder: "fr-weapons"
+    validations:
+      required: false
+
+  - type: textarea
+    id: incorrect-values
+    attributes:
+      label: What is wrong
+      description: Describe the incorrect value(s) — list each field and its current (wrong) value
+      placeholder: |
+        - Damage: currently 3P, should be 3S
+        - AP: currently -1, should be -2
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct-values
+    attributes:
+      label: Correct values
+      description: What should the values be?
+      placeholder: |
+        - Damage: 3S
+        - AP: -2
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Sourcebook Reference
+      description: Book and page number for the correct data
+      placeholder: "SR5 Core Rulebook (BBE) p. 254"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      description: Which language version of the compendium?
+      options:
+        - French (fr)
+        - English (en)
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Anything else relevant (e.g. the entry exists but shouldn't, or is missing entirely)
+    validations:
+      required: false

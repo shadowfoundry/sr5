@@ -1,0 +1,83 @@
+name: "Demande de fonctionnalité"
+description: Proposer une nouvelle fonctionnalité ou une amélioration
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Une idée pour le système ? N'hésitez pas ! Décrivez ce que vous aimeriez voir et pourquoi.
+
+  - type: dropdown
+    id: subsystem
+    attributes:
+      label: Domaine concerné
+      description: Quelle partie du système est concernée ?
+      options:
+        - Fiche / Interface
+        - Combat (attaques, défense, dégâts)
+        - Magie (sorts, esprits, drain)
+        - Matrice (hacking, appareils, programmes)
+        - Rigger (véhicules, drones)
+        - Jets de dés
+        - Effets / Modificateurs
+        - Objets / Inventaire
+        - Compendiums
+        - Traductions
+        - Thème / Visuel
+        - Automatisation / Qualité de vie
+        - Autre
+    validations:
+      required: true
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Envergure
+      description: Quelle est l'ampleur de cette demande ?
+      options:
+        - Petit ajustement (formulation, disposition, détail mineur)
+        - Fonctionnalité moyenne (nouvelle option, dialogue ou workflow)
+        - Fonctionnalité majeure (nouveau sous-système ou refonte importante)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Que souhaitez-vous voir ajouté ou modifié ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Cas d'utilisation
+      description: En quoi cela aiderait votre partie ? Quel problème cela résout-il ? Quelle règle ou situation de Shadowrun cela concerne-t-il ?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Captures d'écran / Maquettes
+      description: Joignez des images, maquettes ou captures d'écran de référence montrant ce que vous avez en tête
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives envisagées
+      description: Avez-vous trouvé des contournements ou approches alternatives ?
+    validations:
+      required: false
+
+  - type: input
+    id: rulebook
+    attributes:
+      label: Référence au livre de règles
+      description: Si cela concerne une règle spécifique de Shadowrun, citez le livre et la page
+      placeholder: "SR6 Livre de base (BBE) p. 175"
+    validations:
+      required: false
