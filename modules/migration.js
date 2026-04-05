@@ -186,6 +186,14 @@ export default class Migration {
         }
       }
 
+      // Migrate old img/ paths to assets/img/
+      if (actor.img?.startsWith("systems/sr5/img/")) {
+        updateData["img"] = actor.img.replace("systems/sr5/img/", "systems/sr5/assets/img/")
+      }
+      if (actor.prototypeToken?.texture?.src?.startsWith("systems/sr5/img/")) {
+        updateData["prototypeToken.texture.src"] = actor.prototypeToken.texture.src.replace("systems/sr5/img/", "systems/sr5/assets/img/")
+      }
+
       //Change astralCombat limit
       if (actor.system.skills?.astralCombat) {
         updateData["system.skills.astralCombat.limit.base"] = "astralLimit"
@@ -306,6 +314,11 @@ export default class Migration {
     if (isToken) {
       item.system = item.data
       updateData["system"] = item.data
+    }
+
+    // Migrate old img/ paths to assets/img/
+    if (item.img?.startsWith("systems/sr5/img/")) {
+      updateData["img"] = item.img.replace("systems/sr5/img/", "systems/sr5/assets/img/")
     }
 
     //Migrate Items
