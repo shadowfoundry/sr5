@@ -1,0 +1,221 @@
+name: "Rapport de bug"
+description: Signaler un bug dans le système Shadowrun 5
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de signaler ce bug ! Remplissez les sections ci-dessous pour nous aider à le reproduire et le corriger.
+
+  - type: input
+    id: system-version
+    attributes:
+      label: Version du système
+      description: Visible dans l'écran de gestion des systèmes de Foundry ou dans `system.json`
+      placeholder: "13.0.1-alpha.8"
+    validations:
+      required: true
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Version de Foundry VTT
+      description: Visible en bas à droite de l'écran de configuration de Foundry
+      placeholder: "13.351"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: subsystem
+    attributes:
+      label: Domaine concerné
+      description: Quelle partie du système est touchée ?
+      options:
+        - Fiche / Interface
+        - Combat (attaques, défense, dégâts)
+        - Magie (sorts, esprits, drain)
+        - Matrice (hacking, appareils, programmes)
+        - Rigger (véhicules, drones)
+        - Jets de dés
+        - Effets / Modificateurs
+        - Objets / Inventaire
+        - Compendiums
+        - Traductions
+        - Autre
+    validations:
+      required: true
+
+  - type: dropdown
+    id: actor-type
+    attributes:
+      label: Type d'acteur (si applicable)
+      description: Quel type d'acteur est concerné ?
+      options:
+        - N/A
+        - Personnage (PJ)
+        - Figurant (PNJ)
+        - Esprit
+        - Sprite
+        - Agent
+        - Véhicule
+        - Drone
+        - Appareil
+    validations:
+      required: false
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Type d'objet (si applicable)
+      description: Quel type d'objet est concerné ?
+      options:
+        - N/A
+        - Arme
+        - Armure
+        - Munitions
+        - Augmentation
+        - Pouvoir d'adepte
+        - Forme complexe
+        - Contact
+        - Appareil
+        - Drogue
+        - Écho
+        - Effet
+        - Focus
+        - Équipement
+        - Karma
+        - Connaissance
+        - Langue
+        - Style de vie
+        - Marque matricielle
+        - Art martial
+        - Métamagie
+        - Nuyens
+        - Pouvoir
+        - Préparation
+        - Programme
+        - Trait
+        - Réputation
+        - Rituel
+        - SIN
+        - Sort
+        - Esprit
+        - Sprite
+        - Pouvoir de sprite
+        - Tradition
+        - Véhicule
+        - Modification de véhicule
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Que s'est-il passé ? Quel était le comportement attendu ?
+      placeholder: |
+        Quand j'ouvre la fiche d'un personnage et que je clique sur l'onglet Combat, la liste des armes est vide alors que le personnage en possède.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Étapes pour reproduire
+      description: Les étapes exactes pour déclencher le bug, en partant d'un état connu
+      placeholder: |
+        1. Créer un nouveau personnage
+        2. Ajouter une arme depuis le compendium
+        3. Ouvrir la fiche du personnage
+        4. Cliquer sur l'onglet Combat
+        5. La liste des armes est vide
+    validations:
+      required: true
+
+  - type: dropdown
+    id: reproducibility
+    attributes:
+      label: Reproductibilité
+      description: À quelle fréquence cela se produit-il ?
+      options:
+        - Toujours
+        - Parfois (intermittent)
+        - Une seule fois (impossible à reproduire)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Impact
+      description: Quel est l'impact sur le jeu ?
+      options:
+        - Bloquant (impossible de continuer à jouer)
+        - Majeur (fonctionnalité cassée, mais contournement possible)
+        - Mineur (défaut visuel, cosmétique ou cas limite)
+    validations:
+      required: true
+
+  - type: textarea
+    id: console-errors
+    attributes:
+      label: Erreurs console
+      description: Ouvrez les outils de développement du navigateur (F12) et collez les messages d'erreur rouges de l'onglet Console
+      render: text
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Captures d'écran
+      description: Joignez des captures d'écran ou des enregistrements vidéo si cela aide à illustrer le problème
+    validations:
+      required: false
+
+  - type: dropdown
+    id: theme
+    attributes:
+      label: Thème
+      description: Quel thème visuel utilisez-vous ?
+      options:
+        - SR6 (par défaut)
+        - SR5
+        - SRA2
+    validations:
+      required: false
+
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Navigateur
+      description: Comment exécutez-vous Foundry ?
+      options:
+        - Application Foundry (Electron)
+        - Chrome / Chromium
+        - Firefox
+        - Safari
+        - Autre
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: modules-disabled
+    attributes:
+      label: Testé sans modules
+      description: Avez-vous confirmé que le bug persiste avec tous les modules désactivés ?
+      options:
+        - label: J'ai testé avec tous les modules désactivés et le bug persiste
+    validations:
+      required: false
+
+  - type: textarea
+    id: modules
+    attributes:
+      label: Modules actifs
+      description: Si vous n'avez pas désactivé les modules, listez ceux qui sont actifs
+      placeholder: |
+        - Dice So Nice
+        - PopOut!
+    validations:
+      required: false

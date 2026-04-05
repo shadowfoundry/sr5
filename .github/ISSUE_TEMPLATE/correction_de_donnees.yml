@@ -1,0 +1,110 @@
+name: "Correction de données"
+description: Signaler des stats, valeurs ou traductions incorrectes dans les compendiums
+labels: ["data"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vous avez trouvé une erreur dans un compendium ? Indiquez les valeurs correctes avec une référence au livre source pour que nous puissions vérifier et corriger.
+
+  - type: dropdown
+    id: item-type
+    attributes:
+      label: Type d'objet
+      description: Quel type d'entrée de compendium est concerné ?
+      options:
+        - Arme
+        - Armure
+        - Munitions
+        - Augmentation
+        - Pouvoir d'adepte
+        - Forme complexe
+        - Appareil
+        - Drogue
+        - Écho
+        - Focus
+        - Équipement
+        - Art martial
+        - Métamagie
+        - Pouvoir
+        - Préparation
+        - Programme
+        - Trait
+        - Rituel
+        - Sort
+        - Pouvoir de sprite
+        - Tradition
+        - Véhicule
+        - Modification de véhicule
+        - Autre
+    validations:
+      required: true
+
+  - type: input
+    id: entry-name
+    attributes:
+      label: Nom de l'entrée
+      description: Le nom exact de l'entrée du compendium
+      placeholder: "Ares Predator VI"
+    validations:
+      required: true
+
+  - type: input
+    id: compendium
+    attributes:
+      label: Pack de compendium
+      description: Quel pack de compendium contient l'entrée (si connu) ?
+      placeholder: "fr-weapons"
+    validations:
+      required: false
+
+  - type: textarea
+    id: incorrect-values
+    attributes:
+      label: Ce qui est incorrect
+      description: Décrivez la ou les valeurs incorrectes — listez chaque champ et sa valeur actuelle (erronée)
+      placeholder: |
+        - Dégâts : actuellement 3P, devrait être 3S
+        - PA : actuellement -1, devrait être -2
+    validations:
+      required: true
+
+  - type: textarea
+    id: correct-values
+    attributes:
+      label: Valeurs correctes
+      description: Quelles devraient être les valeurs ?
+      placeholder: |
+        - Dégâts : 3S
+        - PA : -2
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Référence au livre source
+      description: Livre et numéro de page pour les données correctes
+      placeholder: "SR5 Livre de base (BBE) p. 254"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Langue
+      description: Quelle version linguistique du compendium ?
+      options:
+        - Français (fr)
+        - Anglais (en)
+        - Les deux
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Contexte supplémentaire
+      description: Tout autre élément pertinent (ex. l'entrée existe mais ne devrait pas, ou est manquante)
+    validations:
+      required: false
