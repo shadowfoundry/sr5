@@ -4,6 +4,6 @@
 	  	<p class="SR-TextUppercase">{{localize 'SR5.Background'}}</p>
 	</div>
 	<div class="SR-Editor">
-	  	{{editor system.biography.background target="system.biography.background" button=true owner=owner editable=editable}}
+	  	<prose-mirror name="system.biography.background" value="{{system.biography.background}}" toggled>{{{system.biography.background}}}</prose-mirror>
 	</div>
 </div>

@@ -67,10 +67,10 @@
 					<div class="col-7 SR-ItemColDroite">
 						<ul>
 							<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.Description'}}</li>
-							<li>{{editor system.description.value target="system.description.value" button=true owner=owner editable=editable}}
+							<li><prose-mirror name="system.description.value" value="{{system.description.value}}" toggled>{{{system.description.value}}}</prose-mirror>
 							</li>
 							<li class="SR-LigneEnTete SR-TextUppercase">{{localize 'SR5.GameEffect'}}</li>
-							<li>{{editor system.info.value target="system.info.value" button=true owner=owner editable=editable}}
+							<li><prose-mirror name="system.info.value" value="{{system.info.value}}" toggled>{{{system.info.value}}}</prose-mirror>
 							</li>
 						</ul>
 					</div>
