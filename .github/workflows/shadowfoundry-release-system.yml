@@ -125,7 +125,7 @@ jobs:
             '.version = $ver | .manifest = $manifest | .download = $download' \
             "$MANIFEST_FILE" > manifest_updated.json
           mv manifest_updated.json "$MANIFEST_FILE"
-          cp "$MANIFEST_FILE" /tmp/manifest.json
+          cp "$MANIFEST_FILE" "/tmp/${MANIFEST_FILE}"
 
       # ── 6. Package ──────────────────────────────────────────────────────
       - name: Build compendiums
@@ -261,7 +261,7 @@ jobs:
         run: |
           gh release create "${{ steps.vars.outputs.tag }}" \
             "${{ env.PROJECT_NAME }}_${{ steps.vars.outputs.tag }}.zip" \
-            "/tmp/manifest.json#${{ steps.manifest.outputs.file }}" \
+            "/tmp/${{ steps.manifest.outputs.file }}" \
             --title "${{ steps.vars.outputs.title }}" \
             ${{ steps.vars.outputs.prerelease_flag }} \
             --notes "$RELEASE_NOTES"
@@ -276,11 +276,11 @@ jobs:
           INSTALL_URL="https://github.com/${{ github.repository }}/releases/download/${CHANNEL}/${MANIFEST_FILE}"
           if gh release view "$CHANNEL" &>/dev/null; then
             gh release upload "$CHANNEL" \
-              "/tmp/manifest.json#${MANIFEST_FILE}" \
+              "/tmp/${MANIFEST_FILE}" \
               --clobber
           else
             gh release create "$CHANNEL" \
-              "/tmp/manifest.json#${MANIFEST_FILE}" \
+              "/tmp/${MANIFEST_FILE}" \
               --title "${{ steps.vars.outputs.identifier }} Channel Manifest" \
               --prerelease \
               --notes "Persistent ${{ steps.vars.outputs.identifier }} manifest. Install URL: ${INSTALL_URL}"
