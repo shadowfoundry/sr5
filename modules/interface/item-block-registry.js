@@ -98,7 +98,10 @@ export const ITEM_BLOCK_REGISTRY = {
     partial: `${PARTIAL_ROOT}/blocks/sin/sin-summary.hbs`,                   label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE 
   },
   ammunitionSummary:   {
-    partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-summary.hbs`,     label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE 
+    partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-summary.hbs`,     label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE
+  },
+  ammunitionTypeSummary: {
+    partial: `${PARTIAL_ROOT}/blocks/ammunitionType/ammunitionType-summary.hbs`, label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE
   },
   vehicleSummary:      {
     partial: `${PARTIAL_ROOT}/blocks/vehicle/vehicle-summary.hbs`,           label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE 
@@ -208,7 +211,10 @@ export const ITEM_BLOCK_REGISTRY = {
     partial: `${PARTIAL_ROOT}/blocks/sin/sin-stat.hbs`,                      label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE 
   },
   ammunitionStat:      {
-    partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-stat.hbs`,        label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE 
+    partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-stat.hbs`,        label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE
+  },
+  ammunitionTypeStat:  {
+    partial: `${PARTIAL_ROOT}/blocks/ammunitionType/ammunitionType-stat.hbs`, label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE
   },
   vehicleStat:         {
     partial: `${PARTIAL_ROOT}/blocks/vehicle/vehicle-stat.hbs`,              label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE 

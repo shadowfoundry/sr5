@@ -72,6 +72,9 @@ import {
   sr5ItemAmmunitionDataModel
 } from "../datamodels/items/itemAmmunition.js"
 import {
+  sr5ItemAmmunitionTypeDataModel
+} from "../datamodels/items/itemAmmunitionType.js"
+import {
   sr5ItemArmorDataModel
 } from "../datamodels/items/itemArmor.js"
 import {
@@ -227,6 +230,7 @@ export async function sr5HookInit() {
   Object.assign(CONFIG.Item.dataModels, {
     itemAdeptPower: sr5ItemAdeptPowerDataModel,
     itemAmmunition: sr5ItemAmmunitionDataModel,
+    itemAmmunitionType: sr5ItemAmmunitionTypeDataModel,
     itemArmor: sr5ItemArmorDataModel,
     itemAugmentation: sr5ItemAugmentationDataModel,
     itemComplexForm: sr5ItemComplexFormDataModel,

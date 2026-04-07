@@ -218,6 +218,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/blocks/adeptPower/adeptPower-summary.hbs",
     "systems/sr5/templates/items/blocks/ammunition/ammunition-stat.hbs",
     "systems/sr5/templates/items/blocks/ammunition/ammunition-summary.hbs",
+    "systems/sr5/templates/items/blocks/ammunitionType/ammunitionType-stat.hbs",
+    "systems/sr5/templates/items/blocks/ammunitionType/ammunitionType-summary.hbs",
     "systems/sr5/templates/items/blocks/armor/armor-stat.hbs",
     "systems/sr5/templates/items/blocks/armor/armor-summary.hbs",
     "systems/sr5/templates/items/blocks/augmentation/augmentation-stat.hbs",

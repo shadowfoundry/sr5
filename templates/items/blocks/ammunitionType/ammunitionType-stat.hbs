@@ -1,0 +1,100 @@
+<!-- Core Modifiers -->
+<ul>
+	{{> systems/sr5/templates/items/_partial/title/generalInformation.hbs}}
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.APModifier'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.apMod" value="{{system.apMod}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.DamageModifier'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.damageMod" value="{{system.damageMod}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.DamageTypeOverride'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4">
+			<select name="system.damageType">
+				<option value="" {{#if (eq system.damageType "")}}selected{{/if}}>—</option>
+				<option value="stun" {{#if (eq system.damageType "stun")}}selected{{/if}}>{{localize 'SR5.DamageTypeStun'}}</option>
+				<option value="physical" {{#if (eq system.damageType "physical")}}selected{{/if}}>{{localize 'SR5.DamageTypePhysical'}}</option>
+				<option value="none" {{#if (eq system.damageType "none")}}selected{{/if}}>{{localize 'SR5.None'}}</option>
+			</select>
+		</div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.DamageElementOverride'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4">
+			<select name="system.damageElement">
+				<option value="" {{#if (eq system.damageElement "")}}selected{{/if}}>—</option>
+				<option value="electricity" {{#if (eq system.damageElement "electricity")}}selected{{/if}}>{{localize 'SR5.Electricity'}}</option>
+				<option value="fire" {{#if (eq system.damageElement "fire")}}selected{{/if}}>{{localize 'SR5.Fire'}}</option>
+			</select>
+		</div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.AccuracyModifier'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.accuracyMod" value="{{system.accuracyMod}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+</ul>
+
+<!-- Blast -->
+<ul class="SR-PaddingTop10">
+	<li class="grid SR-ListeTitle"><div class="col-12">{{localize 'SR5.BlastRadius'}}</div></li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.BlastRadius'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.blastRadius" value="{{system.blastRadius}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.BlastFallOff'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.blastFallOff" value="{{system.blastFallOff}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.ScatterDice'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.scatterDice" value="{{system.scatterDice}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+</ul>
+
+<!-- Special Behavior -->
+<ul class="SR-PaddingTop10">
+	<li class="grid SR-ListeTitle"><div class="col-12">{{localize 'SR5.Special'}}</div></li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.FlatDamage'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.flatDamage" value="{{system.flatDamage}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.DisableStrDamage'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="checkbox" name="system.disableStrDamage" {{checked system.disableStrDamage}}/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.OverrideBaseAP'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="checkbox" name="system.overrideBaseAP" {{checked system.overrideBaseAP}}/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.EnvRangeMod'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.envRangeMod" value="{{system.envRangeMod}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.EnvWindMod'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.envWindMod" value="{{system.envWindMod}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+</ul>
+
+<!-- Combat Rule Flags -->
+<ul class="SR-PaddingTop10">
+	<li class="grid SR-ListeTitle"><div class="col-12">{{localize 'SR5.Combat'}}</div></li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.GelDamageReduction'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.gelDamageReduction" value="{{system.gelDamageReduction}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.InjectionNetHits'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.injectionNetHits" value="{{system.injectionNetHits}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.ShowToxinButton'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="checkbox" name="system.showToxinButton" {{checked system.showToxinButton}}/></div>
+	</li>
+	<li class="grid">
+		<div class="col-8">{{localize 'SR5.AntiVehicleAP'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-4"><input type="number" data-dtype="Number" name="system.antiVehicleAP" value="{{system.antiVehicleAP}}" placeholder="0" onfocus="this.select()"/></div>
+	</li>
+</ul>

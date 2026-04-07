@@ -73,6 +73,7 @@
     "Item": {
       "itemAdeptPower": {},
       "itemAmmunition": {},
+      "itemAmmunitionType": {},
       "itemArmor": {},
       "itemAugmentation": {},
       "itemComplexForm": {},

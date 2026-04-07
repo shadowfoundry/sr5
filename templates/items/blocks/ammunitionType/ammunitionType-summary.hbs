@@ -1,0 +1,33 @@
+<ul>
+	<!-- Summary title -->
+	{{> systems/sr5/templates/items/_partial/title/summary.hbs}}
+	<!-- Key stats -->
+	<li class="grid">
+		<div class="col-5">{{localize 'SR5.APModifier'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-1">{{system.apMod}}</div>
+	</li>
+	<li class="grid">
+		<div class="col-5">{{localize 'SR5.DamageModifier'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-1">{{system.damageMod}}</div>
+	</li>
+	{{#if system.damageType}}
+	<li class="grid">
+		<div class="col-5">{{localize 'SR5.DamageTypeOverride'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-1">{{system.damageType}}</div>
+	</li>
+	{{/if}}
+	{{#if system.damageElement}}
+	<li class="grid">
+		<div class="col-5">{{localize 'SR5.DamageElementOverride'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-1">{{system.damageElement}}</div>
+	</li>
+	{{/if}}
+	{{#if system.blastRadius}}
+	<li class="grid">
+		<div class="col-5">{{localize 'SR5.BlastRadius'}}{{localize 'SR5.Colons'}}</div>
+		<div class="col-1">{{system.blastRadius}}</div>
+	</li>
+	{{/if}}
+	<!-- Source -->
+	{{> systems/sr5/templates/items/_partial/summary/_common/source-summary.hbs}}
+</ul>

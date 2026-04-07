@@ -179,7 +179,8 @@ const ITEM_LAYOUTS = {
   itemSin:          () => _descStatLayout('sinSummary', 'sinStat'),
   itemLifestyle:    () => _descStatLayout('lifestyleSummary', 'lifestyleStat'),
   itemContact:      () => _descStatLayout('contactSummary', 'contactStat'),
-  itemAmmunition:   () => _descStatLayout('ammunitionSummary', 'ammunitionStat'),
+  itemAmmunition:     () => _descStatLayout('ammunitionSummary', 'ammunitionStat'),
+  itemAmmunitionType: () => _descStatLayout('ammunitionTypeSummary', 'ammunitionTypeStat'),
 
   // 1-tab: Description only
   itemKarma:        () => _descOnlyLayout('karmaSummary'),

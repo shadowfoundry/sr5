@@ -3663,6 +3663,7 @@ SR5.itemTypes = {
   itemArmor                 : "TYPES.Item.itemArmor",
   itemAugmentation          : "TYPES.Item.itemAugmentation",
   itemAmmunition            : "TYPES.Item.itemAmmunition",
+  itemAmmunitionType        : "TYPES.Item.itemAmmunitionType",
   itemComplexForm           : "TYPES.Item.itemComplexForm",
   itemContact               : "TYPES.Item.itemContact",
   itemDevice                : "TYPES.Item.itemDevice",
