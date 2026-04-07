@@ -342,21 +342,25 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     const ammoTypeSelect = el.querySelector('.sr-ammo-type-select')
     if (ammoTypeSelect) {
       ammoTypeSelect.addEventListener('change', async (ev) => {
-        ev.preventDefault()
-        ev.stopPropagation()
         const val = ev.target.value
         if (val === 'custom') {
+          ev.preventDefault()
+          ev.stopPropagation()
           // Set a placeholder UUID to trigger re-render with second dropdown
           await this.item.update({
             'system.type': '',
             'system.ammunitionTypeUuid': 'pending'
           })
         } else if (this.item.system.ammunitionTypeUuid) {
-          // Built-in type selected — clear any linked ammo type
+          ev.preventDefault()
+          ev.stopPropagation()
+          // Built-in type selected — clear linked ammo type and set the new type
           await this.item.update({
+            'system.type': val,
             'system.ammunitionTypeUuid': ''
           })
         }
+        // For built-in types with no linked ammo: let the event bubble to form submitOnChange
       })
     }
 
