@@ -381,16 +381,20 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       })
     }
 
-    // Weapon ammunition type select: handle "Custom" selection
+    // Weapon ammunition type select: explicitly handle all changes
     const weaponAmmoSelect = el.querySelector('.sr-weapon-ammo-type-select')
     if (weaponAmmoSelect) {
       weaponAmmoSelect.addEventListener('change', async (ev) => {
-        if (ev.target.value === 'custom') {
-          ev.preventDefault()
-          ev.stopPropagation()
-          // Set a placeholder custom type to trigger re-render with second dropdown
+        ev.preventDefault()
+        ev.stopPropagation()
+        const val = ev.target.value
+        if (val === 'custom') {
           await this.item.update({
             'system.ammunition.type': '_custom_pending'
+          })
+        } else {
+          await this.item.update({
+            'system.ammunition.type': val
           })
         }
       })
