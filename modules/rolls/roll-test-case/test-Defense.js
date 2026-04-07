@@ -24,8 +24,9 @@ export default async function defenseInfo(cardData, actorId){
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits
 
   //Special case for injection ammo, need 3 net hits if armor is weared
-  if (cardData.combat.ammo.type === "injection" && actor.system.itemsProperties.armor.value > 0){
-    if (cardData.roll.netHits < 3) {
+  const injReq = cardData.combat.ammo.effects?.injectionNetHits || (cardData.combat.ammo.type === "injection" ? 3 : 0)
+  if (injReq && actor.system.itemsProperties.armor.value > 0){
+    if (cardData.roll.netHits < injReq) {
       cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.SuccessfulDefense"))
       return ui.notifications.info(game.i18n.localize("SR5.INFO_NeedAtLeastThreeNetHits"))
     }
@@ -113,7 +114,7 @@ export default async function defenseInfo(cardData, actorId){
     if (cardData.damage.element === "toxin"){
       label = `${game.i18n.localize("SR5.ResistToxin")}`
       cardData.chatCard.buttons.resistanceToxin = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceToxin",label)
-      if (cardData.combat.ammo.type === "capsule"){
+      if (cardData.combat.ammo.effects?.showToxinButton || cardData.combat.ammo.type === "capsule"){
         label = `${game.i18n.localize("SR5.TakeOnDamageShort")} ${game.i18n.localize("SR5.DamageValueShort")}${game.i18n.localize("SR5.Colons")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`
         if (cardData.combat.armorPenetration) label += ` / ${game.i18n.localize("SR5.ArmorPenetrationShort")}${game.i18n.localize("SR5.Colons")} ${cardData.combat.armorPenetration}`
         cardData.chatCard.buttons.resistanceCard = SR5_RollMessage.generateChatButton("nonOpposedTest","resistanceCard",label)

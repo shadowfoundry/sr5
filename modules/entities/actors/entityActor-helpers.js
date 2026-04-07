@@ -45,7 +45,8 @@ export class SR5_ActorHelper {
       damageReduction = 0,
       realDamage
 
-    if (options.combat.ammo.type === "gel") gelAmmo = -2
+    if (options.combat.ammo.effects?.gelDamageReduction) gelAmmo = options.combat.ammo.effects.gelDamageReduction
+    else if (options.combat.ammo.type === "gel") gelAmmo = -2
     if (actorData.specialProperties?.damageReduction) damageReduction = actorData.specialProperties.damageReduction.value
     if (damage > 1) damage -= damageReduction
 

@@ -270,6 +270,7 @@ export class SR5_PrepareRollTest {
           value: 0,
           max: 0,
           fired: 0,
+          effects: null,
         },
         armorPenetration: 0,
         calledShot: {

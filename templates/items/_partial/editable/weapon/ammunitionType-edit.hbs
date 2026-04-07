@@ -2,47 +2,92 @@
     <div class="col-4">{{localize 'SR5.AmmunitionType'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-8">
         {{#ife system.type "grenadeLauncher"}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.miniGrenadeTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.miniGrenadeTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else ife system.type "missileLauncher"}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.ammunitionLauncherTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.ammunitionLauncherTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else ife system.type "assaultCannon"}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.ammunitionCannonTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.ammunitionCannonTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
-        {{else if (or (eq system.type "heavyCrossbow") 
-            (eq system.type "lightCrossbow") 
-            (eq system.type "mediumCrossbow") 
+        {{else if (or (eq system.type "heavyCrossbow")
+            (eq system.type "lightCrossbow")
+            (eq system.type "mediumCrossbow")
             (eq system.type "harpoonGuns"))}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.ammunitionCrossbowTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.ammunitionCrossbowTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else ife system.type "bow"}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.ammunitionBowTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.ammunitionBowTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else ife system.type "taser"}}
-            <select name="system.ammunition.type" required>
-                {{selectOptions lists.ammunitionTaserTypes selected=system.ammunition.type localize=true}}
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
+                {{selectOptions lists.ammunitionTaserTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else ife system.type "exoticRangedWeapon"}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.allAmmunitionTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.allAmmunitionTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{else}}
-            <select name="system.ammunition.type" required>
+            <select name="system.ammunition.type" class="sr-weapon-ammo-type-select" required>
                 <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-                {{selectOptions lists.ammunitionTypes selected=system.ammunition.type localize=true}}
+                {{selectOptions lists.ammunitionTypes selected=weaponAmmoBuiltinType localize=true}}
+                {{#if weaponAmmoTypeChoices.length}}
+                <option disabled>───────────</option>
+                <option value="custom" {{#if weaponAmmoTypeLinked}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+                {{/if}}
             </select>
         {{/ife}}
     </div>
 </li>
+{{#if weaponAmmoTypeLinked}}
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.AmmunitionTypeLink'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select class="sr-weapon-ammo-type-custom-select">
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each weaponAmmoTypeChoices}}
+            <option value="{{this.slug}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+</li>
+{{/if}}

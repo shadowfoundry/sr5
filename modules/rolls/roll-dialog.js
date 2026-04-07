@@ -988,9 +988,9 @@ export default class SR5_RollDialog {
           if (dialogData.target.hasTarget){
             let targetActor = SR5_EntityHelpers.getRealActorFromID(dialogData.target.actorId)
             let padded = targetActor.system.itemsProperties.armor.padded ? true : false
-            value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type, padded)
+            value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type, padded, dialogData.combat.ammo.effects)
           } else {
-            value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type)
+            value = SR5_CalledShotHelpers.convertCalledShotToMod(ev.target.value, dialogData.combat.ammo.type, false, dialogData.combat.ammo.effects)
           }
           // Apply martial arts modifier bonus if available for this called shot
           if (dialogData.combat.calledShot.martialArtsModifiers?.[ev.target.value]) {
@@ -1005,11 +1005,11 @@ export default class SR5_RollDialog {
             if (calledShotEl) calledShotEl.style.display = 'none'
           }
           dialogData.combat.calledShot.name = ev.target.value
-          dialogData.combat.calledShot.effects = SR5_CalledShotHelpers.convertCalledShotToEffect(ev.target.value, dialogData.combat.ammo.type)
-          dialogData.combat.calledShot.limitDV = SR5_CalledShotHelpers.convertCalledShotToLimitDV(ev.target.value, dialogData.combat.ammo.type)
+          dialogData.combat.calledShot.effects = SR5_CalledShotHelpers.convertCalledShotToEffect(ev.target.value, dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
+          dialogData.combat.calledShot.limitDV = SR5_CalledShotHelpers.convertCalledShotToLimitDV(ev.target.value, dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
           switch (ev.target.value){
             case "shakeUp":
-              dialogData.combat.calledShot.initiative = SR5_CalledShotHelpers.convertCalledShotToInitiativeMod(dialogData.combat.ammo.type)
+              dialogData.combat.calledShot.initiative = SR5_CalledShotHelpers.convertCalledShotToInitiativeMod(dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
               break
             case "bullsEye": //Errata: "The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3."
               dialogData.combat.armorPenetration = ((dialogData.combat.armorPenetration + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4

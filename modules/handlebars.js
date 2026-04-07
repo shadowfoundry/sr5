@@ -116,7 +116,13 @@ export const registerHandlebarsHelpers = function () {
     if (!key) {
       return ""
     }
-    const translatedTerm = game.i18n.localize(SR5[table][key])
+    const i18nKey = SR5[table][key]
+    if (!i18nKey) {
+      // For ammunition types, resolve custom type names from world items
+      if (table === 'allAmmunitionTypes') return SR5_EntityHelpers.resolveAmmoTypeLabel(key)
+      return key
+    }
+    const translatedTerm = game.i18n.localize(i18nKey)
     if (!translatedTerm) {
       SR5_SystemHelpers.srLog(1, `No translation could be found for the '${key}' lookup key in the '${table}' translation table`)
       return null

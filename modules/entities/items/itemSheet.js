@@ -51,7 +51,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       submitOnChange: true 
     },
     actions: {
-      toggleMode: SR5ItemSheet._onToggleMode
+      toggleMode: SR5ItemSheet._onToggleMode,
     },
   }
 
@@ -109,6 +109,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     }
   }
 
+
   static async _onToggleMode(event) {
     event.preventDefault()
     if (!this.isEditable) return
@@ -130,6 +131,15 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       this._deleteItemHookId = Hooks.on("deleteItem", rerender)
       this._updateItemHookId = Hooks.on("updateItem", rerender)
     }
+    // Re-render ammo sheets when world itemAmmunitionType items change
+    if (this.item.type === 'itemAmmunition') {
+      const rerenderOnAmmoType = (item) => {
+        if (item.type === 'itemAmmunitionType' && !item.parent) this.render()
+      }
+      this._ammoTypeCreateHookId = Hooks.on("createItem", rerenderOnAmmoType)
+      this._ammoTypeDeleteHookId = Hooks.on("deleteItem", rerenderOnAmmoType)
+      this._ammoTypeUpdateHookId = Hooks.on("updateItem", rerenderOnAmmoType)
+    }
   }
 
   _onClose(options) {
@@ -145,6 +155,18 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     if (this._updateItemHookId) {
       Hooks.off("updateItem", this._updateItemHookId)
       this._updateItemHookId = null
+    }
+    if (this._ammoTypeCreateHookId) {
+      Hooks.off("createItem", this._ammoTypeCreateHookId)
+      this._ammoTypeCreateHookId = null
+    }
+    if (this._ammoTypeDeleteHookId) {
+      Hooks.off("deleteItem", this._ammoTypeDeleteHookId)
+      this._ammoTypeDeleteHookId = null
+    }
+    if (this._ammoTypeUpdateHookId) {
+      Hooks.off("updateItem", this._ammoTypeUpdateHookId)
+      this._ammoTypeUpdateHookId = null
     }
   }
 
@@ -198,6 +220,17 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     return frame
   }
 
+  // Strip ammo-derived fields from form submission to prevent persisting derived values
+  _processFormData(event, form, formData) {
+    const submitData = super._processFormData(event, form, formData)
+    if (this.item.type === 'itemWeapon' && this.item.system.ammunition?.type) {
+      delete submitData['system.damageType']
+      delete submitData['system.damageElement']
+      delete submitData['system.damageElementSecond']
+    }
+    return submitData
+  }
+
   /**
 	 * Compute the panel/tab layout and sync Foundry's tabGroups.
 	 * Each panel gets its own independent tab group.
@@ -238,6 +271,35 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     context.owner = this.document.isOwner
     context.lists = SR5_EntityHelpers.sortTranslations(SR5)
     context.isPlay = this.isPlayMode
+
+    // Custom ammunition type choices for weapon ammo dropdown
+    if (item.type === 'itemWeapon') {
+      context.weaponAmmoTypeChoices = game.items
+        .filter(i => i.type === 'itemAmmunitionType')
+        .map(i => {
+          const slug = i.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
+          return {
+            slug,
+            name: i.name,
+            selected: item.system.ammunition.type === slug
+          }
+        })
+        .sort((a, b) => a.name.localeCompare(b.name))
+      // Check if the current ammo type is a custom one (not in the built-in lists)
+      const currentType = item.system.ammunition.type
+      context.weaponAmmoTypeLinked = currentType && !SR5.allAmmunitionTypes?.[currentType]
+      // When custom, don't pass the slug to selectOptions (avoids localization warning)
+      context.weaponAmmoBuiltinType = context.weaponAmmoTypeLinked ? '' : currentType
+      // Resolved ammo type display label for summary/chat
+      if (context.weaponAmmoTypeLinked) {
+        const match = context.weaponAmmoTypeChoices.find(c => c.selected)
+        context.weaponAmmoTypeLabel = match ? `${game.i18n.localize('SR5.Custom')} (${match.name})` : game.i18n.localize('SR5.Custom')
+      } else if (currentType && SR5.allAmmunitionTypes[currentType]) {
+        context.weaponAmmoTypeLabel = game.i18n.localize(SR5.allAmmunitionTypes[currentType])
+      } else {
+        context.weaponAmmoTypeLabel = currentType || ''
+      }
+    }
     context.cssClass = this.document.isOwner ? "editable" : "locked"
 
     // Weapon focus: populate weapon choices from parent actor
@@ -250,6 +312,21 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       context.adeptPowerChoices = SR5_UtilityItem._generateQiFocusAdeptPowerList(item.actor)
     }
 
+    // Ammunition type choices for itemAmmunition (world itemAmmunitionType items)
+    if (item.type === 'itemAmmunition') {
+      context.ammunitionTypeChoices = game.items
+        .filter(i => i.type === 'itemAmmunitionType')
+        .map(i => ({
+          uuid: i.uuid,
+          name: i.name,
+          selected: i.uuid === item.system.ammunitionTypeUuid
+        }))
+        .sort((a, b) => a.name.localeCompare(b.name))
+
+      // When a custom type is linked, don't pass the slug to selectOptions (avoids localization warning)
+      context.ammoBuiltinType = item.system.ammunitionTypeUuid ? '' : item.system.type
+    }
+
     // Dynamic layout
     context.layout = this._computeSheetLayout()
     context.hasFooter = ITEM_FOOTER_TYPES.has(item.type)
@@ -260,6 +337,74 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
   _onRender(context, options) {
     super._onRender(context, options)
     const el = this.element
+
+    // Ammunition type select: handle "Custom" selection
+    const ammoTypeSelect = el.querySelector('.sr-ammo-type-select')
+    if (ammoTypeSelect) {
+      ammoTypeSelect.addEventListener('change', async (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        const val = ev.target.value
+        if (val === 'custom') {
+          // Set a placeholder UUID to trigger re-render with second dropdown
+          await this.item.update({
+            'system.type': '',
+            'system.ammunitionTypeUuid': 'pending'
+          })
+        } else if (this.item.system.ammunitionTypeUuid) {
+          // Built-in type selected — clear any linked ammo type
+          await this.item.update({
+            'system.ammunitionTypeUuid': ''
+          })
+        }
+      })
+    }
+
+    // Second dropdown: custom ammo type selection
+    const customSelect = el.querySelector('.sr-ammo-type-custom-select')
+    if (customSelect) {
+      customSelect.addEventListener('change', async (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        const uuid = ev.target.value
+        if (!uuid) return
+        const ammoType = game.items.get(uuid.split('.').pop())
+        const slug = ammoType?.name?.toLowerCase()?.replace(/[^a-z0-9]+/g, '_')?.replace(/^_|_$/g, '') || ''
+        await this.item.update({
+          'system.type': slug,
+          'system.ammunitionTypeUuid': uuid
+        })
+      })
+    }
+
+    // Weapon ammunition type select: handle "Custom" selection
+    const weaponAmmoSelect = el.querySelector('.sr-weapon-ammo-type-select')
+    if (weaponAmmoSelect) {
+      weaponAmmoSelect.addEventListener('change', async (ev) => {
+        if (ev.target.value === 'custom') {
+          ev.preventDefault()
+          ev.stopPropagation()
+          // Set a placeholder custom type to trigger re-render with second dropdown
+          await this.item.update({
+            'system.ammunition.type': '_custom_pending'
+          })
+        }
+      })
+    }
+
+    // Weapon second dropdown: custom ammo type selection
+    const weaponCustomSelect = el.querySelector('.sr-weapon-ammo-type-custom-select')
+    if (weaponCustomSelect) {
+      weaponCustomSelect.addEventListener('change', async (ev) => {
+        ev.preventDefault()
+        ev.stopPropagation()
+        const slug = ev.target.value
+        if (!slug) return
+        await this.item.update({
+          'system.ammunition.type': slug
+        })
+      })
+    }
 
     // Play/Edit mode classes
     el.classList.toggle("sr-mode-edit", this.isEditMode)

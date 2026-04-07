@@ -830,7 +830,10 @@ export class SR5_CalledShotHelpers {
     return itemEffects
   }
 
-  static convertCalledShotToMod(calledShot, ammoType, padded = false){
+  static convertCalledShotToMod(calledShot, ammoType, padded = false, ammoEffects = null){
+    if (ammoEffects?.calledShotOverrides?.[calledShot]?.mod !== undefined) {
+      return ammoEffects.calledShotOverrides[calledShot].mod
+    }
     switch(calledShot) {
       case "shakeUp":
       case "trickShot":
@@ -901,7 +904,10 @@ export class SR5_CalledShotHelpers {
     }
   }
 
-  static convertCalledShotToLimitDV(calledShot, ammoType){
+  static convertCalledShotToLimitDV(calledShot, ammoType, ammoEffects = null){
+    if (ammoEffects?.calledShotOverrides?.[calledShot]?.limitDV !== undefined) {
+      return ammoEffects.calledShotOverrides[calledShot].limitDV
+    }
     switch(calledShot) {
       case "gut": 
         return 8               
@@ -956,7 +962,10 @@ export class SR5_CalledShotHelpers {
   }
 
 
-  static convertCalledShotToEffect(calledShot, ammoType){
+  static convertCalledShotToEffect(calledShot, ammoType, ammoEffects = null){
+    if (ammoEffects?.calledShotOverrides?.[calledShot]?.effect !== undefined) {
+      return ammoEffects.calledShotOverrides[calledShot].effect
+    }
     switch(calledShot) {
       case "dirtyTrick":
         switch(ammoType) { 
@@ -1043,7 +1052,10 @@ export class SR5_CalledShotHelpers {
     }
   }
 
-  static convertCalledShotToInitiativeMod(ammoType){
+  static convertCalledShotToInitiativeMod(ammoType, ammoEffects = null){
+    if (ammoEffects?.calledShotOverrides?.initiativeMod !== undefined) {
+      return ammoEffects.calledShotOverrides.initiativeMod
+    }
     switch(ammoType) {
       case "explosive": 
         return -6 

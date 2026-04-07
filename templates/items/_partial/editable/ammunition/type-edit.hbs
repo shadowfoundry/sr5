@@ -1,9 +1,26 @@
 <li class="grid">
     <div class="col-4">{{localize 'SR5.Type'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-8">
-        <select name="system.type" data-dtype="String" required>
+        <select name="system.type" class="sr-ammo-type-select" data-dtype="String" required>
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{selectOptions lists.allAmmunitionTypes selected=system.type localize=true}}
+            {{selectOptions lists.allAmmunitionTypes selected=ammoBuiltinType localize=true}}
+            {{#if ammunitionTypeChoices.length}}
+            <option disabled>───────────</option>
+            <option value="custom" {{#if system.ammunitionTypeUuid}}selected{{/if}}>{{localize 'SR5.Custom'}}</option>
+            {{/if}}
         </select>
     </div>
 </li>
+{{#if system.ammunitionTypeUuid}}
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.AmmunitionTypeLink'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select class="sr-ammo-type-custom-select">
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{#each ammunitionTypeChoices}}
+            <option value="{{this.uuid}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+</li>
+{{/if}}

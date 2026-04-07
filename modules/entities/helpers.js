@@ -281,6 +281,20 @@ export class SR5_EntityHelpers {
     return newObject
   }
 
+  // Resolve a display label for an ammunition type key (built-in or custom)
+  static resolveAmmoTypeLabel(typeKey) {
+    if (!typeKey) return ''
+    const i18nKey = SR5.allAmmunitionTypes?.[typeKey]
+    if (i18nKey) return game.i18n.localize(i18nKey)
+    // Custom type — find matching world itemAmmunitionType by slug
+    for (const item of game.items) {
+      if (item.type !== 'itemAmmunitionType') continue
+      const slug = item.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
+      if (slug === typeKey) return `${game.i18n.localize('SR5.Custom')} (${item.name})`
+    }
+    return `${game.i18n.localize('SR5.Custom')} (${typeKey})`
+  }
+
   // Here we sort all the tables except those mentionned in the switch
   static sortTranslations(object) {
     for (let key of Object.keys(object)) {

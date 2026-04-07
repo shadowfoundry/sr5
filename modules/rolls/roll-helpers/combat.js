@@ -64,7 +64,9 @@ export class SR5_CombatHelpers {
     let distanceDice = 1
     if (itemData.aerodynamic) distanceDice = 2
 
-    if (itemData.ammunition.type){
+    if (cardData.combat.ammo.effects?.scatterDice) {
+      distanceDice = cardData.combat.ammo.effects.scatterDice
+    } else if (itemData.ammunition.type){
       switch(itemData.ammunition.type){
         case "fragmentationRocket":
         case "highlyExplosiveRocket":

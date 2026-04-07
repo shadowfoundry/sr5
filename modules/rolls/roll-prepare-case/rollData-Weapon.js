@@ -79,10 +79,28 @@ export default async function weapon(rollData, actor, item){
   rollData.damage.element = itemData.damageElement
   if (itemData.isMagical) rollData.damage.source = "magical"
   rollData.combat.armorPenetration = itemData.armorPenetration.value
-  if (itemData.ammunition.type === "av" && rollData.target.actorType === "actorDrone") rollData.combat.armorPenetration -= 4
   rollData.combat.ammo.type = itemData.ammunition.type
   rollData.combat.ammo.value = itemData.ammunition.value
   rollData.combat.ammo.max = itemData.ammunition.max
+
+  // Resolve custom ammo effects for roll system (called shots, combat checks)
+  rollData.combat.ammo.effects = null
+  if (actor && itemData.ammunition.type) {
+    const ammoItem = actor.items.find(i =>
+      i.type === "itemAmmunition" &&
+      i.system.type === itemData.ammunition.type &&
+      (i.system.class === itemData.type || !i.system.class)
+    )
+    if (ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending') {
+      rollData.combat.ammo.effects = ammoItem.system.effects
+    }
+  }
+
+  // AV anti-drone AP bonus
+  if (rollData.target.actorType === "actorDrone") {
+    if (rollData.combat.ammo.effects?.antiVehicleAP) rollData.combat.armorPenetration += rollData.combat.ammo.effects.antiVehicleAP
+    else if (itemData.ammunition.type === "av") rollData.combat.armorPenetration -= 4
+  }
   rollData.combat.firingMode.singleShot = itemData.firingMode.singleShot
   rollData.combat.firingMode.semiAutomatic = itemData.firingMode.semiAutomatic
   rollData.combat.firingMode.burstFire = itemData.firingMode.burstFire
@@ -334,27 +352,66 @@ function _buildCalledShotList(rollData){
 
   rollData.lists.calledShots.vitals = game.i18n.localize("SR5.CS_Vitals")
 
-  //Ammo specifics called shots
-  if (ammoType === "gel") rollData.lists.calledShotsSpecific.bellringer = game.i18n.localize("SR5.CS_AS_Bellringer")
-  if (ammoType === "gel" || ammoType === "gyrojet" || ammoType === "gyrojetTaser") rollData.lists.calledShotsSpecific.ricochetShot = game.i18n.localize("SR5.CS_AS_RicochetShot")
-  if (ammoType === "apds") rollData.lists.calledShotsSpecific.bullsEye = game.i18n.localize("SR5.CS_AS_BullsEye")
-  if (ammoType === "capsule" || ammoType === "capsuleDmso") rollData.lists.calledShotsSpecific.downTheGullet = game.i18n.localize("SR5.CS_AS_DownTheGullet")
-  if (ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.extremeIntimidation = game.i18n.localize("SR5.CS_AS_ExtremeIntimidation")
-  if (ammoType === "injection" || ammoType === "boltInjection" || ammoType === "arrowInjection") {
-    rollData.lists.calledShotsSpecific.warningShot = game.i18n.localize("SR5.CS_AS_WarningShot")
-    rollData.lists.calledShotsSpecific.hitEmWhereItCounts = game.i18n.localize("SR5.CS_AS_HitEmWhereItCounts")
+  //Ammo specifics called shots — tag-based path for custom ammo, fallback to string checks
+  const ammoEffects = rollData.combat.ammo.effects
+  const tags = ammoEffects?.calledShotTags
+  if (tags?.length) {
+    // Tag-based called shot eligibility (custom ammo)
+    const tagMap = {
+      bellringer: "SR5.CS_AS_Bellringer",
+      ricochetShot: "SR5.CS_AS_RicochetShot",
+      bullsEye: "SR5.CS_AS_BullsEye",
+      downTheGullet: "SR5.CS_AS_DownTheGullet",
+      extremeIntimidation: "SR5.CS_AS_ExtremeIntimidation",
+      warningShot: "SR5.CS_AS_WarningShot",
+      hitEmWhereItCounts: "SR5.CS_AS_HitEmWhereItCounts",
+      flameOn: "SR5.CS_AS_FlameOn",
+      flashBlind: "SR5.CS_AS_FlashBlind",
+      onPinsAndNeedles: "SR5.CS_AS_OnPinsAndNeedles",
+      shreddedFlesh: "SR5.CS_AS_ShreddedFlesh",
+      tag: "SR5.CS_AS_Tag",
+      throughAndInto: "SR5.CS_AS_ThroughAndInto",
+      upTheAnte: "SR5.CS_AS_UpTheAnte",
+    }
+    for (const t of tags) {
+      if (tagMap[t]) rollData.lists.calledShotsSpecific[t] = game.i18n.localize(tagMap[t])
+    }
+    // Variant labels based on tags
+    if (tags.includes("fingerPopper")) {
+      rollData.lists.calledShots.blastOutOfHand = game.i18n.localize("SR5.CS_AS_FingerPopper")
+    }
+    if (tags.includes("hereMuckInYourEye")) {
+      rollData.lists.calledShots.dirtyTrick = game.i18n.localize("SR5.CS_AS_HereMuckInYourEye")
+    }
+    if (tags.includes("shakeRattle")) {
+      rollData.lists.calledShots.shakeUp = game.i18n.localize("SR5.CS_AS_ShakeRattle")
+    }
+    if (tags.includes("pin") && rollData.combat.calledShot.martialArts.pin) {
+      rollData.lists.calledShots.pin = game.i18n.localize("SR5.CS_Pin")
+    }
+  } else {
+    // Legacy string-based called shot eligibility
+    if (ammoType === "gel") rollData.lists.calledShotsSpecific.bellringer = game.i18n.localize("SR5.CS_AS_Bellringer")
+    if (ammoType === "gel" || ammoType === "gyrojet" || ammoType === "gyrojetTaser") rollData.lists.calledShotsSpecific.ricochetShot = game.i18n.localize("SR5.CS_AS_RicochetShot")
+    if (ammoType === "apds") rollData.lists.calledShotsSpecific.bullsEye = game.i18n.localize("SR5.CS_AS_BullsEye")
+    if (ammoType === "capsule" || ammoType === "capsuleDmso") rollData.lists.calledShotsSpecific.downTheGullet = game.i18n.localize("SR5.CS_AS_DownTheGullet")
+    if (ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.extremeIntimidation = game.i18n.localize("SR5.CS_AS_ExtremeIntimidation")
+    if (ammoType === "injection" || ammoType === "boltInjection" || ammoType === "arrowInjection") {
+      rollData.lists.calledShotsSpecific.warningShot = game.i18n.localize("SR5.CS_AS_WarningShot")
+      rollData.lists.calledShotsSpecific.hitEmWhereItCounts = game.i18n.localize("SR5.CS_AS_HitEmWhereItCounts")
+    }
+    if (ammoType === "flare" || ammoType === "gyrojetTaser" || ammoType === "tracer") rollData.lists.calledShotsSpecific.flameOn = game.i18n.localize("SR5.CS_AS_FlameOn")
+    if (ammoType === "flare") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_FlashBlind")
+    if (ammoType === "flechette" || ammoType === "arrow" || ammoType === "arrowBarbedHead" || ammoType === "arrowExplosiveHead" ||
+         ammoType === "arrowHammerhead" || ammoType === "arrowIncendiaryHead" || ammoType === "arrowScreamerHead" ||
+         ammoType === "arrowStickNShock" || ammoType === "arrowStaticShaft" || ammoType === "bolt") {
+      rollData.lists.calledShotsSpecific.onPinsAndNeedles = game.i18n.localize("SR5.CS_AS_OnPinsAndNeedles")
+      rollData.lists.calledShotsSpecific.shreddedFlesh = game.i18n.localize("SR5.CS_AS_ShreddedFlesh")
+    }
+    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_Tag")
+    if (ammoType === "apds" || ammoType === "gauss") rollData.lists.calledShotsSpecific.throughAndInto = game.i18n.localize("SR5.CS_AS_ThroughAndInto")
+    if (ammoType === "av" || ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.upTheAnte = game.i18n.localize("SR5.CS_AS_UpTheAnte")
   }
-  if (ammoType === "flare" || ammoType === "gyrojetTaser" || ammoType === "tracer") rollData.lists.calledShotsSpecific.flameOn = game.i18n.localize("SR5.CS_AS_FlameOn")
-  if (ammoType === "flare") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_FlashBlind")
-  if (ammoType === "flechette" || ammoType === "arrow" || ammoType === "arrowBarbedHead" || ammoType === "arrowExplosiveHead" || 
-       ammoType === "arrowHammerhead" || ammoType === "arrowIncendiaryHead" || ammoType === "arrowScreamerHead" ||
-       ammoType === "arrowStickNShock" || ammoType === "arrowStaticShaft" || ammoType === "bolt") {
-    rollData.lists.calledShotsSpecific.onPinsAndNeedles = game.i18n.localize("SR5.CS_AS_OnPinsAndNeedles")
-    rollData.lists.calledShotsSpecific.shreddedFlesh = game.i18n.localize("SR5.CS_AS_ShreddedFlesh")
-  }
-  if (ammoType === "tracker") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_Tag")
-  if (ammoType === "apds" || ammoType === "gauss") rollData.lists.calledShotsSpecific.throughAndInto = game.i18n.localize("SR5.CS_AS_ThroughAndInto")
-  if (ammoType === "av" || ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.upTheAnte = game.i18n.localize("SR5.CS_AS_UpTheAnte")
 
   rollData.lists.calledShotsSpecificDroneTarget = {
     engineBlock: game.i18n.localize("SR5.CS_ST_EngineBlock"),
