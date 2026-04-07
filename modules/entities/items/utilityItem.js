@@ -545,7 +545,7 @@ export class SR5_UtilityItem extends Actor {
   static _handleWeaponAmmunition(itemData, actor) {
     if (!itemData.ammunition.type) return
 
-    // Try custom ammo path: if the loaded ammo has a linked itemAmmunitionType, use its effects
+    // Try custom ammo path: check actor's ammo items first, then resolve from world ammo types
     if (actor) {
       const ammoItem = actor.items.find(i =>
         i.type === "itemAmmunition" &&
@@ -554,6 +554,19 @@ export class SR5_UtilityItem extends Actor {
       )
       if (ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending') {
         this._applyAmmoTypeEffects(itemData, ammoItem.system.effects, ammoItem.name)
+        return
+      }
+    }
+
+    // Try resolving custom ammo type directly from world items (weapon may not have matching ammo on actor)
+    if (!SR5.allAmmunitionTypes[itemData.ammunition.type] && game.items) {
+      const slug = itemData.ammunition.type
+      const ammoTypeItem = game.items.find(i => {
+        if (i.type !== 'itemAmmunitionType') return false
+        return i.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') === slug
+      })
+      if (ammoTypeItem) {
+        this._applyAmmoTypeEffects(itemData, ammoTypeItem.system, ammoTypeItem.name)
         return
       }
     }
@@ -1199,9 +1212,19 @@ export class SR5_UtilityItem extends Actor {
           i.system.type === itemData.ammunition.type &&
           (i.system.class === itemData.type || !i.system.class)
         )
-        const fx = ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending' ? ammoItem.system.effects : null
+        let fx = ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending' ? ammoItem.system.effects : null
+        let fxLabel = ammoItem?.name
+        // Resolve from world ammo type items if not found on actor
+        if (!fx && !SR5.allAmmunitionTypes[itemData.ammunition.type] && game.items) {
+          const slug = itemData.ammunition.type
+          const ammoTypeItem = game.items.find(i => i.type === 'itemAmmunitionType' && i.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') === slug)
+          if (ammoTypeItem) {
+            fx = ammoTypeItem.system
+            fxLabel = ammoTypeItem.name
+          }
+        }
         if (fx?.envRangeMod || fx?.envWindMod) {
-          const label = ammoItem.name
+          const label = fxLabel
           if (fx.envRangeMod) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, label, "ammunitionType", fx.envRangeMod, false, false)
           if (fx.envWindMod) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, label, "ammunitionType", fx.envWindMod, false, false)
           envHandled = true

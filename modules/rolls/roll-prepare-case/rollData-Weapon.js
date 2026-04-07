@@ -1,5 +1,8 @@
 import {
-  SR5_PrepareRollHelper 
+  SR5
+} from "../../config.js"
+import {
+  SR5_PrepareRollHelper
 } from "../roll-prepare-helpers.js"
 import {
   SR5_EntityHelpers 
@@ -85,14 +88,28 @@ export default async function weapon(rollData, actor, item){
 
   // Resolve custom ammo effects for roll system (called shots, combat checks)
   rollData.combat.ammo.effects = null
-  if (actor && itemData.ammunition.type) {
-    const ammoItem = actor.items.find(i =>
-      i.type === "itemAmmunition" &&
-      i.system.type === itemData.ammunition.type &&
-      (i.system.class === itemData.type || !i.system.class)
-    )
-    if (ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending') {
-      rollData.combat.ammo.effects = ammoItem.system.effects
+  if (itemData.ammunition.type) {
+    // Check actor's ammo items first
+    if (actor) {
+      const ammoItem = actor.items.find(i =>
+        i.type === "itemAmmunition" &&
+        i.system.type === itemData.ammunition.type &&
+        (i.system.class === itemData.type || !i.system.class)
+      )
+      if (ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending') {
+        rollData.combat.ammo.effects = ammoItem.system.effects
+      }
+    }
+    // Resolve from world ammo type items if not found on actor
+    if (!rollData.combat.ammo.effects && !SR5.allAmmunitionTypes[itemData.ammunition.type] && game.items) {
+      const slug = itemData.ammunition.type
+      const ammoTypeItem = game.items.find(i => {
+        if (i.type !== 'itemAmmunitionType') return false
+        return i.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '') === slug
+      })
+      if (ammoTypeItem) {
+        rollData.combat.ammo.effects = ammoTypeItem.system
+      }
     }
   }
 

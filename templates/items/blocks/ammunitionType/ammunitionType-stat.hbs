@@ -25,8 +25,7 @@
 		<div class="col-4">
 			<select name="system.damageElement">
 				<option value="" {{#if (eq system.damageElement "")}}selected{{/if}}>—</option>
-				<option value="electricity" {{#if (eq system.damageElement "electricity")}}selected{{/if}}>{{localize 'SR5.Electricity'}}</option>
-				<option value="fire" {{#if (eq system.damageElement "fire")}}selected{{/if}}>{{localize 'SR5.Fire'}}</option>
+				{{selectOptions lists.specialDamageTypes selected=system.damageElement localize=true}}
 			</select>
 		</div>
 	</li>
