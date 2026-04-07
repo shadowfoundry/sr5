@@ -339,14 +339,12 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     const el = this.element
 
     // Ammunition type select: handle "Custom" selection
-    const ammoTypeSelect = el.querySelector('.sr-ammo-type-select')
-    if (ammoTypeSelect) {
-      ammoTypeSelect.addEventListener('change', async (ev) => {
+    el.querySelectorAll('.sr-ammo-type-select').forEach(select => {
+      select.addEventListener('change', async (ev) => {
         const val = ev.target.value
         if (val === 'custom') {
           ev.preventDefault()
           ev.stopPropagation()
-          // Set a placeholder UUID to trigger re-render with second dropdown
           await this.item.update({
             'system.type': '',
             'system.ammunitionTypeUuid': 'pending'
@@ -354,37 +352,55 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
         } else if (this.item.system.ammunitionTypeUuid) {
           ev.preventDefault()
           ev.stopPropagation()
-          // Built-in type selected — clear linked ammo type and set the new type
           await this.item.update({
             'system.type': val,
             'system.ammunitionTypeUuid': ''
           })
         }
-        // For built-in types with no linked ammo: let the event bubble to form submitOnChange
       })
-    }
+    })
 
     // Second dropdown: custom ammo type selection
-    const customSelect = el.querySelector('.sr-ammo-type-custom-select')
-    if (customSelect) {
-      customSelect.addEventListener('change', async (ev) => {
+    el.querySelectorAll('.sr-ammo-type-custom-select').forEach(select => {
+      select.addEventListener('change', async (ev) => {
         ev.preventDefault()
         ev.stopPropagation()
         const uuid = ev.target.value
         if (!uuid) return
         const ammoType = game.items.get(uuid.split('.').pop())
-        const slug = ammoType?.name?.toLowerCase()?.replace(/[^a-z0-9]+/g, '_')?.replace(/^_|_$/g, '') || ''
+        if (!ammoType) return
+        const slug = ammoType.name.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
+        const s = ammoType.system
         await this.item.update({
           'system.type': slug,
-          'system.ammunitionTypeUuid': uuid
+          'system.ammunitionTypeUuid': uuid,
+          'system.effects.apMod': s.apMod ?? 0,
+          'system.effects.damageMod': s.damageMod ?? 0,
+          'system.effects.damageType': s.damageType ?? '',
+          'system.effects.damageElement': s.damageElement ?? '',
+          'system.effects.accuracyMod': s.accuracyMod ?? 0,
+          'system.effects.blastRadius': s.blastRadius ?? 0,
+          'system.effects.blastFallOff': s.blastFallOff ?? 0,
+          'system.effects.flatDamage': s.flatDamage ?? 0,
+          'system.effects.disableStrDamage': s.disableStrDamage ?? false,
+          'system.effects.overrideBaseAP': s.overrideBaseAP ?? false,
+          'system.effects.scatterDice': s.scatterDice ?? 0,
+          'system.effects.envRangeMod': s.envRangeMod ?? 0,
+          'system.effects.envWindMod': s.envWindMod ?? 0,
+          'system.effects.gelDamageReduction': s.gelDamageReduction ?? 0,
+          'system.effects.injectionNetHits': s.injectionNetHits ?? 0,
+          'system.effects.showToxinButton': s.showToxinButton ?? false,
+          'system.effects.antiVehicleAP': s.antiVehicleAP ?? 0,
+          'system.effects.calledShotTags': s.calledShotTags ?? [],
+          'system.effects.calledShotOverrides': s.calledShotOverrides ?? {
+          },
         })
       })
-    }
+    })
 
     // Weapon ammunition type select: explicitly handle all changes
-    const weaponAmmoSelect = el.querySelector('.sr-weapon-ammo-type-select')
-    if (weaponAmmoSelect) {
-      weaponAmmoSelect.addEventListener('change', async (ev) => {
+    el.querySelectorAll('.sr-weapon-ammo-type-select').forEach(select => {
+      select.addEventListener('change', async (ev) => {
         ev.preventDefault()
         ev.stopPropagation()
         const val = ev.target.value
@@ -398,12 +414,11 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
           })
         }
       })
-    }
+    })
 
     // Weapon second dropdown: custom ammo type selection
-    const weaponCustomSelect = el.querySelector('.sr-weapon-ammo-type-custom-select')
-    if (weaponCustomSelect) {
-      weaponCustomSelect.addEventListener('change', async (ev) => {
+    el.querySelectorAll('.sr-weapon-ammo-type-custom-select').forEach(select => {
+      select.addEventListener('change', async (ev) => {
         ev.preventDefault()
         ev.stopPropagation()
         const slug = ev.target.value
@@ -412,7 +427,7 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
           'system.ammunition.type': slug
         })
       })
-    }
+    })
 
     // Play/Edit mode classes
     el.classList.toggle("sr-mode-edit", this.isEditMode)
