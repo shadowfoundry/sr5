@@ -514,9 +514,51 @@ export class SR5_UtilityItem extends Actor {
     SR5_EntityHelpers.updateValue(itemData.accuracy)
   }
 
+  // Apply effects from a linked itemAmmunitionType (custom ammo)
+  static _applyAmmoTypeEffects(itemData, fx, label) {
+    if (fx.overrideBaseAP && fx.apMod) {
+      const apMod = -itemData.armorPenetration.base + fx.apMod
+      SR5_EntityHelpers.updateModifier(itemData.armorPenetration, label, "ammunitionType", apMod)
+    } else if (fx.apMod) {
+      SR5_EntityHelpers.updateModifier(itemData.armorPenetration, label, "ammunitionType", fx.apMod)
+    }
+
+    if (fx.flatDamage) {
+      const counteract = fx.flatDamage - Math.min(itemData.itemRating || 0, itemData.ammunition.rating || 0)
+      SR5_EntityHelpers.updateModifier(itemData.damageValue, label, "ammunitionType", counteract)
+      if (fx.disableStrDamage) itemData.damageValue.isStrengthBased = false
+    } else if (fx.damageMod) {
+      SR5_EntityHelpers.updateModifier(itemData.damageValue, label, "ammunitionType", fx.damageMod)
+    }
+
+    if (fx.accuracyMod) {
+      SR5_EntityHelpers.updateModifier(itemData.accuracy, label, "ammunitionType", fx.accuracyMod)
+    }
+
+    if (fx.damageType) itemData.damageType = fx.damageType
+    if (fx.damageElement) itemData.damageElement = fx.damageElement
+    itemData.blast.radius = fx.blastRadius || 0
+    itemData.blast.damageFallOff = fx.blastFallOff || 0
+  }
+
   // Modif des munitions & grenades
-  static _handleWeaponAmmunition(itemData) {
+  static _handleWeaponAmmunition(itemData, actor) {
     if (!itemData.ammunition.type) return
+
+    // Try custom ammo path: if the loaded ammo has a linked itemAmmunitionType, use its effects
+    if (actor) {
+      const ammoItem = actor.items.find(i =>
+        i.type === "itemAmmunition" &&
+        i.system.type === itemData.ammunition.type &&
+        (i.system.class === itemData.type || !i.system.class)
+      )
+      if (ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending') {
+        this._applyAmmoTypeEffects(itemData, ammoItem.system.effects, ammoItem.name)
+        return
+      }
+    }
+
+    // Fallback: legacy hard-coded switch
     let armorPenetration = 0,
       damageValue = 0,
       damageType = itemData.damageType,
@@ -692,6 +734,8 @@ export class SR5_UtilityItem extends Actor {
         damageElement = "electricity"
         break
       default:
+        // Custom ammo types are handled above when actor context is available; silence warning for those
+        if (!SR5.allAmmunitionTypes[itemData.ammunition.type]) return
         SR5_SystemHelpers.srLog(1, "_handleWeaponAmmunition", `Unknown ammunition type: '${itemData.ammunition.type}'`)
         return
     }
@@ -1146,9 +1190,28 @@ export class SR5_UtilityItem extends Actor {
 
   //Handle if an accessory gives environmental modifiers (actor-level effects)
   static _handleVisionAccessory(itemData, actor) {
-    if (itemData.ammunition.type === "tracer" && itemData.isActive) {
-      SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
-      SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
+    if (itemData.isActive && itemData.ammunition.type) {
+      // Check custom ammo env mods first
+      let envHandled = false
+      if (actor) {
+        const ammoItem = actor.items.find(i =>
+          i.type === "itemAmmunition" &&
+          i.system.type === itemData.ammunition.type &&
+          (i.system.class === itemData.type || !i.system.class)
+        )
+        const fx = ammoItem?.system.ammunitionTypeUuid && ammoItem.system.ammunitionTypeUuid !== 'pending' ? ammoItem.system.effects : null
+        if (fx?.envRangeMod || fx?.envWindMod) {
+          const label = ammoItem.name
+          if (fx.envRangeMod) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, label, "ammunitionType", fx.envRangeMod, false, false)
+          if (fx.envWindMod) SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, label, "ammunitionType", fx.envWindMod, false, false)
+          envHandled = true
+        }
+      }
+      // Fallback: legacy tracer check
+      if (!envHandled && itemData.ammunition.type === "tracer") {
+        SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.range, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
+        SR5_EntityHelpers.updateModifier(actor.system.itemsProperties.environmentalMod.wind, game.i18n.localize('SR5.AmmunitionTypeTracer'), "ammunitionType", -1, false, false)
+      }
     }
 
     // Normalize legacy object-with-numeric-keys to array

@@ -68,7 +68,7 @@ export class SR5Item extends Item {
         if (Object.keys(itemData.itemEffects).length) SR5_UtilityItem.applyItemEffects(item)
         SR5_UtilityItem._handleBow(item)
         SR5_UtilityItem._handleWeaponAccessory(itemData, owner)
-        SR5_UtilityItem._handleWeaponAmmunition(itemData)
+        SR5_UtilityItem._handleWeaponAmmunition(itemData, owner)
         SR5_UtilityItem._generateWeaponRange(itemData, owner)
         SR5_UtilityItem._generateWeaponDicepool(item, owner)
         SR5_UtilityItem._generateWeaponDamage(itemData, owner)
@@ -269,7 +269,7 @@ export class SR5Item extends Item {
             game.i18n.localize(`SR5.WeaponModeCurrent`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.weaponModesCode[itemData.firingMode.current]),
             game.i18n.localize(`SR5.RecoilCompensationShort`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.recoilCompensation.value}`,
             game.i18n.localize(`SR5.WeaponRange`) + game.i18n.localize(`SR5.Colons`) + ` ${itemData.range.short.value}/${itemData.range.medium.value}/${itemData.range.long.value}/${itemData.range.extreme.value}` + game.i18n.localize(`SR5.MeterUnit`),
-            game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + game.i18n.localize(lists.allAmmunitionTypes[itemData.ammunition.type]),
+            game.i18n.localize(`SR5.Ammunition`) + game.i18n.localize(`SR5.Colons`) + ` ` + SR5_EntityHelpers.resolveAmmoTypeLabel(itemData.ammunition.type),
           )
           if (itemData.type === "shotgun"){
             tags.push(
@@ -596,7 +596,7 @@ export class SR5Item extends Item {
         content: "<h3>" + game.i18n.localize('SR5.DIALOG_Warning') + "</h3><p>" + 
           game.i18n.format('SR5.DIALOG_WarningNoAmmoType', 
             {
-              actor: actor.name, ammoType: game.i18n.localize(lists.allAmmunitionTypes[weaponData.ammunition.type]), 
+              actor: actor.name, ammoType: SR5_EntityHelpers.resolveAmmoTypeLabel(weaponData.ammunition.type),
               weaponType: game.i18n.localize(lists.rangedWeaponTypes[weaponData.type]),
               itemName: weapon.name
             }) + "</p>",
