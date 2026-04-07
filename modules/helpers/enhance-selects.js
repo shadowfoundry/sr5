@@ -257,6 +257,10 @@ function _buildMenuItems(menu, select) {
 
 function _createItem(option, currentValue) {
   const item = document.createElement('div')
+  if (option.disabled) {
+    item.className = 'sr-dropdown-separator'
+    return item
+  }
   item.className = 'sr-dropdown-item'
   item.dataset.value = option.value
   item.textContent = option.textContent.trim()
