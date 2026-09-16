@@ -4,6 +4,9 @@ import {
 import {
   enhanceSelects
 } from "../helpers/enhance-selects.js"
+import {
+  renderSceneIndicators
+} from "../interface/scene-indicators.js"
 
 /** Merge aside footer buttons into a single full-width footer */
 function _promoteAsideFooter(html) {
@@ -64,6 +67,7 @@ function _promoteAsideFooter(html) {
 export function sr5HookRenderPlayers() {
   SR5_SystemHelpers.srLog(3, `Renderering Shadowrun 5 Help Window`)
   SR5_UiModifications.addHelpWindow()
+  renderSceneIndicators()
 }
 
 export function sr5HookRenderFolderConfig(_app, html) {

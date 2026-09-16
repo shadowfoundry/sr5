@@ -17,4 +17,28 @@
       color: var(--sr-ui-color);
     }
   }
+
+  /* Scene matrix noise and background count */
+  #sr5-scene-indicators {
+    font-family: var(--font-monospace);
+    gap: 8px;
+    color: var(--sr-text-color-light);
+
+    > div {
+      flex: none;
+    }
+
+    label {
+      margin-right: 4px;
+    }
+
+    .value {
+      color: var(--sr-ui-color);
+    }
+
+    .active .value {
+      color: var(--sr-text-color-flash);
+      font-weight: bold;
+    }
+  }
 }
