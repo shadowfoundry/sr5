@@ -1,10 +1,16 @@
 import SR5TokenHud from "../interface/tokenHud.js"
+import {
+  SR5_CompendiumUtility
+} from "../entities/actors/utilityCompendium.js"
 
 export function sr5HookReady() {
   // Apply UI theme based on setting
   const chosenStyle = game.settings.get("sr5", "sr5ChooseStyle") ?? "SR5"
   const themeClass = chosenStyle === "SR6" ? "sr-theme-sr6" : "sr-theme-sr5"
   document.body.classList.add(themeClass)
+
+  // Compendium choices for the base items settings
+  SR5_CompendiumUtility.refreshCompendiumChoices()
 
   //game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
   // Determine whether a system migration is required and feasible

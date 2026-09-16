@@ -56,6 +56,9 @@ import * as SRVision from "../system/vision.js"
 import {
   SR5CombatTracker
 } from "../interface/srcombat-tracker.js"
+import {
+  SR5_CompendiumUtility
+} from "../entities/actors/utilityCompendium.js"
 import SR5SceneConfig from "../interface/sceneConfig.js"
 import SR5MeasuredTemplateConfig from "../interface/measuredTemplateConfig.js"
 import * as macros from "../interface/macros.js"
@@ -199,6 +202,7 @@ import {
 
 export async function sr5HookInit() {
   SR5_SystemHelpers.registerSystemSettings()
+  SR5_CompendiumUtility.registerSettings()
   SR5_SystemHelpers.srLogPublic(`Welcome to the Sixth World, chummer!`)
   SR5_SystemHelpers.srLogPublic(`Remember: Never, ever, cut a deal with a dragon!`)
   SR5_SystemHelpers.srLog(2, `Initializing game system`)
