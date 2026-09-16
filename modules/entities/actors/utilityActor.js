@@ -1406,7 +1406,8 @@ export class SR5_CharacterUtility extends Actor {
             // Flight is an Agility skill
             SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.Agility'), "linkedAttribute", attributes.agility.augmented.value)
             SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.SkillFly'), "skillRating", skills.flight.rating.value)
-            movements[key].extraMovement.base = 2
+            // Flying PCs (e.g. drake Flight power: Movement x2/x4/+3) sprint +3m per hit
+            movements[key].extraMovement.base = (actor.type === "actorPc") ? 3 : 2
           }
           break
         case "verticalJump": {
