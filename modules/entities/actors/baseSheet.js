@@ -386,6 +386,14 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     on(".changeSilentMode", "click", this._onChangeSilentMode.bind(this))
     // Custom drag start — AppV2 does not wire DragDrop.dragSelector, so we bind manually
     on(".draggableAttribute, [data-skill], [data-matrix], [data-resonance]", "dragstart", this._onDragStart.bind(this))
+    // Owned item dragging (to the sidebar, chat or another sheet) — core ActorSheetV2 only binds `.draggable`
+    if (this.actor.isOwner) {
+      element.querySelectorAll("li.item[data-item-id]").forEach(li => {
+        if (!this.actor.items.has(li.dataset.itemId)) return
+        li.setAttribute("draggable", "true")
+        li.addEventListener("dragstart", this._onDragItemStart.bind(this))
+      })
+    }
 
     // Hide or display some information by clicking on headers allowing it
     element.querySelectorAll(".hidden").forEach(el => el.style.display = "none")
@@ -590,6 +598,16 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
 
     return super._onDragStart(event)
+  }
+
+  _onDragItemStart(event) {
+    const li = event.currentTarget
+    // Nested item rows and custom draggables handle their own drag data
+    if (event.target.closest("li.item[data-item-id]") !== li) return
+    if (event.target.closest(".draggableAttribute, [data-skill], [data-matrix], [data-resonance]")) return
+    const item = this.actor.items.get(li.dataset.itemId)
+    if (!item) return
+    event.dataTransfer.setData("text/plain", JSON.stringify(item.toDragData()))
   }
 
   async _onDrop(event) {
