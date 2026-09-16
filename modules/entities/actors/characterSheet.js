@@ -62,7 +62,9 @@ export class SR5ActorSheet extends ActorSheetSR5 {
   _prepareSkills(actor) {
     const activeSkills = {
     }
+    const flightSkill = game.settings.get("sr5", "sr5FlightSkill")
     for (let [key, skill] of Object.entries(actor.system.skills)) {
+      if (key === "flight" && !flightSkill) continue
       if (skill.rating.value > 0 || this._shownUntrainedSkills) activeSkills[key] = skill
     }
     actor.system.skills = activeSkills

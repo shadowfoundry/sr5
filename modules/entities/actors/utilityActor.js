@@ -2516,6 +2516,8 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     for (let key of Object.keys(SR5.skills)) {
+      // Flight is optional for PCs: without the setting, the Athletics group must not grant it
+      if (key === "flight" && actor.type === "actorPc" && !game.settings.get("sr5", "sr5FlightSkill")) continue
       if (actorData.skills[key]) {
         if (actorData.skills[key].skillGroup) {
           let linkedGroup = actorData.skills[key].skillGroup

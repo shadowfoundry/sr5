@@ -2679,6 +2679,8 @@
 	"SR5.SETTINGS_DevLogActive_T": "Show Development Logs",
 	"SR5.SETTINGS_DevLogLevel_D": "Filtering level of displayed development messages.",
 	"SR5.SETTINGS_DevLogLevel_T": "Development Logs Filter",
+	"SR5.SETTINGS_FlightSkill_D": "Add the Flight skill to player character sheets, in the Athletics skill group.",
+	"SR5.SETTINGS_FlightSkill_T": "Flight skill for characters",
 	"SR5.SETTINGS_HelpActive_D": "Display the contextual help window in the interface.",
 	"SR5.SETTINGS_HelpActive_T": "Show Help Window",
 	"SR5.SETTINGS_KillCodeRules_D": "Activate or desactivate Kill Code rules.",

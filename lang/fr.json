@@ -2679,6 +2679,8 @@
 	"SR5.SETTINGS_DevLogActive_T": "Activer le journal de développement",
 	"SR5.SETTINGS_DevLogLevel_D": "Niveau de filtrage des messages de développement affichés.",
 	"SR5.SETTINGS_DevLogLevel_T": "Filtre du journal de développement",
+	"SR5.SETTINGS_FlightSkill_D": "Ajoute la compétence Vol aux fiches de personnage, dans le groupe de compétences Athlétisme.",
+	"SR5.SETTINGS_FlightSkill_T": "Compétence Vol pour les personnages",
 	"SR5.SETTINGS_HelpActive_D": "Afficher la fenêtre d'aide contextuelle au sein de l'interface.",
 	"SR5.SETTINGS_HelpActive_T": "Activer la fenêtre d'aide",
 	"SR5.SETTINGS_KillCodeRules_D": "Activer ou désactiver les règles matricielles de Kill Code.",
