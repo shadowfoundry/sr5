@@ -65,4 +65,32 @@
       padding: 0px 5px;
     }
   }
+
+  /* Heading added by modules at the top of a category, with icon links
+     (e.g. TheRipper Premium HUB: documentation, support report, troubleshoot) */
+  .tab[data-group="categories"] > h2 {
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sr-text-color-dark);
+    font-family: var(--sr-font-title);
+    font-size: var(--sr-font-size-normal);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--sr-ui-border-color-idle);
+
+    .wiki-button {
+      color: var(--sr-ui-border-color-active);
+      font-size: 14px;
+      line-height: 1;
+      text-shadow: none;
+
+      i {
+        color: inherit;
+        font-size: inherit;
+      }
+
+      &:hover {
+        color: var(--sr-text-color-flash);
+      }
+    }
+  }
 }
