@@ -1,3 +1,4 @@
+@import "../commons/layout-mixin.less";
 @import "../commons/button-mixin.less";
 @import "../commons/input-mixin.less";
 
@@ -110,5 +111,105 @@
 
   &:focus {
     border-color: var(--sr-ui-border-color-active) !important;
+  }
+}
+
+/* Search results chat message: same look as the link matches tooltip,
+   section header bands and comma separated links */
+.search_chat {
+  font: inherit !important;
+  font-family: var(--sr-font-body) !important;
+  font-size: var(--sr-font-size-small) !important;
+  line-height: 1.35;
+  color: var(--sr-text-color-dark);
+  overflow-wrap: anywhere;
+
+  h3,
+  h4 {
+    .sr-block-header();
+    margin: 8px 0 4px !important;
+    padding: 2px 6px;
+    font: var(--sr-font-size-small) var(--sr-font-title) !important;
+    letter-spacing: 0.05em;
+    text-align: left !important;
+  }
+
+  h3 {
+    margin-top: 0 !important;
+    font-size: var(--sr-font-size-normal) !important;
+  }
+
+  .motif {
+    margin: 4px 0 !important;
+  }
+
+  .btn-highlight button {
+    width: 100%;
+    margin: 4px 0 !important;
+    padding: 2px 6px !important;
+    line-height: 20px !important;
+    color: var(--sr-text-color-dark);
+    background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 6%, transparent);
+    border: 1px solid var(--sr-ui-border-color-idle);
+    border-radius: 3px;
+    font-family: var(--sr-font-title);
+    font-size: var(--sr-font-size-small);
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--sr-ui-border-color-active);
+      border-color: var(--sr-ui-border-color-active);
+      background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+    }
+  }
+
+  .journal {
+    margin: 6px 0 0 !important;
+  }
+
+  .journal_name {
+    margin-bottom: 1px !important;
+    color: var(--sr-ui-border-color);
+    font-family: var(--sr-font-title);
+    font-weight: normal !important;
+    text-transform: uppercase;
+  }
+
+  /* Pages are one div each, actors and items are separated by <br>: show them inline */
+  .journal_page {
+    display: inline;
+  }
+
+  .journal_page:not(:last-child)::after {
+    content: ", ";
+    color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+  }
+
+  br {
+    display: none;
+  }
+
+  div:not(.journal):not(.journal_name):not(.journal_page):not(.motif):not(.btn-highlight) > a.content-link:not(:last-of-type)::after {
+    content: ",";
+    color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+    margin-right: 0.35em;
+  }
+
+  a.content-link {
+    background: none !important;
+    border: 0 !important;
+    padding: 0;
+    color: var(--sr-ui-border-color);
+    font-family: var(--sr-font-body);
+    white-space: normal;
+
+    i {
+      color: inherit;
+    }
+
+    &:hover {
+      color: var(--sr-ui-border-color-active);
+      text-shadow: none;
+    }
   }
 }
