@@ -2,7 +2,19 @@ import {
   SR5
 } from "../config.js"
 
-// Matrix noise and background count of the viewed scene, displayed under the players latency / FPS
+// Players panel layout: players list (expand button on the own player row), then scene noise / background count, then latency / FPS
+export function arrangePlayersPanel() {
+  const playersActive = document.getElementById("players-active")
+  if (!playersActive) return
+
+  const expandButton = document.getElementById("players-expand")
+  const playerRow = playersActive.querySelector(".player.self") ?? playersActive.querySelector(".player")
+  if (expandButton && playerRow && expandButton.parentElement !== playerRow) playerRow.append(expandButton)
+
+  renderSceneIndicators()
+}
+
+// Matrix noise and background count of the viewed scene, displayed above the players latency / FPS
 export function renderSceneIndicators() {
   const playersActive = document.getElementById("players-active")
   if (!playersActive) return
@@ -13,7 +25,7 @@ export function renderSceneIndicators() {
     indicators.id = "sr5-scene-indicators"
     indicators.className = "flexrow"
     const performanceStats = playersActive.querySelector("#performance-stats")
-    if (performanceStats) performanceStats.after(indicators)
+    if (performanceStats) performanceStats.before(indicators)
     else playersActive.append(indicators)
   }
 
