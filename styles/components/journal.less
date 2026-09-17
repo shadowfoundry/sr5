@@ -349,18 +349,71 @@
     flex-direction: column !important;
   }
 
+  /* Header: the title band runs edge to edge under the window header, the page
+     settings (category, heading level, show title) sit below it on the light surface */
   .journal-header {
     flex: none !important;
+    margin: 0 !important;
+    padding: 0 0 6px;
     background-image: var(--sr-img-window-header);
-    background-size: 100% 100%;
+    background-size: 100% 56px;
+    background-position: top left;
     background-repeat: no-repeat;
 
     .title {
+      height: 56px !important;
+      line-height: 56px !important;
+      padding: 0 12px !important;
       color: var(--sr-text-color-light) !important;
       font-family: var(--sr-font-title) !important;
+      font-size: 1.75rem !important;
       text-align: center;
       background: none !important;
       border: none !important;
+    }
+
+    .page-metadata {
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      padding: 6px 8px 0;
+
+      /* Each setting in a box, like the editor toolbar buttons */
+      > div {
+        flex: none;
+        max-width: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 26px;
+        padding: 0 8px;
+        border: 1px solid var(--sr-ui-border-color-idle);
+        border-radius: 3px;
+        box-sizing: border-box;
+
+        &:hover {
+          border-color: var(--sr-ui-border-color-active);
+        }
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+        white-space: nowrap;
+      }
+
+      select {
+        height: 24px;
+        border: none !important;
+        color: var(--sr-text-color-dark) !important;
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+      }
     }
   }
 
