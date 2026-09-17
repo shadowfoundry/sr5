@@ -376,7 +376,8 @@
       align-items: center;
       justify-content: flex-start;
       gap: 6px;
-      padding: 6px 8px 0;
+      /* Same left edge as the editor toolbar below */
+      padding: 6px 1rem 0;
 
       /* Each setting in a box, like the editor toolbar buttons */
       > div {
@@ -405,6 +406,12 @@
         font-family: var(--sr-font-body);
         font-size: var(--sr-font-size-small);
         white-space: nowrap;
+
+        /* Icon-only labels (category, heading level): keep the icon font */
+        &[class*="fa-"] {
+          font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free";
+          font-weight: 900;
+        }
       }
 
       select {
