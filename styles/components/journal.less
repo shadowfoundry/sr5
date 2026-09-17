@@ -414,12 +414,17 @@
         }
       }
 
+      /* Same text line as the "show title" label (the generic window select
+         style inherits a larger font and would win on specificity) */
       select {
-        height: 24px;
+        height: 24px !important;
+        line-height: 24px !important;
+        margin: 0 !important;
         border: none !important;
-        color: var(--sr-text-color-dark) !important;
-        font-family: var(--sr-font-body);
-        font-size: var(--sr-font-size-small);
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body) !important;
+        font-size: var(--sr-font-size-small) !important;
+        font-weight: normal !important;
       }
     }
   }
