@@ -10,6 +10,23 @@
     }
   }
 
+  /* Separate bubbles: active players, scene noise / background count, latency / FPS */
+  #players-active {
+    background: none;
+    border: none;
+    padding: 0;
+    gap: 8px;
+
+    > .players-list,
+    > #sr5-scene-indicators,
+    > #performance-stats {
+      .sr-block-slot();
+      border-radius: 8px;
+      padding: 6px 8px;
+      pointer-events: all;
+    }
+  }
+
   #latency, #fps {
     color: var(--sr-text-color-light);
 
