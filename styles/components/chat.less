@@ -1,1 +1,19 @@
 /* v13: chat uses Foundry-native styling */
+
+/* === Chat controls row ===
+   The "jump to bottom" button is moved after the roll mode buttons
+   (modules/interface/chat-jump-to-bottom.js); the GM buttons stay on the right. */
+#chat-controls {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+
+  > .jump-to-bottom {
+    position: static;
+    flex: none;
+  }
+
+  > .control-buttons {
+    margin-left: auto;
+  }
+}
