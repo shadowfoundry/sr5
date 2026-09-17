@@ -1,0 +1,112 @@
+/* === GM Notes module window (legacy {{editor}} ProseMirror) === */
+.gm-notes.window-app .window-content {
+  color: var(--sr-text-color-dark);
+
+  .gm-notesform {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  /* "Move to notes / description" buttons: let long labels wrap inside the button */
+  .controlls {
+    display: flex;
+    gap: 8px;
+
+    button {
+      .sr-button-footer();
+      flex: 1 1 0;
+      width: auto;
+      margin: 0;
+      white-space: normal;
+    }
+  }
+
+  .editor {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background: var(--sr-text-color-light);
+    border: 1px solid var(--sr-ui-border-color-idle);
+
+    /* Toolbar: the module sizes every button (width 48%, height 34px), reset them */
+    menu.editor-menu {
+      flex: none;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 3px;
+      margin: 0;
+      padding: 4px;
+      background: none;
+      border-bottom: 1px solid var(--sr-ui-border-color-idle);
+
+      > li {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid var(--sr-ui-border-color-idle);
+        border-radius: 3px;
+        height: 26px;
+        min-width: 26px;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 60%, transparent);
+
+        &:hover, &.active {
+          color: var(--sr-ui-border-color-active);
+          border-color: var(--sr-ui-border-color-active);
+        }
+      }
+
+      button, .pm-dropdown {
+        width: auto;
+        height: 100%;
+        margin: 0;
+        padding: 0 5px;
+        background: none;
+        border: none;
+        box-shadow: none;
+        color: inherit;
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+      }
+    }
+
+    .editor-container {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+    }
+
+    /* Readable text on the light background, in view and edit mode */
+    .editor-content {
+      color: var(--sr-text-color-dark);
+      background: none;
+      padding: 8px 12px;
+      font-family: var(--sr-font-body);
+
+      p, span, li, h1, h2, h3, h4, h5, h6, strong, em, code, blockquote {
+        color: var(--sr-text-color-dark);
+      }
+
+      a {
+        color: var(--sr-ui-border-color);
+      }
+    }
+
+    /* Pencil button to start editing */
+    .editor-edit {
+      width: auto;
+      height: auto;
+      margin: 0;
+      background: none;
+      border: none;
+      color: var(--sr-ui-border-color);
+
+      &:hover {
+        color: var(--sr-ui-border-color-active);
+      }
+    }
+  }
+}
