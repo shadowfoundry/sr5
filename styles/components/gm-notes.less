@@ -50,15 +50,42 @@
       > li {
         display: inline-flex;
         align-items: center;
-        border: 1px solid var(--sr-ui-border-color-idle);
+        border: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 25%, transparent);
         border-radius: 3px;
         height: 26px;
         min-width: 26px;
-        color: color-mix(in srgb, var(--sr-text-color-dark) 60%, transparent);
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent);
 
         &:hover, &.active {
           color: var(--sr-ui-border-color-active);
           border-color: var(--sr-ui-border-color-active);
+        }
+      }
+
+      /* Core only styles the toolbar of the <prose-mirror> element, not the legacy editor */
+      .concurrent-users {
+        display: none;
+      }
+
+      .pm-dropdown {
+        width: max-content;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        > span {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .html, ul {
+          display: none;
+        }
+
+        i.fa-chevron-down {
+          font-size: var(--font-size-11);
         }
       }
 
