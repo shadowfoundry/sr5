@@ -71,13 +71,25 @@
   > .form-fields:has(> input[type="checkbox"]:only-child),
   > .form-fields:has(> button:only-child) {
     flex: none;
+    width: auto;
     justify-content: flex-end;
   }
 
-  > .form-fields > button:only-child {
+  > .form-fields > button:only-child,
+  > button {
     flex: none;
     width: auto;
     min-width: 12rem;
+  }
+
+  /* Button injected by a module right after the label (e.g. GM Notes "migrate"),
+     leaving the setting's fields empty: push the button to the right edge */
+  > button {
+    margin-left: auto;
+  }
+
+  > .form-fields:not(:has(*)) {
+    display: none;
   }
 }
 
