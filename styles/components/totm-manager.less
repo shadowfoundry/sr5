@@ -1,0 +1,174 @@
+/* === TotM Manager module (AppV1 window) ===
+   The module styles itself for the old light core theme (#666 greys) and draws some
+   icons with ::before glyphs in a non icon font, which render as empty boxes.
+   The window has no id (app-N), so it is found by its tab bar; the doubled class
+   matches the specificity of the generic window rules, this file comes after them.
+   Foundry V13 loads module styles in the "modules" cascade layer, after the "system"
+   layer: a module rule wins over a system rule whatever its specificity. Properties
+   the module also sets therefore need !important here. */
+.window-app.window-app .window-content:has(.totm-manager.tabs) {
+  padding: 0 8px 8px;
+
+  hr {
+    border: none !important;
+    border-top: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 50%, transparent) !important;
+    margin: 8px 0 !important;
+  }
+
+  /* Tabs: same bar as the other windows */
+  .totm-manager.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin: 0 -8px !important;
+    padding: 0 4px;
+    border-top: 1px solid var(--sr-text-color-flash);
+    border-bottom: 1px solid var(--sr-text-color-flash);
+    background: linear-gradient(
+      45deg,
+      color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent),
+      80%,
+      var(--sr-ui-border-color)
+    ), var(--sr-sidebar-background);
+    background-size: cover;
+
+    > .item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 8px;
+      color: var(--sr-text-color-light);
+      font-family: var(--sr-font-title);
+      font-size: var(--sr-font-size-small);
+      text-transform: uppercase;
+      text-shadow: none;
+      border-bottom: 2px solid transparent;
+      opacity: 0.7;
+
+      i {
+        color: inherit;
+        font-size: 12px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &.active {
+        opacity: 1;
+        font-weight: normal;
+        border-bottom-color: var(--sr-text-color-flash);
+      }
+    }
+  }
+
+  /* Remove the broken ::before glyphs, the real <i> icons are already there */
+  .add-image::before,
+  .add-folder::before,
+  .prev-image::before,
+  .next-image::before,
+  .delete-all-paths::before {
+    content: none !important;
+  }
+
+  /* Media toolbar */
+  .add-image-container {
+    padding: 4px 0 !important;
+
+    p {
+      color: var(--sr-text-color-dark) !important;
+      font-family: var(--sr-font-title);
+      font-size: var(--sr-font-size-small) !important;
+      font-weight: normal !important;
+      font-variant: normal !important;
+      text-transform: uppercase;
+      padding-left: 0 !important;
+    }
+
+    a.add-image,
+    a.add-folder,
+    a.prev-image,
+    a.next-image {
+      display: inline-flex !important;
+      align-items: center;
+      gap: 2px;
+      font-size: 14px !important;
+      color: var(--sr-text-color-dark) !important;
+      padding: 0 4px !important;
+
+      i {
+        margin: 0 !important;
+      }
+
+      &:hover {
+        color: var(--sr-ui-border-color-active) !important;
+        text-shadow: none;
+      }
+    }
+  }
+
+  /* Icon buttons (trash, add...) */
+  button:has(i) {
+    color: var(--sr-text-color-dark) !important;
+    border: 1px solid var(--sr-ui-border-color-idle) !important;
+    border-radius: 3px !important;
+    gap: 4px;
+    width: auto !important;
+    min-width: 2em;
+    padding: 0 6px !important;
+
+    &:hover {
+      color: var(--sr-ui-border-color-active) !important;
+      border-color: var(--sr-ui-border-color-active) !important;
+      background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent) !important;
+    }
+  }
+
+  /* Image list, effect names */
+  .path-field,
+  .tag-field,
+  .effect-name,
+  .effect-target-name {
+    border-color: var(--sr-ui-border-color-idle) !important;
+  }
+
+  .totm-manager.active-image .path-field,
+  .set-media-button.active-button i {
+    color: var(--sr-ui-border-color-active) !important;
+  }
+
+  .set-media-button i,
+  .effect-target-type {
+    color: var(--sr-text-color-dark) !important;
+  }
+
+  .effect-target-type {
+    border-color: var(--sr-ui-border-color-idle) !important;
+  }
+
+  .section-header {
+    color: var(--sr-text-color-dark) !important;
+    font-family: var(--sr-font-title);
+    text-transform: uppercase;
+  }
+
+  /* Tile buttons of the stage header */
+  .tile-button {
+    &:hover {
+      background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent) !important;
+    }
+
+    &.active-button {
+      color: var(--sr-ui-border-color-active);
+      border-color: var(--sr-ui-border-color-active) !important;
+    }
+  }
+
+  .hr-dropdown-container label {
+    flex: none;
+  }
+
+  .drag-over {
+    border-color: var(--sr-ui-border-color-active) !important;
+    background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent) !important;
+  }
+}
