@@ -114,22 +114,30 @@
   }
 }
 
-/* Search results chat message: same look as the link matches tooltip,
-   section header bands and comma separated links */
+/* Search results chat message: journal page background, black text with SR5 red icons,
+   blood red header bands, teal separators between journals, links separated by commas */
 .search_chat {
+  margin: -4px;
+  padding: 6px 8px;
+  background: var(--sr-text-color-light) var(--sr-img-bg-white50) top left / cover no-repeat;
   font: inherit !important;
   font-family: var(--sr-font-body) !important;
   font-size: var(--sr-font-size-small) !important;
   line-height: 1.35;
   color: var(--sr-text-color-dark);
-  overflow-wrap: anywhere;
+  /* Wrap between words only, never inside a word */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
 
   h3,
   h4 {
-    .sr-block-header();
     margin: 8px 0 4px !important;
     padding: 2px 6px;
+    background: color-mix(in srgb, var(--sr-ui-border-color) 85%, black);
+    color: var(--sr-text-color-light);
     font: var(--sr-font-size-small) var(--sr-font-title) !important;
+    text-transform: uppercase;
     letter-spacing: 0.05em;
     text-align: left !important;
   }
@@ -164,12 +172,17 @@
   }
 
   .journal {
-    margin: 6px 0 0 !important;
+    margin: 0 !important;
+    padding: 4px 0;
+  }
+
+  .journal + .journal {
+    border-top: 1px solid var(--sr-ui-border-color-active);
   }
 
   .journal_name {
     margin-bottom: 1px !important;
-    color: var(--sr-ui-border-color);
+    color: var(--sr-text-color-dark);
     font-family: var(--sr-font-title);
     font-weight: normal !important;
     text-transform: uppercase;
@@ -180,8 +193,10 @@
     display: inline;
   }
 
-  .journal_page:not(:last-child)::after {
-    content: ", ";
+  .journal_page:not(:last-child)::after,
+  div:not(.journal):not(.journal_name):not(.journal_page):not(.motif):not(.btn-highlight) > a.content-link:not(:last-of-type)::after {
+    content: ",";
+    margin-right: 0.35em;
     color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
   }
 
@@ -189,26 +204,19 @@
     display: none;
   }
 
-  div:not(.journal):not(.journal_name):not(.journal_page):not(.motif):not(.btn-highlight) > a.content-link:not(:last-of-type)::after {
-    content: ",";
-    color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
-    margin-right: 0.35em;
-  }
-
   a.content-link {
     background: none !important;
     border: 0 !important;
     padding: 0;
-    color: var(--sr-ui-border-color);
+    color: var(--sr-text-color-dark);
     font-family: var(--sr-font-body);
-    white-space: normal;
 
     i {
-      color: inherit;
+      color: var(--sr-ui-border-color);
     }
 
     &:hover {
-      color: var(--sr-ui-border-color-active);
+      color: var(--sr-ui-border-color);
       text-shadow: none;
     }
   }
