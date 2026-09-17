@@ -81,3 +81,17 @@
 #items-popout, #actors-popout, #combat-popout, #scenes-popout, #journal-popout, #tables-popout, #cards-popout, #macros-popout, #playlists-popout, #compendium-popout, #settings-popout {
   .sr-block-sidebar();
 }
+
+/* === Sidebar tab buttons ===
+   Modules append their tab buttons after Settings. Keep Settings just above the
+   collapse button, and the collapse button last, whatever tabs are added later
+   (display order only, the menu is a flex column). */
+#sidebar-tabs > menu {
+  > li:has(> [data-tab="settings"]) {
+    order: 1;
+  }
+
+  > li:has(> button.collapse) {
+    order: 2;
+  }
+}
