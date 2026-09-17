@@ -24,6 +24,15 @@
   box-shadow: none;
 }
 
+// Footer button on a light surface (window content): dark text instead of white on a dark fill
+.sr-button-light() {
+  .sr-button-footer();
+  --button-text-color: var(--sr-text-color-dark) !important;
+  --button-background-color: transparent !important;
+  color: var(--sr-text-color-dark) !important;
+  background: none !important;
+}
+
 // Animated footer button — teal border, sweep-fill on hover
 .sr-button-footer() {
   --button-size: auto !important;

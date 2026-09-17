@@ -130,67 +130,6 @@ prose-mirror {
     }
   }
 
-  /* Toolbar (menu) when editor is active */
-  menu.editor-menu {
-    background: none;
-    padding: 2px;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 2px;
-    border-bottom: 1px solid var(--sr-ui-border-color-idle);
-    list-style: none;
-
-    > li {
-      display: flex;
-      align-items: center;
-
-      &.right {
-        margin-left: auto;
-      }
-    }
-
-    button {
-      background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent);
-      color: var(--sr-ui-border-color-active);
-      border: 1px solid var(--sr-ui-border-color-active);
-      border-radius: 3px;
-      height: 26px;
-      min-width: 26px;
-      padding: 0 5px;
-      font-family: var(--sr-font-body);
-      font-size: var(--sr-font-size-small);
-      cursor: pointer;
-      transition: background-color 0.2s, color 0.2s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      box-sizing: border-box;
-      margin: 0;
-      line-height: 1;
-
-      &:hover {
-        background-color: var(--sr-ui-border-color-active);
-        color: var(--sr-text-color-light);
-      }
-
-      &::before {
-        content: none !important;
-      }
-
-      i {
-        font-size: 12px;
-        line-height: 1;
-      }
-
-      .fa-chevron-down {
-        font-size: 8px;
-        margin-left: 3px;
-      }
-    }
-  }
-
   /* ProseMirror content when editing */
   .editor-content.ProseMirror {
     padding: 4px 8px;
@@ -198,6 +137,97 @@ prose-mirror {
     &:focus {
       outline: none;
     }
+  }
+}
+
+/* Toolbar (menu) when editor is active.
+   Also applies to the legacy {{editor}} ProseMirror (.editor) still used by some modules,
+   whose toolbar buttons otherwise get the generic themed button look. */
+prose-mirror menu.editor-menu,
+.editor menu.editor-menu {
+  background: none;
+  padding: 2px;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  border-bottom: 1px solid var(--sr-ui-border-color-idle);
+  list-style: none;
+
+  > li {
+    display: flex;
+    align-items: center;
+
+    &.right {
+      margin-left: auto;
+    }
+  }
+
+  button {
+    background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 30%, transparent);
+    color: var(--sr-ui-border-color-active);
+    border: 1px solid var(--sr-ui-border-color-active);
+    border-radius: 3px;
+    width: auto;
+    height: 26px;
+    min-width: 26px;
+    padding: 0 5px;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    margin: 0;
+    line-height: 1;
+
+    &:hover {
+      background-color: var(--sr-ui-border-color-active);
+      color: var(--sr-text-color-light);
+    }
+
+    &::before {
+      content: none !important;
+    }
+
+    i {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .fa-chevron-down {
+      font-size: 8px;
+      margin-left: 3px;
+    }
+  }
+
+}
+
+/* Legacy editor only: core styles these toolbar parts for <prose-mirror> but not for .editor */
+.editor menu.editor-menu {
+  .pm-dropdown {
+    width: max-content;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    > span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .html, ul {
+      display: none;
+    }
+  }
+
+  .concurrent-users {
+    display: none;
   }
 }
 
