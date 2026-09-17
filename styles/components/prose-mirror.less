@@ -209,6 +209,8 @@ prose-mirror menu.editor-menu,
 /* Legacy editor only: core styles these toolbar parts for <prose-mirror> but not for .editor */
 .editor menu.editor-menu {
   .pm-dropdown {
+    /* The table dropdown is also button.icon, whose core flex-basis would keep it icon sized */
+    flex: none;
     width: max-content;
     position: relative;
     display: flex;

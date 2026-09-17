@@ -1,5 +1,8 @@
 /* === GM Notes module window (legacy {{editor}} ProseMirror) ===
-   Toolbar styling is shared with every legacy editor (prose-mirror.less) */
+   Toolbar styling is shared with every legacy editor (prose-mirror.less).
+   Foundry V13 loads module styles in the "modules" cascade layer, after the "system"
+   layer: a module rule wins over a system rule whatever its specificity. Properties
+   the module also sets (.gm-notes button, .gm-notes .editor) therefore need !important. */
 .gm-notes.window-app .window-content {
   color: var(--sr-text-color-dark);
 
@@ -18,8 +21,8 @@
     button {
       .sr-button-light();
       flex: 1 1 0;
-      width: auto;
-      margin: 0;
+      width: auto !important;
+      margin: 0 !important;
       white-space: normal;
     }
   }
@@ -27,15 +30,28 @@
   .editor {
     flex: 1;
     min-height: 0;
-    height: auto;
+    height: auto !important;
+    position: relative !important;
+    overflow: hidden !important;
     display: flex;
     flex-direction: column;
     background: var(--sr-text-color-light);
     border: 1px solid var(--sr-ui-border-color-idle);
 
-    /* The module sizes every button of its window (width 48%, height 34px) */
+    /* The module sizes every button of its window (width 48%, height 34px),
+       which squeezes the toolbar dropdowns and hides their label */
     menu.editor-menu {
       flex: none;
+
+      button {
+        width: auto !important;
+        height: 26px !important;
+        margin-bottom: 0 !important;
+      }
+
+      .pm-dropdown {
+        width: max-content !important;
+      }
     }
 
     .editor-container {
@@ -62,9 +78,9 @@
 
     /* Pencil button to start editing */
     .editor-edit {
-      width: auto;
-      height: auto;
-      margin: 0;
+      width: auto !important;
+      height: auto !important;
+      margin: 0 !important;
       background: none;
       border: none;
       color: var(--sr-ui-border-color);
