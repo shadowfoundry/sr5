@@ -575,6 +575,7 @@
 	"SR5.BrowserRollTable": "Table aléatoire",
 	"SR5.BrowserScene": "Scène",
 	"SR5.CompendiumBrowser": "Navigateur de compendiums",
+	"SR5.CompendiumBrowserFailed": "Le navigateur de compendiums n'a pas pu s'ouvrir. Voir la console pour le détail.",
 	"SR5.ChooseControler": "Choisissez le contrôleur",
 	"SR5.ChooseDamageType": "Choisissez le type de dégât",
 	"SR5.ChooseItemToPan": "Choisissez l'objet à ajouter au PAN",

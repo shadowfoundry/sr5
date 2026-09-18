@@ -5,15 +5,26 @@ import {
   SR5_EntityHelpers 
 } from '../entities/helpers.js'
 import {
-  BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, ITEM_INDEX_FIELDS, ACTOR_INDEX_FIELDS, getEntryInfo 
+  BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, getEntryInfo
 } from './compendium-browser-filters.js'
 import {
   enhanceSelects 
 } from '../helpers/enhance-selects.js'
 
 const ALL_FILTERS = {
-  ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS 
+  ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS
 }
+
+/**
+ * The only system fields the sidebar needs to count subtypes. Asking a pack for
+ * a field makes Foundry read every document it holds, so the browser asks for
+ * these two and nothing more; everything else is fetched for the entries it is
+ * about to show. On a pack of 4700 items the difference is an instant window
+ * instead of one that never opens.
+ */
+const SUBTYPE_FIELDS = [...new Set(
+  Object.values(ALL_FILTERS).filter(def => def.subtypes).map(def => def.subtypes.field)
+)]
 
 export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApplicationMixin(
   foundry.applications.api.ApplicationV2
@@ -33,7 +44,12 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const browser = new SR5CompendiumBrowser()
     SR5CompendiumBrowser._instance = browser
     if (initialType) browser._selectedTypes = new Set([initialType])
-    browser.render(true)
+    // render() is a promise nobody awaits: without this, a failure to open
+    // leaves neither a window nor a word in the console
+    browser.render(true).catch(err => {
+      console.error('SR5 Compendium Browser: failed to open', err)
+      ui.notifications?.error(game.i18n.localize('SR5.CompendiumBrowserFailed'))
+    })
     return browser
   }
 
@@ -104,14 +120,57 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
 
     const otherDocTypes = Object.keys(OTHER_BROWSER_FILTERS)
     const promises = [
-      ...game.packs.filter(p => p.documentName === 'Item').map(p => indexPack(p, 'Item', ITEM_INDEX_FIELDS)),
-      ...game.packs.filter(p => p.documentName === 'Actor').map(p => indexPack(p, 'Actor', ACTOR_INDEX_FIELDS)),
+      ...game.packs.filter(p => p.documentName === 'Item').map(p => indexPack(p, 'Item', SUBTYPE_FIELDS)),
+      ...game.packs.filter(p => p.documentName === 'Actor').map(p => indexPack(p, 'Actor', SUBTYPE_FIELDS)),
       ...game.packs.filter(p => otherDocTypes.includes(p.documentName)).map(p => indexPack(p, p.documentName, [], true)),
     ]
 
     await Promise.all(promises)
     this._indexCache = allEntries
     return allEntries
+  }
+
+  /**
+   * Fetch the system data of the given entries, once, and keep it on them.
+   *
+   * Only the entries about to be displayed — or those a filter is about to be
+   * applied to — go through here, so the cost follows what is on screen rather
+   * than the size of the compendiums.
+   */
+  async _ensureDetails(entries) {
+    const missing = entries.filter(e => !e._detailed)
+    if (!missing.length) return
+
+    const byPack = new Map()
+    for (const entry of missing) {
+      if (!byPack.has(entry.packId)) byPack.set(entry.packId, [])
+      byPack.get(entry.packId).push(entry)
+    }
+
+    await Promise.all([...byPack].map(async ([packId, list]) => {
+      const pack = game.packs.get(packId)
+      // mark them either way: a pack that cannot answer must not be asked again
+      try {
+        const documents = pack ? await pack.getDocuments({
+          _id__in: list.map(e => e._id)
+        }) : []
+        const byId = new Map(documents.map(d => [d.id, d]))
+        for (const entry of list) {
+          const document = byId.get(entry._id)
+          if (document) entry.system = document.system
+          entry._detailed = true
+        }
+      } catch (err) {
+        console.warn(`SR5 Compendium Browser: Failed to load details from ${packId}`, err)
+        for (const entry of list) entry._detailed = true
+      }
+    }))
+  }
+
+  /** Does this filter read something the light index does not carry? */
+  _needsDetails() {
+    return Object.entries(this._activeFilters).some(([key, value]) =>
+      value !== '' && value !== undefined && !SUBTYPE_FIELDS.includes(key))
   }
 
   /* -------------------------------------------- */
@@ -269,14 +328,25 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       }
     }
 
+    // A filter reading beyond the light index needs the documents themselves.
+    // Only the selected types can match it, so that is all we fetch.
+    if (this._needsDetails()) {
+      const selected = [...this._selectedTypes].map(sel => sel.includes(':') ? sel.split(':')[0] : sel)
+      await this._ensureDetails(selected.length ?
+        allEntries.filter(e => selected.includes(e.type)) :
+        allEntries)
+    }
+
     // Filter entries
     const filtered = this._filterEntries(allEntries)
     const totalCount = filtered.length
 
-    // Paginate
+    // Paginate, then fetch the details of that page alone
     const lists = SR5_EntityHelpers.sortTranslations(SR5)
     const maxItems = (this._page + 1) * this._pageSize
-    const results = filtered.slice(0, maxItems).map(e => {
+    const page = filtered.slice(0, maxItems)
+    await this._ensureDetails(page)
+    const results = page.map(e => {
       const def = ALL_FILTERS[e.type]
       let typeLabel = game.i18n.localize(def?.label || e.type)
       if (def?.subtypes) {
