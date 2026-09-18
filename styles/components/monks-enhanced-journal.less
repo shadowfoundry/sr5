@@ -1,0 +1,381 @@
+/* === Monk's Enhanced Journal ===
+
+   The module brings its own chrome around the journal: a tab bar, a bookmark
+   bar, a navigation bar, a footer and its own copy of the directory. All of it
+   is drawn for a light interface — #dcdcdc bands, near-white buttons, grey
+   icons — and sits around a journal body the system already paints dark.
+
+   Its page list stays white for a precise reason: the system dresses
+   `.sheet.journal-entry.application .journal-sidebar`, but here the sheet is
+   nested inside an `.application.monks-enhanced-journal` window, so that
+   selector never reaches it.
+
+   In V13 a module's CSS lives in the `modules` layer, declared after `system`:
+   every property the module sets itself needs `!important` to be overridden,
+   whatever the specificity. Only those properties carry one.
+
+   This file is imported inside body[class^="sr-theme-"], so the selectors
+   already carry the theme's specificity. */
+
+.application.monks-enhanced-journal {
+
+  /* The module tags its window `themed theme-dark`, which brings Foundry's own
+     palette in. The bands below set their colours explicitly, so those
+     variables only show through where nothing else claims them. */
+
+  /* -------------------------------------------- */
+  /*  Bandeau : onglets, favoris, navigation      */
+  /* -------------------------------------------- */
+
+  .enhanced-journal-header {
+    background: var(--sr-ui-bg-color-dark) !important;
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    color: var(--sr-text-color-light);
+  }
+
+  /* Les trois barres n'ont que 2 à 4 px de retrait latéral, ce qui colle les
+     icônes des deux bords et les fait paraître rognées. */
+  .tab-bar,
+  .bookmark-bar,
+  .navigation {
+    padding-inline: 6px !important;
+  }
+
+  /* --- Onglets de journaux ouverts --- */
+  .tab-bar {
+    .journal-tab {
+      background: var(--sr-ui-bg-color) !important;
+      color: var(--sr-text-color-light) !important;
+      border: 1px solid var(--sr-ui-border-color-idle) !important;
+      border-bottom: none !important;
+      font-family: var(--sr-font-body);
+
+      &:hover {
+        background: var(--sr-ui-bg-color-hover) !important;
+        color: var(--sr-ui-color-active) !important;
+      }
+
+      /* L'onglet courant. Le texte est clair et non turquoise : sur le rouge du
+         fond actif, le turquoise du thème ne donne que 2,4:1. */
+      &.active {
+        background: var(--sr-ui-bg-color-active) !important;
+        color: var(--sr-text-color-light) !important;
+        border-color: var(--sr-ui-border-color-active) !important;
+        font-weight: bold;
+      }
+
+      .tab-content,
+      .tab-close {
+        color: inherit !important;
+      }
+
+      .tab-close:hover {
+        color: var(--sr-ui-border-color) !important;
+      }
+    }
+  }
+
+  /* --- Boutons d'icône des trois barres --- */
+  .tab-button,
+  .bookmark-button,
+  .nav-button {
+    background: none !important;
+    border: 1px solid transparent !important;
+    color: var(--sr-ui-color) !important;
+
+    i {
+      color: inherit !important;
+    }
+
+    &:hover {
+      background: var(--sr-ui-bg-color-hover) !important;
+      border-color: var(--sr-ui-border-color) !important;
+      color: var(--sr-ui-color-active) !important;
+    }
+
+    /* Le module grise ce qui est indisponible : le garder lisible sans le
+       laisser passer pour actif */
+    &.disabled,
+    &[disabled] {
+      color: var(--sr-text-color-grey) !important;
+      background: none !important;
+    }
+  }
+
+  /* --- Barre des favoris --- */
+  .bookmark-bar {
+    background: none !important;
+    border-bottom: 1px solid var(--sr-ui-border-color-idle);
+
+    .bookmark-button {
+      &.add-bookmark {
+        background: none !important;
+      }
+
+      &.bookmark {
+        background: var(--sr-ui-bg-color) !important;
+        border-color: var(--sr-ui-border-color-idle) !important;
+        color: var(--sr-text-color-light) !important;
+
+        &:hover {
+          color: var(--sr-ui-color-active) !important;
+        }
+      }
+    }
+  }
+
+  /* --- Barre de navigation --- */
+  .navigation {
+    background: none !important;
+    color: var(--sr-text-color-light) !important;
+
+    hr.vertical {
+      border-color: var(--sr-ui-border-color-idle) !important;
+    }
+
+    .nav-text {
+      color: var(--sr-text-color-light) !important;
+    }
+
+    /* La règle générique des champs de fenêtre impose un texte sombre, prévu
+       pour le fond clair des fenêtres. Elle est bien plus spécifique que le
+       nom de ce module, et `!important` des deux côtés ne départage rien :
+       il faut reprendre sa forme — `.window-content` et les quatre `:not()` —
+       pour l'égaler, sans quoi le champ reste noir sur noir. */
+    input.nav-input {
+      &::placeholder {
+        color: color-mix(in srgb, var(--sr-text-color-light) 40%, transparent) !important;
+      }
+
+      &:focus {
+        border-bottom-color: var(--sr-ui-border-color-active) !important;
+        outline: none !important;
+      }
+    }
+  }
+
+  /* Les deux champs de recherche — celui de la barre de navigation et celui du
+     répertoire — tombent sous la règle générique des champs de fenêtre, qui
+     impose un texte sombre prévu pour le fond clair des fenêtres. Il faut
+     reprendre sa forme, `.window-content` et les quatre `:not()` compris, pour
+     l'égaler ; sans quoi ils restent noirs sur noir et noirs sur rouge. */
+  .window-content .enhanced-journal-header .navigation
+  input.nav-input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]),
+  .window-content .directory-sidebar .directory.journal-directory .directory-header
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+    color: var(--sr-text-color-light) !important;
+    background: none !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--sr-ui-border-color-idle) !important;
+    caret-color: var(--sr-ui-border-color-active);
+  }
+
+  /* -------------------------------------------- */
+  /*  Pied de fenêtre                             */
+  /* -------------------------------------------- */
+
+  /* 49 px de haut pour des boutons de 24, dont 15 px de retrait en haut : le
+     pied prenait trois fois la place de ce qu'il montre.
+     Le sélecteur reprend toutes les classes de l'élément — le module le vise
+     plus précisément que son seul nom, et `!important` ne départage pas deux
+     déclarations également prioritaires. */
+  .enhanced-journal-body footer.enhanced-journal-footer.navigation.flexrow {
+    padding: 4px 8px !important;
+    background: var(--sr-ui-bg-color-dark) !important;
+    border-top: 1px solid var(--sr-ui-border-color);
+    color: var(--sr-text-color-light) !important;
+
+    .nav-button {
+      margin-top: 0 !important;
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Liste des pages                             */
+  /* -------------------------------------------- */
+
+  /* Même traitement que la colonne des journaux du cœur, que le sélecteur du
+     système n'atteint pas ici. */
+  .monks-journal-sheet .journal-sidebar {
+    font-family: var(--sr-font-body);
+    background-image: var(--sr-sidebar-background) !important;
+    background-size: cover !important;
+    background-color: var(--sr-ui-bg-color-dark) !important;
+    color: var(--sr-text-color-light) !important;
+    border-right: 1px solid var(--sr-ui-border-color);
+
+    .toc li.page {
+      border-color: color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
+    }
+
+    .toc li.page.active {
+      background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
+      border-left: 3px solid var(--sr-text-color-flash);
+    }
+
+    .page-index {
+      color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
+    }
+
+    a,
+    .page-title {
+      color: var(--sr-text-color-light);
+      font-family: var(--sr-font-body);
+
+      &:hover {
+        color: var(--sr-ui-border-color-active);
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Page de journal                             */
+  /* -------------------------------------------- */
+
+  /* Le module peint son propre fond sombre, et la règle du système — portée par
+     `.sheet.journal-entry.application` — ne descend pas jusqu'ici. Une page lue
+     dans Monk's n'avait donc rien de commun avec la même page lue dans la
+     fenêtre du cœur : mêmes parchemin, police et texte sombre des deux côtés. */
+  .monks-journal-sheet .journal-entry-content {
+    font-family: var(--sr-font-journal);
+    color: var(--sr-text-color-dark) !important;
+    background-image: var(--sr-img-bg-white50) !important;
+    background-size: cover !important;
+    background-position: top left !important;
+    background-repeat: no-repeat !important;
+    background-color: var(--sr-text-color-light) !important;
+
+    /* La police de journal s'impose au texte, mais surtout pas aux icônes :
+       Font Awesome passe par la police, et forcer l'héritage sur `*` vide
+       les boutons de leur pictogramme — le bouton d'édition s'était ainsi
+       retrouvé sans icône. */
+    & *:not(i):not([class*="fa-"]):not(.fontawesome-icon) {
+      font-family: inherit;
+    }
+
+    /* L'en-tête de la page garde la texture rouge des journaux du système */
+    .journal-header {
+      flex: none !important;
+      background-image: var(--sr-img-window-header);
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      color: var(--sr-text-color-light);
+
+      .title {
+        color: var(--sr-text-color-light) !important;
+        font-family: var(--sr-font-title) !important;
+        font-size: 1.5rem !important;
+        text-align: center;
+        background: none !important;
+        border: none !important;
+      }
+    }
+
+    /* Mêmes tableaux que dans les journaux du cœur : le fond sombre qu'ils
+       gardaient ici rendait le texte noir illisible sur le parchemin. */
+    table {
+      --table-background-color: transparent !important;
+      border-collapse: collapse;
+      border-top: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
+      background: none !important;
+      color: var(--sr-text-color-dark);
+
+      th {
+        background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+        color: var(--sr-text-color-dark);
+        font-family: var(--sr-font-title);
+        padding: 4px 8px;
+      }
+
+      td {
+        padding: 4px 8px;
+        background: none !important;
+      }
+
+      tr {
+        background: none !important;
+      }
+
+      /* Les liens du thème sont turquoise, prévus pour le fond sombre ; sur le
+         parchemin il leur faut la teinte foncée du système. */
+      a {
+        color: var(--sr-text-accent-light) !important;
+      }
+    }
+  }
+
+  /* -------------------------------------------- */
+  /*  Répertoire de droite                        */
+  /* -------------------------------------------- */
+
+  .directory-sidebar {
+    border-left: 1px solid var(--sr-ui-border-color);
+
+    /* Même fond que la liste des pages à gauche : le répertoire était laissé
+       transparent et prenait la clarté de ce qui se trouvait derrière. */
+    background-image: var(--sr-sidebar-background) !important;
+    background-size: cover !important;
+    background-color: var(--sr-ui-bg-color-dark) !important;
+    color: var(--sr-text-color-light);
+
+    .directory,
+    .directory-list,
+    .subdirectory {
+      background: none !important;
+    }
+
+    .directory-header {
+      background: var(--sr-header-bg) !important;
+      border-bottom: 1px solid var(--sr-ui-border-color);
+      color: var(--sr-text-color-light) !important;
+
+      search input::placeholder {
+        color: color-mix(in srgb, var(--sr-text-color-light) 40%, transparent) !important;
+      }
+
+      /* Replier les dossiers, trier, changer de mode de recherche : ces boutons
+         tirent leur pictogramme d'un `::before` en Font Awesome, et la police
+         de titre du thème le remplace par deux points d'interrogation. Le
+         système répare déjà le cas dans la colonne des journaux du cœur, mais
+         sa règle ne descend pas dans la fenêtre de ce module. */
+      button.inline-control,
+      button.icon {
+        font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free" !important;
+        color: var(--sr-text-color-light) !important;
+        background: none !important;
+        border: none !important;
+
+        &:hover {
+          color: var(--sr-ui-border-color-active) !important;
+        }
+      }
+    }
+
+    /* Le module laisse ses entrées en texte sombre, prévu pour un répertoire
+       clair ; ici elles sont posées sur le fond sombre du panneau. */
+    .directory-list li.document,
+    .directory-list li.document a,
+    .directory-list .entry-name {
+      color: var(--sr-text-color-light) !important;
+      font-family: var(--sr-font-body);
+    }
+
+    .directory-list li.document:hover,
+    .directory-list li.document:hover a {
+      color: var(--sr-ui-border-color-active) !important;
+    }
+
+    .directory-list .folder-header,
+    .directory-list .folder-header h3,
+    .directory-list .folder-header a {
+      color: var(--sr-text-color-light) !important;
+      font-family: var(--sr-font-title);
+      text-shadow: 1px 1px 2px var(--sr-ui-bg-color-dark);
+    }
+
+    .directory-footer {
+      border-top: 1px solid var(--sr-ui-border-color-idle);
+    }
+  }
+}
