@@ -351,8 +351,11 @@ export class SR5_RollTest {
       edgeRoll: true,
     })
 
+    // SR5 p. 58: pushing the limit ignores the test limit, so start from the unlimited hits of the original roll
+    let originalHits = messageData.roll.realHits ?? messageData.roll.hits
     let newMessage = foundry.utils.duplicate(messageData)
-    newMessage.roll.hits = messageData.roll.hits + newRoll.hits
+    newMessage.roll.hits = originalHits + newRoll.hits
+    newMessage.roll.realHits = originalHits + newRoll.realHits
     newMessage.roll.dices = messageData.roll.dices.concat(newRoll.dices)
     newMessage.edge.hasUsedPushTheLimit = true
     newMessage.edge.canUseEdge = false
