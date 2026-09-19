@@ -3469,6 +3469,7 @@ SR5.specialPropertiesList = {
   regeneration              : "SR5.SpiritPowerRegeneration",
   anticoagulant             : "SR5.Anticoagulant",
   essenceDrain              : "SR5.EssenceDrain",
+  naniteToxinResistance     : "SR5.NaniteToxinResistance",
 }
 
 SR5.transactionsTypes = {

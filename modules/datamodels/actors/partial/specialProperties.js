@@ -66,6 +66,10 @@ export class specialPropertiesPartialModel extends foundry.abstract.TypeDataMode
         regeneration: new fields.BooleanField({
           initial: false
         }),
+        // Head case advantage (Stolen Souls p. 201): Nanite Volume added to toxin and disease resistances
+        naniteToxinResistance: new fields.BooleanField({
+          initial: false
+        }),
         essenceDrain: new fields.BooleanField({
           initial: false
         }),

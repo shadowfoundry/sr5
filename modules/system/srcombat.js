@@ -691,6 +691,17 @@ export class SR5Combat extends Combat {
             ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {
               effect: item.name
             })}`)
+
+            //Head case Attribute Boost (Stolen Souls p. 201): Stun damage equal to the hits once the boost ends
+            if (itemData.type === "naniteAttributeBoost" && Number(itemData.value) > 0) {
+              damageInfo = SR5_PrepareRollTest.getBaseRollData(null, actor)
+              damageInfo.damage.value = Number(itemData.value)
+              damageInfo.damage.type = "stun"
+              await actor.takeDamage(damageInfo)
+              ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_NaniteBoostDamage", {
+                damage: itemData.value
+              })}`)
+            }
           } else {
             await item.update({
               system: itemData

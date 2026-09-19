@@ -368,6 +368,7 @@ export class SR5_CharacterUtility extends Actor {
       actorData.specialProperties.doublePenalties = false
       actorData.specialProperties.energyAura = ""
       actorData.specialProperties.regeneration = ""
+      actorData.specialProperties.naniteToxinResistance = false
       actorData.specialProperties.anticoagulant = ""
       actorData.specialProperties.essenceDrain = ""
       actorData.specialProperties.fullDefenseAttribute = "willpower"
@@ -1882,6 +1883,10 @@ export class SR5_CharacterUtility extends Actor {
               resistances[key][vector].base = 0
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Body'), "linkedAttribute", attributes.body.augmented.value)
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
+              // Head case advantage (Stolen Souls p. 201): add the Nanite Volume to toxin and disease resistances
+              if (actorData.specialProperties?.naniteToxinResistance && actorData.specialAttributes?.nanite?.augmented.value > 0) {
+                SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.NaniteVolume'), "linkedAttribute", actorData.specialAttributes.nanite.augmented.value)
+              }
               if (actorData.itemsProperties && key === "toxin") {
                 resistances.toxin[vector].modifiers = resistances.toxin[vector].modifiers.concat(actorData.itemsProperties.armor.toxin[vector].modifiers)
               }
