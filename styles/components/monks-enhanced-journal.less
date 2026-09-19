@@ -271,6 +271,42 @@
       }
     }
 
+    /* Les titres de page reprennent ceux du cœur. Le module impose sa police
+       Modesto Condensed en blanc cassé — illisible sur le parchemin — et pose
+       un filet sous les titres profonds. Ses règles étant dans une couche
+       postérieure à celle du système, il faut `!important` pour les reprendre. */
+    .journal-entry-pages {
+
+      h1, h2, h3, h4, h5, h6 {
+        text-transform: uppercase !important;
+        font-family: var(--sr-font-journal-title) !important;
+      }
+
+      h1 {
+        color: var(--sr-ui-border-color) !important;
+        border-bottom: 2px solid var(--sr-ui-border-color) !important;
+        padding-bottom: 5px;
+      }
+
+      h2 {
+        color: var(--sr-ui-border-color) !important;
+        border-bottom: 1px solid var(--sr-ui-border-color) !important;
+        padding-bottom: 5px;
+      }
+
+      h3 {
+        color: var(--sr-ui-border-color) !important;
+      }
+
+      /* Les titres profonds restent lisibles : texte noir et pas de filet — le
+         filet appartient aux en-têtes de section des fenêtres, pas à une page
+         de livre. */
+      h4, h5, h6 {
+        color: var(--sr-text-color-dark) !important;
+        border-bottom: none !important;
+      }
+    }
+
     /* Mêmes tableaux que dans les journaux du cœur : le fond sombre qu'ils
        gardaient ici rendait le texte noir illisible sur le parchemin. */
     table {
@@ -281,20 +317,35 @@
       background: none !important;
       color: var(--sr-text-color-dark);
 
+      /* Lignes compactes, comme dans les pages du cœur */
+      p {
+        margin: 0;
+      }
+
       th {
         background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
         color: var(--sr-text-color-dark);
         font-family: var(--sr-font-title);
-        padding: 4px 8px;
+        padding: 3px 8px;
+        line-height: 1.3;
       }
 
       td {
-        padding: 4px 8px;
+        padding: 3px 8px;
+        line-height: 1.3;
         background: none !important;
       }
 
-      tr {
-        background: none !important;
+      /* Le zébrage du cœur. Une règle `tr { background: none }` l'avait
+         supprimé ici pour effacer le fond sombre du module : un tableau de
+         six colonnes en devenait illisible. Reprendre les deux teintes du
+         système efface ce fond tout en gardant l'alternance. */
+      tr:nth-child(odd) {
+        background: color-mix(in srgb, var(--sr-text-color-dark) 10%, transparent) !important;
+      }
+
+      tr:nth-child(even) {
+        background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
       }
 
       /* Les liens du thème sont turquoise, prévus pour le fond sombre ; sur le
