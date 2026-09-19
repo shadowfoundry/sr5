@@ -3628,6 +3628,7 @@
 	"SR5.WARN_NoReagents": "You don't have reagents left !",
 	"SR5.WARN_NotASpirit": "You must select a spirit !",
 	"SR5.WARN_NotASprite": "You must select a sprite !",
+	"SR5.WARN_NotEnoughInitiative": "{actor} does not have enough initiative ({initiative}) for an interruption action costing {cost}.",
 	"SR5.WARN_NoTemplateInScene": "No template in scene !",
 	"SR5.WARN_NotEnoughAction": "Not enough actions left ! You need at least {value} {action} action.",
 	"SR5.WARN_NotPossibleInCombat": "Not possible in combat.",
