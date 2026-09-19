@@ -130,12 +130,15 @@ export class SR5_RollTest {
     //Add dice pool modifiers
     dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData)
 
+    // SR5 p. 178: recoil builds up shot after shot until the character spends a simple or complex action on something other than firing
     // SR5 p. 180: single-shot (SS) and suppressive fire (SF) weapons neither build nor suffer progressive recoil
-    if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SS" && dialogData.combat.firingMode.selected !== "SF"){
-      let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0
-      actualRecoil += dialogData.combat.ammo.fired
-      actor.setFlag("sr5", "cumulativeRecoil", actualRecoil)
-    }
+    if (dialogData.combat.ammo.fired > 0){
+      if (dialogData.combat.firingMode.selected !== "SS" && dialogData.combat.firingMode.selected !== "SF"){
+        let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0
+        actualRecoil += dialogData.combat.ammo.fired
+        await actor.setFlag("sr5", "cumulativeRecoil", actualRecoil)
+      }
+    } else if (dialogData.combat.actions.some(a => a.type === "simple" || a.type === "complex")) await actor.resetRecoil()
 
     // Roll dices
     if (edge) {

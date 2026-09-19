@@ -19,6 +19,7 @@ export function sr5HookDeleteCombatCumulativeDefense(combat) {
     if (!combatant.actor.isToken) actor = SR5_EntityHelpers.getRealActorFromID(combatant.actorId)
     else actor = SR5_EntityHelpers.getRealActorFromID(combatant.tokenId)
     actor.unsetFlag("sr5", "cumulativeDefense")
+    actor.unsetFlag("sr5", "cumulativeRecoil")
   }
 }
 
@@ -31,6 +32,7 @@ export async function sr5HookCreateCombatant(combatant) {
 
     actor.update({
       "flags.sr5.cumulativeDefense": 0,
+      "flags.sr5.cumulativeRecoil": 0,
       "system.specialProperties.actions.free.current": actor.system.specialProperties.actions.free.value,
       "system.specialProperties.actions.simple.current": actor.system.specialProperties.actions.simple.value,
       "system.specialProperties.actions.complex.current": actor.system.specialProperties.actions.complex.value,

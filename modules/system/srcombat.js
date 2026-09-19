@@ -620,6 +620,10 @@ export class SR5Combat extends Combat {
     }
     if (initModifier) await SR5Combat.changeInitInCombatHelper(documentId, initModifier)
 
+    // SR5 p. 178: a simple or complex action spent on something other than firing ends the progressive recoil.
+    // Attacks are handled in SR5_RollTest.rollTest (only ranged attacks build recoil); manual adjustments are bookkeeping.
+    if (actions.some(a => (a.type === "simple" || a.type === "complex") && a.source !== "attack" && a.source !== "manual")) await actor.resetRecoil()
+
     //Decrease external effect duration
     for (let item of actor.items){
       if (item.type === "itemEffect") {
