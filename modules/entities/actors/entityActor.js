@@ -565,6 +565,7 @@ export class SR5Actor extends Actor {
             if (iData.isActive) {
               SR5_EntityHelpers.updateModifier(actor.system.matrix.programsCurrentActive, `${i.name}`, `${game.i18n.localize(lists.itemTypes[i.type])}`, 1)
               SR5_EntityHelpers.updateValue(actor.system.matrix.programsCurrentActive, 0)
+              SR5_CharacterUtility.switchProgramFlagByName(i, actor)
             }
           }
           if (iData.isActive && Object.keys(iData.customEffects).length) {

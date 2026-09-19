@@ -4411,6 +4411,26 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  // SR5 p. 246-248: the rules of a program are known by its name. An active program named like one of the
+  // system's programs (in the current language or in English) switches the matching flag on, so the coded
+  // programs work even when the item carries no custom effect.
+  static switchProgramFlagByName(item, actor) {
+    let programs = actor.system.matrix?.programs
+    if (!programs) return
+    let name = item.name.trim().toLowerCase()
+    let key = Object.keys(SR5.programs).find(k => {
+      let label = SR5.programs[k]
+      return game.i18n.localize(label).trim().toLowerCase() === name || SR5_CharacterUtility._englishLabel(label) === name
+    })
+    if (key && programs[key]) programs[key].isActive = true
+  }
+
+  // English fallback label of a translation key ("SR5.ProgramHammer" -> "hammer"), for worlds played in another language
+  static _englishLabel(label) {
+    let english = game.i18n._fallback?.SR5?.[label.slice(4)]
+    return typeof english === "string" ? english.trim().toLowerCase() : ""
+  }
+
   static applyCustomEffects(item, actor) {
     let itemData = item.system
 
