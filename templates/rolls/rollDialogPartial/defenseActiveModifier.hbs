@@ -14,3 +14,9 @@
         <input disabled type="number" name="dicePoolModDefenseActive" value="" placeholder="0" data-dtype="Number" />
     </div>
 </li>
+<li class="grid" id="activeDefenseLimit" style="display: none;">
+    <div class="col-11">{{localize 'SR5.Limit'}} ({{localize 'SR5.PhysicalLimitShort'}}){{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="activeDefenseLimit" value="{{combat.activeDefenses.limit}}" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
