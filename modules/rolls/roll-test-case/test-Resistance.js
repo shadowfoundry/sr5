@@ -111,6 +111,9 @@ export default async function resistanceInfo(cardData, actorId){
     }
   }
 
+  // SR5 p. 231: dumpshock also disorients the character, whatever the damage resisted
+  if (cardData.test.typeSub === "dumpshock") await SR5_ActorHelper.dumpshockEffect(actorId)
+
   //Normal damage
   if (cardData.damage.value > 0) cardData.chatCard.buttons.damage = SR5_RollMessage.generateChatButton("nonOpposedTest", "damage",`${game.i18n.localize("SR5.ApplyDamage")} ${cardData.damage.value}${game.i18n.localize(SR5.damageTypesShort[cardData.damage.type])}`)		
 }
