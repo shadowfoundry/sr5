@@ -1210,9 +1210,6 @@ export class SR5_ActorHelper {
           itemEffect["system.durationType"] = "round"
           if (e.category === "characterAttributes" && !naniteBoostMarked) {
             itemEffect["system.type"] = "naniteAttributeBoost"
-            itemEffect["system.gameEffect"] = game.i18n.format("SR5.NaniteAttributeBoost_GE", {
-              hits: data.roll.hits
-            })
             naniteBoostMarked = true
           }
         }

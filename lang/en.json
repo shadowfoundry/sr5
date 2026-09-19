@@ -2278,7 +2278,6 @@
 	"SR5.Natural": "Natural",
 	"SR5.NaturalAttribute": "Natural Attribute",
 	"SR5.NaniteAttributeBoost": "Attribute Boost (head case): lasts as many turns as hits, then Stun damage",
-	"SR5.NaniteAttributeBoost_GE": "Nanite Attribute Boost (Stolen Souls p. 201): {hits} turn(s), then {hits} box(es) of Stun damage when the effect ends.",
 	"SR5.NaniteToxinResistance": "Toxin Resistance (head case): adds the Nanite Volume",
 	"SR5.NaniteVolume": "Nanite Volume",
 	"SR5.NaturalLetter": "N",

@@ -2278,7 +2278,6 @@
 	"SR5.Natural": "Naturel",
 	"SR5.NaturalAttribute": "Attribut naturel",
 	"SR5.NaniteAttributeBoost": "Augmentation d'attribut (défracté) : dure autant de tours que de succès, puis dommages étourdissants",
-	"SR5.NaniteAttributeBoost_GE": "Augmentation d'attribut par les nanites (Âmes Volées p. 201) : {hits} tour(s), puis {hits} case(s) de dommages étourdissants à la fin de l'effet.",
 	"SR5.NaniteToxinResistance": "Résistance aux toxines (défracté) : ajoute le Volume de nanites",
 	"SR5.NaniteVolume": "Volume de nanites",
 	"SR5.NaturalLetter": "N",
