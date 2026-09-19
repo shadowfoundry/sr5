@@ -9,7 +9,7 @@ export default function attributeOnly(rollData, rollKey, actor){
   else rollData.test.title = `${game.i18n.localize("SR5.AttributeTest") + game.i18n.localize("SR5.Colons") + " " + game.i18n.localize(SR5.allAttributes[rollKey])}`
 
   //Determine base dicepool
-  if (rollKey === "edge" || rollKey === "magic" || rollKey === "resonance") rollData.dicePool.base = actor.system.specialAttributes[rollKey].augmented.value
+  if (actor.system.specialAttributes?.[rollKey]) rollData.dicePool.base = actor.system.specialAttributes[rollKey].augmented.value
   else rollData.dicePool.base = actor.system.attributes[rollKey]?.augmented.value
     
   //Determine dicepool composition
