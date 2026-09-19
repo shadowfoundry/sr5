@@ -43,7 +43,8 @@ export class SR5_ActorHelper {
       actorData = actor.system,
       gelAmmo = 0,
       damageReduction = 0,
-      realDamage
+      realDamage,
+      isDead = false
 
     if (options.combat.ammo.effects?.gelDamageReduction) gelAmmo = options.combat.ammo.effects.gelDamageReduction
     else if (options.combat.ammo.type === "gel") gelAmmo = -2
@@ -87,7 +88,9 @@ export class SR5_ActorHelper {
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0)
           actorData.conditionMonitors.physical.actual.base = actorData.conditionMonitors.physical.value
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0)
+          // SR5 p. 172: the character dies only when the overflow exceeds their Body
           if (actorData.conditionMonitors.overflow.actual.value > actorData.conditionMonitors.overflow.value){
+            isDead = true
             actorData.conditionMonitors.overflow.actual.base = actorData.conditionMonitors.overflow.value
             SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0)
           }
@@ -138,8 +141,11 @@ export class SR5_ActorHelper {
     switch (actor.type){
       case "actorPc":
       case "actorSpirit":
-        if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) await SR5_ActorHelper.createDeadEffect(actorId)
-        else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await SR5_ActorHelper.createKoEffect(actorId)
+        if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) {
+          // SR5 p. 172: a full physical monitor knocks the character out; death needs an overflow greater than Body
+          if (isDead || actor.type === "actorSpirit") await SR5_ActorHelper.createDeadEffect(actorId)
+          else await SR5_ActorHelper.createKoEffect(actorId)
+        } else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await SR5_ActorHelper.createKoEffect(actorId)
         else if ((damage > (actorData.limits.physicalLimit.value + gelAmmo) || damage >= 10) &&
                   actorData.conditionMonitors.stun.actual.value < actorData.conditionMonitors.stun.value &&
                   actorData.conditionMonitors.physical.actual.value < actorData.conditionMonitors.physical.value) await SR5_ActorHelper.createProneEffect(actorId, damage, gelAmmo)
