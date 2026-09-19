@@ -11,6 +11,14 @@ import {
   SR5 
 } from "../../config.js"
 
+// Show a notification and return undefined so the caller aborts the test.
+// In Foundry V13, ui.notifications.info() returns a Notification object: returning it directly
+// made the caller treat the notification as roll data and crash.
+function abortWithInfo(message){
+  ui.notifications.info(message)
+  return undefined
+}
+
 //Add info for Resistance Roll
 export default async function resistance(rollData, rollType, actor, chatData){
   let actorData = actor.system
@@ -51,13 +59,13 @@ export default async function resistance(rollData, rollType, actor, chatData){
       rollData = await handlePhysicalDamage(rollData, actor, chatData, rollType)
       break
     case "directSpellMana":
-      if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {
+      if (actor.type === "actorDrone" || actor.type === "actorDevice" || actor.type === "actorSprite") return abortWithInfo(`${game.i18n.format("SR5.INFO_ImmunityToManaSpell", {
         type: game.i18n.localize(SR5.actorTypes[actor.type])
       })}`)
       rollData = await handleDirectSpell(rollData, actorData, chatData)
       break
     case "directSpellPhysical":
-      if (actor.type === "actorDevice" || actor.type === "actorSprite") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToPhysicalSpell", {
+      if (actor.type === "actorDevice" || actor.type === "actorSprite") return abortWithInfo(`${game.i18n.format("SR5.INFO_ImmunityToPhysicalSpell", {
         type: game.i18n.localize(SR5.actorTypes[actor.type])
       })}`)
       rollData = await handleDirectSpell(rollData, actorData, chatData)
@@ -102,12 +110,12 @@ async function handlePhysicalDamage(rollData, actor, chatData, rollType){
   //Iterate throught actor type to add dicepool info
   switch (actor.type){
     case "actorDrone":
-      if (rollType === "resistanceToxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`)
-      if (chatData.damage.type === "stun") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`)
+      if (rollType === "resistanceToxin") return abortWithInfo(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`)
+      if (chatData.damage.type === "stun") return abortWithInfo(`${game.i18n.localize("SR5.INFO_ImmunityToStunDamage")}`)
       rollData = await handleDroneDamage(rollData, actorData, chatData)
       break
     case "actorSpirit":
-      if (rollType === "resistanceToxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`)
+      if (rollType === "resistanceToxin") return abortWithInfo(`${game.i18n.localize("SR5.INFO_ImmunityToToxin")}`)
       rollData = await handleSpiritDamage(rollData, actorData, chatData)
       break
     case "actorPc":
@@ -239,7 +247,7 @@ async function handleDroneDamage(rollData, actorData, chatData){
     
   //SR5 p. 205: a vehicle takes no damage unless the modified DV exceeds its Armor
   if ((rollData.damage.base <= (armor + chatData.combat.armorPenetration)) && 
-        chatData.test.typeSub !== "accident" && chatData.test.type !== "rammingDefense") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {
+        chatData.test.typeSub !== "accident" && chatData.test.type !== "rammingDefense") return abortWithInfo(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {
     armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base
   })}`)
   if (-chatData.combat.armorPenetration > armor) chatData.combat.armorPenetration = -armor
@@ -267,7 +275,7 @@ async function handleSpiritDamage(rollData, actorData, chatData){
     armor = actorData.itemsProperties.armor.value
 
     //Check if AP is greater than Armor
-    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return ui.notifications.info(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {
+    if (rollData.damage.base < (armor + chatData.combat.armorPenetration)) return abortWithInfo(`${game.i18n.format("SR5.INFO_ImmunityToNormalWeapons", {
       essence: armor, pa: chatData.combat.armorPenetration, damage: rollData.damage.base
     })}`)
         
@@ -391,7 +399,7 @@ async function handleGrenade(rollData, chatData, actor){
   let distance = Math.round(SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition))
   let modToDamage = distance * chatData.combat.grenade.damageFallOff
   rollData.damage.base  = chatData.damage.base + modToDamage
-  if (rollData.damage.base <= 0 && chatData.damage.element !== "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)  
+  if (rollData.damage.base <= 0 && chatData.damage.element !== "toxin") return abortWithInfo(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)  
   if (modToDamage === 0) ui.notifications.info(`${game.i18n.format("SR5.INFO_GrenadeTargetDistance", {
     distance:distance
   })}`)
