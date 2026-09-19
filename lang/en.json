@@ -1674,6 +1674,7 @@
 	"SR5.INFO_ImmunityToNormalWeapons": "Hardened armor ({hardenedArmor} [PA:{pa}]) greater than modified DV ({damage})",
 	"SR5.INFO_ImmunityToPhysicalSpell": "{type} actors type are immune to Physical spell",
 	"SR5.INFO_ImmunityToStunDamage": "Drones and vehicles are immune to Stun Damage",
+	"SR5.INFO_ImmunityToBiofeedback": "Characters in AR take no biofeedback damage",
 	"SR5.INFO_ImmunityToToxin": "Immune to Toxin",
 	"SR5.INFO_IsDisconnected": "is disconnected",
 	"SR5.INFO_IsLinkLocked": "is link-locked by",
