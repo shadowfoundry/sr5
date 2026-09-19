@@ -73,12 +73,13 @@ export class SR5_ActorHelper {
         if (realDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`)
 
         if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value) {
-          let carriedDamage = actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value
+          // SR5 p. 171: half (rounded down) of the excess stun damage carries over to the physical monitor
+          let carriedDamage = Math.floor((actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value) / 2)
           actorData.conditionMonitors.physical.actual.base += carriedDamage
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0)
           actorData.conditionMonitors.stun.actual.base = actorData.conditionMonitors.stun.value
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.stun.actual, 0)
-          ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`)
+          if (carriedDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`)
         }
 
         if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actorData.type === "actorPc") {
