@@ -98,18 +98,21 @@ export default class SR5_RollDialog {
     let firingModeValue,
       dialogData = this.dialogData
 
-    if (dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"){
+    // SR5 p. 180: single-shot (SS) and suppressive fire (SF) weapons neither build nor suffer progressive recoil
+    let noRecoil = dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"
+    let cumulativeRecoil = noRecoil ? 0 : dialogData.combat.recoil.cumulative
+    if (noRecoil){
       firingModeValue = 0
       html.querySelectorAll(".hideBulletsRecoil").forEach(el => el.style.display = 'none')
     } else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
 
     dialogData.combat.ammo.fired = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
     html.querySelector('[name="recoilBullets"]').value = firingModeValue
-    html.querySelector('[name="recoilCumulative"]').value = dialogData.combat.recoil.cumulative
+    html.querySelector('[name="recoilCumulative"]').value = cumulativeRecoil
     if (dialogData.combat.recoil.compensationWeapon < 1) html.querySelectorAll(".hideWeaponRecoil").forEach(el => el.style.display = 'none')
-    if (dialogData.combat.recoil.cumulative < 1) html.querySelectorAll(".hideCumulativeRecoil").forEach(el => el.style.display = 'none')
+    if (cumulativeRecoil < 1) html.querySelectorAll(".hideCumulativeRecoil").forEach(el => el.style.display = 'none')
 
-    let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + dialogData.combat.recoil.cumulative)
+    let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + cumulativeRecoil)
     if (modifiedRecoil > 0) modifiedRecoil = 0
     return modifiedRecoil || 0
   }
