@@ -34,7 +34,7 @@ export default function rammingDefense(rollData, actor, chatData){
   rollData.previousMessage.actorId = chatData.owner.actorId
   rollData.previousMessage.messageId = chatData.owner.messageId
   rollData.combat.activeDefenses.full = actor.system.specialProperties.fullDefenseValue || 0
-  rollData.combat.activeDefenses.dodge = actor.system.skills?.gymnastics?.rating.value || 0
+  rollData.combat.activeDefenses.dodge = SR5_PrepareRollHelper.getActiveDefenseValue(actor.system, "dodge", "gymnastics")
   rollData.owner.speed = chatData.target.speed
   rollData.target.speed = chatData.owner.speed
 
