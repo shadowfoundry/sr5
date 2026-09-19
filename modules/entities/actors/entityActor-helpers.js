@@ -82,7 +82,7 @@ export class SR5_ActorHelper {
           ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`)
         }
 
-        if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actorData.type === "actorPc") {
+        if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actor.type === "actorPc") {
           let carriedDamage = actorData.conditionMonitors.physical.actual.value - actorData.conditionMonitors.physical.value
           actorData.conditionMonitors.overflow.actual.base += carriedDamage
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0)
@@ -226,7 +226,7 @@ export class SR5_ActorHelper {
   static async createDeadEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     for (let e of actor.effects){
-      if (e.statuses === "dead") return
+      if (e.statuses.has("dead")) return
     }
     let effect = await _getSRStatusEffect("dead")
     await actor.createEmbeddedDocuments('ActiveEffect', [effect])
@@ -237,7 +237,7 @@ export class SR5_ActorHelper {
   static async createKoEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     for (let e of actor.effects){
-      if (e.statuses === "unconscious") return
+      if (e.statuses.has("unconscious")) return
     }
     let effect = await _getSRStatusEffect("unconscious")
     await actor.createEmbeddedDocuments('ActiveEffect', [effect])
