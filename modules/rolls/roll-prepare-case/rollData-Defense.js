@@ -28,6 +28,15 @@ export default async function defense(rollData, actor, chatData){
   //Determine dicepool modififiers
   rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actorData.defenses.defend.modifiers.filter(mod => (mod.type !== "controler")))
 
+  // SR5 p. 181: the suppressive fire zone penalty applies to every action except avoiding being hit,
+  // and the actor's special penalty (which carries it) is already part of the defense modifiers
+  let suppressiveFire = actor.items.find(i => i.type === "itemEffect" && i.system.type === "suppressiveFire")
+  if (suppressiveFire && rollData.dicePool.modifiers.some(mod => mod.type === "penaltyspecial")) rollData.dicePool.modifiers.push({
+    type: "suppressiveFireDefense",
+    label: game.i18n.localize("SR5.SuppressiveFireDefenseExempt"),
+    value: Math.abs(parseInt(suppressiveFire.system.value) || 0),
+  })
+
   //Add others informations
   rollData.test.type = "defense"
   rollData.test.typeSub = chatData.test.typeSub

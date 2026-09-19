@@ -3671,6 +3671,7 @@
 	"SR5.WeaponModeSB": "Semi-Automatic Burst",
 	"SR5.WeaponModeSBShort": "SB",
 	"SR5.WeaponModeSF": "Suppressive Fire",
+	"SR5.SuppressiveFireDefenseExempt": "Suppressive fire: defense is exempt",
 	"SR5.WeaponModeSFShort": "SF",
 	"SR5.WeaponModeSS": "Single-Shot",
 	"SR5.WeaponModesShort": "Mode(s)",
