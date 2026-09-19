@@ -237,8 +237,8 @@ async function handleDroneDamage(rollData, actorData, chatData){
     armor += a.value
   }  
     
-  //Check if AP is greater than Armor
-  if ((rollData.damage.base < (armor + chatData.combat.armorPenetration)) && 
+  //SR5 p. 205: a vehicle takes no damage unless the modified DV exceeds its Armor
+  if ((rollData.damage.base <= (armor + chatData.combat.armorPenetration)) && 
         chatData.test.typeSub !== "accident" && chatData.test.type !== "rammingDefense") return ui.notifications.info(`${game.i18n.format("SR5.INFO_ArmorGreaterThanDV", {
     armor: armor + chatData.combat.armorPenetration, damage: rollData.damage.base
   })}`)
