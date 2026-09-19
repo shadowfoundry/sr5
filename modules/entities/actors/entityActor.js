@@ -641,6 +641,7 @@ export class SR5Actor extends Actor {
 
         case "itemFocus":
           SR5_UtilityItem._handleFocus(iData)
+          if (iData.isActive) SR5_CharacterUtility.applyFocusBonus(i, actor)
           switch (iData.type) {
             case "alchemical":
             case "banishing":
