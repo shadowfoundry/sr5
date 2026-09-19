@@ -311,6 +311,36 @@ export class SR5_ActorHelper {
     ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`)
   }
 
+  //Handle suppressive fire zone (SR5 p. 181): -hits dice to every action other than defending, until the end of the combat turn
+  static async suppressiveFireEffect(actorId, hits){
+    if (!(hits > 0)) return
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
+    let existingEffect = actor.items.find((item) => item.type === "itemEffect" && item.system.type === "suppressiveFire")
+    if (existingEffect && existingEffect.system.value <= -hits) return
+    if (existingEffect) await actor.deleteEmbeddedDocuments("Item", [existingEffect.id])
+
+    let effect = {
+      name: game.i18n.localize("SR5.WeaponModeSF"),
+      type: "itemEffect",
+      "system.type": "suppressiveFire",
+      "system.target": game.i18n.localize("SR5.GlobalPenalty"),
+      "system.value": -hits,
+      "system.durationType": "round",
+      "system.duration": 1,
+      "system.customEffects": {
+        "0": {
+          "category": "penaltyTypes",
+          "target": "system.penalties.special.actual",
+          "type": "value",
+          "value": -hits,
+          "forceAdd": true,
+        }
+      }
+    }
+    await actor.createEmbeddedDocuments("Item", [effect])
+    ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} (${-hits}) ${game.i18n.localize("SR5.Applied")}.`)
+  }
+
   //Handle Special Damage : Anticoagulant
   static async anticoagulantDamageEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)

@@ -230,9 +230,13 @@ export default class SR5_RollDialog {
         if (actor.system.attributes.logic.augmented.value >= 5) value = 0
         else value = -(5 - actor.system.attributes.logic.augmented.value)
         break
-      case "penalty":
+      case "penalty": {
         value = actor.system.penalties.condition?.actual.value + actor.system.penalties.matrix?.actual.value + actor.system.penalties.magic?.actual.value + actor.system.penalties.special?.actual.value
+        // SR5 p. 181: the suppressive fire zone penalty applies to every action except avoiding being hit
+        let suppressiveFire = actor.items.find(i => i.type === "itemEffect" && i.system.type === "suppressiveFire")
+        if (suppressiveFire && dialogData.test.type === "defense") value -= suppressiveFire.system.value
         break
+      }
       case "fullDefense":
         value = actor.system.specialProperties.fullDefenseValue || 0
         break
