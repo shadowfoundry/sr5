@@ -305,6 +305,13 @@
         color: var(--sr-text-color-dark) !important;
         border-bottom: none !important;
       }
+
+      /* Le titre de la page n'est pas un titre de section : le cœur ne lui
+         met pas de filet, il est déjà détaché par l'en-tête. */
+      .journal-page-header h1 {
+        border-bottom: none !important;
+        padding-bottom: 0;
+      }
     }
 
     /* Mêmes tableaux que dans les journaux du cœur : le fond sombre qu'ils
