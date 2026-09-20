@@ -368,11 +368,15 @@ export class SR5_MatrixHelpers {
     return allies
   }
 
-  //Create an effect on an ally, through the GM when the user does not own the ally
+  //Create an effect on an ally, through the GM when the user does not own the ally.
+  //A previous effect of the same kind from the same hacker is replaced, not stacked.
   static async _createEffectOnAlly(ally, effect){
-    if (ally.isOwner) await ally.createEmbeddedDocuments("Item", [effect])
-    else await SR5_SocketHandler.emitForGM("createItemEffect", {
-      actorId: ally.uuid, effect: effect,
+    let previous = ally.items.filter(i => i.type === "itemEffect" && i.system.type === effect["system.type"] && i.system.ownerID === effect["system.ownerID"]).map(i => i.id)
+    if (ally.isOwner) {
+      if (previous.length) await ally.deleteEmbeddedDocuments("Item", previous)
+      await ally.createEmbeddedDocuments("Item", [effect])
+    } else await SR5_SocketHandler.emitForGM("createItemEffect", {
+      actorId: ally.uuid, effect: effect, replace: previous,
     })
   }
 
@@ -423,14 +427,18 @@ export class SR5_MatrixHelpers {
   static async applyInterveneEffect(cardData, speaker, sourceActor){
     let hits = cardData.roll.hits
     let allies = SR5_MatrixHelpers._getSupportedAllies(speaker)
-    if (!allies.length) return
-    if (allies.length > 1) return ui.notifications.warn(game.i18n.localize("SR5.WARN_InterveneSingleTarget"))
+    if (!allies.length) return false
+    if (allies.length > 1) {
+      ui.notifications.warn(game.i18n.localize("SR5.WARN_InterveneSingleTarget"))
+      return false
+    }
 
     let effect = SR5_MatrixHelpers._defenseBonusEffect("SR5.MatrixActionIntervene", "intervene", sourceActor, hits, 1, "action", "SR5.MatrixActionIntervene_GE")
     await SR5_MatrixHelpers._createEffectOnAlly(allies[0], effect)
     ui.notifications.info(`${allies[0].name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffectNotification', {
       hits: hits
     })}`)
+    return true
   }
   //create popup Effect
   static async applyPopupEffect(cardData, sourceActor, target){
