@@ -15,6 +15,13 @@
 	  	{{#each system.attributes}}
 		<li class="grid">
 		  	{{#ife ../actor.type 'actorPc'}}
+			{{#if (and (eq ../system.activeSpecialAttribute 'depth') (or (eq @key 'body') (eq @key 'agility') (eq @key 'reaction') (eq @key 'strength')))}}
+				{{!-- AI (Data Trails p. 152): no physical attributes --}}
+				<div class="col-6 SR-SubColor50">{{findTranslation 'characterAttributes' @key}}</div>
+				<div class="col-2 SR-TextCenter SR-SubColor50"></div>
+				<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'characterAttributes' @key)}}" data-helpMessage="{{localize 'SR5.HELP_AIPhysicalAttributeMsg'}}">{{natural.value}}</div>
+				<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'characterAttributes' @key)}}" data-helpMessage="{{localize 'SR5.HELP_AIPhysicalAttributeMsg'}}">{{augmented.value}}</div>
+			{{else}}
 				<div class="col-6">{{findTranslation 'characterAttributes' @key}}</div>
 			  	<div class="col-2 SR-TextCenter"></div>
 			  	<div class="col-2 SR-TextCenter" 
@@ -30,7 +37,15 @@
 			  	>
 			  		{{augmented.value}}
 				</div>
+			{{/if}}
 		  	{{else ife ../actor.type 'actorGrunt'}}
+			{{#if (and (eq ../system.activeSpecialAttribute 'depth') (or (eq @key 'body') (eq @key 'agility') (eq @key 'reaction') (eq @key 'strength')))}}
+				{{!-- AI (Data Trails p. 152): no physical attributes --}}
+				<div class="col-6 SR-SubColor50">{{findTranslation 'characterAttributes' @key}}</div>
+				<div class="col-2 SR-TextCenter SR-SubColor50"></div>
+				<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'characterAttributes' @key)}}" data-helpMessage="{{localize 'SR5.HELP_AIPhysicalAttributeMsg'}}">{{natural.value}}</div>
+				<div class="col-2 SR-TextCenter SR-SubColor50" data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(findTranslation 'characterAttributes' @key)}}" data-helpMessage="{{localize 'SR5.HELP_AIPhysicalAttributeMsg'}}">{{augmented.value}}</div>
+			{{else}}
 				<div class="col-6">{{findTranslation 'characterAttributes' @key}}</div>
 				<div class="col-2 SR-TextCenter" 
 				  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(findTranslation 'characterAttributes' @key)}}" 
@@ -51,6 +66,7 @@
 				  >
 				  	{{augmented.value}}
 				</div>
+			{{/if}}
 		  	{{else ife ../actor.type 'actorSpirit'}}
 				{{#if (or (and ../system.isMaterializing (or (eq @key 'body') (eq @key 'agility') (eq @key 'reaction') (eq @key 'strength'))) (or (eq @key 'willpower') (eq @key 'logic') (eq @key 'intuition') (eq @key 'charisma')))}}
 			  	<div class="col-6">{{findTranslation 'characterAttributes' @key}}</div>

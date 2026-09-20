@@ -444,6 +444,7 @@ export class SR5Actor extends Actor {
         SR5_CharacterUtility.updateLimits(actor)
         SR5_CharacterUtility.updateInitiativePhysical(actor)
         SR5_CharacterUtility.updateInitiativeAstral(actor)
+        if (SR5_CharacterUtility.isDepthActive(actor)) SR5_CharacterUtility.updateInitiativeMatrix(actor)
         SR5_CharacterUtility.updateSkills(actor)
         SR5_CharacterUtility.updateArmor(actor)
         SR5_CharacterUtility.updateResistances(actor)
