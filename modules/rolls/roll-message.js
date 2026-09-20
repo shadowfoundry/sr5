@@ -164,7 +164,9 @@ export class SR5_RollMessage {
     //Define actor for Opposed test or Non opposed tests
     if (action === "opposedTest") {
       actor = SR5_EntityHelpers.getRealActorFromID(speaker.token)
-      if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`)
+      // Matrix support actions (Kill Code p. 43-44) go to the targeted tokens: no selected token needed
+      let supportAction = (type === "iAmTheFirewall" || type === "intervene")
+      if (actor == null && !supportAction) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`)
     } else if (action === "nonOpposedTest" && messageData) {
       if (messageData.target.actorId && (messageData.test.typeSub === "banishing" ||
               messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite" ||
@@ -429,10 +431,10 @@ export class SR5_RollMessage {
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "iAmTheFirewall":
-        SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor)
+        SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, SR5_EntityHelpers.getRealActorFromID(messageData.owner.actorId))
         break
       case "intervene":
-        await SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, actor)
+        await SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, SR5_EntityHelpers.getRealActorFromID(messageData.owner.actorId))
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "popup":
