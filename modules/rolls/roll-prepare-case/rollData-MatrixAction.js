@@ -7,9 +7,7 @@ import {
 import {
   SR5_MiscellaneousHelpers 
 } from "../roll-helpers/miscellaneous.js"
-import {
-  SR5_RollDialog
-} from "../roll-dialog.js"
+import SR5_RollDialog from "../roll-dialog.js"
 
 export default async function matrixAction(rollData, rollKey, actor){
   let matrixAction = actor.system.matrix.actions[rollKey]
