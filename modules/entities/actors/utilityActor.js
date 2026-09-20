@@ -1770,6 +1770,9 @@ export class SR5_CharacterUtility extends Actor {
   static updateDefenses(actor) {
     let actorData = actor.system, attributes = actorData.attributes, skills = actorData.skills, defenses = actorData.defenses
 
+    // The actor's own reach (troll +1, broken weapon effects) is read by the melee defense roll: total it here.
+    if (actorData.reach) SR5_EntityHelpers.updateValue(actorData.reach)
+
     for (let key of Object.keys(SR5.characterDefenses)) {
       if (defenses[key]) {
         defenses[key].base = 0
