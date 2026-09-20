@@ -3772,6 +3772,12 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value)
     }
 
+    // AI Depth action (Data Trails p. 160): Redefine Ownership, Logic + Computer [Depth]
+    if (this.isDepthActive(actor)) {
+      SR5_EntityHelpers.updateModifier(matrixActions.redefineOwnership.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value)
+      SR5_EntityHelpers.updateModifier(matrixActions.redefineOwnership.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value)
+    }
+
     for (let key of Object.keys(SR5.matrixActions)) {
       if (matrixActions[key].test !== undefined) {
         // test
@@ -3792,7 +3798,8 @@ export class SR5_CharacterUtility extends Actor {
         // limits
         let linkedAttribute = matrixActions[key].limit.linkedAttribute
         matrixActions[key].limit.base = 0
-        SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
+        if (matrixActions[key].source === "dataTrails") SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize('SR5.Depth'), "linkedAttribute", actorData.specialAttributes?.depth?.augmented.value || 0)
+        else SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
         SR5_EntityHelpers.updateValue(matrixActions[key].limit, 0)
       }
     }
@@ -3820,7 +3827,8 @@ export class SR5_CharacterUtility extends Actor {
         // limits
         let linkedAttribute = matrixActions[key].limit.linkedAttribute
         matrixActions[key].limit.base = 0
-        SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
+        if (matrixActions[key].source === "dataTrails") SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize('SR5.Depth'), "linkedAttribute", actorData.specialAttributes?.depth?.augmented.value || 0)
+        else SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
         SR5_EntityHelpers.updateValue(matrixActions[key].limit, 0)
       }
     }

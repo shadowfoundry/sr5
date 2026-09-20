@@ -37,6 +37,23 @@ export default async function matrixAction(rollData, rollKey, actor){
   rollData.matrix.overwatchScore = matrixAction.increaseOverwatchScore
   rollData.dialogSwitch.specialization = true
 
+  // AI Depth actions (Data Trails p. 159-161): Emulate an attribute rating up to Depth on a standard action,
+  // Redefine Ownership is an extended test [Depth] with a one combat turn interval
+  if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actor.system.activeSpecialAttribute === "depth") {
+    rollData.matrix.depth = actor.system.specialAttributes.depth.augmented.value
+    if (rollKey === "redefineOwnership") {
+      rollData.dialogSwitch.extended = true
+      rollData.dialogSwitch.redefineOwnership = true
+      rollData.test.isExtended = true
+      rollData.test.extended.interval = "combatTurn"
+      rollData.test.extended.multiplier = 1
+    } else if (matrixAction.source !== "dataTrails") {
+      rollData.dialogSwitch.emulate = true
+      rollData.matrix.emulateMax = rollData.matrix.depth
+      rollData.matrix.emulateAttributeValue = actor.system.matrix.attributes[matrixAction.limit.linkedAttribute]?.value || 0
+    }
+  }
+
   //Manage actions
   rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
     type: matrixAction.actionType, value: 1, source: "matrixAction"

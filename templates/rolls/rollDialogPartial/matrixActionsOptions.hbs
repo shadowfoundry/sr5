@@ -12,6 +12,29 @@
 {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.hbs}}
 
 
+<!-- AI: EMULATE (Data Trails p. 159) -->
+{{#if dialogSwitch.emulate}}
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.MatrixActionEmulateRating' max=matrix.emulateMax}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-3 SR-TextRight">
+        <input type="number" class="SR-ModInput" name="emulateRating" data-modifier="emulate" value="0" min="0" max="{{matrix.emulateMax}}" data-dtype="Number" />
+    </div>
+    <div class="col-1 SR-TextCenter">
+        <input disabled type="number" name="dicePoolModEmulate" value="0" placeholder="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}
+
+<!-- AI: REDEFINE OWNERSHIP THRESHOLD (Data Trails p. 160) -->
+{{#if dialogSwitch.redefineOwnership}}
+<li class="grid">
+    <div class="col-9">{{localize 'SR5.MatrixActionRedefineOwnershipThreshold'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-3 SR-TextRight">
+        <input type="number" class="SR-ManageThreshold" data-target="redefineOwnershipThreshold" name="redefineOwnershipThreshold" value="0" min="0" data-dtype="Number" />
+    </div>
+</li>
+{{/if}}
+
 <!-- MARKS WANTED -->
 {{#if (or (eq test.typeSub "hackOnTheFly") (eq test.typeSub "bruteForce"))}}
     {{> systems/sr5/templates/rolls/rollDialogPartial/markModifier.hbs}}
