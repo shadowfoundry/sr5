@@ -1698,6 +1698,9 @@ export class SR5_CharacterUtility extends Actor {
       case "actorGrunt":
         // AI (Data Trails p. 160): (Intuition x 2) + 4D6 without a device, Intuition + Data Processing + 4D6 on a device
         if (actorData.activeSpecialAttribute === "depth") {
+          // computed once without a device and again once the device is known: start from a clean list
+          initMat.modifiers = []
+          initMat.dice.modifiers = []
           SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
           if (actorData.matrix.deviceType) SR5_EntityHelpers.updateModifier(initMat, actorData.matrix.deviceName, "device", matrixAttributes.dataProcessing.value)
           else SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
