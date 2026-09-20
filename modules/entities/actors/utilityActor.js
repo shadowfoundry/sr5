@@ -3542,13 +3542,14 @@ export class SR5_CharacterUtility extends Actor {
         matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value
         break
       case "headcase": {
-        // Head case matrix attributes (Lockdown p. 202): mental attribute + half the Nanite Volume
-        let halfNanite = Math.ceil(actorData.specialAttributes.nanite.augmented.value / 2)
-        matrix.attributes.attack.base = attributes.willpower.augmented.value + halfNanite
-        matrix.attributes.sleaze.base = attributes.logic.augmented.value + halfNanite
-        matrix.attributes.dataProcessing.base = attributes.intuition.augmented.value + halfNanite
-        matrix.attributes.firewall.base = attributes.charisma.augmented.value + halfNanite
-        matrix.deviceRating = actorData.specialAttributes.nanite.augmented.value
+        // Head case matrix attributes (Lockdown p. 206): same attribute layout as a
+        // living persona, with the full Nanite Volume added to each one.
+        let nanite = actorData.specialAttributes.nanite.augmented.value
+        matrix.attributes.attack.base = attributes.charisma.augmented.value + nanite
+        matrix.attributes.sleaze.base = attributes.intuition.augmented.value + nanite
+        matrix.attributes.dataProcessing.base = attributes.logic.augmented.value + nanite
+        matrix.attributes.firewall.base = attributes.willpower.augmented.value + nanite
+        matrix.deviceRating = nanite
         break
       }
       default:
