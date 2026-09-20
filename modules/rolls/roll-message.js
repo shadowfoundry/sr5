@@ -432,7 +432,7 @@ export class SR5_RollMessage {
         SR5_MatrixHelpers.applyIAmTheFirewallEffect(messageData, speaker, actor)
         break
       case "intervene":
-        SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, actor)
+        await SR5_MatrixHelpers.applyInterveneEffect(messageData, speaker, actor)
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "popup":
