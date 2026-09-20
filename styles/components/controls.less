@@ -134,3 +134,26 @@
   .standard-form input[type="range"] {
     .sr-range-base();
   }
+
+  /* === Interface controls: scene toolbar and sidebar tabs ===
+     These icon buttons inherited the generic button colour (idle teal at 75%)
+     over the dark red fill, which measures 3.3:1 against the surface behind them.
+     Foundry's own controls keep a near-white icon and let the fill and the border
+     carry the colour: do the same, so the idle icons stay readable while white
+     still marks the hovered and the active control. */
+  #scene-controls .ui-control,
+  #sidebar-tabs .ui-control {
+    --control-icon-color: var(--sr-text-color-grey-dark);
+    --control-hover-icon-color: var(--sr-ui-color-active);
+    --control-active-icon-color: var(--sr-ui-color-active);
+    color: var(--sr-text-color-grey-dark);
+    /* The scene toolbar floats over the map, which can be bright */
+    text-shadow: 0 0 3px var(--sr-text-color-dark);
+  }
+
+  #scene-controls .ui-control:hover,
+  #sidebar-tabs .ui-control:hover,
+  #scene-controls .ui-control[aria-pressed="true"],
+  #sidebar-tabs .ui-control[aria-pressed="true"] {
+    color: var(--sr-ui-color-active);
+  }
