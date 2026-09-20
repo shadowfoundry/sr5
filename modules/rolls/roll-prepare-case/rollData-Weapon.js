@@ -171,6 +171,9 @@ export default async function weapon(rollData, actor, item){
     if (actorData.specialProperties.energyAura !== "electricity") rollData.damage.type = "physical"
   }
 
+  // Aggravated Wounds (Howling Shadows p. 213): the critter's attacks leave boxes that count double for healing
+  if (actorData.specialProperties?.aggravatedWounds) rollData.damage.aggravated = true
+
   _buildCalledShotList(rollData)
 
   return rollData

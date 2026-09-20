@@ -10,6 +10,10 @@
 				<div class="boxes box-disabled flex0" data-index="{{index}}">
 					<div class="SR-Case SR-CaseNeutralDarkColor"></div>
 				</div>
+			{{else if box.aggravated}}
+				<a class="boxes" data-index="{{index}}" title="{{localize 'SR5.AggravatedWoundBox'}}">
+					<div class="SR-Case SR-CaseMainColor SR-CaseAggravated"></div>
+				</a>
 			{{else if box.filled}}
 				<a class="boxes" data-index="{{index}}">
 					<div class="SR-Case SR-CaseMainColor"></div>

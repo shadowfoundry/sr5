@@ -144,6 +144,10 @@ export class sr5ActorPcDataModel extends foundry.abstract.TypeDataModel {
             ...sr5ModsPartialModel.defineSchema()
           }),
           boxes: new fields.ArrayField(new fields.ObjectField()),
+          // Aggravated wounds (Howling Shadows p. 213): number of boxes that count double for healing
+          aggravated: new fields.NumberField({
+            initial: 0
+          }),
         }),
         edge: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),

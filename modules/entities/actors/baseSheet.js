@@ -471,6 +471,7 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       if ((e.which === 3 || e.button === 2)) {
         let actorData = foundry.utils.duplicate(this.actor)
         foundry.utils.setProperty(actorData, `system.conditionMonitors.${monitor}.actual.base`, 0)
+        if (monitor === "physical" || monitor === "condition") foundry.utils.setProperty(actorData, `system.conditionMonitors.${monitor}.aggravated`, 0)
         this.actor.update(actorData)
       }
     })
@@ -488,6 +489,11 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       // Otherwise, value = index clicked
       else foundry.utils.setProperty(actorData, target, index + 1)
 
+      // Aggravated wounds can never exceed the boxes actually filled
+      let monitorPath = target.replace(".actual.base", "")
+      let aggravatedPath = `${monitorPath}.aggravated`
+      if (foundry.utils.getProperty(actorData, aggravatedPath) > foundry.utils.getProperty(actorData, target)) foundry.utils.setProperty(actorData, aggravatedPath, foundry.utils.getProperty(actorData, target))
+
       if (target == 'system.conditionMonitors.physical.actual.base' && foundry.utils.getProperty(actorData, 'system.conditionMonitors.overflow.actual.value')) {
         if (actorData.system.conditionMonitors.physical.actual.value < actorData.system.conditionMonitors.physical.value.value) {
           foundry.utils.setProperty(actorData, 'system.conditionMonitors.overflow.actual.base', 0)
@@ -495,6 +501,22 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
       }
 
       this.actor.update(actorData)
+    })
+
+    // Right-click on a filled box of the physical (or grunt condition) monitor: mark it as an aggravated wound
+    // (Howling Shadows p. 213), or unmark it. Boxes are marked from the first one.
+    on(".boxes:not(.box-disabled)", "contextmenu", (ev) => {
+      ev.preventDefault()
+      let target = ev.currentTarget.closest(".SR-MoniteurCases").dataset.target
+      if (target !== "system.conditionMonitors.physical.actual.base" && target !== "system.conditionMonitors.condition.actual.base") return
+      let aggravatedPath = target.replace(".actual.base", ".aggravated")
+      let index = Number(ev.currentTarget.dataset.index)
+      let filled = foundry.utils.getProperty(this.actor, target.replace(".base", ".value"))
+      if (index + 1 > filled) return
+      let aggravated = foundry.utils.getProperty(this.actor, aggravatedPath) || 0
+      this.actor.update({
+        [aggravatedPath]: (aggravated === index + 1) ? index : index + 1
+      })
     })
 
     // Restore focus after re-render (e.g. when tabbing between fields triggers submitOnChange)

@@ -71,6 +71,7 @@ export class SR5_ActorHelper {
           } else realDamage = damage 
         }
         if (realDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`)
+        if (damageType === "physical" && realDamage > 0) SR5_ActorHelper.addAggravatedWounds(realActor, actorData.conditionMonitors.physical, realDamage, options)
 
         if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value) {
           let carriedDamage = actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value
@@ -97,6 +98,7 @@ export class SR5_ActorHelper {
         actorData.conditionMonitors.condition.actual.base += damage
         SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0)
         ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`)
+        if (damageType === "physical" && damage > 0) SR5_ActorHelper.addAggravatedWounds(realActor, actorData.conditionMonitors.condition, damage, options)
         break
       case "actorDrone":
         if (damageType === "physical") {
@@ -1094,11 +1096,47 @@ export class SR5_ActorHelper {
       actorData = foundry.utils.deepClone(targetActor)
 				
     actorData = actorData.toObject(false)
-    actorData.system.conditionMonitors[damageType].actual.base -= damageToRemove
-    await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors[damageType].actual, 0)
+    if (damageType === "physical" || damageType === "condition") SR5_ActorHelper.healMonitorBoxes(actorData.system.conditionMonitors[damageType], damageToRemove)
+    else {
+      actorData.system.conditionMonitors[damageType].actual.base -= damageToRemove
+      await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors[damageType].actual, 0)
+    }
     await targetActor.update({
       system: actorData.system
     })
+  }
+
+  // Aggravated Wounds (Howling Shadows p. 213): each box of Physical damage dealt by the critter is marked
+  // and counts as two boxes for healing only. Only boxes of the monitor itself are marked, never the overflow.
+  static addAggravatedWounds(realActor, monitor, damage, options){
+    if (!options.damage?.aggravated) return
+    let marked = Math.min(damage, monitor.value - (monitor.aggravated || 0))
+    if (marked <= 0) return
+    monitor.aggravated = (monitor.aggravated || 0) + marked
+    ui.notifications.info(game.i18n.format("SR5.INFO_AggravatedWoundsApplied", {
+      actor: realActor.name, count: marked
+    }))
+  }
+
+  // Remove boxes from a monitor, aggravated boxes first costing two hits each (Howling Shadows p. 213):
+  // the first hit turns the aggravated box into a normal one, the second removes it. Returns the unused hits.
+  static healMonitorBoxes(monitor, hits){
+    let aggravated = Math.min(monitor.aggravated || 0, monitor.actual.value)
+    let normal = Math.max(monitor.actual.value - aggravated, 0)
+    let healed = Math.min(hits, normal)
+    monitor.actual.base -= healed
+    hits -= healed
+    while (hits > 0 && aggravated > 0){
+      aggravated -= 1
+      hits -= 1
+      if (hits > 0){
+        monitor.actual.base -= 1
+        hits -= 1
+      }
+    }
+    monitor.aggravated = aggravated
+    SR5_EntityHelpers.updateValue(monitor.actual, 0)
+    return Math.max(hits, 0)
   }
 
   //Manage Healing by socket
@@ -1115,9 +1153,7 @@ export class SR5_ActorHelper {
 
     if (actorData.type === "actorGrunt"){
       if (actorData.system.conditionMonitors.condition.actual.value > 0){
-        actorData.system.conditionMonitors.condition.actual.base -= damageToRemove
-        damageToRemove -= actorData.system.conditionMonitors.condition.actual.value
-        await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.condition.actual, 0)
+        damageToRemove = SR5_ActorHelper.healMonitorBoxes(actorData.system.conditionMonitors.condition, damageToRemove)
       }
     } else {
       if (actorData.system.conditionMonitors.overflow.actual.value > 0){
@@ -1126,9 +1162,7 @@ export class SR5_ActorHelper {
         await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.overflow.actual, 0)
       }
       if (actorData.system.conditionMonitors.physical.actual.value > 0 && damageToRemove > 0){
-        actorData.system.conditionMonitors.physical.actual.base -= damageToRemove
-        damageToRemove -= actorData.system.conditionMonitors.physical.actual.value
-        await SR5_EntityHelpers.updateValue(actorData.system.conditionMonitors.physical.actual, 0)
+        damageToRemove = SR5_ActorHelper.healMonitorBoxes(actorData.system.conditionMonitors.physical, damageToRemove)
       }
       if (actorData.system.conditionMonitors.stun.actual.value > 0 && damageToRemove > 0){
         actorData.system.conditionMonitors.stun.actual.base -= damageToRemove

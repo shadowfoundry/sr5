@@ -19,6 +19,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
   rollData.damage.type = chatData.damage.type
   rollData.damage.element = chatData.damage.element
   rollData.damage.source = chatData.damage.source
+  rollData.damage.aggravated = chatData.damage.aggravated
   rollData.previousMessage.messageId = chatData.owner.messageId
   rollData.previousMessage.hits = chatData.roll.hits
   rollData.previousMessage.attackerNetHits = chatData.roll.netHits

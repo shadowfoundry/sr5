@@ -50,6 +50,7 @@ export default async function defense(rollData, actor, chatData){
   rollData.damage.type = chatData.damage.type
   rollData.damage.source = chatData.damage.source
   rollData.damage.isContinuous = chatData.damage.isContinuous
+  rollData.damage.aggravated = chatData.damage.aggravated
   rollData.damage.originalValue = chatData.damage.originalValue
   rollData.combat.ammo.type = chatData.combat.ammo.type
   rollData.combat.calledShot = chatData.combat.calledShot
