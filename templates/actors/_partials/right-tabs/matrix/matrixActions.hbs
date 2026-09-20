@@ -32,8 +32,6 @@
 					<div class="col-1 SR-TextCenter">{{#if increaseOverwatchScore}}<em class="fas fa-sm fa-exclamation-triangle SR-popColor"></em>{{/if}}</div>
 				</li>
 				{{/if}}
-			{{else if (and (eq source 'dataTrails') (ne ../system.activeSpecialAttribute 'depth'))}}
-				{{!-- AI Depth actions (Data Trails p. 159): AI only --}}
 			{{else}}
 			<li class="item grid" data-matrix="{{@key}}" data-item-id="{{@key}}" data="{{@key}}">
 				<div class="col-5 deplieMatrix">

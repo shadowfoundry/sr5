@@ -88,7 +88,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     let rigger5Actions = game.settings.get("sr5", "sr5Rigger5Actions") ? true : false
     for (let [key, matrixAction] of Object.entries(actor.system.matrix.actions)) {
       let linkedAttribute = matrixAction.limit?.linkedAttribute
-      if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) ) ||
+      if ( (matrixAction.source === "core" || (killCodeRules && matrixAction.source === "killCode") || (rigger5Actions && matrixAction.source === "rigger5") || (matrixAction.source === "dataTrails" && actor.system.activeSpecialAttribute === "depth")) && ((matrixAction.test?.dicePool >= 0 && (linkedAttribute === "attack" && hasAttack) ) ||
         (matrixAction.test?.dicePool >= 0 && (linkedAttribute === "sleaze" && hasSleaze) ) ||
         (matrixAction.test?.dicePool > 0 && (linkedAttribute === "firewall" || linkedAttribute === "dataProcessing" || linkedAttribute === "") ) ||
         this._shownNonRollableMatrixActions)) {
