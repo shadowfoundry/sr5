@@ -24,10 +24,7 @@
 		</li>
 		{{#each actor.credsticks}}
 		<li class="item grid" data-item-id="{{_id}}">
-			<div class="col-5 deplie">
-				<img class="SR-ItemIcon" src="{{img}}" alt="">
-				<span>{{name}}</span>
-			</div>
+			<div class="col-5 deplie">{{name}}</div>
 			<div class="col-3 SR-TextCenter">
 				{{nuyen system.funds.value}}{{#if system.funds.max}} / {{nuyen system.funds.max}}{{/if}}
 			</div>
