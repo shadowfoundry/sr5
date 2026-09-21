@@ -185,3 +185,37 @@
     font-style: italic;
   }
 }
+
+// Sheet of a storage put down on the map
+.sr-dropped-storage {
+  li.item {
+    align-items: center;
+
+    // A row is worth noticing when the cursor is on it: this is a list people
+    // pick things out of.
+    &:hover {
+      background: color-mix(in srgb, var(--sr-ui-border-color) 12%, transparent);
+    }
+  }
+
+  // Icon and name on one line, never the name under the picture
+  .deplie {
+    display: flex;
+    align-items: center;
+    min-width: 0;
+
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+// Same hover on the storages of a character sheet
+.sr-storage {
+  .sr-storage-list li.item:hover,
+  .sr-storage-head:hover {
+    background: color-mix(in srgb, var(--sr-ui-border-color) 12%, transparent);
+  }
+}
