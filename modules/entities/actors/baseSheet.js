@@ -18,6 +18,9 @@ import {
   SR5 
 } from "../../config.js"
 import {
+  STORABLE_TYPES, isStorable, garageRequirement, meetsGarageLifestyle 
+} from "../../interface/storage-rules.js"
+import {
   SR5_ActorHelper 
 } from "./entityActor-helpers.js"
 import {
@@ -1748,33 +1751,28 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
   /*  Storage tab                                 */
   /* -------------------------------------------- */
 
-  // Item types a character can leave behind in a storage.
-  static STORABLE_TYPES = [
-    "itemGear", "itemWeapon", "itemArmor", "itemAmmunition",
-    "itemDevice", "itemDrug", "itemFocus", "itemVehicle",
-    "itemAugmentation",
-  ]
+  // The rules themselves live in interface/storage-rules.js, free of Foundry
+  // globals so they can be read and tested on their own.
+  static STORABLE_TYPES = STORABLE_TYPES
+
+  static isStorable(item, storage) {
+    return isStorable(item, storage)
+  }
 
   /**
-   * Whether an item can be put away, and whether this storage will take it.
-   * A fitted mod follows the item it is on, bare hands and natural weapons are
-   * part of the body, an implant has to come out first, and a contract or a
-   * licence is not a thing you can leave in a box.
-   * A garage holds vehicles and drones; every other storage holds the rest.
+   * What this garage asks for that the character has not got, or null when it
+   * will take the vehicle (Run Faster p. 216).
    */
-  static isStorable(item, storage) {
-    const data = item.system
-    if (!ActorSheetSR5.STORABLE_TYPES.includes(item.type)) return false
-    // A fitted mod travels inside the weapon or armour it is on. Taken off,
-    // it is gear like any other and can be put away on its own.
-    if (data.isAccessory && data.isPlugged) return false
-    if (item.type === "itemWeapon" && data.type === "unarmedCombat") return false
-    if (item.type === "itemGear" && data.isIntangible) return false
-    if (item.type === "itemAugmentation" && data.isActive) return false
+  static garageShortfall(actor, storage) {
+    if (!game.settings.get("sr5", "sr5StorageCheckGarageLifestyle")) return null
+    const requirement = garageRequirement(storage)
+    if (!requirement) return null
 
-    if (!storage) return true
-    const isVehicle = item.type === "itemVehicle"
-    return storage.system.type === "garage" ? isVehicle : !isVehicle
+    const lifestyles = actor.items.filter(i => i.type === "itemLifestyle")
+    const counted = storage.system.linkedLifestyle ?
+      lifestyles.filter(i => i.id === storage.system.linkedLifestyle) :
+      lifestyles
+    return meetsGarageLifestyle(requirement, counted.map(i => i.system.level)) ? null : requirement
   }
 
   // Switch between icons in cells and one detailed row per item.
@@ -1800,6 +1798,15 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
         "SR5.WARN_StorageNoVehicleToStore" :
         "SR5.WARN_StorageNothingToStore"
       return ui.notifications.info(game.i18n.localize(empty))
+    }
+
+    const shortfall = ActorSheetSR5.garageShortfall(this.actor, storage)
+    if (shortfall) {
+      return ui.notifications.warn(game.i18n.format("SR5.WARN_StorageGarageLifestyle", {
+        storage: storage.name,
+        lifestyle: game.i18n.localize(SR5.lifestyleTypes[shortfall.lifestyle]),
+        cost: shortfall.cost,
+      }))
     }
 
     const max = storage.system.capacity.value

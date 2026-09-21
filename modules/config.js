@@ -508,6 +508,30 @@ SR5.storageTypes = {
   garage                    : "SR5.StorageTypeGarage",
 }
 
+// What a garage costs and asks for, per vehicle (Run Faster p. 216). A garage
+// is a lifestyle Asset holding a single vehicle, bought again for each one.
+// `level` is the minimum lifestyle rank, as numbered in _handleLifeStyle().
+SR5.storageGarageRequirements = {
+  motorcycle                : {
+    lifestyle: 'medium', level: 4, points: 1, cost: 50 
+  },
+  carLight                  : {
+    lifestyle: 'medium', level: 4, points: 1, cost: 50 
+  },
+  carHeavy                  : {
+    lifestyle: 'medium', level: 4, points: 2, cost: 100 
+  },
+  boat                      : {
+    lifestyle: 'high', level: 5, points: 3, cost: 5000 
+  },
+  plane                     : {
+    lifestyle: 'luxury', level: 6, points: 4, cost: 20000 
+  },
+  helicopter                : {
+    lifestyle: 'luxury', level: 6, points: 4, cost: 10000 
+  },
+}
+
 // Garage vehicle categories (Run Faster p. 216)
 SR5.storageVehicleTypes = {
   motorcycle                : "SR5.StorageVehicleMotorcycle",
@@ -3686,6 +3710,7 @@ SR5.itemTypes = {
   itemComplexForm           : "TYPES.Item.itemComplexForm",
   itemContact               : "TYPES.Item.itemContact",
   itemDevice                : "TYPES.Item.itemDevice",
+  itemDrug                  : "TYPES.Item.itemDrug",
   itemEcho                  : "TYPES.Item.itemEcho",
   itemEffect                : "TYPES.Item.itemEffect",
   itemFocus                 : "TYPES.Item.itemFocus",

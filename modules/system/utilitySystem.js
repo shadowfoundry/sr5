@@ -52,6 +52,17 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // A garage is a lifestyle Asset with a minimum lifestyle (Run Faster
+    // p. 216). Tables that do not track lifestyles can switch the check off.
+    game.settings.register("sr5", "sr5StorageCheckGarageLifestyle", {
+      name: "SR5.SETTINGS_StorageCheckGarageLifestyle_T",
+      hint: "SR5.SETTINGS_StorageCheckGarageLifestyle_D",
+      scope: "world",
+      config: true,
+      default: true,
+      type: Boolean,
+    })
+
     // Storage tab: icons in cells, or one detailed row per item. Each player
     // picks their own and it is remembered.
     game.settings.register("sr5", "sr5StorageViewMode", {

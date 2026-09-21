@@ -18,4 +18,18 @@
         </select>
     </div>
 </li>
+{{#if garageRule}}
+<!-- What the rule asks for this vehicle: Run Faster p. 216 -->
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.StorageGarageMinimumLifestyle'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7 SR-GreyColor">{{localize (lookup lists.lifestyleTypes garageRule.lifestyle)}}</div>
+</li>
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.StorageGarageMonthlyCost'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-7 SR-GreyColor">{{nuyen garageRule.cost}} &mdash; {{garageRule.points}} {{localize 'SR5.LifestylePoint'}}</div>
+</li>
+<li class="grid">
+    <div class="col-12 SR-GreyColor SR-TextSmall">{{localize 'SR5.StorageGarageHint'}}</div>
+</li>
+{{/if}}
 {{/if}}

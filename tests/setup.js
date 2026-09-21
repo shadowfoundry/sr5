@@ -37,6 +37,11 @@ globalThis.foundry = {
   },
 }
 
+// Foundry CONFIG stub (modules/config.js writes CONFIG.statusEffects on load)
+if (!globalThis.CONFIG) globalThis.CONFIG = {
+  statusEffects: [],
+}
+
 // Canvas stub
 if (!globalThis.canvas) globalThis.canvas = {
   ready: false,
