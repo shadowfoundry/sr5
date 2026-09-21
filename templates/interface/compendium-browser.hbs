@@ -69,8 +69,12 @@
           {{/each}}
         </select>
         {{#if buyer}}
-        <span class="sr-browser-shop-funds">{{buyer.funds}}&yen;</span>
+        <span class="sr-browser-shop-funds {{#if creationMode}}muted{{/if}}">{{buyer.funds}}&yen;</span>
         {{/if}}
+        <label class="sr-browser-shop-creation" data-tooltip="{{localize 'SR5.ShopCreationModeHint'}}">
+          <input type="checkbox" data-shop-creation {{#if creationMode}}checked{{/if}}>
+          <span>{{localize 'SR5.ShopCreationMode'}}</span>
+        </label>
       </div>
       {{/if}}
       <div class="sr-browser-sort">

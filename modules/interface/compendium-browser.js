@@ -284,6 +284,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     if (!this._buyerId) this._buyerId = SR5Shop.defaultBuyerId(buyers)
     const buyer = buyers.find(a => a.id === this._buyerId) || null
     const buyerFunds = buyer ? SR5Shop.balance(buyer) : 0
+    const creationMode = SR5Shop.creationMode
 
     // Paginate
     const lists = SR5_EntityHelpers.sortTranslations(SR5)
@@ -305,13 +306,14 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
         info: getEntryInfo(e, lists),
         canBuy: buyer !== null && price !== null,
         priceLabel: price === null ? '' : `${price.toLocaleString()}¥`,
-        tooExpensive: price !== null && buyer !== null && price > buyerFunds,
+        tooExpensive: !creationMode && price !== null && buyer !== null && price > buyerFunds,
       }
     })
 
     context.buyers = buyers.map(a => ({
       id: a.id, name: a.name, selected: a.id === this._buyerId 
     }))
+    context.creationMode = creationMode
     context.buyer = buyer ? {
       id: buyer.id, name: buyer.name, funds: buyerFunds.toLocaleString() 
     } : null
@@ -397,6 +399,15 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       input.addEventListener('click', (event) => event.stopPropagation())
       input.addEventListener('dragstart', (event) => event.preventDefault())
     })
+
+    // Creation mode
+    const creationToggle = el.querySelector('[data-shop-creation]')
+    if (creationToggle) {
+      creationToggle.addEventListener('change', async (event) => {
+        await game.settings.set('sr5', 'sr5ShopCreationMode', event.target.checked)
+        this.render()
+      })
+    }
 
     // Buyer selector
     const buyerSelect = el.querySelector('[data-shop-buyer]')

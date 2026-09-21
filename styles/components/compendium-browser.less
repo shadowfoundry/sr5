@@ -405,10 +405,31 @@
     }
   }
 
+  .sr-browser-shop-creation {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    color: var(--sr-text-color-light);
+
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+
   .sr-browser-shop-funds {
     font-family: var(--sr-font-body);
     font-size: var(--sr-font-size-small);
     white-space: nowrap;
+
+    // Creation mode charges nothing: the balance is no longer what decides.
+    &.muted {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
   }
 
   .sr-browser-result-buy {

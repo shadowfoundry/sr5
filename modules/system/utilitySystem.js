@@ -52,6 +52,17 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Compendium browser: add gear without charging it (character creation,
+    // or fixing an entry a player already paid for). Remembered per user.
+    game.settings.register("sr5", "sr5ShopCreationMode", {
+      name: "SR5.SETTINGS_ShopCreationMode_T",
+      hint: "SR5.SETTINGS_ShopCreationMode_D",
+      scope: "client",
+      config: false,
+      default: false,
+      type: Boolean,
+    })
+
     // Display Help Window
     game.settings.register("sr5", "sr5Help.active", {
       name: "SR5.SETTINGS_HelpActive_T",

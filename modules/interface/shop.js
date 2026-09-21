@@ -62,8 +62,21 @@ export class SR5Shop {
   }
 
   /**
-   * Buy `quantity` of the item at `uuid` for `actor`.
-   * @returns {Promise<boolean>} whether the purchase went through
+   * Creation mode: gear is handed over without being charged.
+   *
+   * A character built outside Foundry arrives with its purchases already paid
+   * for on paper, and a player fixing a badly entered item would be charged a
+   * second time. The switch is remembered per user, not per world, so a
+   * gamemaster equipping a character does not change anything for the table.
+   */
+  static get creationMode() {
+    return game.settings.get('sr5', 'sr5ShopCreationMode') === true
+  }
+
+  /**
+   * Add `quantity` of the item at `uuid` to `actor`, charging for it unless
+   * creation mode is on.
+   * @returns {Promise<boolean>} whether the item was added
    */
   static async buy(actor, uuid, quantity = 1) {
     if (!actor) {
@@ -82,8 +95,9 @@ export class SR5Shop {
     const unit = SR5Shop.unitPrice(source.system)
     const total = unit * qty
     const balance = SR5Shop.balance(actor)
+    const free = SR5Shop.creationMode
 
-    if (total > balance) {
+    if (!free && total > balance) {
       ui.notifications.warn(game.i18n.format('SR5.WARN_ShopNotEnoughNuyen', {
         name: actor.name,
         price: total.toLocaleString(),
@@ -105,7 +119,7 @@ export class SR5Shop {
     }
 
     const label = qty > 1 ? `${source.name} (x${qty})` : source.name
-    payload.push({
+    if (!free) payload.push({
       name: game.i18n.format('SR5.ShopPurchaseOf', {
         name: label 
       }),
@@ -121,24 +135,31 @@ export class SR5Shop {
       },
     })
 
-    SR5_SystemHelpers.srLog(3, `Shop: ${actor.name} buys ${label} for ${total}`)
+    SR5_SystemHelpers.srLog(3, `Shop: ${actor.name} ${free ? 'receives' : 'buys'} ${label} (${total})`)
     await actor.createEmbeddedDocuments('Item', payload)
 
-    await foundry.documents.ChatMessage.create({
-      speaker: foundry.documents.ChatMessage.getSpeaker({
-        actor 
-      }),
-      content: `<p>${game.i18n.format('SR5.ShopPurchaseChat', {
-        actor: actor.name,
-        name: label,
-        price: total.toLocaleString(),
-        balance: (balance - total).toLocaleString(),
-      })}</p>`,
-    })
+    // Creation mode charges nothing, so it says nothing to the table either.
+    if (!free) {
+      await foundry.documents.ChatMessage.create({
+        speaker: foundry.documents.ChatMessage.getSpeaker({
+          actor 
+        }),
+        content: `<p>${game.i18n.format('SR5.ShopPurchaseChat', {
+          actor: actor.name,
+          name: label,
+          price: total.toLocaleString(),
+          balance: (balance - total).toLocaleString(),
+        })}</p>`,
+      })
+    }
 
-    ui.notifications.info(game.i18n.format('SR5.ShopPurchaseDone', {
-      name: label, price: total.toLocaleString() 
-    }))
+    ui.notifications.info(free ?
+      game.i18n.format('SR5.ShopCreationDone', {
+        name: label 
+      }) :
+      game.i18n.format('SR5.ShopPurchaseDone', {
+        name: label, price: total.toLocaleString() 
+      }))
     return true
   }
 }
