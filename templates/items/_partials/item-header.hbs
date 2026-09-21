@@ -1,5 +1,8 @@
 <div class="SR-Header">
 	<img class="SRImgItem" src="{{item.img}}" data-title="{{localize 'SR5.UI_ChangePicture'}}" data-edit="img" data-action="editImage" />
+	{{#if hasTokenImage}}
+	<img class="SRImgItem SRImgToken" src="{{#if system.tokenImg}}{{system.tokenImg}}{{else}}{{item.img}}{{/if}}" data-title="{{localize 'SR5.UI_ChangeTokenPicture'}}" data-edit="system.tokenImg" data-action="editImage" />
+	{{/if}}
 	<h1 class="SRItemTitre"><input name="name" type="text" value="{{item.name}}" placeholder="Nom" /></h1>
 	<nav class="sr-icon-nav tabs">
 		{{#each layout.panels}}

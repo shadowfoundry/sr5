@@ -39,6 +39,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
   get isPlayMode() { return this._mode === SR5ItemSheet.MODES.PLAY }
   get isEditMode() { return this._mode === SR5ItemSheet.MODES.EDIT }
 
+  // Item types that unfold into their own actor, and so carry a token picture
+  static SIDEKICK_TYPES = ["itemSpirit", "itemSprite", "itemVehicle", "itemProgram", "itemContact"]
+
   static DEFAULT_OPTIONS = {
     classes: ["app", "window-app", "sr5", "SR-Item"],
     position: {
@@ -271,6 +274,8 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     context.owner = this.document.isOwner
     context.lists = SR5_EntityHelpers.sortTranslations(SR5)
     context.isPlay = this.isPlayMode
+    // Items that unfold into an actor wear a second picture: their token's
+    context.hasTokenImage = SR5ItemSheet.SIDEKICK_TYPES.includes(item.type)
 
     // Custom ammunition type choices for weapon ammo dropdown
     if (item.type === 'itemWeapon') {
