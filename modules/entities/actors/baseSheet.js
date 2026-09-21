@@ -1752,7 +1752,31 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
   static STORABLE_TYPES = [
     "itemGear", "itemWeapon", "itemArmor", "itemAmmunition",
     "itemDevice", "itemDrug", "itemFocus", "itemVehicle",
+    "itemAugmentation",
   ]
+
+  /**
+   * Whether an item can be put away, and whether this storage will take it.
+   * Mods live inside the item they are fitted to and follow it, bare hands and
+   * natural weapons are part of the body, an implant has to come out first,
+   * and a contract or a licence is not a thing you can leave in a box.
+   * A garage holds vehicles and drones; every other storage holds the rest.
+   */
+  static isStorable(item, storage) {
+    const data = item.system
+    if (!ActorSheetSR5.STORABLE_TYPES.includes(item.type)) return false
+    if (data.isAccessory) return false
+    if (item.type === "itemWeapon") {
+      if (data.category === "weaponAccessory") return false
+      if (data.type === "unarmedCombat") return false
+    }
+    if (item.type === "itemGear" && data.isIntangible) return false
+    if (item.type === "itemAugmentation" && data.isActive) return false
+
+    if (!storage) return true
+    const isVehicle = item.type === "itemVehicle"
+    return storage.system.type === "garage" ? isVehicle : !isVehicle
+  }
 
   // Switch between icons in cells and one detailed row per item.
   async _onStorageViewToggle(event) {
@@ -1770,10 +1794,13 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     if (!storage) return
 
     const candidates = this.actor.items
-      .filter(i => ActorSheetSR5.STORABLE_TYPES.includes(i.type) && !i.system.storedIn)
+      .filter(i => !i.system.storedIn && ActorSheetSR5.isStorable(i, storage))
       .sort((a, b) => a.name.localeCompare(b.name))
     if (!candidates.length) {
-      return ui.notifications.info(game.i18n.localize("SR5.WARN_StorageNothingToStore"))
+      const empty = storage.system.type === "garage" ?
+        "SR5.WARN_StorageNoVehicleToStore" :
+        "SR5.WARN_StorageNothingToStore"
+      return ui.notifications.info(game.i18n.localize(empty))
     }
 
     const max = storage.system.capacity.value

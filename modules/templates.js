@@ -476,6 +476,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/editable/sin/nationality-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/sin/familySituation-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/sin/licenses-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/gear/intangible-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/storage/type-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/storage/capacity-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/storage/deployable-edit.hbs",

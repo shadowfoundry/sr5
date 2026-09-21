@@ -234,6 +234,12 @@ export class SR5ActorSheet extends ActorSheetSR5 {
           .filter(i => i.system.storedIn === storage._id)
           .sort((a, b) => a.name.localeCompare(b.name))
         const max = storage.system.capacity.value
+        // What the lot is worth. Item prices, not the actor's nuyen: that
+        // field sums every transaction and is not a balance.
+        const value = contents.reduce((total, i) => {
+          const price = i.system.price?.value ?? i.system.price?.base ?? 0
+          return total + price * (i.system.quantity ?? 1)
+        }, 0)
         return {
           _id: storage._id,
           name: storage.name,
@@ -243,6 +249,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
           contents: contents,
           used: contents.length,
           max: max,
+          value: value,
           hasLimit: max > 0,
           isFull: max > 0 && contents.length >= max,
         }

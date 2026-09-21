@@ -23,12 +23,12 @@
 	<div class="sr-storage {{#if storage.isFull}}sr-storage-full{{/if}}" data-storage-id="{{storage._id}}">
 		<ul>
 			<li class="item grid sr-storage-head" data-item-id="{{storage._id}}" draggable="true">
-				<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-					<img class="sr-storage-icon" src="{{storage.img}}" alt="" />
+				<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
 					{{storage.name}}
 				</div>
-				<div class="col-3 SR-TextCenter SR-GreyColor">{{findTranslation 'storageTypes' storage.type}}</div>
-				<div class="col-2 SR-TextCenter">
+				<div class="col-2 SR-TextCenter SR-GreyColor">{{findTranslation 'storageTypes' storage.type}}</div>
+				<div class="col-3 SR-TextRight SR-GreyColor">{{#if storage.value}}{{nuyen storage.value}}{{/if}}</div>
+				<div class="col-1 SR-TextCenter">
 					{{#if storage.hasLimit}}{{storage.used}} / {{storage.max}}{{else}}{{storage.used}}{{/if}}
 				</div>
 				<div class="col-1 grid SR-TextRight">
@@ -82,14 +82,13 @@
 				{{/each}}
 			</ul>
 			{{/if}}
-		{{else}}
-		<p class="sr-storage-empty SR-GreyColor">{{localize 'SR5.StorageEmpty'}}</p>
 		{{/if}}
 
 		{{#if ../owner}}
 		<p class="sr-storage-actions">
 			<a class="storage-put-in" data-storage-id="{{storage._id}}">
-				<em class="fas fa-sm fa-plus"></em> {{localize 'SR5.StoragePutIn'}}
+				<em class="fas fa-sm fa-plus"></em>
+				{{#if (eq storage.type "garage")}}{{localize 'SR5.StoragePutInVehicle'}}{{else}}{{localize 'SR5.StoragePutIn'}}{{/if}}
 			</a>
 		</p>
 		{{/if}}
