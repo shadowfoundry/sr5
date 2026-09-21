@@ -227,9 +227,18 @@
 
 // Taking something out of a storage is a real action, not an afterthought:
 // the sheet's faint 25 % link colour reads as disabled here.
-.storage-loot,
-.storage-loot-all {
+.storage-loot {
   color: var(--sr-ui-border-color) !important;
+
+  &:hover {
+    color: var(--sr-text-color-flash) !important;
+  }
+}
+
+// Take everything sits on the dark header band, where the theme red it would
+// otherwise take is the band's own colour: it has to be light to be seen.
+.storage-loot-all {
+  color: var(--sr-text-color-light) !important;
 
   &:hover {
     color: var(--sr-text-color-flash) !important;
