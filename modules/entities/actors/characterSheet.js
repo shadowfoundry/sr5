@@ -1,6 +1,9 @@
 import {
   ActorSheetSR5 
 } from "./baseSheet.js"
+import {
+  SR5Credstick 
+} from "../../interface/credstick.js"
 
 /**
  * An Actor sheet for player character type actors in the Shadowrun 5 system.
@@ -115,6 +118,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const programs = []
     const karmas = []
     const nuyens = []
+    // Cash the character carries, as opposed to the ledger below it
+    const credsticks = []
     const contacts = []
     const lifestyles = []
     const sins = []
@@ -145,7 +150,11 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       else if (i.type === "itemAdeptPower") adeptPowers.push(i)
       else if (i.type === "itemMartialArt") martialArts.push(i)
       else if (i.type === "itemMetamagic") metamagics.push(i)
-      else if (i.type === "itemGear") gears.push(i)
+      else if (i.type === "itemGear") {
+        gears.push(i)
+        // A credstick is gear like any other, and also the character's cash
+        if (i.system.isCredstick) credsticks.push(i)
+      }
       else if (i.type === "itemSpirit") spirits.push(i)
       else if (i.type === "itemDevice") cyberdecks.push(i)
       else if (i.type === "itemProgram") {
@@ -199,6 +208,8 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.programs = programs
     actor.karmas = karmas
     actor.nuyens = nuyens
+    actor.credsticks = credsticks
+    actor.cashOnHand = SR5Credstick.cashOnHand(this.actor)
     actor.contacts = contacts
     actor.lifestyles = lifestyles
     actor.sins = sins

@@ -15,6 +15,9 @@ import {
 } from "../../socket.js"
 import SR5_PanDialog from "../../interface/pan-dialog.js"
 import {
+  SR5Credstick 
+} from "../../interface/credstick.js"
+import {
   SR5 
 } from "../../config.js"
 import {
@@ -357,6 +360,9 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     on(".resetRecoil", "click", this._onResetRecoil.bind(this))
     //Reset drug addiction
     on(".resetAddiction", "click", this._onResetAddiction.bind(this))
+    //Move money between the ledger and a credstick
+    on(".credstick-withdraw", "click", this._onCredstickMove.bind(this, "withdraw"))
+    on(".credstick-deposit", "click", this._onCredstickMove.bind(this, "deposit"))
     //Reboot le deck
     on(".reset-deck", "click", this._onRebootDeck.bind(this))
     // Déplie les infos
@@ -729,6 +735,50 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 	 * @param {Event} event   The originating click event
 	 * @private
 	 */
+  /**
+   * Ask for an amount, then move it between the ledger and a credstick.
+   *
+   * SR5 p. 445: a credstick has no wireless, it is plugged into a universal
+   * connector to take money out or put it in.
+   * @param {"withdraw"|"deposit"} way
+   * @param {Event} event
+   * @private
+   */
+  async _onCredstickMove(way, event) {
+    event.preventDefault()
+    // Read the dataset before the first await: currentTarget is null afterwards
+    const itemId = event.currentTarget.dataset.itemId
+    const credstick = this.actor.items.get(itemId)
+    if (!credstick) return
+
+    const isWithdrawal = way === "withdraw"
+    const ceiling = isWithdrawal ?
+      Math.min(SR5Credstick.ledgerBalance(this.actor), SR5Credstick.room(credstick)) :
+      SR5Credstick.funds(credstick)
+    const title = game.i18n.localize(isWithdrawal ? "SR5.CredstickWithdraw" : "SR5.CredstickDeposit")
+
+    const amount = await foundry.applications.api.DialogV2.prompt({
+      window: {
+        title: `${title}${game.i18n.localize("SR5.Colons")} ${credstick.name}` 
+      },
+      content: `<p>${game.i18n.format("SR5.CredstickPromptMax", {
+        max: (ceiling === Infinity ? "∞" : ceiling.toLocaleString()) 
+      })}</p>
+        <input type="number" name="amount" min="0" value="0" autofocus>`,
+      ok: {
+        label: title,
+        callback: (event, button) => Number(button.form.elements.amount.value) || 0,
+      },
+      rejectClose: false,
+    })
+    if (!amount) return
+
+    if (isWithdrawal) await SR5Credstick.withdraw(this.actor, credstick, amount)
+    else await SR5Credstick.deposit(this.actor, credstick, amount)
+  }
+
+  /* -------------------------------------------- */
+
   _onItemClone(event) {
     event.preventDefault()
     const li = event.currentTarget.closest(".item")
