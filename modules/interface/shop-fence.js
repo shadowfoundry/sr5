@@ -59,16 +59,29 @@ export class SR5ShopFence {
   /**
    * Listed price of one unit of an owned item.
    *
-   * Most owned stacks carry the unit price, but the quantity multiplier is
-   * applied to some of them: a price that has grown to at least the book
-   * price times the quantity is a pile, and is brought back to the unit.
+   * Two things stand between the item's own price and the price a sale is
+   * reckoned on:
+   *
+   * - Most owned stacks carry the unit price, but the quantity multiplier is
+   *   applied to some of them: a price that has grown to at least the book
+   *   price times the quantity is a pile, and is brought back to the unit.
+   * - "Dans le cas du cyberware et bioware, le prix listé est toujours celui
+   *   de la gamme standard" (SR5 p. 421). The system applies the grade as a
+   *   price multiplier (`augmentationGrade`), so taking it back out returns
+   *   the standard-grade price: an alphaware implant is not fenced on what it
+   *   cost its owner.
    */
   static listedPrice(item) {
     const quantity = Math.max(1, Number(item.system?.quantity ?? 1))
-    const price = SR5Shop.unitPrice(item.system)
+    let price = SR5Shop.unitPrice(item.system)
     const base = Number(item.system?.price?.base ?? 0)
-    const isStackTotal = quantity > 1 && base > 0 && price >= base * quantity
-    return isStackTotal ? Math.round(price / quantity) : price
+    if (quantity > 1 && base > 0 && price >= base * quantity) price = price / quantity
+
+    const grade = (item.system?.price?.modifiers ?? [])
+      .find(mod => mod.type === 'augmentationGrade' && mod.isMultiplier)
+    if (grade && Number(grade.value) > 0) price = price / Number(grade.value)
+
+    return Math.round(price)
   }
 
   /** How much a contact hands over on the spot, per unit. */
