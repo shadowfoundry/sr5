@@ -1,0 +1,65 @@
+<div class="sr-shop-card">
+  <header class="SR-CardHeader sr-shop-card-header">
+    <i class="fas fa-magnifying-glass-dollar"></i>
+    <span>{{localize 'SR5.ShopAvailabilityTest'}}</span>
+  </header>
+
+  <div class="SR-CardContent sr-shop-card-content">
+    <p class="sr-shop-card-searcher">
+      {{#if isContact}}
+        {{localize 'SR5.ShopSearchedBy'}}{{localize 'SR5.Colons'}} <strong>{{searcherLabel}}</strong>
+        {{#if connection}}({{localize 'SR5.ContactConnectionShort'}} {{connection}}){{/if}}
+      {{else}}
+        {{localize 'SR5.ShopSearchedSelf'}}{{localize 'SR5.Colons'}} <strong>{{searcherLabel}}</strong>
+      {{/if}}
+      — {{localize 'SR5.DicePool'}} {{pool}}{{#if limit}} [{{limit}}]{{/if}}
+      {{#if bonusDice}}<span class="sr-shop-bonus">(+{{bonusDice}} {{localize 'SR5.ShopSurchargeDice'}}, +{{surcharge}}%)</span>{{/if}}
+    </p>
+
+    {{#if override}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopOverriddenPool'}}</p>
+    {{/if}}
+    {{#if derived}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopDerivedPool'}}</p>
+    {{/if}}
+    {{#if specialized}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopDealerSpecialization'}}</p>
+    {{/if}}
+
+    <table class="sr-shop-card-table">
+      <thead>
+        <tr>
+          <th>{{localize 'SR5.Name'}}</th>
+          <th>{{localize 'SR5.AvailabilityShort'}}</th>
+          <th>{{localize 'SR5.DiceHits'}}</th>
+          <th>{{localize 'SR5.ShopResult'}}</th>
+          <th>{{localize 'SR5.ShopDelay'}}</th>
+          <th>{{localize 'SR5.Price'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each results}}
+        <tr class="sr-shop-line sr-shop-line-{{this.outcome}}">
+          <td>{{this.name}}{{#if (gt this.quantity 1)}} (x{{this.quantity}}){{/if}}</td>
+          <td>{{#if this.availability}}{{this.availability}}{{else}}—{{/if}}</td>
+          <td>{{#if this.availability}}{{this.hits}} / {{this.opposition}}{{else}}—{{/if}}</td>
+          <td>{{this.outcomeLabel}}</td>
+          <td>{{this.delayLabel}}</td>
+          <td>{{this.priceLabel}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="sr-shop-card-footer">
+    {{#if canBuy}}
+    <button type="button" data-shop-action="checkout">
+      <i class="fas fa-sm fa-receipt"></i>
+      {{localize 'SR5.ShopCashPurchase'}} ({{totalLabel}})
+    </button>
+    {{else}}
+    <span class="sr-shop-cashed">{{localize 'SR5.ShopNothingFound'}}</span>
+    {{/if}}
+  </footer>
+</div>

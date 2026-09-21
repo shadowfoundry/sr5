@@ -394,9 +394,19 @@
     }
   }
 
+  // The header carries the whole counter: buyer, funds, contact, pool, limit,
+  // surcharge and creation mode. On a narrow window it wraps rather than
+  // pushing the sort links out of the window.
+  .sr-browser-results-header {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
   .sr-browser-shop {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    row-gap: 2px;
     gap: 6px;
     color: var(--sr-text-color-light);
 
@@ -417,6 +427,24 @@
 
     input[type="checkbox"] {
       margin: 0;
+    }
+  }
+
+  // Hand-typed pool and limit: same treatment as the other fields on the
+  // dark header, which the theme's generic rule would paint black on black.
+  input[type="number"].sr-browser-shop-override {
+    width: 44px;
+    height: 20px;
+    text-align: center;
+    font-size: var(--sr-font-size-small);
+    font-family: var(--sr-font-body);
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+    color: var(--sr-text-color-light) !important;
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--sr-text-color-light) 45%, transparent);
     }
   }
 
@@ -469,6 +497,12 @@
         opacity: 0.55;
       }
     }
+  }
+
+  // The cart footer holds two buttons side by side
+  .sr-browser-cart > footer {
+    display: flex;
+    gap: 6px;
   }
 
   .sr-browser-cart {

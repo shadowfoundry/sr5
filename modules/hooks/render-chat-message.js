@@ -1,6 +1,9 @@
 import {
   SR5_RollMessage
 } from "../rolls/roll-message.js"
+import {
+  SR5ShopAvailability
+} from "../interface/shop-availability.js"
 
 export function sr5HookRenderChatMessageHTML(message, html, _data) {
   // Apply SR5 custom styling for messages with SR5 roll data
@@ -24,6 +27,9 @@ export function sr5HookRenderChatMessageHTML(message, html, _data) {
   // Attach SR5 chat card listeners for messages with roll card content
   const hasSr5Card = html.querySelector(".SR-CardHeader")
   if (hasSr5Card) SR5_RollMessage.chatListeners(html, message)
+
+  // Availability cards carry their own data and their own button
+  if (message.flags?.sr5shop) SR5ShopAvailability.chatListeners(html, message)
 }
 
 // v13: keep chat scrolled to bottom when SR5 roll messages change height.

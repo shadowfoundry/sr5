@@ -63,6 +63,18 @@ export class SR5_SystemHelpers {
       type: Boolean,
     })
 
+    // Which contact types deal in goods, for the Bargaining specialization
+    // on availability tests. Free text on the contact sheet, so this is a
+    // keyword list the table can edit.
+    game.settings.register("sr5", "sr5ShopDealerKeywords", {
+      name: "SR5.SETTINGS_ShopDealerKeywords_T",
+      hint: "SR5.SETTINGS_ShopDealerKeywords_D",
+      scope: "world",
+      config: true,
+      default: "fixer, intermediaire, intermédiaire, receleur, recéleur, fourgue, marchand, armurier, talismonger, talismancien, dealer, trafiquant, contrebandier, smuggler, arms dealer",
+      type: String,
+    })
+
     // Display Help Window
     game.settings.register("sr5", "sr5Help.active", {
       name: "SR5.SETTINGS_HelpActive_T",

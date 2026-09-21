@@ -13,6 +13,9 @@ import {
 import {
   SR5Shop 
 } from './shop.js'
+import {
+  SR5ShopAvailability 
+} from './shop-availability.js'
 
 const ALL_FILTERS = {
   ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS 
@@ -60,6 +63,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       removeFromCart: SR5CompendiumBrowser.#onRemoveFromCart,
       clearCart: SR5CompendiumBrowser.#onClearCart,
       checkoutCart: SR5CompendiumBrowser.#onCheckoutCart,
+      testAvailability: SR5CompendiumBrowser.#onTestAvailability,
+      testCartAvailability: SR5CompendiumBrowser.#onTestCartAvailability,
     },
   }
 
@@ -84,6 +89,11 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     this._buyerId = null
     // Shopping list, kept while the window lives: [{uuid, name, img, quantity}]
     this._cart = []
+    this._contactId = null
+    this._surcharge = 0
+    // A pool typed in by hand, which replaces the computed one when set
+    this._overridePool = 0
+    this._overrideLimit = 0
   }
 
   /* -------------------------------------------- */
@@ -338,6 +348,24 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     context.cartTotalLabel = `${cartTotal.toLocaleString()}¥`
     context.cartAffordable = creationMode || cartTotal <= buyerFunds
     context.canCheckout = buyer !== null && cartLines.length > 0
+    // Who does the looking, and how much is offered on top of the price
+    const contacts = SR5ShopAvailability.getContacts(buyer)
+    if (this._contactId && !contacts.some(c => c.id === this._contactId)) this._contactId = null
+    context.contacts = contacts.map(c => ({
+      id: c.id,
+      name: c.name,
+      connection: c.system.connection,
+      selected: c.id === this._contactId,
+    }))
+    context.hasContacts = contacts.length > 0
+    context.overridePool = this._overridePool || ''
+    context.overrideLimit = this._overrideLimit || ''
+    context.surcharge = this._surcharge
+    context.surchargeChoices = [0, 25, 50, 75, 100, 150, 200, 300].map(value => ({
+      value,
+      label: value ? `+${value}%` : '—',
+      selected: value === this._surcharge,
+    }))
     context.creationMode = creationMode
     context.buyer = buyer ? {
       id: buyer.id, name: buyer.name, funds: buyerFunds.toLocaleString() 
@@ -446,6 +474,31 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       })
     }
 
+    // Contact and surcharge selectors
+    const contactSelect = el.querySelector('[data-shop-contact]')
+    if (contactSelect) {
+      contactSelect.addEventListener('change', (event) => {
+        this._contactId = event.target.value || null
+        this.render()
+      })
+    }
+    el.querySelectorAll('[data-shop-override]').forEach(input => {
+      input.addEventListener('change', (event) => {
+        const value = Math.max(0, Math.floor(Number(event.target.value) || 0))
+        if (event.target.dataset.shopOverride === 'limit') this._overrideLimit = value
+        else this._overridePool = value
+        this.render()
+      })
+    })
+
+    const surchargeSelect = el.querySelector('[data-shop-surcharge]')
+    if (surchargeSelect) {
+      surchargeSelect.addEventListener('change', (event) => {
+        this._surcharge = Number(event.target.value) || 0
+        this.render()
+      })
+    }
+
     // Buyer selector
     const buyerSelect = el.querySelector('[data-shop-buyer]')
     if (buyerSelect) {
@@ -546,6 +599,40 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     })))
     if (bought) this._cart = []
     this.render()
+  }
+
+  /** The hand-typed pool and limit, when the user has filled them in. */
+  #overrides() {
+    return {
+      overridePool: this._overridePool, overrideLimit: this._overrideLimit 
+    }
+  }
+
+  /** The contact doing the looking, if one is selected. */
+  #searchingContact() {
+    const buyer = game.actors.get(this._buyerId)
+    return this._contactId ? buyer?.items.get(this._contactId) ?? null : null
+  }
+
+  static async #onTestAvailability(event, target) {
+    event.stopPropagation()
+    const row = target.closest('[data-uuid]')
+    const uuid = row?.dataset.uuid
+    if (!uuid) return
+    const actor = game.actors.get(this._buyerId)
+    await SR5ShopAvailability.testLines(actor, this.#searchingContact(), [{
+      uuid,
+      quantity: SR5CompendiumBrowser.#rowQuantity(row),
+      name: row.querySelector('.sr-browser-result-name')?.textContent.trim(),
+    }], this._surcharge, this.#overrides())
+  }
+
+  static async #onTestCartAvailability() {
+    if (!this._cart.length) return
+    const actor = game.actors.get(this._buyerId)
+    await SR5ShopAvailability.testLines(actor, this.#searchingContact(), this._cart.map(line => ({
+      uuid: line.uuid, quantity: line.quantity, name: line.name,
+    })), this._surcharge, this.#overrides())
   }
 
   static async #onBuyItem(event, target) {

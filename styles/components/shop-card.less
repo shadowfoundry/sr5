@@ -1,0 +1,61 @@
+// Availability test card (compendium browser purchases)
+.sr-shop-card {
+  font-family: var(--sr-font-body);
+  font-size: var(--sr-font-size-small);
+
+  .sr-shop-card-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--sr-font-title);
+    cursor: pointer;
+  }
+
+  .sr-shop-card-note {
+    font-style: italic;
+    opacity: 0.8;
+    margin: 2px 0;
+  }
+
+  .sr-shop-bonus {
+    white-space: nowrap;
+  }
+
+  .sr-shop-card-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4px 0;
+
+    th {
+      text-align: left;
+      font-family: var(--sr-font-title);
+      font-weight: normal;
+      border-bottom: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+    }
+
+    td, th {
+      padding: 1px 3px;
+    }
+  }
+
+  .sr-shop-line-failure,
+  .sr-shop-line-criticalGlitch {
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .sr-shop-card-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+
+    button {
+      width: 100%;
+    }
+  }
+
+  .sr-shop-cashed {
+    font-style: italic;
+    opacity: 0.8;
+  }
+}
