@@ -90,6 +90,12 @@
           <option value="{{this.value}}" {{#if this.selected}}selected{{/if}}>{{this.label}}</option>
           {{/each}}
         </select>
+        {{#if buyer}}
+        <button type="button" class="sr-browser-shop-sell" data-action="openSell"
+                data-tooltip="{{localize 'SR5.ShopSell'}}">
+          <i class="fas fa-sm fa-hand-holding-dollar"></i>
+        </button>
+        {{/if}}
         <label class="sr-browser-shop-creation" data-tooltip="{{localize 'SR5.ShopCreationModeHint'}}">
           <input type="checkbox" data-shop-creation {{#if creationMode}}checked{{/if}}>
           <span>{{localize 'SR5.ShopCreationMode'}}</span>

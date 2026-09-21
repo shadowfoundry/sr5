@@ -16,6 +16,9 @@ import {
 import {
   SR5ShopAvailability 
 } from './shop-availability.js'
+import {
+  SR5SellDialog 
+} from './shop-sell-dialog.js'
 
 const ALL_FILTERS = {
   ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS 
@@ -65,6 +68,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       checkoutCart: SR5CompendiumBrowser.#onCheckoutCart,
       testAvailability: SR5CompendiumBrowser.#onTestAvailability,
       testCartAvailability: SR5CompendiumBrowser.#onTestCartAvailability,
+      openSell: SR5CompendiumBrowser.#onOpenSell,
     },
   }
 
@@ -621,6 +625,10 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
   #searchingContact() {
     const buyer = game.actors.get(this._buyerId)
     return this._contactId ? buyer?.items.get(this._contactId) ?? null : null
+  }
+
+  static #onOpenSell() {
+    SR5SellDialog.open(game.actors.get(this._buyerId))
   }
 
   static async #onTestAvailability(event, target) {

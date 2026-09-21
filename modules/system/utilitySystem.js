@@ -84,6 +84,40 @@ export class SR5_SystemHelpers {
       type: Number,
     })
 
+    // Fencing gear, SR5 p. 421. Every figure of the rule is a setting: the
+    // share a found buyer starts from, what a net hit of haggling moves, the
+    // threshold to find a buyer at all, what a contact pays per point of
+    // Loyalty, and the buyer's own pool — which the book never gives.
+    game.settings.register("sr5", "sr5ShopFenceBasePercent", {
+      name: "SR5.SETTINGS_ShopFenceBase_T",
+      hint: "SR5.SETTINGS_ShopFenceBase_D",
+      scope: "world", config: true, default: 25, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceStepPercent", {
+      name: "SR5.SETTINGS_ShopFenceStep_T",
+      hint: "SR5.SETTINGS_ShopFenceStep_D",
+      scope: "world", config: true, default: 5, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceThreshold", {
+      name: "SR5.SETTINGS_ShopFenceThreshold_T",
+      hint: "SR5.SETTINGS_ShopFenceThreshold_D",
+      scope: "world", config: true, default: 10, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopContactFencePercent", {
+      name: "SR5.SETTINGS_ShopContactFence_T",
+      hint: "SR5.SETTINGS_ShopContactFence_D",
+      scope: "world", config: true, default: 5, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceBuyerPool", {
+      name: "SR5.SETTINGS_ShopFenceBuyerPool_T",
+      hint: "SR5.SETTINGS_ShopFenceBuyerPool_D",
+      scope: "world", config: true, default: 6, type: Number,
+    })
+
     // Which contact types deal in goods, for the Bargaining specialization
     // on availability tests. Free text on the contact sheet, so this is a
     // keyword list the table can edit.
