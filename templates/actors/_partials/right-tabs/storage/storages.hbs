@@ -24,6 +24,7 @@
 		<ul>
 			<li class="item grid sr-storage-head" data-item-id="{{storage._id}}" draggable="true">
 				<div class="col-5 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+					<em class="fas fa-sm {{storage.icon}} sr-storage-type-icon"></em>
 					{{storage.name}}
 				</div>
 				<div class="col-2 SR-TextCenter SR-GreyColor">{{findTranslation 'storageTypes' storage.type}}</div>

@@ -1757,19 +1757,18 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
 
   /**
    * Whether an item can be put away, and whether this storage will take it.
-   * Mods live inside the item they are fitted to and follow it, bare hands and
-   * natural weapons are part of the body, an implant has to come out first,
-   * and a contract or a licence is not a thing you can leave in a box.
+   * A fitted mod follows the item it is on, bare hands and natural weapons are
+   * part of the body, an implant has to come out first, and a contract or a
+   * licence is not a thing you can leave in a box.
    * A garage holds vehicles and drones; every other storage holds the rest.
    */
   static isStorable(item, storage) {
     const data = item.system
     if (!ActorSheetSR5.STORABLE_TYPES.includes(item.type)) return false
-    if (data.isAccessory) return false
-    if (item.type === "itemWeapon") {
-      if (data.category === "weaponAccessory") return false
-      if (data.type === "unarmedCombat") return false
-    }
+    // A fitted mod travels inside the weapon or armour it is on. Taken off,
+    // it is gear like any other and can be put away on its own.
+    if (data.isAccessory && data.isPlugged) return false
+    if (item.type === "itemWeapon" && data.type === "unarmedCombat") return false
     if (item.type === "itemGear" && data.isIntangible) return false
     if (item.type === "itemAugmentation" && data.isActive) return false
 

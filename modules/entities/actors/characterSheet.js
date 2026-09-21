@@ -225,6 +225,16 @@ export class SR5ActorSheet extends ActorSheetSR5 {
    * inside it. Stored items are left in their usual lists on purpose — being
    * stored does not yet take an item out of play.
    */
+  // One icon per kind of storage. Font Awesome, so it takes the sheet's own
+  // text colour and stays readable on a light surface.
+  static STORAGE_ICONS = {
+    stash: "fa-house",
+    safe: "fa-vault",
+    backpack: "fa-suitcase",
+    cache: "fa-box-archive",
+    garage: "fa-warehouse",
+  }
+
   _prepareStorages(actor, storages) {
     const stored = actor.items.filter(i => i.system?.storedIn)
     return storages
@@ -245,6 +255,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
           name: storage.name,
           img: storage.img,
           type: storage.system.type,
+          icon: SR5ActorSheet.STORAGE_ICONS[storage.system.type] ?? "fa-box",
           isDeployable: storage.system.isDeployable,
           contents: contents,
           used: contents.length,
