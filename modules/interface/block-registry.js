@@ -212,6 +212,9 @@ export const BLOCK_REGISTRY = {
   storages:            {
     partial: `${PARTIAL_ROOT}/right-tabs/storage/storages.hbs`,             label: 'SR5.SheetConfig.Block.Storages',         size: BLOCK_SIZE.DOUBLE 
   },
+  storageContents:     {
+    partial: `${PARTIAL_ROOT}/right-tabs/storage/storageContents.hbs`,      label: 'SR5.StorageContents',                    size: BLOCK_SIZE.DOUBLE 
+  },
   money:               {
     partial: `${PARTIAL_ROOT}/right-tabs/gear/money.hbs`,                   label: 'SR5.SheetConfig.Block.Money',            size: BLOCK_SIZE.DOUBLE 
   },

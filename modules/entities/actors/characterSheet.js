@@ -285,6 +285,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
           type: storage.system.type,
           icon: SR5ActorSheet.STORAGE_ICONS[storage.system.type] ?? "fa-box",
           isDeployable: storage.system.isDeployable,
+          isDeployed: storage.system.isDeployed,
           contents: contents,
           used: contents.length,
           max: max,

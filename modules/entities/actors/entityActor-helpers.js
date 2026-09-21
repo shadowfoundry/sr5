@@ -481,6 +481,7 @@ export class SR5_ActorHelper {
     else if (item.type === "itemSprite") petType = "actorSprite"
     else if (item.type === "itemProgram") petType = "actorAgent"
     else if (item.type === "itemContact") petType = "actorGrunt"
+    else if (item.type === "itemStorage") petType = "actorStorage"
 
     if (item.img === `systems/sr5/assets/img/items/${item.type}.svg`) img = `systems/sr5/assets/img/actors/${petType}.svg`
     else img = item.img
@@ -680,13 +681,57 @@ export class SR5_ActorHelper {
       })
     }
 
+    // A storage put down carries what was inside it: the gear leaves the
+    // character and goes with the pack, so whoever finds it finds the lot.
+    let storedItems = []
+    if (item.type === "itemStorage") {
+      storedItems = ownerActor.items.filter(i => i.system?.storedIn === item._id)
+      sideKickData = foundry.utils.mergeObject(sideKickData, {
+        "system.type": itemData.type,
+        "system.capacity.value": itemData.capacity.value,
+        "system.biography.description": itemData.description,
+        "system.creatorId": actorId,
+        "system.creatorItemId": item._id,
+        "items": storedItems.map(i => i.toObject(false)),
+      })
+    }
+
     let originalItem = ownerActor.getEmbeddedDocument("Item", item._id)
-    await originalItem.update({
-      "system.isCreated": true
-    })
+    if (item.type !== "itemStorage") {
+      await originalItem.update({
+        "system.isCreated": true
+      })
+    }
 
     //Create actor
-    await Actor.createDocuments([sideKickData])
+    const created = await Actor.createDocuments([sideKickData])
+
+    if (item.type === "itemStorage") {
+      const dropped = created[0]
+      await originalItem.update({
+        "system.isDeployed": true,
+        "system.deployedActorId": dropped?.id ?? "",
+      })
+      if (storedItems.length) {
+        await ownerActor.deleteEmbeddedDocuments("Item", storedItems.map(i => i.id))
+      }
+      await SR5_ActorHelper.dropStorageAtOwnerFeet(dropped, ownerActor)
+    }
+  }
+
+  /**
+   * Put the storage down where the character stands, rather than leaving it
+   * in the sidebar for someone to drag out: a pack is dropped in the moment.
+   */
+  static async dropStorageAtOwnerFeet(dropped, ownerActor) {
+    if (!dropped || !canvas?.scene) return
+    const ownerToken = canvas.tokens?.placeables.find(t => t.actor?.id === ownerActor.id)
+    if (!ownerToken) return
+    const tokenData = await dropped.getTokenDocument({
+      x: ownerToken.document.x + canvas.grid.size,
+      y: ownerToken.document.y,
+    })
+    await canvas.scene.createEmbeddedDocuments("Token", [tokenData.toObject()])
   }
 
   //Socket for creating sidekick;
@@ -891,6 +936,24 @@ export class SR5_ActorHelper {
           modifiedItem.system.gameEffect += "<div class='SR-BioItemPortrait' style='background-image: url(" + actor.img + ");'></div>"
         }
       }
+    }
+
+    if (actor.type === "actorStorage"){
+      modifiedItem.system.isDeployed = false
+      modifiedItem.system.deployedActorId = ""
+      // dimissSidekick() is handed a plain object, not a document, so nothing
+      // here may lean on toObject().
+      const proto = actor.prototypeToken
+      modifiedItem.system.sideKickPrototypeToken = typeof proto?.toObject === "function" ? proto.toObject() : (proto ?? {
+      })
+      modifiedItem.system.tokenImg = proto?.texture?.src || ""
+      // Whatever is in it comes back to the character, still stored in it
+      const contents = (actor.items ?? []).map(i => {
+        const data = typeof i.toObject === "function" ? i.toObject(false) : foundry.utils.duplicate(i)
+        data.system.storedIn = actor.system.creatorItemId
+        return data
+      })
+      if (contents.length) await ownerActor.createEmbeddedDocuments("Item", contents)
     }
 
     // Delete the sidekick actor and its tokens before the item update propagates

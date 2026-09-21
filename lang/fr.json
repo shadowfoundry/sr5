@@ -3266,6 +3266,14 @@
 	"SR5.WARN_StorageGarageLifestyle": "{storage} demande un style de vie {lifestyle} au minimum ({cost} ¥ par mois). Ce personnage n'en a pas.",
 	"SR5.SETTINGS_StorageCheckGarageLifestyle_T": "Vérifier le Niveau de vie des garages",
 	"SR5.SETTINGS_StorageCheckGarageLifestyle_D": "Un garage est un Atout de style de vie avec un niveau minimum selon le véhicule (Run Faster p. 216). Décochez si votre table ne suit pas les styles de vie.",
+	"SR5.StorageDrop": "Poser sur la carte",
+	"SR5.StoragePickUp": "Ramasser",
+	"SR5.StorageDroppedEmpty": "Ce stockage est vide.",
+	"SR5.HELP_StorageDrop": "Poser {key} sur la carte",
+	"SR5.HELP_StorageDropMsg": "Le stockage apparaît aux pieds du personnage, avec tout ce qu'il contient. Le matériel quitte la fiche et part avec lui.",
+	"SR5.HELP_StoragePickUp": "Ramasser {key}",
+	"SR5.HELP_StoragePickUpMsg": "Le stockage et son contenu reviennent sur la fiche du personnage.",
+	"SR5.Sheet.Storage": "Stockage",
 	"SR5.StorageNew": "Nouveau stockage",
 	"SR5.Storage": "Stockage",
 	"SR5.Storages": "Stockages",
@@ -3784,7 +3792,8 @@
 			"actorGrunt": "Brute ou créature",
 			"actorPc": "Personnage",
 			"actorSpirit": "Esprit",
-			"actorSprite": "Sprite"
+			"actorSprite": "Sprite",
+			"actorStorage": "Stockage posé"
 		},
 		"Item": {
 			"itemAdeptPower": "Pouvoir d'adepte",

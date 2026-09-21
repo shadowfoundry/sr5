@@ -3266,6 +3266,14 @@
 	"SR5.WARN_StorageGarageLifestyle": "{storage} asks for a {lifestyle} lifestyle at least ({cost} ¥ a month). This character has none.",
 	"SR5.SETTINGS_StorageCheckGarageLifestyle_T": "Check the lifestyle behind a garage",
 	"SR5.SETTINGS_StorageCheckGarageLifestyle_D": "A garage is a lifestyle Asset with a minimum lifestyle per vehicle (Run Faster p. 216). Uncheck if your table does not track lifestyles.",
+	"SR5.StorageDrop": "Drop on the map",
+	"SR5.StoragePickUp": "Pick up",
+	"SR5.StorageDroppedEmpty": "This storage is empty.",
+	"SR5.HELP_StorageDrop": "Drop {key} on the map",
+	"SR5.HELP_StorageDropMsg": "The storage appears at the character's feet with everything in it. The gear leaves the sheet and goes with it.",
+	"SR5.HELP_StoragePickUp": "Pick {key} up",
+	"SR5.HELP_StoragePickUpMsg": "The storage and what is in it come back to the character's sheet.",
+	"SR5.Sheet.Storage": "Storage",
 	"SR5.StorageNew": "New storage",
 	"SR5.Storage": "Storage",
 	"SR5.Storages": "Storages",
@@ -3784,7 +3792,8 @@
 			"actorGrunt": "Grunt or Creature",
 			"actorPc": "Character (PC, NPC, or Free Spirit)",
 			"actorSpirit": "Spirit",
-			"actorSprite": "Sprite"
+			"actorSprite": "Sprite",
+			"actorStorage": "Dropped storage"
 		},
 		"Item": {
 			"itemAdeptPower": "Adept Power",

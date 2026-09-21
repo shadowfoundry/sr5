@@ -68,6 +68,7 @@
       "actorDrone": {},
       "actorDevice": {},
       "actorSprite": {},
+      "actorStorage": {},
       "actorAgent": {}
     },
     "Item": {
