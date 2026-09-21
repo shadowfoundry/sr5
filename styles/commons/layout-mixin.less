@@ -73,6 +73,13 @@
   }
 }
 
+/* Surfaces laid over the canvas. Foundry fades the whole interface to 40 %
+   opacity at rest (core "fade" setting), so a fill at 50 % alpha ends up as a
+   20 % veil and vanishes over a bright map. These keep a dense fill instead. */
+.sr-block-floating() {
+  background-color: color-mix(in srgb, var(--sr-ui-bg-color) 30%, var(--sr-ui-bg-color-dark));
+}
+
 .sr-block-slot() {
   background-color: var(--sr-ui-bg-color);
   border: 1px solid var(--sr-ui-border-color-idle);
