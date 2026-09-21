@@ -37,7 +37,6 @@ export class sr5ActorStorageDataModel extends foundry.abstract.TypeDataModel {
       creatorItemId: new fields.StringField({
         initial: ''
       }),
-      sideKickPrototypeToken: new fields.ObjectField(),
     }
   }
 }

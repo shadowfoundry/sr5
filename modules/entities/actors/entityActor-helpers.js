@@ -984,12 +984,6 @@ export class SR5_ActorHelper {
     if (actor.type === "actorStorage"){
       modifiedItem.system.isDeployed = false
       modifiedItem.system.deployedActorId = ""
-      // dimissSidekick() is handed a plain object, not a document, so nothing
-      // here may lean on toObject().
-      const proto = actor.prototypeToken
-      modifiedItem.system.sideKickPrototypeToken = typeof proto?.toObject === "function" ? proto.toObject() : (proto ?? {
-      })
-      modifiedItem.system.tokenImg = proto?.texture?.src || ""
       // Whatever is in it comes back to the character, still stored in it
       const contents = (actor.items ?? []).map(i => {
         const data = typeof i.toObject === "function" ? i.toObject(false) : foundry.utils.duplicate(i)
