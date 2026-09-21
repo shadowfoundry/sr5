@@ -393,4 +393,60 @@
       padding: 4px 8px !important;
     }
   }
+
+  .sr-browser-shop {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--sr-text-color-light);
+
+    select {
+      max-width: 160px;
+      height: 20px;
+      font-size: var(--sr-font-size-small);
+      color: var(--sr-text-color-light);
+      background: color-mix(in srgb, var(--sr-ui-border-color) 40%, transparent);
+      border: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent);
+    }
+  }
+
+  .sr-browser-shop-funds {
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    white-space: nowrap;
+  }
+
+  .sr-browser-result-buy {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    .sr-browser-buy-qty {
+      width: 38px;
+      height: 20px;
+      text-align: center;
+      font-size: var(--sr-font-size-small);
+      font-family: var(--sr-font-body);
+      color: var(--sr-text-color-dark);
+    }
+
+    button {
+      .sr-button-footer();
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      font-size: 11px;
+      padding: 3px 8px !important;
+      height: auto !important;
+      min-height: unset !important;
+      width: auto !important;
+
+      &.too-expensive {
+        opacity: 0.55;
+      }
+    }
+  }
 }

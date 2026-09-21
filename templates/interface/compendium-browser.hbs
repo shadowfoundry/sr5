@@ -57,6 +57,19 @@
   <section class="sr-browser-results">
     <header class="sr-browser-results-header">
       <span class="sr-browser-count">{{shownCount}} / {{totalCount}}</span>
+      {{#if buyers.length}}
+      <div class="sr-browser-shop">
+        <i class="fas fa-sm fa-cart-shopping"></i>
+        <select data-shop-buyer>
+          {{#each buyers}}
+          <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+          {{/each}}
+        </select>
+        {{#if buyer}}
+        <span class="sr-browser-shop-funds">{{buyer.funds}}&yen;</span>
+        {{/if}}
+      </div>
+      {{/if}}
       <div class="sr-browser-sort">
         <a data-sort-key="name" class="{{#if (eq sortKey 'name')}}active{{/if}}">
           {{localize 'SR5.Name'}}
@@ -89,6 +102,16 @@
           <div class="sr-browser-result-info">{{this.info}}</div>
           {{/if}}
         </div>
+        {{#if this.canBuy}}
+        <div class="sr-browser-result-buy">
+          <input type="number" class="sr-browser-buy-qty" min="1" value="1" aria-label="{{localize 'SR5.Quantity'}}">
+          <button type="button" data-action="buyItem" class="{{#if this.tooExpensive}}too-expensive{{/if}}"
+                  data-tooltip="{{localize 'SR5.ShopBuy'}}">
+            <i class="fas fa-sm fa-cart-plus"></i>
+            <span>{{this.priceLabel}}</span>
+          </button>
+        </div>
+        {{/if}}
       </li>
       {{else}}
       <li class="sr-browser-no-results">

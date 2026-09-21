@@ -10,6 +10,9 @@ import {
 import {
   enhanceSelects 
 } from '../helpers/enhance-selects.js'
+import {
+  SR5Shop 
+} from './shop.js'
 
 const ALL_FILTERS = {
   ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS 
@@ -52,6 +55,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       viewItem: SR5CompendiumBrowser.#onViewItem,
       clearFilters: SR5CompendiumBrowser.#onClearFilters,
       refreshIndex: SR5CompendiumBrowser.#onRefreshIndex,
+      buyItem: SR5CompendiumBrowser.#onBuyItem,
     },
   }
 
@@ -73,6 +77,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     this._indexCache = null
     this._page = 0
     this._pageSize = 100
+    this._buyerId = null
   }
 
   /* -------------------------------------------- */
@@ -273,6 +278,13 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     const filtered = this._filterEntries(allEntries)
     const totalCount = filtered.length
 
+    // Who is spending, and how much is left to spend
+    const buyers = SR5Shop.getBuyers()
+    if (this._buyerId && !buyers.some(a => a.id === this._buyerId)) this._buyerId = null
+    if (!this._buyerId) this._buyerId = SR5Shop.defaultBuyerId(buyers)
+    const buyer = buyers.find(a => a.id === this._buyerId) || null
+    const buyerFunds = Number(buyer?.system.nuyen?.value ?? 0)
+
     // Paginate
     const lists = SR5_EntityHelpers.sortTranslations(SR5)
     const maxItems = (this._page + 1) * this._pageSize
@@ -285,14 +297,24 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
         }
         if (subVal && optionsMap[subVal]) typeLabel = game.i18n.localize(optionsMap[subVal])
       }
+      const price = SR5Shop.isPurchasable(e) ? SR5Shop.unitPrice(e.system) : null
       return {
         ...e,
         typeLabel,
         typeIcon: def?.icon || 'fa-cube',
         info: getEntryInfo(e, lists),
+        canBuy: buyer !== null && price !== null,
+        priceLabel: price === null ? '' : `${price.toLocaleString()}¥`,
+        tooExpensive: price !== null && buyer !== null && price > buyerFunds,
       }
     })
 
+    context.buyers = buyers.map(a => ({
+      id: a.id, name: a.name, selected: a.id === this._buyerId 
+    }))
+    context.buyer = buyer ? {
+      id: buyer.id, name: buyer.name, funds: buyerFunds.toLocaleString() 
+    } : null
     context.itemTypes = itemTypes
     context.filterDefs = filterDefs
     context.results = results
@@ -370,6 +392,21 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       })
     })
 
+    // The quantity field sits inside a row that opens the sheet when clicked
+    el.querySelectorAll('.sr-browser-buy-qty').forEach(input => {
+      input.addEventListener('click', (event) => event.stopPropagation())
+      input.addEventListener('dragstart', (event) => event.preventDefault())
+    })
+
+    // Buyer selector
+    const buyerSelect = el.querySelector('[data-shop-buyer]')
+    if (buyerSelect) {
+      buyerSelect.addEventListener('change', (event) => {
+        this._buyerId = event.target.value || null
+        this.render()
+      })
+    }
+
     // Load more button
     const loadMore = el.querySelector('.sr-browser-load-more')
     if (loadMore) {
@@ -414,6 +451,17 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     if (!uuid) return
     const doc = await fromUuid(uuid)
     if (doc) doc.sheet.render(true)
+  }
+
+  static async #onBuyItem(event, target) {
+    event.stopPropagation()
+    const row = target.closest('[data-uuid]')
+    const uuid = row?.dataset.uuid
+    if (!uuid) return
+    const quantity = row.querySelector('.sr-browser-buy-qty')?.value ?? 1
+    const actor = game.actors.get(this._buyerId)
+    const bought = await SR5Shop.buy(actor, uuid, quantity)
+    if (bought) this.render()
   }
 
   static #onClearFilters() {
