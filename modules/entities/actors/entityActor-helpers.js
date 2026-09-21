@@ -5,6 +5,9 @@ import {
   SR5_EntityHelpers 
 } from "../helpers.js"
 import {
+  isStorable 
+} from "../../interface/storage-rules.js"
+import {
   SR5Combat 
 } from "../../system/srcombat.js"
 import {
@@ -225,6 +228,40 @@ export class SR5_ActorHelper {
     let effect = await _getSRStatusEffect("dead")
     await actor.createEmbeddedDocuments('ActiveEffect', [effect])
     ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.INFO_DamageActorDead")}`)
+    await SR5_ActorHelper.dropSpoilsOnDeath(actor)
+  }
+
+  /**
+   * Leave a bag on the body holding part of what the dead was carrying, each
+   * piece taken or left at random. No rule asks for this, so a table opts in.
+   */
+  static async dropSpoilsOnDeath(actor){
+    if (!game.user?.isGM) return
+    if (!game.settings.get("sr5", "sr5StorageDropOnDeath")) return
+    const share = Number(game.settings.get("sr5", "sr5StorageDropOnDeathShare")) || 0
+    if (share <= 0) return
+
+    const carried = actor.items.filter(i => isStorable(i, null) && !i.system.storedIn)
+    const spoils = carried.filter(() => Math.random() * 100 < share)
+    if (!spoils.length) return
+
+    const bag = {
+      name: game.i18n.format("SR5.StorageSpoilsOf", {
+        actor: actor.name 
+      }),
+      type: "actorStorage",
+      img: "systems/sr5/assets/img/actors/actorStorage.svg",
+      "system.type": "cache",
+      "prototypeToken.width": 0.5,
+      "prototypeToken.height": 0.5,
+      items: spoils.map(i => i.toObject(false)),
+    }
+    const [dropped] = await Actor.createDocuments([foundry.utils.expandObject(bag)])
+    await actor.deleteEmbeddedDocuments("Item", spoils.map(i => i.id))
+    await SR5_ActorHelper.dropStorageAtOwnerFeet(dropped, actor)
+    ui.notifications.info(game.i18n.format("SR5.StorageSpoilsDropped", {
+      actor: actor.name, count: spoils.length 
+    }))
   }
 
   //Handle ko effect
@@ -692,6 +729,9 @@ export class SR5_ActorHelper {
         "system.biography.description": itemData.description,
         "system.creatorId": actorId,
         "system.creatorItemId": item._id,
+        // A bag on the floor takes half a square, not a whole one
+        "prototypeToken.width": 0.5,
+        "prototypeToken.height": 0.5,
         "items": storedItems.map(i => i.toObject(false)),
       })
     }

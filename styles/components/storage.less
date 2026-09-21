@@ -32,6 +32,11 @@
   margin-right: 4px;
   flex: 0 0 auto;
   object-fit: contain;
+  // The system's own item pictures are white drawings, invisible on the light
+  // sheet. A dark disc behind them is what makes them readable at this size.
+  padding: 1px;
+  border-radius: 50%;
+  background: var(--sr-ui-border-color);
 }
 
 .sr-storage-full .sr-storage-head {
@@ -217,5 +222,16 @@
   .sr-storage-list li.item:hover,
   .sr-storage-head:hover {
     background: color-mix(in srgb, var(--sr-ui-border-color) 12%, transparent);
+  }
+}
+
+// Taking something out of a storage is a real action, not an afterthought:
+// the sheet's faint 25 % link colour reads as disabled here.
+.storage-loot,
+.storage-loot-all {
+  color: var(--sr-ui-border-color) !important;
+
+  &:hover {
+    color: var(--sr-text-color-flash) !important;
   }
 }
