@@ -61,6 +61,9 @@
       <div class="sr-browser-shop">
         <i class="fas fa-sm fa-cart-shopping"></i>
         <select data-shop-buyer>
+          {{#unless buyer}}
+          <option value="" selected>{{localize 'SR5.ShopChooseBuyer'}}</option>
+          {{/unless}}
           {{#each buyers}}
           <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
           {{/each}}

@@ -1,4 +1,7 @@
 import {
+  SR5_EntityHelpers 
+} from '../entities/helpers.js'
+import {
   SR5_SystemHelpers 
 } from '../system/utilitySystem.js'
 
@@ -38,6 +41,21 @@ export class SR5Shop {
     return entry.docName === 'Item' && entry.system?.price !== undefined
   }
 
+  /**
+   * What the character can actually spend.
+   *
+   * `system.nuyen.value` is the sum of every transaction, expenses included, so
+   * it is not a balance. The sheet reads its total as gains minus losses (see
+   * `money.hbs`, helpers `gainModifiersSum` / `lossModifiersSum`) and so do we,
+   * otherwise a purchase would look affordable on a spent-out character.
+   */
+  static balance(actor) {
+    const modifiers = actor?.system.nuyen?.modifiers ?? []
+    const gains = SR5_EntityHelpers.modifiersOnlyPositivesSum(modifiers) || 0
+    const losses = SR5_EntityHelpers.modifiersOnlyNegativesSum(modifiers) || 0
+    return gains - losses
+  }
+
   /** Unit price, falling back to the book value when nothing was derived. */
   static unitPrice(system) {
     return Number(system?.price?.value ?? system?.price?.base ?? 0) || 0
@@ -63,7 +81,7 @@ export class SR5Shop {
     const qty = Math.max(1, Math.floor(Number(quantity) || 1))
     const unit = SR5Shop.unitPrice(source.system)
     const total = unit * qty
-    const balance = Number(actor.system.nuyen?.value ?? 0)
+    const balance = SR5Shop.balance(actor)
 
     if (total > balance) {
       ui.notifications.warn(game.i18n.format('SR5.WARN_ShopNotEnoughNuyen', {

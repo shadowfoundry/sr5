@@ -327,6 +327,7 @@
 	"SR5.GelDamageReduction": "Gel Damage Reduction",
 	"SR5.InjectionNetHits": "Injection Net Hits Required",
 	"SR5.ShopBuy": "Buy",
+	"SR5.ShopChooseBuyer": "Who is buying?",
 	"SR5.ShopPurchaseChat": "{actor} buys {name} for {price}¥. Remaining funds: {balance}¥.",
 	"SR5.ShopPurchaseDescription": "Bought from the compendium browser: {name}, for {price}¥.",
 	"SR5.ShopPurchaseDone": "{name} bought for {price}¥.",

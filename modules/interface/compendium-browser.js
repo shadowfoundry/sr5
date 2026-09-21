@@ -283,7 +283,7 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     if (this._buyerId && !buyers.some(a => a.id === this._buyerId)) this._buyerId = null
     if (!this._buyerId) this._buyerId = SR5Shop.defaultBuyerId(buyers)
     const buyer = buyers.find(a => a.id === this._buyerId) || null
-    const buyerFunds = Number(buyer?.system.nuyen?.value ?? 0)
+    const buyerFunds = buyer ? SR5Shop.balance(buyer) : 0
 
     // Paginate
     const lists = SR5_EntityHelpers.sortTranslations(SR5)
