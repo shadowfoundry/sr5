@@ -5,9 +5,34 @@
  * their own, away from a running game.
  */
 
-import {
-  SR5 
-} from '../config.js'
+/**
+ * What a garage costs and asks for, per vehicle (Run Faster p. 216). A garage
+ * is a lifestyle Asset holding a single vehicle, bought again for each one.
+ * `level` is the minimum lifestyle rank, as numbered in _handleLifeStyle().
+ *
+ * It lives here rather than in config.js because that file holds translation
+ * tables, which sortTranslations() walks expecting a string behind every key.
+ */
+export const GARAGE_REQUIREMENTS = {
+  motorcycle: {
+    lifestyle: 'medium', level: 4, points: 1, cost: 50 
+  },
+  carLight: {
+    lifestyle: 'medium', level: 4, points: 1, cost: 50 
+  },
+  carHeavy: {
+    lifestyle: 'medium', level: 4, points: 2, cost: 100 
+  },
+  boat: {
+    lifestyle: 'high', level: 5, points: 3, cost: 5000 
+  },
+  plane: {
+    lifestyle: 'luxury', level: 6, points: 4, cost: 20000 
+  },
+  helicopter: {
+    lifestyle: 'luxury', level: 6, points: 4, cost: 10000 
+  },
+}
 
 // Item types a character can leave behind in a storage.
 export const STORABLE_TYPES = [
@@ -44,7 +69,7 @@ export function isStorable(item, storage) {
  */
 export function garageRequirement(storage) {
   if (storage?.system?.type !== "garage") return null
-  return SR5.storageGarageRequirements[storage.system.vehicleType] ?? null
+  return GARAGE_REQUIREMENTS[storage.system.vehicleType] ?? null
 }
 
 /**

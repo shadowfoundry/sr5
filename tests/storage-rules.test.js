@@ -5,7 +5,7 @@ import {
   SR5
 } from '../modules/config.js'
 import {
-  STORABLE_TYPES, isStorable, garageRequirement, meetsGarageLifestyle,
+  STORABLE_TYPES, GARAGE_REQUIREMENTS, isStorable, garageRequirement, meetsGarageLifestyle,
 } from '../modules/interface/storage-rules.js'
 
 const item = (type, system = {
@@ -126,13 +126,13 @@ describe('the garage rule (Run Faster p. 216)', () => {
   })
 
   it('names a vehicle category the rest of the system knows', () => {
-    for (const vehicle of Object.keys(SR5.storageGarageRequirements)) {
+    for (const vehicle of Object.keys(GARAGE_REQUIREMENTS)) {
       expect(SR5.storageVehicleTypes[vehicle], vehicle).toBeTruthy()
     }
   })
 
   it('names a lifestyle the rest of the system knows', () => {
-    for (const rule of Object.values(SR5.storageGarageRequirements)) {
+    for (const rule of Object.values(GARAGE_REQUIREMENTS)) {
       expect(SR5.lifestyleTypes[rule.lifestyle], rule.lifestyle).toBeTruthy()
     }
   })
