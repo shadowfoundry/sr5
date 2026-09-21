@@ -26,6 +26,31 @@ export class SR5ShopAvailability {
     human: 6, elf: 8, dwarf: 6, ork: 5, troll: 4,
   }
 
+  /**
+   * What a surcharge buys, SR5 p. 420: "pour chaque tranche de 25 % du prix de
+   * l'objet que l'acheteur est prêt à payer en plus, il gagne un dé
+   * supplémentaire", up to +12 dice. Both figures are settings: a table that
+   * finds money too persuasive, or not enough, moves them.
+   * @returns {{step: number, max: number}} percentage per die, and the cap
+   *   (0 meaning none)
+   */
+  static get surchargeRules() {
+    const step = Math.max(1, Number(game.settings.get('sr5', 'sr5ShopSurchargePerDie')) || 25)
+    const max = Math.max(0, Math.floor(Number(game.settings.get('sr5', 'sr5ShopMaxSurchargeDice')) || 0))
+    return {
+      step, max 
+    }
+  }
+
+  /** How many dice a given surcharge buys. */
+  static surchargeDice(surcharge) {
+    const {
+      step, max 
+    } = SR5ShopAvailability.surchargeRules
+    const dice = Math.floor(Math.max(0, surcharge) / step)
+    return max ? Math.min(max, dice) : dice
+  }
+
   /** Search times, SR5 p. 420 (table Délais de recherche). */
   static DELAYS = [
     {
@@ -236,9 +261,7 @@ export class SR5ShopAvailability {
 
     const searcher = contact ? SR5ShopAvailability.contactPool(contact) : SR5ShopAvailability.buyerPool(actor)
 
-    // "pour chaque tranche de 25 % du prix de l'objet que l'acheteur est prêt
-    // à payer en plus, il gagne un dé supplémentaire", up to +12 (SR5 p. 420)
-    const bonusDice = Math.min(12, Math.floor(Math.max(0, surcharge) / 25))
+    const bonusDice = SR5ShopAvailability.surchargeDice(surcharge)
     const override = Math.max(0, Math.floor(Number(options.overridePool) || 0))
     const basePool = override || searcher.pool
     const pool = Math.max(0, basePool + bonusDice)

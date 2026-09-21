@@ -361,9 +361,18 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     context.overridePool = this._overridePool || ''
     context.overrideLimit = this._overrideLimit || ''
     context.surcharge = this._surcharge
-    context.surchargeChoices = [0, 25, 50, 75, 100, 150, 200, 300].map(value => ({
+    // The offer ladder follows the configured cost of a die, up to the cap:
+    // a table that sells dice at 10 % gets a ladder in tens.
+    const {
+      step, max 
+    } = SR5ShopAvailability.surchargeRules
+    const steps = max || 12
+    const ladder = [0]
+    for (let i = 1; i <= steps; i++) ladder.push(step * i)
+    if (!ladder.includes(this._surcharge)) ladder.push(this._surcharge)
+    context.surchargeChoices = ladder.sort((a, b) => a - b).map(value => ({
       value,
-      label: value ? `+${value}%` : '—',
+      label: value ? `+${value}% (+${SR5ShopAvailability.surchargeDice(value)})` : '—',
       selected: value === this._surcharge,
     }))
     context.creationMode = creationMode

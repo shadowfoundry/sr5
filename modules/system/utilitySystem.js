@@ -63,6 +63,27 @@ export class SR5_SystemHelpers {
       type: Boolean,
     })
 
+    // What a bonus die costs on an availability test. SR5 p. 420 sells one
+    // die per 25 % of the price, up to +12 (four times the price); both are
+    // values a table may want to move.
+    game.settings.register("sr5", "sr5ShopSurchargePerDie", {
+      name: "SR5.SETTINGS_ShopSurchargePerDie_T",
+      hint: "SR5.SETTINGS_ShopSurchargePerDie_D",
+      scope: "world",
+      config: true,
+      default: 25,
+      type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopMaxSurchargeDice", {
+      name: "SR5.SETTINGS_ShopMaxSurchargeDice_T",
+      hint: "SR5.SETTINGS_ShopMaxSurchargeDice_D",
+      scope: "world",
+      config: true,
+      default: 12,
+      type: Number,
+    })
+
     // Which contact types deal in goods, for the Bargaining specialization
     // on availability tests. Free text on the contact sheet, so this is a
     // keyword list the table can edit.
