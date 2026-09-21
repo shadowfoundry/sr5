@@ -56,6 +56,10 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       clearFilters: SR5CompendiumBrowser.#onClearFilters,
       refreshIndex: SR5CompendiumBrowser.#onRefreshIndex,
       buyItem: SR5CompendiumBrowser.#onBuyItem,
+      addToCart: SR5CompendiumBrowser.#onAddToCart,
+      removeFromCart: SR5CompendiumBrowser.#onRemoveFromCart,
+      clearCart: SR5CompendiumBrowser.#onClearCart,
+      checkoutCart: SR5CompendiumBrowser.#onCheckoutCart,
     },
   }
 
@@ -78,6 +82,8 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     this._page = 0
     this._pageSize = 100
     this._buyerId = null
+    // Shopping list, kept while the window lives: [{uuid, name, img, quantity}]
+    this._cart = []
   }
 
   /* -------------------------------------------- */
@@ -313,6 +319,25 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     context.buyers = buyers.map(a => ({
       id: a.id, name: a.name, selected: a.id === this._buyerId 
     }))
+    // The cart is priced from the compendium, not from what it was added at:
+    // a line whose source has gone stays visible, at zero, rather than lying.
+    const cartLines = []
+    let cartTotal = 0
+    for (const line of this._cart) {
+      const entry = allEntries.find(e => e.uuid === line.uuid)
+      const unit = entry?.system ? SR5Shop.unitPrice(entry.system) : line.unit ?? 0
+      const total = unit * line.quantity
+      cartTotal += total
+      cartLines.push({
+        ...line, unit, total, totalLabel: `${total.toLocaleString()}¥` 
+      })
+    }
+    context.cart = cartLines
+    context.cartCount = cartLines.length
+    context.cartTotal = cartTotal
+    context.cartTotalLabel = `${cartTotal.toLocaleString()}¥`
+    context.cartAffordable = creationMode || cartTotal <= buyerFunds
+    context.canCheckout = buyer !== null && cartLines.length > 0
     context.creationMode = creationMode
     context.buyer = buyer ? {
       id: buyer.id, name: buyer.name, funds: buyerFunds.toLocaleString() 
@@ -394,6 +419,18 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
       })
     })
 
+    // Quantity fields inside the cart panel
+    el.querySelectorAll('.sr-browser-cart-qty').forEach(input => {
+      input.addEventListener('change', (event) => {
+        const uuid = event.target.closest('[data-uuid]')?.dataset.uuid
+        const line = this._cart.find(l => l.uuid === uuid)
+        if (!line) return
+        line.quantity = Math.max(1, Math.floor(Number(event.target.value) || 1))
+        this.render()
+      })
+      input.addEventListener('click', (event) => event.stopPropagation())
+    })
+
     // The quantity field sits inside a row that opens the sheet when clicked
     el.querySelectorAll('.sr-browser-buy-qty').forEach(input => {
       input.addEventListener('click', (event) => event.stopPropagation())
@@ -464,12 +501,59 @@ export class SR5CompendiumBrowser extends foundry.applications.api.HandlebarsApp
     if (doc) doc.sheet.render(true)
   }
 
+  /** Read the quantity field of the row an action was fired from. */
+  static #rowQuantity(row) {
+    return Math.max(1, Math.floor(Number(row?.querySelector('.sr-browser-buy-qty')?.value) || 1))
+  }
+
+  static async #onAddToCart(event, target) {
+    event.stopPropagation()
+    const row = target.closest('[data-uuid]')
+    const uuid = row?.dataset.uuid
+    if (!uuid) return
+    const quantity = SR5CompendiumBrowser.#rowQuantity(row)
+    const existing = this._cart.find(line => line.uuid === uuid)
+    if (existing) {
+      existing.quantity += quantity
+    } else {
+      this._cart.push({
+        uuid,
+        quantity,
+        name: row.querySelector('.sr-browser-result-name')?.textContent.trim() ?? uuid,
+        img: row.querySelector('.sr-browser-result-img')?.getAttribute('src') ?? '',
+      })
+    }
+    this._cartOpen = true
+    this.render()
+  }
+
+  static #onRemoveFromCart(event, target) {
+    event.stopPropagation()
+    const uuid = target.closest('[data-uuid]')?.dataset.uuid
+    this._cart = this._cart.filter(line => line.uuid !== uuid)
+    this.render()
+  }
+
+  static #onClearCart() {
+    this._cart = []
+    this.render()
+  }
+
+  static async #onCheckoutCart() {
+    const actor = game.actors.get(this._buyerId)
+    const bought = await SR5Shop.checkout(actor, this._cart.map(line => ({
+      uuid: line.uuid, quantity: line.quantity, name: line.name 
+    })))
+    if (bought) this._cart = []
+    this.render()
+  }
+
   static async #onBuyItem(event, target) {
     event.stopPropagation()
     const row = target.closest('[data-uuid]')
     const uuid = row?.dataset.uuid
     if (!uuid) return
-    const quantity = row.querySelector('.sr-browser-buy-qty')?.value ?? 1
+    const quantity = SR5CompendiumBrowser.#rowQuantity(row)
     const actor = game.actors.get(this._buyerId)
     const bought = await SR5Shop.buy(actor, uuid, quantity)
     if (bought) this.render()

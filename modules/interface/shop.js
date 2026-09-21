@@ -74,11 +74,43 @@ export class SR5Shop {
   }
 
   /**
-   * Add `quantity` of the item at `uuid` to `actor`, charging for it unless
-   * creation mode is on.
-   * @returns {Promise<boolean>} whether the item was added
+   * The documents to create for `quantity` of `source`.
+   *
+   * Types that carry their own quantity become one stack; the others are
+   * created as that many separate items.
    */
-  static async buy(actor, uuid, quantity = 1) {
+  static _itemPayload(source, quantity) {
+    const itemData = source.toObject()
+    delete itemData._id
+    const stackable = SR5Shop.STACKABLE_TYPES.includes(itemData.type) &&
+      itemData.system.quantity !== undefined
+    if (stackable) {
+      itemData.system.quantity = quantity
+      return [itemData]
+    }
+    const payload = []
+    for (let i = 0; i < quantity; i++) payload.push(foundry.utils.deepClone(itemData))
+    return payload
+  }
+
+  /** `Nom (x3)` when there is more than one. */
+  static lineLabel(name, quantity) {
+    return quantity > 1 ? `${name} (x${quantity})` : name
+  }
+
+  /**
+   * Hand `lines` over to `actor` and charge for the lot in one transaction.
+   *
+   * Everything goes through here — a single buy button is a checkout of one
+   * line — so the cart, the buy button and a purchase confirmed by an
+   * availability test all write the same two things: the gear, and one
+   * `itemNuyen` of type `loss` carrying the total.
+   *
+   * @param {Actor} actor
+   * @param {Array<{uuid: string, quantity: number}>} lines
+   * @returns {Promise<boolean>} whether the gear was added
+   */
+  static async checkout(actor, lines) {
     if (!actor) {
       ui.notifications.warn(game.i18n.localize('SR5.WARN_ShopNoBuyer'))
       return false
@@ -87,13 +119,28 @@ export class SR5Shop {
       ui.notifications.warn(game.i18n.localize('SR5.WARN_ShopNotOwner'))
       return false
     }
+    if (!lines?.length) return false
 
-    const source = await fromUuid(uuid)
-    if (!source) return false
+    // A line whose source has vanished from its compendium is dropped rather
+    // than silently charged for.
+    const resolved = []
+    for (const line of lines) {
+      const source = await fromUuid(line.uuid)
+      if (!source) {
+        ui.notifications.warn(game.i18n.format('SR5.WARN_ShopItemGone', {
+          name: line.name ?? line.uuid 
+        }))
+        continue
+      }
+      const quantity = Math.max(1, Math.floor(Number(line.quantity) || 1))
+      const unit = SR5Shop.unitPrice(source.system)
+      resolved.push({
+        source, quantity, unit, total: unit * quantity 
+      })
+    }
+    if (!resolved.length) return false
 
-    const qty = Math.max(1, Math.floor(Number(quantity) || 1))
-    const unit = SR5Shop.unitPrice(source.system)
-    const total = unit * qty
+    const total = resolved.reduce((sum, line) => sum + line.total, 0)
     const balance = SR5Shop.balance(actor)
     const free = SR5Shop.creationMode
 
@@ -106,19 +153,16 @@ export class SR5Shop {
       return false
     }
 
-    const itemData = source.toObject()
-    delete itemData._id
-    const stackable = SR5Shop.STACKABLE_TYPES.includes(itemData.type) &&
-      itemData.system.quantity !== undefined
     const payload = []
-    if (stackable) {
-      itemData.system.quantity = qty
-      payload.push(itemData)
-    } else {
-      for (let i = 0; i < qty; i++) payload.push(foundry.utils.deepClone(itemData))
-    }
+    for (const line of resolved) payload.push(...SR5Shop._itemPayload(line.source, line.quantity))
 
-    const label = qty > 1 ? `${source.name} (x${qty})` : source.name
+    const labels = resolved.map(line => SR5Shop.lineLabel(line.source.name, line.quantity))
+    const label = labels.length === 1 ?
+      labels[0] :
+      game.i18n.format('SR5.ShopPurchaseLines', {
+        count: labels.length 
+      })
+
     if (!free) payload.push({
       name: game.i18n.format('SR5.ShopPurchaseOf', {
         name: label 
@@ -130,7 +174,7 @@ export class SR5Shop {
         type: 'loss',
         date: new Date().toISOString().slice(0, 10),
         description: game.i18n.format('SR5.ShopPurchaseDescription', {
-          name: label, price: total.toLocaleString() 
+          name: labels.join(', '), price: total.toLocaleString() 
         }),
       },
     })
@@ -140,6 +184,9 @@ export class SR5Shop {
 
     // Creation mode charges nothing, so it says nothing to the table either.
     if (!free) {
+      const rows = resolved.map(line =>
+        `<li>${SR5Shop.lineLabel(line.source.name, line.quantity)} — ${line.total.toLocaleString()}&yen;</li>`).join('')
+      const detail = resolved.length > 1 ? `<ul>${rows}</ul>` : ''
       await foundry.documents.ChatMessage.create({
         speaker: foundry.documents.ChatMessage.getSpeaker({
           actor 
@@ -149,7 +196,7 @@ export class SR5Shop {
           name: label,
           price: total.toLocaleString(),
           balance: (balance - total).toLocaleString(),
-        })}</p>`,
+        })}</p>${detail}`,
       })
     }
 
@@ -161,5 +208,12 @@ export class SR5Shop {
         name: label, price: total.toLocaleString() 
       }))
     return true
+  }
+
+  /** Buy a single line — the buy button on a result row. */
+  static async buy(actor, uuid, quantity = 1) {
+    return SR5Shop.checkout(actor, [{
+      uuid, quantity 
+    }])
   }
 }

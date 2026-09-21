@@ -112,9 +112,13 @@
         {{#if this.canBuy}}
         <div class="sr-browser-result-buy">
           <input type="number" class="sr-browser-buy-qty" min="1" value="1" aria-label="{{localize 'SR5.Quantity'}}">
+          <button type="button" data-action="addToCart" class="sr-browser-cart-add"
+                  data-tooltip="{{localize 'SR5.ShopAddToCart'}}">
+            <i class="fas fa-sm fa-cart-plus"></i>
+          </button>
           <button type="button" data-action="buyItem" class="{{#if this.tooExpensive}}too-expensive{{/if}}"
                   data-tooltip="{{localize 'SR5.ShopBuy'}}">
-            <i class="fas fa-sm fa-cart-plus"></i>
+            <i class="fas fa-sm fa-coins"></i>
             <span>{{this.priceLabel}}</span>
           </button>
         </div>
@@ -126,6 +130,40 @@
       </li>
       {{/each}}
     </ul>
+
+    {{#if cartCount}}
+    <section class="sr-browser-cart">
+      <header>
+        <i class="fas fa-sm fa-cart-shopping"></i>
+        <span>{{localize 'SR5.ShopCart'}} ({{cartCount}})</span>
+        <span class="sr-browser-cart-total {{#unless cartAffordable}}too-expensive{{/unless}}">{{cartTotalLabel}}</span>
+        <button type="button" data-action="clearCart" data-tooltip="{{localize 'SR5.ShopClearCart'}}">
+          <i class="fas fa-sm fa-trash"></i>
+        </button>
+      </header>
+      <ul class="sr-browser-cart-list">
+        {{#each cart}}
+        <li class="sr-browser-cart-line" data-uuid="{{this.uuid}}">
+          <img src="{{this.img}}" alt="">
+          <span class="sr-browser-cart-name">{{this.name}}</span>
+          <input type="number" class="sr-browser-cart-qty" min="1" value="{{this.quantity}}"
+                 aria-label="{{localize 'SR5.Quantity'}}">
+          <span class="sr-browser-cart-price">{{this.totalLabel}}</span>
+          <button type="button" data-action="removeFromCart" data-tooltip="{{localize 'SR5.ShopRemoveFromCart'}}">
+            <i class="fas fa-sm fa-xmark"></i>
+          </button>
+        </li>
+        {{/each}}
+      </ul>
+      <footer>
+        <button type="button" data-action="checkoutCart" {{#unless canCheckout}}disabled{{/unless}}
+                class="{{#unless cartAffordable}}too-expensive{{/unless}}">
+          <i class="fas fa-sm fa-receipt"></i>
+          {{#if creationMode}}{{localize 'SR5.ShopCheckoutFree'}}{{else}}{{localize 'SR5.ShopCheckout'}}{{/if}}
+        </button>
+      </footer>
+    </section>
+    {{/if}}
 
     {{#if hasMore}}
     <footer class="sr-browser-footer">

@@ -470,4 +470,111 @@
       }
     }
   }
+
+  .sr-browser-cart {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 220px;
+    border-top: 1px solid color-mix(in srgb, var(--sr-text-color-light) 20%, transparent);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+
+    > header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      font-family: var(--sr-font-title);
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+
+      .sr-browser-cart-total {
+        margin-left: auto;
+
+        &.too-expensive {
+          color: var(--sr-ui-color-alert, #d9534f);
+        }
+      }
+
+      button {
+        .sr-button-footer();
+        width: auto !important;
+        height: auto !important;
+        min-height: unset !important;
+        padding: 2px 6px !important;
+      }
+    }
+
+    > footer {
+      padding: 6px 8px;
+
+      button {
+        .sr-button-footer();
+        width: 100%;
+        height: auto !important;
+        min-height: unset !important;
+        padding: 4px 8px !important;
+        font-size: 11px;
+
+        &.too-expensive {
+          opacity: 0.55;
+        }
+      }
+    }
+  }
+
+  .sr-browser-cart-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .sr-browser-cart-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      border: none;
+      flex-shrink: 0;
+    }
+
+    .sr-browser-cart-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sr-browser-cart-price {
+      white-space: nowrap;
+    }
+
+    input[type="number"].sr-browser-cart-qty {
+      width: 38px;
+      height: 20px;
+      text-align: center;
+      font-size: var(--sr-font-size-small);
+      font-family: var(--sr-font-body);
+      background: none !important;
+      border: none !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+      color: var(--sr-text-color-light) !important;
+    }
+
+    button {
+      .sr-button-footer();
+      width: auto !important;
+      height: auto !important;
+      min-height: unset !important;
+      padding: 1px 5px !important;
+    }
+  }
 }
