@@ -1,0 +1,21 @@
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.StorageType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.type" data-dtype="String" required>
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.storageTypes selected=system.type localize=true}}
+        </select>
+    </div>
+</li>
+
+{{#if (eq system.type "garage")}}
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.StorageVehicleType'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.vehicleType" data-dtype="String">
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
+            {{selectOptions lists.storageVehicleTypes selected=system.vehicleType localize=true}}
+        </select>
+    </div>
+</li>
+{{/if}}
