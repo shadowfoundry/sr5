@@ -131,6 +131,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     const traditions = []
     const rituals = []
     const reputations = []
+    const storages = []
 
     // Iterate through items, allocating to containers
     for (let i of actor.items) {
@@ -161,6 +162,7 @@ export class SR5ActorSheet extends ActorSheetSR5 {
       }
       else if (i.type === "itemContact") contacts.push(i)
       else if (i.type === "itemLifestyle") lifestyles.push(i)
+      else if (i.type === "itemStorage") storages.push(i)
       else if (i.type === "itemSin") sins.push(i)
       else if (i.type === "itemVehicle") vehicles.push(i)
       else if (i.type === "itemVehicleMod") vehiclesMod.push(i)
@@ -215,6 +217,36 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.traditions = traditions
     actor.rituals = rituals
     actor.reputations = reputations
+    actor.storages = this._prepareStorages(actor, storages)
+  }
+
+  /**
+   * Build the view model for the Storage tab: each storage with what sits
+   * inside it. Stored items are left in their usual lists on purpose — being
+   * stored does not yet take an item out of play.
+   */
+  _prepareStorages(actor, storages) {
+    const stored = actor.items.filter(i => i.system?.storedIn)
+    return storages
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(storage => {
+        const contents = stored
+          .filter(i => i.system.storedIn === storage._id)
+          .sort((a, b) => a.name.localeCompare(b.name))
+        const max = storage.system.capacity.value
+        return {
+          _id: storage._id,
+          name: storage.name,
+          img: storage.img,
+          type: storage.system.type,
+          isDeployable: storage.system.isDeployable,
+          contents: contents,
+          used: contents.length,
+          max: max,
+          hasLimit: max > 0,
+          isFull: max > 0 && contents.length >= max,
+        }
+      })
   }
 
   /** @override */

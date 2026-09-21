@@ -196,6 +196,8 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
     context.items.sort((a, b) => (a.sort || 0) - (b.sort || 0))
 
+    context.storageViewIsGrid = game.settings.get("sr5", "sr5StorageViewMode") !== "list"
+
     // Compute dynamic layout (SR6-style panel/tab/block system)
     context.layout = this._computeSheetLayout(this.actor)
 
@@ -371,6 +373,10 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     on(".sidekickDestroy", "click", this._OnSidekickDestroy.bind(this))
     // Dismiss Actor
     on(".dismissActor", "click", this._OnDismissActor.bind(this))
+    // Storage tab
+    on(".storage-view-toggle", "click", this._onStorageViewToggle.bind(this))
+    on(".storage-put-in", "click", this._onStoragePutIn.bind(this))
+    on(".storage-take-out", "click", this._onStorageTakeOut.bind(this))
     // Switch vision
     on(".vision-switch", "click", this._onVisionSwitch.bind(this))
     // Switch initiatives
@@ -1737,6 +1743,105 @@ export class ActorSheetSR5 extends foundry.applications.api.HandlebarsApplicatio
     }
 
   }
+
+  /* -------------------------------------------- */
+  /*  Storage tab                                 */
+  /* -------------------------------------------- */
+
+  // Item types a character can leave behind in a storage.
+  static STORABLE_TYPES = [
+    "itemGear", "itemWeapon", "itemArmor", "itemAmmunition",
+    "itemDevice", "itemDrug", "itemFocus", "itemVehicle",
+  ]
+
+  // Switch between icons in cells and one detailed row per item.
+  async _onStorageViewToggle(event) {
+    event.preventDefault()
+    const current = game.settings.get("sr5", "sr5StorageViewMode")
+    await game.settings.set("sr5", "sr5StorageViewMode", current === "list" ? "grid" : "list")
+    this.render()
+  }	/* -------------------------------------------- */
+
+  // Put one or more carried items into a storage.
+  async _onStoragePutIn(event) {
+    event.preventDefault()
+    const storageId = event.currentTarget.dataset.storageId
+    const storage = this.actor.items.get(storageId)
+    if (!storage) return
+
+    const candidates = this.actor.items
+      .filter(i => ActorSheetSR5.STORABLE_TYPES.includes(i.type) && !i.system.storedIn)
+      .sort((a, b) => a.name.localeCompare(b.name))
+    if (!candidates.length) {
+      return ui.notifications.info(game.i18n.localize("SR5.WARN_StorageNothingToStore"))
+    }
+
+    const max = storage.system.capacity.value
+    const used = this.actor.items.filter(i => i.system?.storedIn === storageId).length
+    const room = max > 0 ? max - used : Infinity
+    if (room <= 0) {
+      return ui.notifications.warn(game.i18n.format("SR5.WARN_StorageFull", {
+        storage: storage.name 
+      }))
+    }
+
+    const content = await foundry.applications.handlebars.renderTemplate(
+      "systems/sr5/templates/interface/storage-put-in.hbs", {
+        storageName: storage.name,
+        items: candidates.map(i => i.toObject(false)),
+      })
+    const result = await foundry.applications.api.DialogV2.wait({
+      window: {
+        title: game.i18n.format("SR5.StoragePutInTitle", {
+          storage: storage.name 
+        }) 
+      },
+      content: content,
+      buttons: [
+        {
+          action: "ok",
+          label: game.i18n.localize("SR5.StoragePutIn"),
+          default: true,
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
+        },
+        {
+          action: "cancel",
+          label: game.i18n.localize("Cancel"),
+          callback: () => ({
+            action: "cancel" 
+          }),
+        },
+      ],
+      rejectClose: false,
+    })
+    if (!result || result.action !== "ok") return
+
+    const chosen = [...result.element.querySelectorAll("[name=storedItem]:checked")].map(i => i.value)
+    if (!chosen.length) return
+    if (chosen.length > room) {
+      return ui.notifications.warn(game.i18n.format("SR5.WARN_StorageNotEnoughRoom", {
+        storage: storage.name, room: room 
+      }))
+    }
+
+    await this.actor.updateEmbeddedDocuments("Item", chosen.map(id => ({
+      _id: id, "system.storedIn": storageId 
+    })))
+  }	/* -------------------------------------------- */
+
+  // Take an item back out of its storage.
+  async _onStorageTakeOut(event) {
+    event.preventDefault()
+    event.stopPropagation()
+    const itemId = event.currentTarget.dataset.itemId
+    const item = this.actor.items.get(itemId)
+    if (!item) return
+    await item.update({
+      "system.storedIn": "" 
+    })
+  }	/* -------------------------------------------- */
 
   //Handle the creation of a 'side kick'
   async _OnSidekickCreate(event){

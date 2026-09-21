@@ -80,6 +80,9 @@ function _characterDefaultLayout() {
         _tab('Gear', 'gear', [
           _block('variousGear'), _block('vehicles'), _block('money'),
         ]),
+        _tab('Storage', 'storage', [
+          _block('storages'),
+        ]),
         _tab('Augmentations', 'augmentation', [
           _block('augmentations'), _block('externalEffects'),
         ]),

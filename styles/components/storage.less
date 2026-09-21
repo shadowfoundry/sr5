@@ -1,0 +1,149 @@
+// Storage tab: a place to leave gear behind, shown either as icons in cells
+// (like a game inventory) or as one detailed row per item.
+.sr-storage {
+  margin-bottom: 8px;
+
+  .sr-storage-head {
+    align-items: center;
+  }
+
+  .sr-storage-icon {
+    width: 18px;
+    height: 18px;
+    border: none;
+    vertical-align: middle;
+    margin-right: 4px;
+    object-fit: contain;
+  }
+}
+
+.sr-storage-full .sr-storage-head {
+  color: var(--sr-ui-pop-color);
+}
+
+.sr-storage-empty {
+  font-style: italic;
+  font-size: var(--sr-font-size-small);
+  margin: 4px 0 4px 6px;
+}
+
+.sr-storage-actions {
+  margin: 2px 0 6px 6px;
+  font-size: var(--sr-font-size-small);
+}
+
+// ---- Cells ----
+.sr-storage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 6px;
+  padding: 6px;
+}
+
+.sr-storage-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 2px;
+  // Same subtle surface as the other boxes on the sheet: the sheet content is
+  // light, so --sr-ui-bg-color (a dark red) would fight with the text.
+  border: 1px solid color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+  background: color-mix(in srgb, var(--sr-ui-border-color) 5%, transparent);
+  cursor: pointer;
+
+  &:hover {
+    border-color: var(--sr-ui-border-color);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 12%, transparent);
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+    border: none;
+    object-fit: contain;
+  }
+
+  .sr-storage-name {
+    margin-top: 2px;
+    font-size: var(--sr-font-size-sheet-tag);
+    line-height: 1.1;
+    text-align: center;
+    // Keep a cell one line tall whatever the item is called
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .sr-storage-quantity {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    min-width: 14px;
+    padding: 0 3px;
+    font-size: var(--sr-font-size-sheet-tag);
+    text-align: center;
+    // Light text on the dark badge: the sheet's default text colour is nearly
+    // black and was invisible here.
+    color: var(--sr-text-color-light);
+    background: var(--sr-ui-border-color);
+    border: 1px solid var(--sr-ui-border-color);
+  }
+
+  .storage-take-out {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    opacity: 0;
+  }
+
+  &:hover .storage-take-out {
+    opacity: 1;
+  }
+}
+
+// ---- List ----
+.sr-storage-list {
+  .sr-storage-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// ---- "Put an item in" dialog ----
+.sr-storage-choice {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+
+  li {
+    padding: 1px 0;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+
+  img {
+    width: 22px;
+    height: 22px;
+    border: none;
+    object-fit: contain;
+  }
+
+  .sr-storage-choice-name {
+    flex: 1 1 auto;
+  }
+
+  .sr-storage-choice-type {
+    flex: 0 0 auto;
+    font-size: var(--sr-font-size-small);
+    opacity: 0.75;
+  }
+}

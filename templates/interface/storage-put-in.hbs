@@ -1,0 +1,15 @@
+<form>
+	<p class="notes">{{localize 'SR5.StoragePutInHint' storage=storageName}}</p>
+	<ul class="sr-storage-choice">
+		{{#each items as |item|}}
+		<li>
+			<label>
+				<input type="checkbox" name="storedItem" value="{{item._id}}" />
+				<img src="{{item.img}}" alt="" />
+				<span class="sr-storage-choice-name">{{item.name}}</span>
+				<span class="sr-storage-choice-type">{{findTranslation 'itemTypes' item.type}}</span>
+			</label>
+		</li>
+		{{/each}}
+	</ul>
+</form>

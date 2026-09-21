@@ -1,0 +1,100 @@
+<!-- STORAGES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-9 SR-TextUppercase">{{localize 'SR5.Storages'}}</div>
+			<div class="col-2 SR-TextRight">
+				<a class="storage-view-toggle" data-title="{{#if storageViewIsGrid}}{{localize 'SR5.StorageViewList'}}{{else}}{{localize 'SR5.StorageViewGrid'}}{{/if}}">
+					<em class="fas fa-sm {{#if storageViewIsGrid}}fa-list{{else}}fa-th-large{{/if}}"></em>
+				</a>
+			</div>
+			<div class="col-1">
+				{{#if owner}}
+				<p class="SR-TextRight add-item" data-helpTitle="{{localize 'SR5.HELP_ItemAdd' key=(findTranslation 'itemTypes' 'itemStorage')}}"
+				  data-helpMessage="{{localize 'SR5.HELP_ItemAddMsg'}}">
+					<a class="item-create" data-title="{{localize 'SR5.Add'}}" data-type="itemStorage"><em class="fas fa-plus"></em></a>
+				</p>
+				{{/if}}
+			</div>
+		</li>
+	</ul>
+
+	{{#each actor.storages as |storage|}}
+	<div class="sr-storage {{#if storage.isFull}}sr-storage-full{{/if}}" data-storage-id="{{storage._id}}">
+		<ul>
+			<li class="item grid sr-storage-head" data-item-id="{{storage._id}}" draggable="true">
+				<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+					<img class="sr-storage-icon" src="{{storage.img}}" alt="" />
+					{{storage.name}}
+				</div>
+				<div class="col-3 SR-TextCenter SR-GreyColor">{{findTranslation 'storageTypes' storage.type}}</div>
+				<div class="col-2 SR-TextCenter">
+					{{#if storage.hasLimit}}{{storage.used}} / {{storage.max}}{{else}}{{storage.used}}{{/if}}
+				</div>
+				<div class="col-1 grid SR-TextRight">
+					{{#if ../owner}}
+					<a data-helpTitle="{{localize 'SR5.HELP_ItemManagement' key=storage.name}}" data-helpMessage="{{localize 'SR5.HELP_ItemManagementMsg'}}">
+						<em class="fas fa-sm fa-edit item-management"></em>
+					</a>
+					{{/if}}
+				</div>
+			</li>
+		</ul>
+
+		{{#if storage.contents.length}}
+			{{#if ../storageViewIsGrid}}
+			<!-- Grid: icons in cells, like a game inventory -->
+			<div class="sr-storage-grid">
+				{{#each storage.contents as |content|}}
+				<div class="item sr-storage-cell" data-item-id="{{content._id}}" draggable="true" data-title="{{content.name}}">
+					<img src="{{content.img}}" alt="" />
+					{{#if (gt content.system.quantity 1)}}
+					<span class="sr-storage-quantity">{{content.system.quantity}}</span>
+					{{/if}}
+					<span class="sr-storage-name">{{content.name}}</span>
+					{{#if ../../owner}}
+					<a class="storage-take-out" data-item-id="{{content._id}}" data-title="{{localize 'SR5.StorageTakeOut'}}">
+						<em class="fas fa-xs fa-times"></em>
+					</a>
+					{{/if}}
+				</div>
+				{{/each}}
+			</div>
+			{{else}}
+			<!-- List: one detailed row per item -->
+			<ul class="sr-storage-list">
+				{{#each storage.contents as |content|}}
+				<li class="item grid" data-item-id="{{content._id}}" draggable="true">
+					<div class="col-8 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+						<img class="sr-storage-icon" src="{{content.img}}" alt="" />
+						{{content.name}}
+					</div>
+					<div class="col-2 SR-TextCenter SR-GreyColor">{{findTranslation 'itemTypes' content.type}}</div>
+					<div class="col-1 SR-TextCenter">{{valueOrDash content.system.quantity}}</div>
+					<div class="col-1 grid SR-TextRight">
+						{{#if ../../owner}}
+						<a class="storage-take-out" data-item-id="{{content._id}}" data-title="{{localize 'SR5.StorageTakeOut'}}">
+							<em class="fas fa-sm fa-times"></em>
+						</a>
+						{{/if}}
+					</div>
+				</li>
+				{{/each}}
+			</ul>
+			{{/if}}
+		{{else}}
+		<p class="sr-storage-empty SR-GreyColor">{{localize 'SR5.StorageEmpty'}}</p>
+		{{/if}}
+
+		{{#if ../owner}}
+		<p class="sr-storage-actions">
+			<a class="storage-put-in" data-storage-id="{{storage._id}}">
+				<em class="fas fa-sm fa-plus"></em> {{localize 'SR5.StoragePutIn'}}
+			</a>
+		</p>
+		{{/if}}
+	</div>
+	{{else}}
+	<p class="sr-storage-empty SR-GreyColor">{{localize 'SR5.StorageNone'}}</p>
+	{{/each}}
+</div>

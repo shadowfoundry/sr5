@@ -16,6 +16,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/assets/img/icons/nav-deck.svg",
     "systems/sr5/assets/img/icons/nav-derived.svg",
     "systems/sr5/assets/img/icons/nav-gear.svg",
+    "systems/sr5/assets/img/icons/nav-storage.svg",
     "systems/sr5/assets/img/icons/nav-information.svg",
     "systems/sr5/assets/img/icons/nav-magic.svg",
     "systems/sr5/assets/img/icons/nav-matrix.svg",
@@ -152,6 +153,8 @@ export const preloadHandlebarsTemplates = async function () {
     //Right Tab - Gear partials
     "systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.hbs",
     "systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.hbs",
+    "systems/sr5/templates/actors/_partials/right-tabs/storage/storages.hbs",
+    "systems/sr5/templates/interface/storage-put-in.hbs",
     "systems/sr5/templates/actors/_partials/right-tabs/gear/money.hbs",
 
     //Right Tab - Augmentations partials

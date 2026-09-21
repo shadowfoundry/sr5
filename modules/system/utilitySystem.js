@@ -52,6 +52,17 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Storage tab: icons in cells, or one detailed row per item. Each player
+    // picks their own and it is remembered.
+    game.settings.register("sr5", "sr5StorageViewMode", {
+      name: "SR5.SETTINGS_StorageViewMode_T",
+      hint: "SR5.SETTINGS_StorageViewMode_D",
+      scope: "client",
+      config: false,
+      default: "grid",
+      type: String,
+    })
+
     // Display Help Window
     game.settings.register("sr5", "sr5Help.active", {
       name: "SR5.SETTINGS_HelpActive_T",
