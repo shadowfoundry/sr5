@@ -3259,6 +3259,7 @@
 	"SR5.GearIsIntangibleHint": "A contract, a licence, a subscription… owned, but not a thing you can put away.",
 	"SR5.StorageValue": "Value",
 	"SR5.StorageContents": "Contents",
+	"SR5.StoredIn": "stored in {storage}",
 	"SR5.StorageNew": "New storage",
 	"SR5.Storage": "Storage",
 	"SR5.Storages": "Storages",

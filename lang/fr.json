@@ -3259,6 +3259,7 @@
 	"SR5.GearIsIntangibleHint": "Contrat, licence, abonnement… Un bien que l'on possède sans pouvoir le ranger quelque part.",
 	"SR5.StorageValue": "Valeur",
 	"SR5.StorageContents": "Contenu",
+	"SR5.StoredIn": "rangé dans {storage}",
 	"SR5.StorageNew": "Nouveau stockage",
 	"SR5.Storage": "Stockage",
 	"SR5.Storages": "Stockages",

@@ -170,3 +170,14 @@
     opacity: 0.75;
   }
 }
+
+// A row in the ownership lists (gear, vehicles, augmentations) whose item is
+// sitting in a storage: still listed, plainly out of reach.
+.sr-stored {
+  opacity: 0.55;
+
+  .sr-stored-note {
+    font-size: var(--sr-font-size-sheet-tag);
+    font-style: italic;
+  }
+}

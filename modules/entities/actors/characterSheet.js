@@ -218,6 +218,34 @@ export class SR5ActorSheet extends ActorSheetSR5 {
     actor.rituals = rituals
     actor.reputations = reputations
     actor.storages = this._prepareStorages(actor, storages)
+    this._applyStoredGear(actor, storages)
+  }
+
+  /**
+   * Stored gear leaves the lists a player reads to act — Combat, Matrix,
+   * Magic — because none of it is within reach. It stays in the lists that
+   * say what the character owns, greyed out and saying where it sits, so
+   * nobody thinks their gear has gone missing.
+   */
+  _applyStoredGear(actor, storages) {
+    const names = new Map(storages.map(s => [s._id, s.name]))
+    const isStored = i => !!i.system?.storedIn
+
+    // Out of reach: these lists answer "what can I do right now?"
+    actor.weapons = actor.weapons.filter(i => !isStored(i))
+    actor.weaponAccessories = actor.weaponAccessories.filter(i => !isStored(i))
+    actor.armors = actor.armors.filter(i => !isStored(i))
+    actor.ammunitions = actor.ammunitions.filter(i => !isStored(i))
+    actor.cyberdecks = actor.cyberdecks.filter(i => !isStored(i))
+    actor.programs = actor.programs.filter(i => !isStored(i))
+    actor.focuses = actor.focuses.filter(i => !isStored(i))
+
+    // Still listed: these answer "what do I own?"
+    for (const list of [actor.gears, actor.vehicles, actor.augmentations]) {
+      for (const item of list) {
+        if (isStored(item)) item.storedInName = names.get(item.system.storedIn) ?? ""
+      }
+    }
   }
 
   /**
