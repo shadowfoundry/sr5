@@ -12,7 +12,10 @@
 	{{> systems/sr5/templates/items/_partial/editable/storage/address-edit.hbs}}
 </ul>
 
-<!-- Price & Availability -->
+<!-- Price & Availability: only for a storage you actually buy.
+     A stash or a garage is paid through the lifestyle rent (Run Faster p. 216). -->
+{{#if (or (eq system.type "safe") (eq system.type "backpack") (eq system.type "cache"))}}
 <ul class="SR-PaddingTop10">
 	{{> systems/sr5/templates/items/_partial/editable/_common/price-edit.hbs}}
 </ul>
+{{/if}}
