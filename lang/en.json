@@ -3257,6 +3257,8 @@
 	"SR5.WARN_StorageNoVehicleToStore": "No vehicle or drone to park: they are all parked, or this character owns none.",
 	"SR5.GearIsIntangible": "Intangible property",
 	"SR5.GearIsIntangibleHint": "A contract, a licence, a subscription… owned, but not a thing you can put away.",
+	"SR5.StorageValue": "Value",
+	"SR5.StorageContents": "Contents",
 	"SR5.StorageNew": "New storage",
 	"SR5.Storage": "Storage",
 	"SR5.Storages": "Storages",

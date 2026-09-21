@@ -3257,6 +3257,8 @@
 	"SR5.WARN_StorageNoVehicleToStore": "Aucun véhicule ni drone à garer : tout est déjà garé, ou ce personnage n'en possède pas.",
 	"SR5.GearIsIntangible": "Bien immatériel",
 	"SR5.GearIsIntangibleHint": "Contrat, licence, abonnement… Un bien que l'on possède sans pouvoir le ranger quelque part.",
+	"SR5.StorageValue": "Valeur",
+	"SR5.StorageContents": "Contenu",
 	"SR5.StorageNew": "Nouveau stockage",
 	"SR5.Storage": "Stockage",
 	"SR5.Storages": "Stockages",
