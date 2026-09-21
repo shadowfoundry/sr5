@@ -424,6 +424,23 @@
         }
       }
 
+      // The table's own description, above the results
+      .table-description {
+        color: var(--sr-text-color-grey);
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+        font-style: italic;
+        padding-bottom: 4px;
+
+        p {
+          margin: 0;
+        }
+
+        &:empty {
+          display: none;
+        }
+      }
+
       // Result list
       ol, ul {
         padding: 0;
@@ -441,11 +458,68 @@
         box-shadow: none !important;
         padding: 4px 0;
         margin: 0;
+
+        &:last-child {
+          border-bottom: none !important;
+        }
       }
 
-      // Hide dice images
+      // V13 draws each result as an <img> followed by a .description block.
+      // Both are children of a .flexrow, which wraps by default and whose
+      // children are given a full-width basis: the text was pushed onto a
+      // line of its own below the icon, and a ten-result draw became a
+      // column of gaps. Keep the row on one line.
+      .table-results li {
+        flex-wrap: nowrap;
+        align-items: center;
+        gap: 6px;
+
+        > img {
+          flex: 0 0 24px;
+          width: 24px;
+          height: 24px;
+          object-fit: cover;
+          border: none;
+          margin: 0;
+        }
+
+        > .description {
+          flex: 1 1 auto;
+        }
+
+        // A result that draws an actor or an item is a link: let it hug its
+        // own label instead of stretching its plate across the card
+        > .content-link {
+          flex: 0 1 auto;
+        }
+      }
+
+      .description {
+        color: var(--sr-text-color-dark);
+        font-family: var(--sr-font-body);
+
+        p {
+          margin: 0;
+        }
+
+        // A generator names each of its sub-tables in bold or as a heading;
+        // stacked full-size titles drowned the answers they introduce.
+        h1, h2, h3, h4, b, strong {
+          font-family: var(--sr-font-title);
+          font-size: var(--sr-font-size-normal);
+          font-weight: normal;
+          text-transform: uppercase;
+          color: var(--sr-text-color-dark);
+          border: none;
+          margin: 0;
+        }
+      }
+
+      // Hide the placeholders core hands a result that has no icon of its
+      // own, and keep an icon a table really chose
       .result-image,
-      img[src*="d20"] {
+      img[src*="icons/svg/d20"],
+      img[src*="icons/svg/invisible"] {
         display: none;
       }
 
