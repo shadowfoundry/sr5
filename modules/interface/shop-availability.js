@@ -67,50 +67,82 @@ export class SR5ShopAvailability {
    * Négociation et Charisme pour le test de Disponibilité, et son indice
    * d'Influence est ajouté à sa limite Sociale."
    *
-   * Most contacts in play are filled in no further than Connection and
-   * Loyalty. Rather than roll zero dice for them, a contact whose sheet is
-   * empty is read off its Connection: Run Faster p. 174 (Statistiques rapides
-   * pour contacts) scales a contact's attribute and skill points with its
-   * Connection rating, so a well-connected one is assumed to have put them
-   * where its trade is. The derivation is flagged on the card.
+   * The sheet is read field by field, and only what is missing is filled in:
+   *
+   * - Charisma and Negotiation written on the contact are used as they stand.
+   * - A contact with a Charisma but no Negotiation defaults, `Charisma - 1`
+   *   (SR5 p. 55, se défausser); Negotiation is not one of the skills that
+   *   forbid it.
+   * - A field left at zero on a sheet that was never filled in is read off the
+   *   Connection rating: Run Faster p. 174 (Statistiques rapides pour contacts)
+   *   scales a contact's attribute and skill points with its Connection, so a
+   *   well-connected one is assumed to have put them where its trade is.
+   *
+   * The card states which of the three it was, rather than passing a guess off
+   * as a sheet value.
    */
   static contactPool(contact) {
     const system = contact.system
     const connection = Number(system.connection ?? 0)
-    const ownCharisma = Number(system.attributes?.charisma?.augmented?.value ?? 0)
-    const ownNegotiation = Number(system.skills?.negotiation?.rating?.value ?? 0)
-    const derived = !(ownCharisma > 0 && ownNegotiation > 0)
+    // A contact is an item, not an actor: nothing derives its values, so the
+    // computed field is empty until something prepares it. Read what was
+    // typed on the sheet when the derived value is not there.
+    const sheetCharisma = SR5ShopAvailability.sheetValue(system.attributes?.charisma?.augmented) ||
+      SR5ShopAvailability.sheetValue(system.attributes?.charisma?.natural)
+    const sheetNegotiation = SR5ShopAvailability.sheetValue(system.skills?.negotiation?.rating)
 
-    let charisma = ownCharisma
-    let negotiation = ownNegotiation
-    if (derived) {
-      const cap = SR5ShopAvailability.CHARISMA_MAX[system.metatype] ??
-        SR5ShopAvailability.CHARISMA_MAX.human
-      charisma = Math.min(cap, 3 + connection)
-      negotiation = Math.min(12, 2 + connection)
-    }
+    const cap = SR5ShopAvailability.CHARISMA_MAX[system.metatype] ??
+      SR5ShopAvailability.CHARISMA_MAX.human
+    const charisma = sheetCharisma || Math.min(cap, 3 + connection)
 
-    // A contact whose trade is finding things has the matching specialization.
-    const specialized = SR5ShopAvailability.isDealer(system.type)
-    const pool = charisma + negotiation + (specialized ? 2 : 0)
+    // Defaulting only makes sense against a Charisma the sheet really carries:
+    // deriving one and then taking a penalty on it would be guesswork twice.
+    const defaulting = !sheetNegotiation && sheetCharisma > 0
+    const negotiation = sheetNegotiation ||
+      (defaulting ? 0 : Math.min(12, 2 + connection))
 
-    // Social limit of a contact built the usual way, plus its Connection.
-    const ownLimit = Number(system.limits?.socialLimit?.value ?? 0)
-    const limit = (ownLimit || Math.ceil((charisma * 2 + 3 + 6) / 3)) + connection
+    // A specialization belongs to a skill the contact actually has.
+    const specialized = negotiation > 0 && SR5ShopAvailability.isDealer(system.type)
+    const pool = defaulting ?
+      Math.max(0, charisma - 1) :
+      charisma + negotiation + (specialized ? 2 : 0)
+
+    // Social limit: the contact's own when its sheet computes one, otherwise
+    // the usual formula on whatever attributes it carries, plus its Connection.
+    const willpower = SR5ShopAvailability.sheetValue(system.attributes?.willpower?.augmented) ||
+      SR5ShopAvailability.sheetValue(system.attributes?.willpower?.natural) || 3
+    const essence = SR5ShopAvailability.sheetValue(system.essence) || 6
+    const ownLimit = SR5ShopAvailability.sheetValue(system.limits?.socialLimit)
+    const limit = (ownLimit || Math.ceil((charisma * 2 + willpower + essence) / 3)) + connection
 
     return {
-      pool, limit, charisma, negotiation, connection, specialized, derived,
+      pool, limit, charisma, negotiation, connection, specialized, defaulting,
+      // What the card should say about where the pool came from
+      derived: !sheetCharisma && !sheetNegotiation,
+      partial: (!sheetCharisma && sheetNegotiation > 0),
       label: contact.name,
     }
   }
 
-  /** Does this contact deal in goods? Matched on the free-text type field. */
+  /** A sheet field's computed value, or what was typed into it. */
+  static sheetValue(field) {
+    return Number(field?.value ?? 0) || Number(field?.base ?? 0) || 0
+  }
+
+  /**
+   * Does this contact deal in goods? Matched on the free-text type field.
+   *
+   * A keyword in -eur also matches its -euse form, so "Receleuse" answers to
+   * "receleur" without the table having to list both. Everything else is a
+   * plain containment, which already covers plurals and feminines in -e.
+   */
   static isDealer(type) {
     if (!type) return false
     const keywords = String(game.settings.get('sr5', 'sr5ShopDealerKeywords') || '')
       .split(',').map(k => SR5ShopAvailability.normalize(k)).filter(k => k.length)
     const needle = SR5ShopAvailability.normalize(type)
-    return keywords.some(k => needle.includes(k))
+    return keywords.some(k => needle.includes(k) ||
+      (k.endsWith('eur') && needle.includes(`${k.slice(0, -3)}eus`)))
   }
 
   /** Lowercase, accents removed: "Récéleur" and "receleur" are the same word. */
@@ -296,6 +328,8 @@ export class SR5ShopAvailability {
       // A hand-typed pool owes nothing to the contact's sheet, so neither the
       // derivation note nor the specialization applies to it.
       derived: !override && !!searcher.derived,
+      partial: !override && !!searcher.partial,
+      defaulting: !override && !!searcher.defaulting,
       specialized: !override && !!searcher.specialized,
       override: override || null,
       connection: searcher.connection ?? null,
