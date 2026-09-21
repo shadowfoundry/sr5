@@ -254,6 +254,7 @@ export class SR5_ActorHelper {
       "system.type": "cache",
       "prototypeToken.width": 0.5,
       "prototypeToken.height": 0.5,
+      "prototypeToken.movementAction": "displace",
       items: spoils.map(i => i.toObject(false)),
     }
     const [dropped] = await Actor.createDocuments([foundry.utils.expandObject(bag)])
@@ -729,9 +730,11 @@ export class SR5_ActorHelper {
         "system.biography.description": itemData.description,
         "system.creatorId": actorId,
         "system.creatorItemId": item._id,
-        // A bag on the floor takes half a square, not a whole one
+        // A bag on the floor takes half a square, not a whole one, and it is
+        // pushed about rather than walking anywhere
         "prototypeToken.width": 0.5,
         "prototypeToken.height": 0.5,
+        "prototypeToken.movementAction": "displace",
         "items": storedItems.map(i => i.toObject(false)),
       })
     }

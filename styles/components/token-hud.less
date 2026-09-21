@@ -1,5 +1,15 @@
 /* === Token HUD === */
 #token-hud {
+  // Way into a storage on the ground. It sits under the token because the
+  // two side columns are already full.
+  .col.middle {
+    justify-content: flex-end;
+  }
+
+  .sr-hud-storage {
+    align-self: center;
+  }
+
   button {
     color: var(--sr-ui-color);
   }

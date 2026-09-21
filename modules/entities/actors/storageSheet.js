@@ -41,21 +41,64 @@ export class SR5StorageSheet extends ActorSheetSR5 {
   }
 
   /**
-   * Whoever is taking: the selected token's actor, not the character who put
-   * the storage down — anyone can go through a pack left on the ground.
+   * Whoever is taking: anyone can go through a pack left on the ground, not
+   * just the character who put it down.
+   *
+   * Opening the storage means clicking its own token, which selects it, so a
+   * selection is only trusted once the storage itself is out of it. Anything
+   * else is asked rather than guessed.
    */
-  _looter() {
-    const selected = canvas.tokens?.controlled ?? []
-    if (selected.length !== 1) {
-      ui.notifications.warn(game.i18n.localize("SR5.WARN_StorageLootNoToken"))
+  async _looter() {
+    const selected = (canvas.tokens?.controlled ?? [])
+      .map(t => t.actor)
+      .filter(a => a && a.id !== this.actor.id && a.isOwner)
+    if (selected.length === 1) return selected[0]
+
+    const candidates = (canvas.tokens?.placeables ?? [])
+      .map(t => t.actor)
+      .filter(a => a && a.id !== this.actor.id && a.isOwner && a.type !== "actorStorage")
+      .filter((a, i, all) => all.findIndex(b => b.id === a.id) === i)
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+    if (!candidates.length) {
+      ui.notifications.warn(game.i18n.localize("SR5.WARN_StorageLootNobody"))
       return null
     }
-    const looter = selected[0].actor
-    if (!looter?.isOwner) {
-      ui.notifications.warn(game.i18n.localize("SR5.WARN_StorageLootNotYours"))
-      return null
-    }
-    return looter
+
+    const content = await foundry.applications.handlebars.renderTemplate(
+      "systems/sr5/templates/interface/storage-loot-who.hbs", {
+        storageName: this.actor.name,
+        candidates: candidates.map(a => ({
+          id: a.id, name: a.name, img: a.img 
+        })),
+      })
+    const result = await foundry.applications.api.DialogV2.wait({
+      window: {
+        title: game.i18n.localize("SR5.StorageLootWho") 
+      },
+      content: content,
+      buttons: [
+        {
+          action: "ok",
+          label: game.i18n.localize("SR5.StorageLoot"),
+          default: true,
+          callback: (event, button, dialog) => ({
+            action: "ok", element: dialog.element 
+          }),
+        },
+        {
+          action: "cancel",
+          label: game.i18n.localize("Cancel"),
+          callback: () => ({
+            action: "cancel" 
+          }),
+        },
+      ],
+      rejectClose: false,
+    })
+    if (!result || result.action !== "ok") return null
+    const chosen = result.element.querySelector("[name=looter]:checked")?.value
+    return candidates.find(a => a.id === chosen) ?? null
   }
 
   // Hand the items over, carried rather than stored: they have been picked up.
@@ -75,15 +118,19 @@ export class SR5StorageSheet extends ActorSheetSR5 {
 
   async _onStorageLoot(event) {
     event.preventDefault()
-    const looter = this._looter()
+    // Read the row before anything is awaited: the browser clears
+    // currentTarget as soon as the handler returns, and asking who takes it
+    // can open a dialog.
+    const itemId = event.currentTarget.dataset.itemId
+    const looter = await this._looter()
     if (!looter) return
-    const item = this.actor.items.get(event.currentTarget.dataset.itemId)
+    const item = this.actor.items.get(itemId)
     if (item) await this._giveTo(looter, [item])
   }
 
   async _onStorageLootAll(event) {
     event.preventDefault()
-    const looter = this._looter()
+    const looter = await this._looter()
     if (!looter) return
     await this._giveTo(looter, [...this.actor.items])
   }
