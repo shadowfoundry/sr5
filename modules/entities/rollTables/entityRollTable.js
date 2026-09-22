@@ -9,14 +9,15 @@
 //
 //   flags.sr5.rollsFormula     on a RollTable   how many times to draw
 //   flags.sr5.quantityFormula  on a TableResult how many the line yields
+//   flags.sr5.nuyenFormula     on a RollTable   how much money came with it
 //
 // A quantity on a line that points at another table means something stronger
 // than a count: that inner table is rolled that many times, so "1d3 armes"
 // draws one to three different weapons rather than three copies of one.
 
 import {
-  sr5NuyenFooter
-} from "../../interface/table-nuyen.js"
+  sr5PayoutFooter, sr5LootManifest
+} from "../../interface/table-payout.js"
 
 /** The flag namespace the formulas live under. */
 const NAMESPACE = "sr5"
@@ -245,32 +246,40 @@ export class SR5RollTable extends foundry.documents.RollTable {
    */
   async toMessage(results, options = {
   }) {
-    const message = await super.toMessage(sr5GroupResults(results), options)
-
-    const nuyen = await sr5RollNuyenAmount(this.getFlag(NAMESPACE, NUYEN_FORMULA), this.name)
-    if (message && nuyen !== null) await this.#addNuyen(message, nuyen)
-
+    const grouped = sr5GroupResults(results)
+    const message = await super.toMessage(grouped, options)
+    if (message) await this.#addPayout(message, grouped)
     return message
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Write the money the table handed out onto the card it just made.
+   * Write what the table hands over onto the card it just made: the money it
+   * rolled, and the gear the draw can actually give.
    *
    * It is a second write, and deliberately so: core builds the card's content
    * itself, inside the creation it performs, and reads no template of ours for
    * this message. Appending afterwards is the only way to add to it without
-   * copying core's method wholesale — and it keeps the amount in the message,
-   * where it survives a reload and can be paid days later.
+   * copying core's method wholesale — and it keeps both in the message, where
+   * they survive a reload and can be handed over days later.
    *
    * @param {ChatMessage} message
-   * @param {number} amount
+   * @param {TableResult[]} results  the drawn lines, already grouped
    */
-  async #addNuyen(message, amount) {
+  async #addPayout(message, results) {
+    const nuyen = await sr5RollNuyenAmount(this.getFlag(NAMESPACE, NUYEN_FORMULA), this.name)
+    const loot = sr5LootManifest(results)
+
+    const footer = sr5PayoutFooter({
+      nuyen, loot
+    })
+    if (!footer) return
+
     await message.update({
-      content: message.content + sr5NuyenFooter(amount),
-      "flags.sr5.tableNuyen": amount,
+      content: message.content + footer,
+      "flags.sr5.tableNuyen": nuyen,
+      "flags.sr5.tableLoot": loot,
       "flags.sr5.tableName": this.name
     })
   }
