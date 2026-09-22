@@ -1,14 +1,3 @@
-const VisionMode = foundry.canvas.perception.VisionMode
-const DetectionMode = foundry.canvas.perception.DetectionMode
-const DetectionModeDarkvision = foundry.canvas.perception.DetectionModeDarkvision
-const DetectionModeInvisibility = foundry.canvas.perception.DetectionModeInvisibility
-const AmplificationSamplerShader = foundry.canvas.rendering.shaders.AmplificationSamplerShader
-const AmplificationBackgroundVisionShader = foundry.canvas.rendering.shaders.AmplificationBackgroundVisionShader
-const ColorAdjustmentsSamplerShader = foundry.canvas.rendering.shaders.ColorAdjustmentsSamplerShader
-const WaveBackgroundVisionShader = foundry.canvas.rendering.shaders.WaveBackgroundVisionShader
-const WaveColorationVisionShader = foundry.canvas.rendering.shaders.WaveColorationVisionShader
-const GlowOverlayFilter = foundry.canvas.rendering.filters.GlowOverlayFilter
-
 // Vision type of the actor (SR5.visionTypes) -> vision mode of the token
 export const SR5_TOKEN_VISION_MODES = {
   astral: "astralvision",
@@ -55,259 +44,291 @@ export function getVisionRange(vision) {
 /*  Vision modes                                */
 /* -------------------------------------------- */
 
+// Everything below reaches into the canvas classes of the core software, which only exist
+// inside a running Foundry : build it on demand rather than when the module is imported.
+
 // Astral perception : SR5 p. 313
-export const astralVision = new VisionMode({
-  id: "astralvision",
-  label: "SR5.VISION.ModeAstralvision",
-  canvas: {
-    shader: AmplificationSamplerShader,
-    uniforms: {
-      enable: true, contrast: 0, saturation: -0.5, exposure: -0.25, tint: [0.75, 0.75, 1]
-    }
-  },
-  lighting: {
-    background: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
-    },
-    illumination: {
-      postProcessingModes: ["EXPOSURE"],
+function buildAstralVision() {
+  const VisionMode = foundry.canvas.perception.VisionMode
+  const shaders = foundry.canvas.rendering.shaders
+  return new VisionMode({
+    id: "astralvision",
+    label: "SR5.VISION.ModeAstralvision",
+    canvas: {
+      shader: shaders.AmplificationSamplerShader,
       uniforms: {
-        exposure: 0.8
+        enable: true, contrast: 0, saturation: -0.5, exposure: -0.25, tint: [0.75, 0.75, 1]
       }
     },
-    coloration: {
-      //postProcessingModes: ["SATURATION", "TINT", "EXPOSURE"], BUG in v11
-      uniforms: {
-        saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1]
+    lighting: {
+      background: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
+      },
+      illumination: {
+        postProcessingModes: ["EXPOSURE"],
+        uniforms: {
+          exposure: 0.8
+        }
+      },
+      coloration: {
+        //postProcessingModes: ["SATURATION", "TINT", "EXPOSURE"], BUG in v11
+        uniforms: {
+          saturation: -0.75, exposure: 8.0, tint: [0.75, 0.75, 1]
+        }
+      },
+      levels: {
+        [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT,
+        [VisionMode.LIGHTING_LEVELS.BRIGHT]: VisionMode.LIGHTING_LEVELS.BRIGHTEST
       }
     },
-    levels: {
-      [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT,
-      [VisionMode.LIGHTING_LEVELS.BRIGHT]: VisionMode.LIGHTING_LEVELS.BRIGHTEST
+    vision: {
+      darkness: {
+        adaptive: false
+      },
+      defaults: {
+        attenuation: 0, contrast: 0, saturation: -0.5, brightness: 1
+      },
+      background: {
+        shader: shaders.AmplificationBackgroundVisionShader, uniforms: {
+          tint: [0.75, 0.75, 1]
+        }
+      }
     }
-  },
-  vision: {
-    darkness: {
-      adaptive: false
-    },
-    defaults: {
-      attenuation: 0, contrast: 0, saturation: -0.5, brightness: 1
-    },
-    background: {
-      shader: AmplificationBackgroundVisionShader, uniforms: {
-        tint: [0.75, 0.75, 1]
-      }
-    }
-  }
-})
+  })
+}
 
 // Low-light vision : sees in dim light as if in full light, but not in total darkness (SR5 p. 176)
-export const lowLightVision = new VisionMode({
-  id: "lowLight",
-  label: "SR5.LowLightVision",
-  canvas: {
-    shader: AmplificationSamplerShader,
-    uniforms: {
-      saturation: -0.35, tint: [0.45, 0.82, 0.45]
-    }
-  },
-  lighting: {
-    background: {
-      postProcessingModes: ["SATURATION", "EXPOSURE"],
+function buildLowLightVision() {
+  const VisionMode = foundry.canvas.perception.VisionMode
+  const shaders = foundry.canvas.rendering.shaders
+  return new VisionMode({
+    id: "lowLight",
+    label: "SR5.LowLightVision",
+    canvas: {
+      shader: shaders.AmplificationSamplerShader,
       uniforms: {
-        saturation: -0.35, exposure: 1.2, tint: [0.45, 0.82, 0.45]
+        saturation: -0.35, tint: [0.45, 0.82, 0.45]
       }
     },
-    illumination: {
-      postProcessingModes: ["SATURATION"],
-      uniforms: {
-        saturation: -0.35
+    lighting: {
+      background: {
+        postProcessingModes: ["SATURATION", "EXPOSURE"],
+        uniforms: {
+          saturation: -0.35, exposure: 1.2, tint: [0.45, 0.82, 0.45]
+        }
+      },
+      illumination: {
+        postProcessingModes: ["SATURATION"],
+        uniforms: {
+          saturation: -0.35
+        }
+      },
+      coloration: {
+        postProcessingModes: ["SATURATION", "EXPOSURE"],
+        uniforms: {
+          saturation: -0.35, exposure: 1.2, tint: [0.45, 0.82, 0.45]
+        }
+      },
+      levels: {
+        [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT
       }
     },
-    coloration: {
-      postProcessingModes: ["SATURATION", "EXPOSURE"],
-      uniforms: {
-        saturation: -0.35, exposure: 1.2, tint: [0.45, 0.82, 0.45]
+    vision: {
+      darkness: {
+        adaptive: false
+      },
+      defaults: {
+        attenuation: 0, contrast: 0, saturation: -0.35, brightness: 0.5
+      },
+      background: {
+        shader: shaders.AmplificationBackgroundVisionShader, uniforms: {
+          tint: [0.45, 0.82, 0.45]
+        }
       }
-    },
-    levels: {
-      [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT
     }
-  },
-  vision: {
-    darkness: {
-      adaptive: false
-    },
-    defaults: {
-      attenuation: 0, contrast: 0, saturation: -0.35, brightness: 0.5
-    },
-    background: {
-      shader: AmplificationBackgroundVisionShader, uniforms: {
-        tint: [0.45, 0.82, 0.45]
-      }
-    }
-  }
-})
+  })
+}
 
 // Thermographic vision : sees heat, so it works in the dark and through most smoke (SR5 p. 176)
-export const thermographicVision = new VisionMode({
-  id: "thermographic",
-  label: "SR5.ThermographicVision",
-  canvas: {
-    shader: ColorAdjustmentsSamplerShader,
-    uniforms: {
-      contrast: 0.25, saturation: -0.8, exposure: -0.1, tint: [1, 0.6, 0.35]
-    }
-  },
-  lighting: {
-    background: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED,
-      postProcessingModes: ["SATURATION", "TINT"],
+function buildThermographicVision() {
+  const VisionMode = foundry.canvas.perception.VisionMode
+  const shaders = foundry.canvas.rendering.shaders
+  return new VisionMode({
+    id: "thermographic",
+    label: "SR5.ThermographicVision",
+    canvas: {
+      shader: shaders.ColorAdjustmentsSamplerShader,
       uniforms: {
-        saturation: -0.8, tint: [1, 0.6, 0.35]
+        contrast: 0.25, saturation: -0.8, exposure: -0.1, tint: [1, 0.6, 0.35]
       }
     },
-    illumination: {
-      postProcessingModes: ["SATURATION"],
-      uniforms: {
-        saturation: -0.8
+    lighting: {
+      background: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED,
+        postProcessingModes: ["SATURATION", "TINT"],
+        uniforms: {
+          saturation: -0.8, tint: [1, 0.6, 0.35]
+        }
+      },
+      illumination: {
+        postProcessingModes: ["SATURATION"],
+        uniforms: {
+          saturation: -0.8
+        }
+      },
+      coloration: {
+        postProcessingModes: ["SATURATION", "TINT"],
+        uniforms: {
+          saturation: -0.8, tint: [1, 0.6, 0.35]
+        }
+      },
+      levels: {
+        [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT
       }
     },
-    coloration: {
-      postProcessingModes: ["SATURATION", "TINT"],
-      uniforms: {
-        saturation: -0.8, tint: [1, 0.6, 0.35]
+    vision: {
+      darkness: {
+        adaptive: false
+      },
+      defaults: {
+        attenuation: 0, contrast: 0.2, saturation: -0.8, brightness: 0.65
+      },
+      background: {
+        shader: shaders.AmplificationBackgroundVisionShader, uniforms: {
+          tint: [1, 0.6, 0.35]
+        }
       }
-    },
-    levels: {
-      [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT
     }
-  },
-  vision: {
-    darkness: {
-      adaptive: false
-    },
-    defaults: {
-      attenuation: 0, contrast: 0.2, saturation: -0.8, brightness: 0.65
-    },
-    background: {
-      shader: AmplificationBackgroundVisionShader, uniforms: {
-        tint: [1, 0.6, 0.35]
-      }
-    }
-  }
-})
+  })
+}
 
 // Ultrasound : a sound picture, blind to colour and light, stopped by walls (SR5 p. 449)
-export const ultrasoundVision = new VisionMode({
-  id: "ultrasound",
-  label: "SR5.UltrasoundVision",
-  canvas: {
-    shader: ColorAdjustmentsSamplerShader,
-    uniforms: {
-      contrast: 0.2, saturation: -1, exposure: -0.3
+function buildUltrasoundVision() {
+  const VisionMode = foundry.canvas.perception.VisionMode
+  const shaders = foundry.canvas.rendering.shaders
+  return new VisionMode({
+    id: "ultrasound",
+    label: "SR5.UltrasoundVision",
+    canvas: {
+      shader: shaders.ColorAdjustmentsSamplerShader,
+      uniforms: {
+        contrast: 0.2, saturation: -1, exposure: -0.3
+      }
+    },
+    lighting: {
+      background: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
+      },
+      illumination: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
+      },
+      coloration: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
+      },
+      darkness: {
+        visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
+      }
+    },
+    vision: {
+      darkness: {
+        adaptive: false
+      },
+      defaults: {
+        attenuation: 0, contrast: 0.2, saturation: -1, brightness: 0.8
+      },
+      background: {
+        shader: shaders.WaveBackgroundVisionShader
+      },
+      coloration: {
+        shader: shaders.WaveColorationVisionShader
+      }
     }
-  },
-  lighting: {
-    background: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
-    },
-    illumination: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
-    },
-    coloration: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
-    },
-    darkness: {
-      visibility: VisionMode.LIGHTING_VISIBILITY.DISABLED
-    }
-  },
-  vision: {
-    darkness: {
-      adaptive: false
-    },
-    defaults: {
-      attenuation: 0, contrast: 0.2, saturation: -1, brightness: 0.8
-    },
-    background: {
-      shader: WaveBackgroundVisionShader
-    },
-    coloration: {
-      shader: WaveColorationVisionShader
-    }
-  }
-}, {
-  animated: true
-})
+  }, {
+    animated: true
+  })
+}
 
 /* -------------------------------------------- */
 /*  Detection modes                             */
 /* -------------------------------------------- */
 
-class DetectionModeBasicSightSR extends DetectionModeDarkvision {
-  constructor(){
-    super({
-      id: "basicSight",
-      label: "DETECTION.BasicSight",
-      type: DetectionMode.DETECTION_TYPES.SIGHT
-    })
+function buildDetectionModes() {
+  const DetectionMode = foundry.canvas.perception.DetectionMode
+  const DetectionModeDarkvision = foundry.canvas.perception.DetectionModeDarkvision
+  const DetectionModeInvisibility = foundry.canvas.perception.DetectionModeInvisibility
+  const GlowOverlayFilter = foundry.canvas.rendering.filters.GlowOverlayFilter
+
+  class DetectionModeBasicSightSR extends DetectionModeDarkvision {
+    constructor(){
+      super({
+        id: "basicSight",
+        label: "DETECTION.BasicSight",
+        type: DetectionMode.DETECTION_TYPES.SIGHT
+      })
+    }
+
+    /** @override */
+    _canDetect(visionSource, target) {
+      let detected = super._canDetect(visionSource, target)
+      const tgt = target?.document
+      if ((tgt instanceof foundry.documents.TokenDocument)) {
+        //check if target has astral effect and hide it if true;
+        detected = tgt.actor?.effects?.find(e => e.statuses.has("astralInit"))
+        return !detected
+      } else return true
+    }
   }
 
-  /** @override */
-  _canDetect(visionSource, target) {
-    let detected = super._canDetect(visionSource, target)
-    const tgt = target?.document
-    if ((tgt instanceof foundry.documents.TokenDocument)) {
-      //check if target has astral effect and hide it if true;
-      detected = tgt.actor?.effects?.find(e => e.statuses.has("astralInit"))
-      return !detected
-    } else return true
-  }
-}
+  class DetectionModeAstral extends DetectionMode {
+    constructor(){
+      super({
+        id: "astralvision",
+        label: "SR5.VISION.ModeAstralvision",
+        //tokenConfig: false,
+        walls: true,
+        type: DetectionMode.DETECTION_TYPES.OTHER
+      })
+    }
 
-class DetectionModeAstral extends DetectionMode {
-  constructor(){
-    super({
-      id: "astralvision",
-      label: "SR5.VISION.ModeAstralvision",
-      //tokenConfig: false,
-      walls: true,
-      type: DetectionMode.DETECTION_TYPES.OTHER
-    })
-  }
+    _canDetect(_visionSource, _target) {
+      return true
+    }
 
-  _canDetect(_visionSource, _target) {
-    return true
+    /** @override */
+    static getDetectionFilter() {
+      return this._detectionFilter ??= GlowOverlayFilter.create({
+        glowColor: [0, 0.57, 0.99, 1],
+        distance: 10,
+      })
+    }
   }
 
-  /** @override */
-  static getDetectionFilter() {
-    return this._detectionFilter ??= GlowOverlayFilter.create({
-      glowColor: [0, 0.57, 0.99, 1],
-      distance: 10,
-    })
-  }
-}
+  // Ultrasound paints a sound picture of what optics cannot see : it reveals someone hidden
+  // by an Invisibility spell, but it stops at walls (SR5 p. 449).
+  class DetectionModeUltrasound extends DetectionModeInvisibility {
+    constructor(){
+      super({
+        id: "ultrasound",
+        label: "SR5.UltrasoundVision",
+        walls: true,
+        angle: true,
+        type: DetectionMode.DETECTION_TYPES.OTHER
+      })
+    }
 
-// Ultrasound paints a sound picture of what optics cannot see : it reveals someone hidden
-// by an Invisibility spell, but it stops at walls (SR5 p. 449).
-class DetectionModeUltrasound extends DetectionModeInvisibility {
-  constructor(){
-    super({
-      id: "ultrasound",
-      label: "SR5.UltrasoundVision",
-      walls: true,
-      angle: true,
-      type: DetectionMode.DETECTION_TYPES.OTHER
-    })
+    /** @override */
+    static getDetectionFilter() {
+      return this._detectionFilter ??= GlowOverlayFilter.create({
+        glowColor: [0.4, 0.75, 0.9, 1],
+        distance: 10,
+      })
+    }
   }
 
-  /** @override */
-  static getDetectionFilter() {
-    return this._detectionFilter ??= GlowOverlayFilter.create({
-      glowColor: [0.4, 0.75, 0.9, 1],
-      distance: 10,
-    })
+  return {
+    astralvision: new DetectionModeAstral(),
+    basicSight: new DetectionModeBasicSightSR(),
+    ultrasound: new DetectionModeUltrasound(),
   }
 }
 
@@ -325,15 +346,13 @@ export function registerVisionModes() {
   for (const id of ["darkvision", "monochromatic", "tremorsense", "lightAmplification"]) delete modes[id]
   // Normal metahuman sight
   if (modes.basic) modes.basic.label = "SR5.VISION.ModeNatural"
-  modes.lowLight = lowLightVision
-  modes.thermographic = thermographicVision
-  modes.ultrasound = ultrasoundVision
-  modes.astralvision = astralVision
+  modes.lowLight = buildLowLightVision()
+  modes.thermographic = buildThermographicVision()
+  modes.ultrasound = buildUltrasoundVision()
+  modes.astralvision = buildAstralVision()
 
   const detection = CONFIG.Canvas.detectionModes
-  detection.astralvision = new DetectionModeAstral()
-  detection.basicSight = new DetectionModeBasicSightSR()
-  detection.ultrasound = new DetectionModeUltrasound()
+  Object.assign(detection, buildDetectionModes())
   // Detection modes of the core software that no Shadowrun vision uses
   for (const id of ["seeInvisibility", "senseInvisibility", "feelTremor"]) {
     if (detection[id]) detection[id].updateSource({
