@@ -172,6 +172,86 @@ export class SR5_SpiritTypes {
   }
 
   // -------------------------------------------------------------------------
+  //  What the sheet needs to say
+  // -------------------------------------------------------------------------
+
+  /**
+	 * Why this type would be refused, so that the sheet can say it instead of
+	 * leaving the answer in a log nobody reads.
+	 * @returns {string} "empty", "official", "duplicate", or "" when accepted.
+	 */
+  static conflictFor(item) {
+    const key = SR5_SpiritTypes.keyOf(item)
+    if (!key) return "empty"
+    if (SR5_SpiritTypes._officialKeys?.has(key)) return "official"
+    const owner = SR5_SpiritTypes.registry.get(key)
+    if (owner && owner.uuid !== item.uuid) return "duplicate"
+    return ""
+  }
+
+  /**
+	 * What a spirit built on this type actually has, at a given Force.
+	 *
+	 * Built by preparing a throwaway spirit rather than by restating the official
+	 * rules a second time: what the preview shows is what the table will roll,
+	 * inheritance included. A type that is not registered — a brand new item, or
+	 * one whose key is refused — has no preview.
+	 */
+  static preview(item, force) {
+    const key = SR5_SpiritTypes.keyOf(item)
+    if (!key || SR5_SpiritTypes.registry.get(key)?.uuid !== item.uuid) return null
+
+    let spirit
+    try {
+      spirit = new CONFIG.Actor.documentClass({
+        name: item.name,
+        type: "actorSpirit",
+        system: {
+          type: key, force: {
+            base: force
+          }
+        },
+      })
+    } catch (e) {
+      SR5_SystemHelpers.srLog(1, `Spirit type preview failed for '${key}': ${e}`)
+      return null
+    }
+
+    const data = spirit.system
+    const attributes = []
+    for (const [attribute, label] of Object.entries(SR5.characterAttributes)) {
+      const value = data.attributes?.[attribute]?.augmented?.value
+      if (value !== undefined) attributes.push({
+        label, value
+      })
+    }
+
+    const skills = []
+    for (const [skill, label] of Object.entries(SR5.skills)) {
+      const value = data.skills?.[skill]?.rating?.value
+      if (value) skills.push({
+        label, value
+      })
+    }
+
+    const powers = Object.keys(SR5[`spiritBasePowers${key}`] ?? {
+    })
+      .map(p => game.i18n.localize(SR5.AllSpiritPowers[p] ?? p))
+      .sort((a, b) => a.localeCompare(b))
+
+    return {
+      force,
+      attributes,
+      skills,
+      powers,
+      initiativeDice: data.initiatives?.physicalInit?.dice?.value ?? 0,
+      astral: data.initiatives?.astralInit?.value ?? 0,
+      astralDice: data.initiatives?.astralInit?.dice?.value ?? 0,
+      singleMonitor: !data.conditionMonitors?.physical,
+    }
+  }
+
+  // -------------------------------------------------------------------------
   //  Applying a custom type
   // -------------------------------------------------------------------------
 

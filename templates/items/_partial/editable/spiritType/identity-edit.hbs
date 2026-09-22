@@ -1,3 +1,12 @@
+{{#if spiritTypeKeyConflict}}
+<li class="grid">
+    <div class="col-12 SR-popColor">
+        {{#ife spiritTypeKeyConflict '==' 'official'}}{{localize 'SR5.SpiritTypeKeyOfficial'}}
+        {{else ife spiritTypeKeyConflict '==' 'duplicate'}}{{localize 'SR5.SpiritTypeKeyDuplicate'}}
+        {{else}}{{localize 'SR5.SpiritTypeKeyEmpty'}}{{/ife}}
+    </div>
+</li>
+{{/if}}
 <li class="grid">
     <div class="col-4">{{localize 'SR5.SpiritTypeKey'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-8">

@@ -507,6 +507,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/editable/spiritType/attributes-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/spiritType/skills-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/spiritType/powers-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/preview-edit.hbs",
     "systems/sr5/templates/items/_partial/summary/spiritType-summary.hbs",
 
     //Preparation

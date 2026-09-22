@@ -37,6 +37,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     PLAY: 1, EDIT: 2 
   })
 
+  /** The Force a spirit type's preview is computed at. */
+  static SPIRIT_PREVIEW_FORCE = 4
+
   _mode = SR5ItemSheet.MODES.EDIT
 
   get isPlayMode() { return this._mode === SR5ItemSheet.MODES.PLAY }
@@ -323,6 +326,11 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       const names = (list, table) => (list ?? []).map(k => game.i18n.localize(table[k] ?? k)).join(", ")
       context.spiritTypeSkillsLabel = names(item.system.skills, SR5.skills)
       context.spiritTypePowersLabel = names(item.system.powers, SR5.AllSpiritPowers)
+      // A key already taken means the type is ignored; the sheet says so.
+      context.spiritTypeKeyConflict = SR5_SpiritTypes.conflictFor(item)
+      // What a spirit built on this type would actually have.
+      context.spiritTypePreview = SR5_SpiritTypes.preview(item, SR5ItemSheet.SPIRIT_PREVIEW_FORCE)
+      context.spiritTypePreviewForce = SR5ItemSheet.SPIRIT_PREVIEW_FORCE
     }
 
     // Weapon focus: populate weapon choices from parent actor
