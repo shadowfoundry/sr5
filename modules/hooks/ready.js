@@ -16,6 +16,13 @@ export function sr5HookReady() {
       SR5_SpiritTypes.reload().catch(e => SR5_SystemHelpers.srLog(1, `Spirit types could not be registered: ${e}`))
     })
   }
+  // Deleting or adding a whole compendium fires no item hook, and would
+  // otherwise leave a type in the list with nothing behind it.
+  for (const hook of ["createCompendium", "deleteCompendium"]) {
+    Hooks.on(hook, () => {
+      SR5_SpiritTypes.reload().catch(e => SR5_SystemHelpers.srLog(1, `Spirit types could not be registered: ${e}`))
+    })
+  }
 
   // Apply UI theme based on setting
   const chosenStyle = game.settings.get("sr5", "sr5ChooseStyle") ?? "SR5"
