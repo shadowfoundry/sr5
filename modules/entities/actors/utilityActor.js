@@ -346,8 +346,10 @@ export class SR5_CharacterUtility extends Actor {
         actorData.visions[key].natural = false
         actorData.visions[key].augmented = false
       }
-      actorData.visions.cyberEyes.hasCyberEyes = !!this.getCyberEyes(actor)
-      actorData.visions.cyberEyes.replacedNaturalVision = []
+      if (actorData.visions.cyberEyes) {
+        actorData.visions.cyberEyes.hasCyberEyes = !!this.getCyberEyes(actor)
+        actorData.visions.cyberEyes.replacedNaturalVision = []
+      }
     }
 
     // Reset Special properties
@@ -941,10 +943,9 @@ export class SR5_CharacterUtility extends Actor {
   //once the eyes it came with have been replaced by cybereyes, so a world setting decides.
   static grantMetatypeVision(actor, vision) {
     let actorData = actor.system
-    if (actorData.visions.cyberEyes.hasCyberEyes && game.settings.get("sr5", "sr5CyberEyesReplaceNaturalVision")) {
-      if (!actorData.visions.cyberEyes.replacedNaturalVision.includes(vision)) {
-        actorData.visions.cyberEyes.replacedNaturalVision.push(vision)
-      }
+    const cyberEyes = actorData.visions?.cyberEyes
+    if (cyberEyes?.hasCyberEyes && game.settings.get("sr5", "sr5CyberEyesReplaceNaturalVision")) {
+      if (!cyberEyes.replacedNaturalVision.includes(vision)) cyberEyes.replacedNaturalVision.push(vision)
       return
     }
     actorData.visions[vision].natural = true
