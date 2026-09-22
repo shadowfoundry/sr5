@@ -26,7 +26,7 @@ export const SR5_VISION_DETECTION_MODES = {
 export const SR5_VISION_COLORS = {
   astral: "#303c50",
   lowLight: null,
-  thermographic: "#ff8c42",
+  thermographic: "#ff7a2a",
   ultrasound: "#bcd8e6",
 }
 
@@ -164,7 +164,7 @@ function buildThermographicVision() {
       // on a sand-coloured map that just looks like the same map, slightly darker.
       shader: shaders.AmplificationSamplerShader,
       uniforms: {
-        enable: true, contrast: 0.2, saturation: -1, exposure: 0.1, tint: [1, 0.45, 0.2]
+        enable: true, contrast: 0.6, saturation: -1, exposure: -0.6, tint: [1, 0.48, 0.16]
       }
     },
     lighting: {
@@ -172,10 +172,10 @@ function buildThermographicVision() {
         visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED,
         postProcessingModes: ["SATURATION", "EXPOSURE"],
         uniforms: {
-          saturation: -1, exposure: 1.1, tint: [1, 0.45, 0.2]
+          saturation: -1, exposure: 0, tint: [1, 0.48, 0.16]
         }
       },
-      illumination: {
+      illumination:{
         postProcessingModes: ["SATURATION"],
         uniforms: {
           saturation: -1
@@ -184,10 +184,10 @@ function buildThermographicVision() {
       coloration: {
         postProcessingModes: ["SATURATION", "EXPOSURE"],
         uniforms: {
-          saturation: -1, exposure: 1.1, tint: [1, 0.45, 0.2]
+          saturation: -1, exposure: 0, tint: [1, 0.48, 0.16]
         }
       },
-      levels: {
+      levels:{
         [VisionMode.LIGHTING_LEVELS.DIM]: VisionMode.LIGHTING_LEVELS.BRIGHT
       }
     },
@@ -196,11 +196,11 @@ function buildThermographicVision() {
         adaptive: false
       },
       defaults: {
-        attenuation: 0, contrast: 0.2, saturation: -1, brightness: 0.75
+        attenuation: 0, contrast: 0.6, saturation: -1, brightness: -0.2
       },
       background: {
         shader: shaders.AmplificationBackgroundVisionShader, uniforms: {
-          tint: [1, 0.45, 0.2]
+          tint: [1, 0.48, 0.16]
         }
       }
     }
