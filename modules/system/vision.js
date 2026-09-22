@@ -157,29 +157,32 @@ function buildThermographicVision() {
     id: "thermographic",
     label: "SR5.ThermographicVision",
     canvas: {
-      shader: shaders.ColorAdjustmentsSamplerShader,
+      // The amplification shader REPLACES the picture by its tinted luminance, which is what
+      // reads as a heat picture. The colour adjustment shader only multiplies by the tint, and
+      // on a sand-coloured map that just looks like the same map, slightly darker.
+      shader: shaders.AmplificationSamplerShader,
       uniforms: {
-        contrast: 0.25, saturation: -0.8, exposure: -0.1, tint: [1, 0.6, 0.35]
+        enable: true, contrast: 0.2, saturation: -1, exposure: 0.1, tint: [1, 0.45, 0.2]
       }
     },
     lighting: {
       background: {
         visibility: VisionMode.LIGHTING_VISIBILITY.REQUIRED,
-        postProcessingModes: ["SATURATION", "TINT"],
+        postProcessingModes: ["SATURATION", "EXPOSURE"],
         uniforms: {
-          saturation: -0.8, tint: [1, 0.6, 0.35]
+          saturation: -1, exposure: 1.1, tint: [1, 0.45, 0.2]
         }
       },
       illumination: {
         postProcessingModes: ["SATURATION"],
         uniforms: {
-          saturation: -0.8
+          saturation: -1
         }
       },
       coloration: {
-        postProcessingModes: ["SATURATION", "TINT"],
+        postProcessingModes: ["SATURATION", "EXPOSURE"],
         uniforms: {
-          saturation: -0.8, tint: [1, 0.6, 0.35]
+          saturation: -1, exposure: 1.1, tint: [1, 0.45, 0.2]
         }
       },
       levels: {
@@ -191,11 +194,11 @@ function buildThermographicVision() {
         adaptive: false
       },
       defaults: {
-        attenuation: 0, contrast: 0.2, saturation: -0.8, brightness: 0.65
+        attenuation: 0, contrast: 0.2, saturation: -1, brightness: 0.75
       },
       background: {
         shader: shaders.AmplificationBackgroundVisionShader, uniforms: {
-          tint: [1, 0.6, 0.35]
+          tint: [1, 0.45, 0.2]
         }
       }
     }
