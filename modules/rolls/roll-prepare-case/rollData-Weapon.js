@@ -425,7 +425,7 @@ function _buildCalledShotList(rollData){
       rollData.lists.calledShotsSpecific.onPinsAndNeedles = game.i18n.localize("SR5.CS_AS_OnPinsAndNeedles")
       rollData.lists.calledShotsSpecific.shreddedFlesh = game.i18n.localize("SR5.CS_AS_ShreddedFlesh")
     }
-    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_Tag")
+    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.tag = game.i18n.localize("SR5.CS_AS_Tag")
     if (ammoType === "apds" || ammoType === "gauss") rollData.lists.calledShotsSpecific.throughAndInto = game.i18n.localize("SR5.CS_AS_ThroughAndInto")
     if (ammoType === "av" || ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.upTheAnte = game.i18n.localize("SR5.CS_AS_UpTheAnte")
   }
