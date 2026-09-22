@@ -399,15 +399,6 @@
         margin-bottom: 4px;
         text-align: left;
 
-        // The illustration the SR5 cards wear behind their header is black
-        // where this band is short enough to show only its foot, and a table
-        // draw has no dice block to fill it out. The theme's own header red
-        // names the card at a glance and keeps its title legible: white on
-        // that red contrasts 9.1:1, where the same red as text on the black
-        // would have fallen to 2.3:1.
-        background-color: var(--sr-header-bg);
-        background-image: none;
-        border-bottom: 1px solid var(--sr-ui-border-color);
 
         .SR-TableHeaderIcon {
           flex: 0 0 28px;
@@ -468,7 +459,11 @@
 
       // The table's own description, above the results
       .table-description {
-        color: var(--sr-text-color-grey);
+        // --sr-text-color-grey is white at half opacity: it is the discreet
+        // grey of the DARK surfaces. The body of a chat message is white, so
+        // it left this line invisible. Dimming the dark text is the version
+        // of "discreet" this surface calls for.
+        color: color-mix(in srgb, var(--sr-text-color-dark) 65%, transparent);
         font-family: var(--sr-font-body);
         font-size: var(--sr-font-size-small);
         font-style: italic;
