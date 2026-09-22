@@ -14,7 +14,11 @@
 // than a count: that inner table is rolled that many times, so "1d3 armes"
 // draws one to three different weapons rather than three copies of one.
 
-/** The flag namespace both formulas live under. */
+import {
+  sr5NuyenFooter
+} from "../../interface/table-nuyen.js"
+
+/** The flag namespace the formulas live under. */
 const NAMESPACE = "sr5"
 
 /** How many times the table is drawn. */
@@ -22,6 +26,9 @@ export const ROLLS_FORMULA = "rollsFormula"
 
 /** How many a single line yields. */
 export const QUANTITY_FORMULA = "quantityFormula"
+
+/** How much loose money the table hands out alongside what it drew. */
+export const NUYEN_FORMULA = "nuyenFormula"
 
 /**
  * Roll a formula written by a user and reduce it to a whole count.
@@ -50,6 +57,33 @@ export async function sr5RollFormulaAmount(formula, label = "") {
     }))
     console.warn(`SR5 | invalid table formula "${text}"`, error)
     return 1
+  }
+}
+
+/**
+ * Roll the money formula of a table.
+ *
+ * Unlike a count, an amount of nuyen is allowed to come out at nothing: a body
+ * that carried nothing is a result, not an error. A negative total is not —
+ * a table cannot take money away — so it is floored at zero.
+ *
+ * @param {string} formula   the formula as typed on the sheet
+ * @param {string} label     the table to name, if the formula fails
+ * @returns {Promise<number|null>}  the amount, or null when the table has none
+ */
+export async function sr5RollNuyenAmount(formula, label = "") {
+  const text = String(formula ?? "").trim()
+  if (!text) return null
+  try {
+    const roll = await Roll.create(text).evaluate()
+    const amount = Math.floor(roll.total)
+    return Number.isFinite(amount) ? Math.max(0, amount) : null
+  } catch (error) {
+    ui.notifications.warn(game.i18n.format("SR5.TableFormulaInvalid", {
+      formula: text, name: label
+    }))
+    console.warn(`SR5 | invalid table nuyen formula "${text}"`, error)
+    return null
   }
 }
 
@@ -211,7 +245,34 @@ export class SR5RollTable extends foundry.documents.RollTable {
    */
   async toMessage(results, options = {
   }) {
-    return super.toMessage(sr5GroupResults(results), options)
+    const message = await super.toMessage(sr5GroupResults(results), options)
+
+    const nuyen = await sr5RollNuyenAmount(this.getFlag(NAMESPACE, NUYEN_FORMULA), this.name)
+    if (message && nuyen !== null) await this.#addNuyen(message, nuyen)
+
+    return message
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Write the money the table handed out onto the card it just made.
+   *
+   * It is a second write, and deliberately so: core builds the card's content
+   * itself, inside the creation it performs, and reads no template of ours for
+   * this message. Appending afterwards is the only way to add to it without
+   * copying core's method wholesale — and it keeps the amount in the message,
+   * where it survives a reload and can be paid days later.
+   *
+   * @param {ChatMessage} message
+   * @param {number} amount
+   */
+  async #addNuyen(message, amount) {
+    await message.update({
+      content: message.content + sr5NuyenFooter(amount),
+      "flags.sr5.tableNuyen": amount,
+      "flags.sr5.tableName": this.name
+    })
   }
 }
 

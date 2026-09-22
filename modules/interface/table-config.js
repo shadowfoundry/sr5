@@ -8,7 +8,7 @@
 // which is all the form handler of a DocumentSheetV2 needs to store it.
 
 import {
-  ROLLS_FORMULA, QUANTITY_FORMULA
+  ROLLS_FORMULA, QUANTITY_FORMULA, NUYEN_FORMULA
 } from "../entities/rollTables/entityRollTable.js"
 
 /**
@@ -79,6 +79,14 @@ function placeAfter(root, anchorName, group) {
  */
 export function sr5AddTableFormulaField(app, html) {
   if (html.querySelector(`[name="flags.sr5.${ROLLS_FORMULA}"]`)) return
+
+  placeAfter(html, "formula", formulaGroup({
+    name: `flags.sr5.${NUYEN_FORMULA}`,
+    value: app.document.getFlag("sr5", NUYEN_FORMULA),
+    label: game.i18n.localize("SR5.TableNuyenFormula"),
+    hint: game.i18n.localize("SR5.TableNuyenFormulaHint"),
+    placeholder: "2d6*100"
+  }))
 
   placeAfter(html, "formula", formulaGroup({
     name: `flags.sr5.${ROLLS_FORMULA}`,

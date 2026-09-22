@@ -501,3 +501,26 @@
   margin-right: 4px;
   white-space : nowrap;
 }
+
+
+// The money a table handed out, and the button that hands it over. It sits
+// under the results of a table draw, inside the card core wrote.
+.SR-TableNuyen {
+  align-items    : center;
+  display        : flex;
+  gap            : 6px;
+  justify-content: space-between;
+  margin         : 4px 5px 0 5px;
+  padding-top    : 4px;
+
+  .SR-TableNuyenAmount {
+    flex       : 1 1 auto;
+    font-weight: bold;
+  }
+
+  button {
+    flex      : 0 0 auto;
+    line-height: normal;
+    width     : auto;
+  }
+}
