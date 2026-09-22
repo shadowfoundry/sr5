@@ -337,7 +337,7 @@ function _buildCalledShotList(rollData){
     rollData.lists.calledShots.pin = game.i18n.localize("SR5.CS_Pin")
   }
     
-  if (rollData.combat.weaponType === "unarmed" && rollData.combat.calledShot.martialArts.disarm){
+  if (rollData.combat.weaponType === "unarmedCombat" && rollData.combat.calledShot.martialArts.disarm){
     rollData.lists.calledShots.disarm = game.i18n.localize("SR5.CS_Disarm")
   }
 
@@ -351,19 +351,19 @@ function _buildCalledShotList(rollData){
     rollData.lists.calledShots.shakeUp = game.i18n.localize("SR5.CS_ShakeUp")
   }
 
-  if (rollData.combat.weaponType === "meleeWeapon" && rollData.combat.calledShot.martialArts.feint){
+  if (rollData.test.typeSub === "meleeWeapon" && rollData.combat.calledShot.martialArts.feint){
     rollData.lists.calledShots.feint = game.i18n.localize("SR5.CS_Feint")
   }
 
   rollData.lists.calledShots.splittingDamage = game.i18n.localize("SR5.CS_SplittingDamage")
 
-  if (rollData.combat.weaponType === "meleeWeapon"){
+  if (rollData.test.typeSub === "meleeWeapon"){
     rollData.lists.calledShots.knockdown = game.i18n.localize("SR5.CS_Knockdown")
   }
 
   rollData.lists.calledShots.trickShot = game.i18n.localize("SR5.CS_TrickShot")
 
-  if (rollData.combat.weaponType === "meleeWeapon" || rollData.combat.weaponType === "meleeWeunarmedapon"){
+  if (rollData.test.typeSub === "meleeWeapon"){
     rollData.lists.calledShots.reversal = game.i18n.localize("SR5.CS_Reversal")
   }
 
