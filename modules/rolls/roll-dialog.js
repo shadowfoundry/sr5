@@ -1004,6 +1004,8 @@ export default class SR5_RollDialog {
             const calledShotEl = html.querySelector('#calledShotSpecificTarget')
             if (calledShotEl) calledShotEl.style.display = 'none'
           }
+          if (dialogData.combat.armorPenetrationBeforeCalledShot === undefined) dialogData.combat.armorPenetrationBeforeCalledShot = dialogData.combat.armorPenetration
+          dialogData.combat.armorPenetration = dialogData.combat.armorPenetrationBeforeCalledShot
           dialogData.combat.calledShot.name = ev.target.value
           dialogData.combat.calledShot.effects = SR5_CalledShotHelpers.convertCalledShotToEffect(ev.target.value, dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
           dialogData.combat.calledShot.limitDV = SR5_CalledShotHelpers.convertCalledShotToLimitDV(ev.target.value, dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
@@ -1011,9 +1013,15 @@ export default class SR5_RollDialog {
             case "shakeUp":
               dialogData.combat.calledShot.initiative = SR5_CalledShotHelpers.convertCalledShotToInitiativeMod(dialogData.combat.ammo.type, dialogData.combat.ammo.effects)
               break
-            case "bullsEye": //Errata: "The attack results in an AP increase equal to the BASE weapon AP multiplied by the number of bullets in the burst with a maximum modifier of x3."
-              dialogData.combat.armorPenetration = ((dialogData.combat.armorPenetration + 4) * Math.min(dialogData.combat.ammo.fired, 3)) - 4
+            case "bullsEye": {
+              // Run & Gun p. 130 : la PA de l'attaque est augmentée de la PA de base de l'arme (sans munition)
+              // multipliée par le nombre de balles de la rafale, au maximum ×3
+              const bullsEyeWeapon = await fromUuid(dialogData.owner.itemUuid)
+              const baseAP = bullsEyeWeapon?.system.armorPenetration.base ?? 0
+              const bullets = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
+              dialogData.combat.armorPenetration += baseAP * Math.min(bullets, 3)
               break
+            }
             case "hitEmWhereItCounts":
               if (dialogData.damage.toxin.power > 0) {
                 dialogData.damage.toxin.power += 2
