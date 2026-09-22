@@ -644,3 +644,10 @@
         padding: 2px 6px;
     }
 }
+
+/* A spirit type whose identifier is already taken is ignored; the sheet says
+   so, and has to be read. The theme's flash teal only reaches 3.7:1 on the
+   light window surface, so alerts use the theme's red instead. */
+.SR-Item .SR-AlertColor {
+    color: var(--sr-text-color-alert);
+}
