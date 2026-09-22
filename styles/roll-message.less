@@ -384,9 +384,41 @@
 
     .table-draw {
       background: none !important;
-      padding: 4px 8px;
+      padding: 0 0 4px 0;
       border: none !important;
       box-shadow: none !important;
+
+      // The header the card never had: core writes no title of its own, and
+      // the name of the table only appeared in the message's flavour line.
+      // Built in modules/interface/table-draw.js — core reads no template
+      // for this message.
+      .SR-TableHeader {
+        align-items: center;
+        gap: 5px;
+        padding: 4px 5px;
+        margin-bottom: 4px;
+        text-align: left;
+
+        .SR-TableHeaderIcon {
+          flex: 0 0 28px;
+          width: 28px;
+          height: 28px;
+          object-fit: cover;
+          border: 1px solid var(--sr-text-color-dark);
+        }
+
+        .SR-CardHeaderTitle {
+          margin: 0;
+          text-align: left;
+        }
+      }
+
+      .table-description,
+      .table-results,
+      .dice-roll {
+        margin-left: 5px;
+        margin-right: 5px;
+      }
 
       // Table name header
       h4, h3 {
@@ -471,16 +503,19 @@
       // column of gaps. Keep the row on one line.
       .table-results li {
         flex-wrap: nowrap;
-        align-items: center;
+        align-items: baseline;
         gap: 6px;
+        padding: 2px 0;
+        line-height: 1.25;
 
         > img {
-          flex: 0 0 24px;
-          width: 24px;
-          height: 24px;
+          flex: 0 0 20px;
+          width: 20px;
+          height: 20px;
           object-fit: cover;
           border: none;
           margin: 0;
+          align-self: center;
         }
 
         > .description {
@@ -502,15 +537,24 @@
           margin: 0;
         }
 
-        // A generator names each of its sub-tables in bold or as a heading;
-        // stacked full-size titles drowned the answers they introduce.
-        h1, h2, h3, h4, b, strong {
-          font-family: var(--sr-font-title);
-          font-size: var(--sr-font-size-normal);
+        // A generator names each of its sub-tables, as a heading or as a
+        // line that is nothing but bold. Left to the core sizes, a single h1
+        // stood taller than the card's own title and drowned the answer it
+        // introduces. A bold word inside a sentence is left alone.
+        h1, h2, h3, h4, h5, h6,
+        > b:only-child,
+        > strong:only-child,
+        > p > b:only-child,
+        > p > strong:only-child {
+          display: block;
+          font-family: var(--sr-font-body-bold);
+          font-size: var(--sr-font-size-small);
           font-weight: normal;
+          line-height: 1.3;
           text-transform: uppercase;
-          color: var(--sr-text-color-dark);
+          color: var(--sr-ui-border-color);
           border: none;
+          border-bottom: 1px solid var(--sr-ui-border-color);
           margin: 0;
         }
       }
