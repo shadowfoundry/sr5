@@ -20,12 +20,14 @@ export const SR5_VISION_DETECTION_MODES = {
   ultrasound: "ultrasound",
 }
 
-// Tint of the vision cone, per vision type
+// Colour of the vision cone. The core software uses it as the tint of the whole picture the
+// token sees (refreshPrimarySpriteMesh), where it multiplies the scene : a dark colour here
+// gives a dull grey view, not a tinted one. These have to stay bright and saturated.
 export const SR5_VISION_COLORS = {
   astral: "#303c50",
   lowLight: null,
-  thermographic: "#4a2410",
-  ultrasound: "#1b2c38",
+  thermographic: "#ff8c42",
+  ultrasound: "#bcd8e6",
 }
 
 /**
