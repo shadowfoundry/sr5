@@ -2019,6 +2019,7 @@ SR5.calledShotsMartialArts = {
   entanglement			  : "SR5.CS_Entanglement",
   feint					  : "SR5.CS_Feint",
   pin 					  : "SR5.CS_Pin",
+  reversal              : "SR5.CS_Reversal",
 }
 
 //-----------------------------------//
