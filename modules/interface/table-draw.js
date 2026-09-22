@@ -45,6 +45,15 @@ export function sr5DressTableDraw(html) {
   const draw = html.querySelector(".table-draw")
   if (!draw || draw.querySelector(".SR-TableHeader")) return
 
+  // A table already chooses, per table, whether its card shows the die and
+  // the face it landed on (core's displayRoll). A GM who wants the answer
+  // and never the roll would have to set that on every table they own, and
+  // has no say at all over the ones a module ships. This setting speaks for
+  // the whole world and leaves the tables alone — the roll still happens.
+  if (game.settings.get("sr5", "sr5HideTableRoll")) {
+    draw.querySelector(".dice-roll")?.remove()
+  }
+
   const rows = [...draw.querySelectorAll(".table-results > li")]
   const images = rows.map(row => row.querySelector(":scope > img")).filter(Boolean)
   const drawings = images.map(img => img.getAttribute("src")).filter(src => !isPlaceholder(src))
