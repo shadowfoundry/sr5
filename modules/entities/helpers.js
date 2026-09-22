@@ -7,6 +7,9 @@ import {
 import {
   _getSRStatusEffect 
 } from "../system/effectsList.js"
+import {
+  SR5_TOKEN_VISION_MODES, SR5_VISION_COLORS, SR5_VISION_DETECTION_MODES, getVisionRange 
+} from "../system/vision.js"
 
 export class SR5_EntityHelpers {
 
@@ -388,25 +391,41 @@ export class SR5_EntityHelpers {
     }
   }
 
-  //Return necessery data to update a token vision mode to Astral
-  static async getAstralVisionData(tokenDocument){
-    if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getAstralVisionData()'`)
-    tokenDocument.sight.visionMode = 'astralvision'
-    tokenDocument.sight.range = 300
-    tokenDocument.sight.color = "#303c50"
-    tokenDocument.detectionModes.push({
-      id: 'astralvision', enabled: true, range: 100
-    })
-    return tokenDocument
+  //Return the vision type a token should use : the one switched on, or, failing that,
+  //the natural vision the actor owes to its metatype (SR5 p. 68)
+  static getActiveVisionType(actor){
+    const visions = actor?.system?.visions
+    if (!visions) return "basic"
+    for (const key of Object.keys(SR5.visionActive)) {
+      if (visions[key]?.isActive) return key
+    }
+    for (const key of ["thermographic", "lowLight", "ultrasound"]) {
+      if (visions[key]?.natural || visions[key]?.augmented) return key
+    }
+    return "basic"
   }
 
-  //Return necessery data to update a token vision mode to Astral
-  static async getBasicVisionData(tokenDocument){
-    if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getBasicVisionData()'`)
-    tokenDocument.sight.visionMode = 'basic'
-    tokenDocument.sight.range = 0
-    tokenDocument.sight.color = null
-    tokenDocument.detectionModes = tokenDocument.detectionModes.filter(d => d.id !== 'astralvision')
+  //Return necessery data to update a token to the vision its actor is currently using
+  static async getVisionData(tokenDocument, actor){
+    if (!tokenDocument) return SR5_SystemHelpers.srLog(1, `Empty '${tokenDocument}' in 'getVisionData()'`)
+    const vision = this.getActiveVisionType(actor)
+    const mode = SR5_TOKEN_VISION_MODES[vision]
+    tokenDocument.sight.enabled = true
+    tokenDocument.sight.visionMode = mode ?? "basic"
+    tokenDocument.sight.range = mode ? getVisionRange(vision) : 0
+    tokenDocument.sight.color = SR5_VISION_COLORS[vision] ?? null
+    //Apply the look of the vision mode, as the token configuration does when it is picked by hand
+    const defaults = CONFIG.Canvas.visionModes[tokenDocument.sight.visionMode]?.vision?.defaults ?? {
+    }
+    for (const key of ["attenuation", "brightness", "contrast", "saturation"]) {
+      if (defaults[key] !== undefined) tokenDocument.sight[key] = defaults[key]
+    }
+    //Only the vision in use keeps its detection mode
+    const visionDetections = Object.values(SR5_VISION_DETECTION_MODES)
+    tokenDocument.detectionModes = (tokenDocument.detectionModes ?? []).filter(d => !visionDetections.includes(d.id))
+    if (SR5_VISION_DETECTION_MODES[vision]) tokenDocument.detectionModes.push({
+      id: SR5_VISION_DETECTION_MODES[vision], enabled: true, range: getVisionRange(vision)
+    })
     return tokenDocument
   }
 
