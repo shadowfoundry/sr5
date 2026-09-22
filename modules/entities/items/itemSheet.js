@@ -2,6 +2,9 @@ import {
   SR5 
 } from "../../config.js"
 import {
+  SR5_SpiritTypes
+} from "./spirit-types.js"
+import {
   SR5_EntityHelpers 
 } from "../helpers.js"
 import {
@@ -301,6 +304,26 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
       }
     }
     context.cssClass = this.document.isOwner ? "editable" : "locked"
+
+    // Custom spirit type: pickers, and labels for the read-only summary
+    if (item.type === "itemSpiritType") {
+      const official = {
+      }
+      for (const [key, label] of Object.entries(SR5.spiritTypes)) {
+        if (!SR5_SpiritTypes.registry.has(key)) official[key] = label
+      }
+      context.spiritTypeBaseChoices = official
+      context.spiritTypeKeyPlaceholder = SR5_SpiritTypes.keyOf(item)
+      context.spiritTypeAttributes = Object.keys(SR5.characterAttributes).map(key => ({
+        key,
+        label: SR5.characterAttributes[key],
+        modifier: item.system.attributes[key]?.modifier ?? 0,
+        override: item.system.attributes[key]?.override ?? null,
+      }))
+      const names = (list, table) => (list ?? []).map(k => game.i18n.localize(table[k] ?? k)).join(", ")
+      context.spiritTypeSkillsLabel = names(item.system.skills, SR5.skills)
+      context.spiritTypePowersLabel = names(item.system.powers, SR5.AllSpiritPowers)
+    }
 
     // Weapon focus: populate weapon choices from parent actor
     if (item.type === "itemFocus" && item.system.type === "weapon" && item.actor) {

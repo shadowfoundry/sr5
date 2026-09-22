@@ -4,6 +4,9 @@ import {
 import {
   SR5 
 } from "../../config.js"
+import {
+  SR5_SpiritTypes
+} from "../items/spirit-types.js"
 
 export class SR5_CompendiumUtility extends Actor {
 
@@ -39,7 +42,9 @@ export class SR5_CompendiumUtility extends Actor {
     }
 
     if (actorType === "actorSpirit") {
-      baseItems = await SR5_CompendiumUtility.findBaseItemInCompendium(baseItems, weapons, actorSubType)
+      // A custom type borrows the natural weapon of the type it is based on.
+      const weaponType = SR5_SpiritTypes.baseType(actorSubType) || actorSubType
+      baseItems = await SR5_CompendiumUtility.findBaseItemInCompendium(baseItems, weapons, weaponType)
       baseItems = await SR5_CompendiumUtility.findBaseSpiritPowersInCompendium(baseItems, powers, actorSubType)
       baseItems = await SR5_CompendiumUtility.modifyBaseSpiritWeapon(baseItems, actorLevel)
     }

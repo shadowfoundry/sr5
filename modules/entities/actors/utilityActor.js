@@ -5,6 +5,9 @@ import {
   SR5_SystemHelpers 
 } from "../../system/utilitySystem.js"
 import {
+  SR5_SpiritTypes
+} from "../items/spirit-types.js"
+import {
   SR5Combat 
 } from "../../system/srcombat.js"
 import {
@@ -1007,9 +1010,10 @@ export class SR5_CharacterUtility extends Actor {
     SR5_EntityHelpers.updateValue(specialAttributes.magic.natural)
     essence.base = actorData.force.value
     SR5_EntityHelpers.updateValue(essence)
-    let label = `${game.i18n.localize('SR5.SpiritType')} (${actorData.type})`
+    const customType = SR5_SpiritTypes.get(actorData.type)
+    let label = `${game.i18n.localize('SR5.SpiritType')} (${SR5_SpiritTypes.label(actorData.type)})`
 
-    switch (actorData.type) {
+    switch (SR5_SpiritTypes.baseType(actorData.type)) {
       case "watcher":
         attributes.body.natural.base = 0
         attributes.agility.natural.base = 0
@@ -1164,9 +1168,16 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(attributes.strength.natural, label, 'spiritType', -1)
         break
       default:
-        SR5_SystemHelpers.srLog(1, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`)
-        return false
+        // A custom type with no base keeps the generic spirit values: every
+        // attribute at Force, which the loop above has already set.
+        if (!customType) {
+          SR5_SystemHelpers.srLog(1, `Unknown ${actorData.type} spirit type in 'updateSpiritAttributes()'`)
+          return false
+        }
+        break
     }
+
+    if (customType) SR5_SpiritTypes.applyAttributes(customType, attributes, label)
   }
 
   static updateSpriteValues(actor) {
@@ -1493,7 +1504,13 @@ export class SR5_CharacterUtility extends Actor {
       specialAttributes = actorData.specialAttributes
 
     if (actor.type == "actorSpirit") {
-      if (actorData.type == "homunculus" || actorData.type == "watcher") {
+      const customMonitor = SR5_SpiritTypes.get(actorData.type)
+      const monitorStyle = customMonitor ? SR5_SpiritTypes.conditionMonitor(customMonitor) : ""
+      const baseMonitorType = SR5_SpiritTypes.baseType(actorData.type)
+      const singleMonitor = monitorStyle ?
+        monitorStyle === "single" :
+        (baseMonitorType === "homunculus" || baseMonitorType === "watcher")
+      if (singleMonitor) {
         delete actorData.conditionMonitors.physical
         delete actorData.conditionMonitors.stun
         delete actorData.statusBars.physical
@@ -1592,12 +1609,18 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       }
-      case "actorSpirit":
+      case "actorSpirit": {
         SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
         SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.Reaction'), "linkedAttribute", attributes.reaction.augmented.value)
         initPhy.dice.base = 1
-        if (actorData.type !== "homunculus") SR5_EntityHelpers.updateModifier(initPhy.dice, game.i18n.localize(SR5.spiritTypes[actorData.type]), "spiritType", 1)
+        const customType = SR5_SpiritTypes.get(actorData.type)
+        const customDice = customType ? SR5_SpiritTypes.physicalDice(customType) : null
+        const spiritDice = customDice !== null ?
+          customDice :
+          (SR5_SpiritTypes.baseType(actorData.type) === "homunculus" ? 0 : 1)
+        if (spiritDice) SR5_EntityHelpers.updateModifier(initPhy.dice, SR5_SpiritTypes.label(actorData.type), "spiritType", spiritDice)
         break
+      }
       default:
         SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
         SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.Reaction'), "linkedAttribute", attributes.reaction.augmented.value)
@@ -1620,25 +1643,33 @@ export class SR5_CharacterUtility extends Actor {
     initAst.dice.base = 0
 
     if (actor.type === "actorSpirit") {
+      // Force counts twice for every spirit type, then the type decides its
+      // dice and, for shadow spirits, a flat bonus.
+      const customType = SR5_SpiritTypes.get(actorData.type)
+      const spiritLabel = SR5_SpiritTypes.label(actorData.type)
       SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.SpiritForce'), "linkedAttribute", actorData.force.value)
-      switch (actorData.type) {
+      SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.SpiritForce'), "linkedAttribute", actorData.force.value)
+      let spiritDice = 3
+      let spiritBonus = 0
+      switch (SR5_SpiritTypes.baseType(actorData.type)) {
         case "watcher":
-          SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.SpiritForce'), "linkedAttribute", actorData.force.value)
-          SR5_EntityHelpers.updateModifier(initAst.dice, game.i18n.localize(SR5.spiritTypes[actorData.type]), "spiritType", 1)
+          spiritDice = 1
           break
         case "shadowMuse":
         case "shadowNightmare":
         case "shadowShade":
         case "shadowSuccubus":
         case "shadowWraith":
-          SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.SpiritForce'), "linkedAttribute", actorData.force.value)
-          SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize(SR5.spiritTypes[actorData.type]), "spiritType", 1)
-          SR5_EntityHelpers.updateModifier(initAst.dice, game.i18n.localize(SR5.spiritTypes[actorData.type]), "spiritType", 3)
+          spiritBonus = 1
           break
-        default:
-          SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.SpiritForce'), "linkedAttribute", actorData.force.value)
-          SR5_EntityHelpers.updateModifier(initAst.dice, game.i18n.localize(SR5.spiritTypes[actorData.type]), "spiritType", 3)
       }
+      if (customType) {
+        const customDice = SR5_SpiritTypes.astralDice(customType)
+        if (customDice !== null) spiritDice = customDice
+        spiritBonus += SR5_SpiritTypes.astralBonus(customType)
+      }
+      if (spiritBonus) SR5_EntityHelpers.updateModifier(initAst, spiritLabel, "spiritType", spiritBonus)
+      if (spiritDice) SR5_EntityHelpers.updateModifier(initAst.dice, spiritLabel, "spiritType", spiritDice)
     } else {
       SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
       SR5_EntityHelpers.updateModifier(initAst, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
@@ -2288,8 +2319,9 @@ export class SR5_CharacterUtility extends Actor {
     skills.assensing.rating.base = actorData.force.value
     skills.perception.rating.base = actorData.force.value
     actorData.magic.tradition = actor.system.magic.tradition
+    const customType = SR5_SpiritTypes.get(actorData.type)
 
-    switch (actorData.type) {
+    switch (SR5_SpiritTypes.baseType(actorData.type)) {
       case "watcher":
         skills.astralCombat.rating.base = Math.ceil(actorData.force.value / 2)
         skills.assensing.rating.base = Math.ceil(actorData.force.value / 2)
@@ -2437,6 +2469,17 @@ export class SR5_CharacterUtility extends Actor {
         skills.throwingWeapons.rating.base = actorData.force.value
         skills.unarmedCombat.rating.base = actorData.force.value
         break
+    }
+
+    if (customType) {
+      const ratio = SR5_SpiritTypes.baseSkillsRatio(customType)
+      if (ratio) {
+        const rating = ratio === "half" ? Math.ceil(actorData.force.value / 2) : actorData.force.value
+        skills.astralCombat.rating.base = rating
+        skills.assensing.rating.base = rating
+        skills.perception.rating.base = rating
+      }
+      SR5_SpiritTypes.applySkills(customType, skills, actorData.force.value)
     }
 
     for (let key of Object.keys(SR5.skills)) {

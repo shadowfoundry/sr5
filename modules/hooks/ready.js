@@ -1,6 +1,22 @@
 import SR5TokenHud from "../interface/tokenHud.js"
+import {
+  SR5_SpiritTypes
+} from "../entities/items/spirit-types.js"
+import {
+  SR5_SystemHelpers
+} from "../system/utilitySystem.js"
 
 export function sr5HookReady() {
+  // Register the GM-authored spirit types, so that they are offered wherever
+  // the official ones are, then keep the list in step with the world.
+  SR5_SpiritTypes.reload().catch(e => SR5_SystemHelpers.srLog(1, `Spirit types could not be registered: ${e}`))
+  for (const hook of ["createItem", "updateItem", "deleteItem"]) {
+    Hooks.on(hook, (item) => {
+      if (item.type !== "itemSpiritType") return
+      SR5_SpiritTypes.reload().catch(e => SR5_SystemHelpers.srLog(1, `Spirit types could not be registered: ${e}`))
+    })
+  }
+
   // Apply UI theme based on setting
   const chosenStyle = game.settings.get("sr5", "sr5ChooseStyle") ?? "SR5"
   const themeClass = chosenStyle === "SR6" ? "sr-theme-sr6" : "sr-theme-sr5"

@@ -61,3 +61,22 @@ if (!globalThis.ui.notifications) globalThis.ui.notifications = {
   info: () => {},
   error: () => {},
 }
+
+// CONFIG stub: config.js writes its status effects into it on import
+if (!globalThis.CONFIG) globalThis.CONFIG = {
+}
+
+// Foundry extends String with slugify
+if (!String.prototype.slugify) {
+   
+  String.prototype.slugify = function ({
+    replacement = "-", strict = false 
+  } = {
+  }) {
+    let slug = this.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, replacement)
+      .replace(new RegExp(`^${replacement}+|${replacement}+$`, "g"), "")
+    if (strict) slug = slug.replace(new RegExp(`[^a-z0-9${replacement}]+`, "g"), "")
+    return slug
+  }
+}

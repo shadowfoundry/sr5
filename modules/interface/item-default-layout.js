@@ -163,6 +163,7 @@ const ITEM_LAYOUTS = {
   itemMartialArt:   () => _threeTabLayout('martialArtSummary', 'martialArtStat'),
   itemTradition:    () => _threeTabLayout('traditionSummary', 'traditionStat'),
   itemSpirit:       () => _threeTabLayout('spiritSummary', 'spiritStat'),
+  itemSpiritType:   () => _threeTabLayout('spiritTypeSummary', 'spiritTypeStat'),
   itemSprite:       () => _threeTabLayout('spriteSummary', 'spriteStat'),
   itemSpritePower:  () => _threeTabLayout('spritePowerSummary', 'spritePowerStat'),
   itemVehicleMod:   () => _threeTabLayout('vehicleModSummary', 'vehicleModStat'),

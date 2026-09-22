@@ -2644,6 +2644,20 @@ SR5.spiritTypes = {
   water                     : "SR5.Water",
 }
 
+// Condition monitors a custom spirit type can ask for
+SR5.spiritTypeMonitors = {
+  ""                        : "SR5.SpiritTypeInherit",
+  standard                  : "SR5.SpiritTypeMonitorStandard",
+  single                    : "SR5.SpiritTypeMonitorSingle",
+}
+
+// How a custom spirit type rates the skills every spirit gets
+SR5.spiritTypeSkillRatios = {
+  ""                        : "SR5.SpiritTypeInherit",
+  full                      : "SR5.SpiritTypeRatioFull",
+  half                      : "SR5.SpiritTypeRatioHalf",
+}
+
 SR5.spiritBasePowersabomination = {
   animalControl              : "SR5.SpiritPowerAnimalControl",
   astralForm                 : "SR5.SpiritPowerAstralForm",
@@ -3688,6 +3702,7 @@ SR5.itemTypes = {
   itemSin                   : "TYPES.Item.itemSin",
   itemSpell                 : "TYPES.Item.itemSpell",
   itemSpirit                : "TYPES.Item.itemSpirit",
+  itemSpiritType            : "TYPES.Item.itemSpiritType",
   itemSprite                : "TYPES.Item.itemSprite",
   itemSpritePower           : "TYPES.Item.itemSpritePower",
   itemTradition             : "TYPES.Item.itemTradition",

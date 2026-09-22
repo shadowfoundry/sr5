@@ -1,0 +1,43 @@
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.SpiritTypeKey'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <input type="text" data-dtype="String" name="system.key" value="{{system.key}}" placeholder="{{spiritTypeKeyPlaceholder}}"/>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.SpiritTypeBasedOn'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.basedOn" data-dtype="String">
+            <option class="SR-LightGreyColor" value="">{{localize 'SR5.SpiritTypeBasedOnNone'}}</option>
+            {{selectOptions spiritTypeBaseChoices selected=system.basedOn localize=true}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.SpiritTypeConditionMonitor'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.conditionMonitor" data-dtype="String">
+            {{selectOptions lists.spiritTypeMonitors selected=system.conditionMonitor localize=true}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-4">{{localize 'SR5.SpiritTypeBaseSkillsRatio'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-8">
+        <select name="system.baseSkillsRatio" data-dtype="String">
+            {{selectOptions lists.spiritTypeSkillRatios selected=system.baseSkillsRatio localize=true}}
+        </select>
+    </div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.SpiritTypeInitiativeDice'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.initiative.physicalDice" value="{{system.initiative.physicalDice}}" placeholder="—" onfocus="this.select()"/></div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.SpiritTypeAstralInitiativeDice'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.initiative.astralDice" value="{{system.initiative.astralDice}}" placeholder="—" onfocus="this.select()"/></div>
+</li>
+<li class="grid">
+    <div class="col-8">{{localize 'SR5.SpiritTypeAstralInitiativeBonus'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.initiative.astralBonus" value="{{system.initiative.astralBonus}}" placeholder="0" onfocus="this.select()"/></div>
+</li>
