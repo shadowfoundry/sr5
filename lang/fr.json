@@ -1662,6 +1662,7 @@
 	"SR5.INFO_DurationFinished": "Effet {effect} terminé.",
 	"SR5.INFO_DurationReduceOneRound": "Durée de l'effet {effect} réduit d'un round.",
 	"SR5.INFO_DVLimitByCalledShot": "VD limitée à {value} par l'Attaque ciblée",
+	"SR5.INFO_CalledShotEffectsResisted": "Dommages entièrement résistés : aucun effet de l'Attaque ciblée ne s'applique",
 	"SR5.INFO_ElectricityChangeDamage": "Les dommages Etourdissant sont convertis en Physique par l'électricité.",
 	"SR5.INFO_ExtremeIntimidation": "reçoit un coup de semonce ! Initiative réduite de 10.",
 	"SR5.INFO_Feint": "Vous avez été feinté. Votre défense cumulative augmente de {netHits}.",
