@@ -136,12 +136,25 @@ export class SR5RollTable extends foundry.documents.RollTable {
       // carries its own count: "2d6 balles" drawn twice in the same handful
       // is two different numbers, and one shared document could only
       // remember the second. The copy keeps the id, so the grouping in
-      // toMessage() and core's own "already drawn" bookkeeping still
-      // recognise it.
+      // toMessage() still recognises it.
       const occurrence = result.clone(undefined, {
         keepId: true
       })
       occurrence.sr5Quantity = quantity
+
+      // Core marks a line as drawn by writing `drawn` on the document it was
+      // handed, and reads back from the table's own. Handed a copy, it would
+      // mark the copy and leave the line available: a table without
+      // replacement would quietly behave as if it had some. The copy
+      // forwards the field to the line it came from.
+      Object.defineProperty(occurrence, "drawn", {
+        configurable: true,
+        get: () => result.drawn,
+        set: value => {
+          result.drawn = value
+        }
+      })
+
       results.push(occurrence)
     }
 
