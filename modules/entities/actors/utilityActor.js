@@ -346,6 +346,8 @@ export class SR5_CharacterUtility extends Actor {
         actorData.visions[key].natural = false
         actorData.visions[key].augmented = false
       }
+      actorData.visions.cyberEyes.hasCyberEyes = !!this.getCyberEyes(actor)
+      actorData.visions.cyberEyes.replacedNaturalVision = []
     }
 
     // Reset Special properties
@@ -840,6 +842,8 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(actorData.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.UltrasoundVision')}`, "visionType", -3, false, false)
       }
     }
+    actorData.visions.hasActiveVision = Object.keys(SR5.visionActive).some(key => actorData.visions[key].isActive)
+
     //environmental modifiers
     if (actorData.itemsProperties?.environmentalMod) {
       for (let key of Object.keys(SR5.environmentalModifiers)) {
@@ -924,6 +928,28 @@ export class SR5_CharacterUtility extends Actor {
     } else await this.applyVisionToToken(actor)
   }
 
+  //Return the cybereyes the character wears, if any. Cybereyes are the only eyeware that
+  //holds a Capacity : everything else in that category plugs into them (SR5 p. 456).
+  static getCyberEyes(actor) {
+    return actor.items?.find(i => i.type === "itemAugmentation" &&
+      i.system.category === "eyeware" &&
+      !i.system.isAccessory &&
+      Number(i.system.capacity?.base ?? 0) > 0) ?? null
+  }
+
+  //Grant a vision the character owes to its metatype. The book does not say what becomes of it
+  //once the eyes it came with have been replaced by cybereyes, so a world setting decides.
+  static grantMetatypeVision(actor, vision) {
+    let actorData = actor.system
+    if (actorData.visions.cyberEyes.hasCyberEyes && game.settings.get("sr5", "sr5CyberEyesReplaceNaturalVision")) {
+      if (!actorData.visions.cyberEyes.replacedNaturalVision.includes(vision)) {
+        actorData.visions.cyberEyes.replacedNaturalVision.push(vision)
+      }
+      return
+    }
+    actorData.visions[vision].natural = true
+  }
+
   static applyRacialModifers(actor) {
     let actorData = actor.system
     if (!actorData.biography.characterMetatype) return
@@ -933,7 +959,7 @@ export class SR5_CharacterUtility extends Actor {
       case "human":
         break
       case "elf":
-        actorData.visions.lowLight.natural = true
+        this.grantMetatypeVision(actor, "lowLight")
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(actorData.attributes.agility.natural, label, "metatype", 1)
           SR5_EntityHelpers.updateModifier(actorData.attributes.charisma.natural, label, "metatype", 2)
@@ -941,7 +967,7 @@ export class SR5_CharacterUtility extends Actor {
         break
       case "dwarf":
         // TODO : lifestyle cost * 1.2
-        actorData.visions.thermographic.natural = true
+        this.grantMetatypeVision(actor, "thermographic")
         for (let vector of Object.keys(SR5.propagationVectors)) {
           SR5_EntityHelpers.updateModifier(actorData.resistances.disease[vector], label, "metatype", 2)
           SR5_EntityHelpers.updateModifier(actorData.resistances.toxin[vector], label, "metatype", 2)
@@ -954,7 +980,7 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       case "ork":
-        actorData.visions.lowLight.natural = true
+        this.grantMetatypeVision(actor, "lowLight")
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(actorData.attributes.body.natural, label, "metatype", 3)
           SR5_EntityHelpers.updateModifier(actorData.attributes.strength.natural, label, "metatype", 2)
@@ -964,7 +990,7 @@ export class SR5_CharacterUtility extends Actor {
         break
       case "troll":
         // TODO : lifestyle cost * 2
-        actorData.visions.thermographic.natural = true
+        this.grantMetatypeVision(actor, "thermographic")
         SR5_EntityHelpers.updateModifier(actorData.reach, label, "metatype", 1)
         SR5_EntityHelpers.updateModifier(actorData.resistances.physicalDamage, label, "metatype", 1)
         if (actor.type === "actorGrunt") {

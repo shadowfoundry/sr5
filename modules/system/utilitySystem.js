@@ -74,6 +74,17 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Cybereyes replace the eyes the character was born with
+    game.settings.register('sr5', 'sr5CyberEyesReplaceNaturalVision', {
+      name: 'SR5.SETTINGS_CyberEyesReplaceNaturalVision_T',
+      hint: 'SR5.SETTINGS_CyberEyesReplaceNaturalVision_D',
+      scope: 'world',
+      config: true,
+      default: true,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    })
+
     // Token vision ranges, in scene units (0 = only what is lit)
     const visionRanges = {
       sr5VisionRangeLowLight: 0,
