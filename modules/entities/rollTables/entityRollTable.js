@@ -112,8 +112,8 @@ export class SR5RollTable extends foundry.documents.RollTable {
     roll, recursive = true, _depth = 0
   } = {
   }) {
-    const draw = await super.roll({
-      roll, recursive: false, _depth
+    const draw = await this.#rollOnce({
+      roll, _depth
     })
     if (!recursive) return draw
 
@@ -132,17 +132,104 @@ export class SR5RollTable extends foundry.documents.RollTable {
         continue
       }
 
-      // The count rides on the drawn document until toMessage() renders it,
-      // a few lines further on in the same call. It is deliberately not
-      // stored: a quantity belongs to one draw, not to the table.
-      result.sr5Quantity = quantity
-      results.push(result)
+      // Each appearance gets its own copy of the drawn line, because each
+      // carries its own count: "2d6 balles" drawn twice in the same handful
+      // is two different numbers, and one shared document could only
+      // remember the second. The copy keeps the id, so the grouping in
+      // toMessage() and core's own "already drawn" bookkeeping still
+      // recognise it.
+      const occurrence = result.clone(undefined, {
+        keepId: true
+      })
+      occurrence.sr5Quantity = quantity
+      results.push(occurrence)
     }
 
     return {
       roll: draw.roll, results
     }
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Ask core for a flat draw, putting the table back in play if it has run
+   * out of lines.
+   *
+   * A table that draws without replacement marks each line as it comes up,
+   * and core simply stops once none are left: asking for five draws from a
+   * table of three quietly yields three. That was invisible while a draw took
+   * one line at a time, and it is what a rolls formula runs into first. A
+   * table asked for more than it holds is recycled rather than cut short —
+   * the game master asked for five things and gets five.
+   *
+   * @param {object} options
+   * @returns {Promise<object>}  core's draw
+   */
+  async #rollOnce({
+    roll, _depth
+  }) {
+    const draw = await super.roll({
+      roll, recursive: false, _depth
+    })
+    if (draw.results.length || this.replacement || this.pack || !this.results.size) return draw
+
+    await this.resetResults()
+    return super.roll({
+      roll, recursive: false, _depth
+    })
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Group the lines that came up more than once before the card is written.
+   *
+   * Drawing five times on the same table, or rolling an inner table three
+   * times, lands the same line on the card several times over. Read as loot,
+   * three separate "Ares Predator V" lines say something they do not mean.
+   * They are one line saying three.
+   *
+   * This is the single place every draw passes through on its way to chat —
+   * draw(), drawMany() and a direct call all end here — so it is the only
+   * place that needs to know.
+   *
+   * @inheritDoc
+   */
+  async toMessage(results, options = {
+  }) {
+    return super.toMessage(sr5GroupResults(results), options)
+  }
+}
+
+/**
+ * Merge the repeats in a list of drawn lines, adding up what each yielded.
+ *
+ * Order is that of the first appearance, so a card still reads in the order
+ * the dice produced.
+ *
+ * @param {TableResult[]} results
+ * @returns {TableResult[]}
+ */
+export function sr5GroupResults(results) {
+  const grouped = new Map()
+
+  for (const result of results) {
+    // Lines are merged on identity, not on what they say: two sub-tables
+    // that both offer "Munitions" are two lines of two tables, and a card
+    // that silently added them up would be inventing a total the dice never
+    // produced.
+    const key = result.id ?? `${result.type}|${result.documentUuid ?? ""}|${result.text ?? ""}`
+    const seen = grouped.get(key)
+
+    if (!seen) {
+      grouped.set(key, result)
+      continue
+    }
+    seen.sr5Quantity = (seen.sr5Quantity ?? 1) + (result.sr5Quantity ?? 1)
+  }
+
+  return [...grouped.values()]
 }
 
 /**
