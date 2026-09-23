@@ -170,7 +170,7 @@ async function handleAstralCombat(rollData, actor, chatData){
 
 async function handleSpellAreaTemplate(rollData, actor, chatData){
   // Spell position
-  let spellPosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId) 
+  let spellPosition = await SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId) 
     
   // Get defenser position
   let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor)
@@ -179,7 +179,10 @@ async function handleSpellAreaTemplate(rollData, actor, chatData){
   let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(spellPosition, defenserPosition)
     
   //modify the damage based on distance and damage dropoff.
-  if (chatData.magic.spell.area < distance) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+  if (chatData.magic.spell.area < distance) {
+    ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+    return false
+  }
   rollData.magic.spell.range = chatData.magic.spell.range
 
   return rollData
