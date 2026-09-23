@@ -23,8 +23,8 @@ export async function sr5HookDeleteActiveEffect(effect) {
 export function sr5HookCreateActiveEffect(effect) {
   if (!game.user.isGM ) return
   let actorId = (effect.parent.isToken ? effect.parent.token.id : effect.parent.id)
-  if (effect.statuses === "signalJam") SR5_EffectArea.onJamCreation(actorId)
-  if ((effect.statuses === "cover" || effect.statuses === "coverFull") && game.combat) SR5Combat.changeActionInCombat(actorId, [{
+  if (effect.statuses.has("signalJam")) SR5_EffectArea.onJamCreation(actorId)
+  if ((effect.statuses.has("cover") || effect.statuses.has("coverFull")) && game.combat) SR5Combat.changeActionInCombat(actorId, [{
     type: "simple", value: 1, source: "takeCover"
   }])
 }
