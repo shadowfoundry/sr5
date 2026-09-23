@@ -217,9 +217,11 @@ async function handleTargetInfo(rollData, actor, item){
     const targeted = game.user.targets
     const targets = Array.from(targeted)
     for (let t of targets) {
+      // game.user.targets holds Token placeables, whose own x/y are the PIXI position and stay at 0 in V13.
+      // The grid coordinates live on the document, as they do for the attacker in getActorCanvasPosition.
       target = {
-        x: t.x,
-        y: t.y,
+        x: t.document.x,
+        y: t.document.y,
       }
     }
   }
