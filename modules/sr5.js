@@ -53,6 +53,9 @@ import {
 import {
   sr5AddTableFormulaField, sr5AddResultQuantityField
 } from './interface/table-config.js'
+import {
+  sr5KeepSidebarSettingsLast
+} from './interface/sidebar-tab-order.js'
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -98,6 +101,7 @@ Hooks.on('renderCompendium', sr5HookRenderCompendium)
 Hooks.on('renderCompendiumDirectory', sr5HookRenderCompendiumDirectory)
 Hooks.on('renderRollTableSheet', sr5AddTableFormulaField)
 Hooks.on('renderTableResultConfig', sr5AddResultQuantityField)
+Hooks.on('renderSidebar', sr5KeepSidebarSettingsLast)
 Hooks.on('drawMeasuredTemplate', sr5HookDrawMeasuredTemplate)
 Hooks.on('deleteMeasuredTemplate', sr5HookDeleteMeasuredTemplate)
 Hooks.on('updateMeasuredTemplate', sr5HookUpdateMeasuredTemplate)

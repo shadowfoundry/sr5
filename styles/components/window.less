@@ -106,6 +106,8 @@
         padding: 4px 0;
         border: none;
         background: none;
+        /* Generic nav.tabs wraps; a vertical list must scroll instead of wrapping into a hidden column */
+        flex-wrap: nowrap;
 
         [data-tab] {
           padding: 8px 10px;
@@ -137,6 +139,15 @@
           &:hover {
             color: var(--sr-ui-border-color-active);
             background: color-mix(in srgb, var(--sr-ui-border-color-active) 5%, transparent);
+          }
+
+          /* Categories without search results (core toggles .no-matches) */
+          &.no-matches {
+            opacity: 0.35;
+
+            .count, .badge {
+              color: inherit;
+            }
           }
         }
       }
