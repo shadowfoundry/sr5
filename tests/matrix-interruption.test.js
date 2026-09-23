@@ -7,6 +7,9 @@ import {
 import {
   SR5_MarkHelpers, WATCHDOG_INTERRUPTION_COST
 } from '../modules/rolls/roll-helpers/mark.js'
+import {
+  SR5_EntityHelpers
+} from '../modules/entities/helpers.js'
 
 // Build a minimal actor-like object carrying marks on its items
 function actorWithMarks(marks){
@@ -43,9 +46,10 @@ describe('Watchdog interruption cost (Kill Code p. 45)', () => {
   })
 
   // config.js holds translation tables only: the init hook localizes every value it
-  // finds there, and a number kills the whole system startup.
-  it('stays out of the translation tables', () => {
-    expect(SR5.watchdogInterruptionCost).toBeUndefined()
+  // finds there, and a number kills the whole system startup. Reproduce that death
+  // rather than forbid one property name — the defect does not depend on the name.
+  it('leaves the translation tables able to survive the sort run at init', () => {
+    expect(() => SR5_EntityHelpers.sortTranslations(structuredClone(SR5))).not.toThrow()
   })
 })
 
