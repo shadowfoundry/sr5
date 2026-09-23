@@ -94,10 +94,12 @@ export class SR5_EffectArea {
     for (let token of canvas.tokens.placeables){
       if (token.id !== activeToken.id){
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
+        // canvas.tokens.placeables holds Token objects, whose own x/y are the PIXI position and stay at 0
+        // in V13; the grid coordinates live on the document, as tokenAura already reads them above.
         let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
-          x: activeToken.x, y: activeToken.y
+          x: activeToken.document.x, y: activeToken.document.y
         }, {
-          x: token.x, y: token.y
+          x: token.document.x, y: token.document.y
         })
         let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId)
         if (distance < 100 && !jammedEffect){
