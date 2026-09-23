@@ -29,9 +29,11 @@ function _promoteAsideFooter(html) {
     if (mainDiv) mainFooter = mainDiv.querySelector('footer')
   }
 
-  // Switch to grid so the footer gets its own row below aside + main
+  // Switch to grid so the footer gets its own row below aside + main.
+  // Fixed aside width (core category-browser uses 220px): an `auto` column
+  // grows to the aside's max-content and squeezes .main down to nothing.
   windowContent.style.display = 'grid'
-  windowContent.style.gridTemplateColumns = 'auto 1fr'
+  windowContent.style.gridTemplateColumns = '220px minmax(0, 1fr)'
   windowContent.style.gridTemplateRows = 'minmax(0, 1fr) auto'
   windowContent.style.overflow = 'hidden'
 
