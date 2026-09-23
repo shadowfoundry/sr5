@@ -8,6 +8,9 @@ import {
   SR5_MiscellaneousHelpers 
 } from "../roll-helpers/miscellaneous.js"
 import SR5_RollDialog from "../roll-dialog.js"
+import {
+  SR5_MarkHelpers
+} from "../roll-helpers/mark.js"
 
 export default async function matrixAction(rollData, rollKey, actor){
   let matrixAction = actor.system.matrix.actions[rollKey]
@@ -45,14 +48,36 @@ export default async function matrixAction(rollData, rollKey, actor){
 
   // Kill Code p. 43-44: an Interruption action costs 5 Initiative. I Am the Firewall can also be taken as a Complex action
   // (chosen in the dialog, Complex by default on the hacker's own turn); Intervene is always an Interruption.
+  // Kill Code p. 45: a Watchdog mark also opens Haywire and Popup as Interruption actions (-10 Initiative),
+  // and Squelch as an Interruption action (-5 Initiative), against the marked target.
+  let isActorTurn = game.combat?.combatant?.actor?.uuid === actor.uuid
+
   if (matrixAction.actionType === "interruption") {
+    rollData.combat.interruptionInitiativeCost = 5
     if (rollKey === "iAmTheFirewall") {
-      let isActorTurn = game.combat?.combatant?.actor?.uuid === actor.uuid
+      rollData.dialogSwitch.matrixActionType = true
+      rollData.combat.matrixActionTypeDefault = "complex"
+      rollData.combat.matrixActionTypeLabel = game.i18n.localize(SR5.actionTypes.complex)
       rollData.combat.matrixActionType = (isActorTurn || !SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) ? "complex" : "interruption"
-      rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
-        type: rollData.combat.matrixActionType, value: 1, source: "matrixAction"
-      })
-    } else if (!SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) return
+    } else {
+      if (!SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) return
+      rollData.combat.matrixActionType = "interruption"
+    }
+  } else if (SR5.watchdogInterruptionCost[rollKey] && !isActorTurn && hasWatchdogMarkOnTarget(rollData)) {
+    rollData.dialogSwitch.matrixActionType = true
+    rollData.combat.interruptionInitiativeCost = SR5.watchdogInterruptionCost[rollKey]
+    rollData.combat.matrixActionTypeDefault = matrixAction.actionType
+    rollData.combat.matrixActionTypeLabel = game.i18n.localize(SR5.actionTypes[matrixAction.actionType])
+    rollData.combat.matrixActionType = matrixAction.actionType
+  }
+
+  if (rollData.combat.matrixActionType) {
+    rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+      type: rollData.combat.matrixActionType,
+      value: 1,
+      source: "matrixAction",
+      initiativeCost: rollData.combat.interruptionInitiativeCost,
+    })
   }
 
   //Add public grid switch
@@ -73,6 +98,16 @@ export default async function matrixAction(rollData, rollKey, actor){
   if (rollKey === "dataSpike" || rollKey === "popupCybercombat") rollData.damage.matrix.base = actor.system.matrix.attributes.attack.value
 
   return rollData
+}
+
+/** Kill Code p. 45: tell whether the hacker holds a Watchdog mark on the single targeted icon
+ * @param {Object} rollData - the roll being prepared
+ * @return {Boolean} true if the interruption actions are open against that target
+ */
+function hasWatchdogMarkOnTarget(rollData){
+  if (game.user.targets.size !== 1) return false
+  const target = Array.from(game.user.targets)[0]
+  return SR5_MarkHelpers.hasWatchdogMark(target.actor, rollData.owner.speakerId)
 }
 
 async function checkTargetMarks(rollData, matrixAction, actor){

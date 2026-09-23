@@ -2192,6 +2192,14 @@ SR5.matrixRigger5Actions = {
   targetDevice              : "SR5.MatrixActionTargetDevice",
 }
 
+// Kill Code p. 45: Initiative cost of the actions a Watchdog mark can turn into an Interruption action
+SR5.watchdogInterruptionCost = {
+  haywire                   : 10,
+  popupHacking              : 10,
+  popupCybercombat          : 10,
+  squelch                   : 5,
+}
+
 SR5.matrixRolledActions = {
   ...SR5.matrixCoreRolledActions,
   ...SR5.matrixKillCodeActions,		

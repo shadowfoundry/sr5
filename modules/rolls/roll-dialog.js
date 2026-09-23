@@ -801,11 +801,13 @@ export default class SR5_RollDialog {
           break
         case "matrixActionType": {
           // Kill Code p. 43: I Am the Firewall is a Complex action or an Interruption action (-5 Initiative)
+          // Kill Code p. 45: a Watchdog mark opens the same choice on Haywire, Popup (-10) and Squelch (-5)
+          let cost = dialogData.combat.interruptionInitiativeCost || 5
           let chosen = ev.target.value
-          if (chosen === "interruption" && !SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) chosen = ev.target.value = "complex"
+          if (chosen === "interruption" && !SR5_RollDialog.hasInitiativeForInterruption(actor, cost)) chosen = ev.target.value = dialogData.combat.matrixActionTypeDefault
           dialogData.combat.matrixActionType = chosen
           dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
-            type: chosen, value: 1, source: "matrixAction"
+            type: chosen, value: 1, source: "matrixAction", initiativeCost: cost
           })
           return
         }

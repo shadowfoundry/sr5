@@ -12,14 +12,14 @@
 {{> systems/sr5/templates/rolls/rollDialogPartial/matrixTargetGrid.hbs}}
 
 
-<!-- I AM THE FIREWALL: complex action or interruption (Kill Code p. 43) -->
-{{#if (eq test.typeSub "iAmTheFirewall")}}
+<!-- NORMAL ACTION OR INTERRUPTION: I Am the Firewall (Kill Code p. 43), or a Watchdog mark (Kill Code p. 45) -->
+{{#if dialogSwitch.matrixActionType}}
 <li class="grid">
     <div class="col-7">{{localize 'SR5.MatrixActionTypeChoice'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-5 SR-TextRight">
         <select class="SR-ModSelect" data-target="matrixActionType" data-modifier="matrixActionType">
-            <option value="complex" {{#if (eq combat.matrixActionType "complex")}}selected{{/if}}>{{localize 'SR5.ActionTypeComplex'}}</option>
-            <option value="interruption" {{#if (eq combat.matrixActionType "interruption")}}selected{{/if}}>{{localize 'SR5.ActionTypeInterruption'}} (-5 {{localize 'SR5.Initiative'}})</option>
+            <option value="{{combat.matrixActionTypeDefault}}" {{#unless (eq combat.matrixActionType "interruption")}}selected{{/unless}}>{{combat.matrixActionTypeLabel}}</option>
+            <option value="interruption" {{#if (eq combat.matrixActionType "interruption")}}selected{{/if}}>{{localize 'SR5.ActionTypeInterruption'}} (-{{combat.interruptionInitiativeCost}} {{localize 'SR5.Initiative'}})</option>
         </select>
     </div>
 </li>

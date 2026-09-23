@@ -311,8 +311,10 @@ export class SR5_RollMessage {
       case "extended":
         SR5_RollTest.extendedRoll(message, actor)
         break
-      case "attackerPlaceMark":
-        await SR5_MarkHelpers.markItem(actor.id, messageData.previousMessage.actorId, messageData.matrix.mark, messageData.target.itemUuid)
+      case "attackerPlaceMark": {
+        // Kill Code p. 45: a mark placed by Watchdog is remembered as such, it opens the interruption actions
+        let isWatchdog = messageData.test.typeSub === "watchdog"
+        await SR5_MarkHelpers.markItem(actor.id, messageData.previousMessage.actorId, messageData.matrix.mark, messageData.target.itemUuid, isWatchdog)
         // if defender is a drone and is slaved, add mark to master
         if (actor.type === "actorDrone" && actor.system.slaved){
           if (!game.user?.isGM) {
@@ -320,13 +322,15 @@ export class SR5_RollMessage {
               targetActor: actor.system.vehicleOwner.id,
               attackerID: originalActionActor.id,
               mark: messageData.matrix.mark,
+              isWatchdog: isWatchdog,
             })
-          } else { 
-            await SR5_MarkHelpers.markItem(actor.system.vehicleOwner.id, messageData.previousMessage.actorId, messageData.matrix.mark)
+          } else {
+            await SR5_MarkHelpers.markItem(actor.system.vehicleOwner.id, messageData.previousMessage.actorId, messageData.matrix.mark, undefined, isWatchdog)
           }
         }
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
+      }
       case "defenderPlaceMark": {
         let attackerID
         if (actor.isToken) attackerID = actor.token.id
