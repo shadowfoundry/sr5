@@ -1,3 +1,5 @@
+@import "../commons/layout-mixin.less";
+
 /* === Tooltips === */
 
 #tooltip,
@@ -18,5 +20,66 @@
 
   .toolclip p.faint {
     color: var(--sr-text-color-grey);
+  }
+}
+
+/* Core "link matches" tooltip: shown when text is selected in an editor,
+   lists the documents named like the selection as content links */
+.locked-tooltip.link-matches {
+  max-width: 360px;
+  padding: 6px;
+  border: 1px solid var(--sr-ui-border-color);
+  border-radius: 3px;
+  box-shadow: 0 0 6px color-mix(in srgb, var(--sr-ui-border-color) 50%, transparent);
+
+  section + section {
+    margin-top: 8px;
+  }
+
+  h4 {
+    .sr-block-header();
+    margin: 0;
+    padding: 2px 6px;
+    font-size: var(--sr-font-size-small);
+    font-weight: normal;
+    letter-spacing: 0.05em;
+  }
+
+  p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px 0.35em;
+    margin: 6px 2px 0;
+    line-height: 1.3;
+  }
+
+  /* Plain links separated by commas */
+  a.content-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--sr-ui-color);
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    white-space: nowrap;
+
+    i {
+      color: var(--sr-ui-color);
+    }
+
+    &:not(:last-child)::after {
+      content: ",";
+      color: var(--sr-text-color-grey);
+    }
+
+    &:hover {
+      background: none;
+      color: var(--sr-ui-color-active);
+      text-shadow: none;
+
+      i {
+        color: var(--sr-ui-color-active);
+      }
+    }
   }
 }
