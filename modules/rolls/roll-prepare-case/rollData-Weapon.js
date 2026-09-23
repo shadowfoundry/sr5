@@ -200,7 +200,10 @@ async function handleTargetInfo(rollData, actor, item){
   //Handle Targets
   if (game.user.targets.size) {
     //For now, only allow one target for attack;
-    if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`)
+    if (game.user.targets.size > 1) {
+      ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`)
+      return false
+    }
 
     //Get target actor
     let targetActor = await SR5_PrepareRollHelper.getTargetedActor()
@@ -240,7 +243,10 @@ async function handleTargetInfo(rollData, actor, item){
   //Handle Melee specifics
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
-    if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+    if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) {
+      ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+      return false
+    }
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect)
   } else { // Handle weapon ranged based on distance
     if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short"
@@ -249,7 +255,8 @@ async function handleTargetInfo(rollData, actor, item){
     else if (rollData.target.rangeInMeters < itemData.range.extreme.value) rollData.target.range = "extreme"
     else if (rollData.target.rangeInMeters > itemData.range.extreme.value) {
       if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
-      return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+      ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+      return false
     }
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect)
   }
