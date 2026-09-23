@@ -349,18 +349,84 @@
     flex-direction: column !important;
   }
 
+  /* Header: the title band runs edge to edge under the window header, the page
+     settings (category, heading level, show title) sit below it on the light surface */
   .journal-header {
     flex: none !important;
+    margin: 0 !important;
+    padding: 0 0 6px;
     background-image: var(--sr-img-window-header);
-    background-size: 100% 100%;
+    background-size: 100% 56px;
+    background-position: top left;
     background-repeat: no-repeat;
 
     .title {
+      height: 56px !important;
+      line-height: 56px !important;
+      /* The generic window input rule forces padding: 0 at a higher specificity,
+         so hold the title off the edges of the band with a margin instead */
+      margin-inline: 12px;
       color: var(--sr-text-color-light) !important;
       font-family: var(--sr-font-title) !important;
+      font-size: 1.75rem !important;
       text-align: center;
       background: none !important;
       border: none !important;
+    }
+
+    .page-metadata {
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      /* Same left edge as the editor toolbar below */
+      padding: 6px 1rem 0;
+
+      /* Each setting in a box, like the editor toolbar buttons */
+      > div {
+        flex: none;
+        max-width: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 26px;
+        padding: 0 8px;
+        border: 1px solid var(--sr-ui-border-color-idle);
+        border-radius: 3px;
+        box-sizing: border-box;
+
+        &:hover {
+          border-color: var(--sr-ui-border-color-active);
+        }
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+        white-space: nowrap;
+
+        /* Icon-only labels (category, heading level): keep the icon font */
+        &[class*="fa-"] {
+          font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free";
+          font-weight: 900;
+        }
+      }
+
+      /* Same text line as the "show title" label (the generic window select
+         style inherits a larger font and would win on specificity) */
+      select {
+        height: 24px !important;
+        line-height: 24px !important;
+        margin: 0 !important;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body) !important;
+        font-size: var(--sr-font-size-small) !important;
+        font-weight: normal !important;
+      }
     }
   }
 
@@ -549,4 +615,10 @@
       }
     }
   }
+}
+
+/* The generic window select rule ties this one on specificity and wins on import
+   order, leaving an underline under the page settings: one more class settles it */
+.sheet.journal-sheet.journal-entry-page.application .window-content .journal-header .page-metadata select {
+  border: none !important;
 }
