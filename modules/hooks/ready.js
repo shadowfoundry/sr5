@@ -2,6 +2,9 @@ import SR5TokenHud from "../interface/tokenHud.js"
 import {
   initLinkMatchesTooltip 
 } from "../interface/link-matches-tooltip.js"
+import {
+  sr5DeepenModuleTableOfContents 
+} from "../interface/journal-heading-levels.js"
 
 export function sr5HookReady() {
   // Apply UI theme based on setting
@@ -11,6 +14,9 @@ export function sr5HookReady() {
 
   // Translate the headers of the core "link matches" tooltip
   initLinkMatchesTooltip()
+
+  // The deeper table of contents also reaches the window of Monk's Enhanced Journal
+  sr5DeepenModuleTableOfContents()
 
   //game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
   // Determine whether a system migration is required and feasible

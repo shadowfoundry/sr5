@@ -49,60 +49,6 @@
       font-weight: bold;
     }
 
-    /* Levels 4 and 5, added by the system, follow the indent of the core levels */
-    .toc li.page.level4 .page-title {
-      text-indent: calc(3 * var(--level-indent));
-    }
-
-    .toc li.page.level4 .headings {
-      margin-left: calc(4 * var(--level-indent));
-    }
-
-    .toc li.page.level5 .page-title {
-      text-indent: calc(4 * var(--level-indent));
-    }
-
-    .toc li.page.level5 .headings {
-      margin-left: calc(5 * var(--level-indent));
-    }
-
-    .toc li.page.level6 .page-title {
-      text-indent: calc(5 * var(--level-indent));
-    }
-
-    .toc li.page.level6 .headings {
-      margin-left: calc(6 * var(--level-indent));
-    }
-
-    /* Headings of a page: the system shows the six levels, not two, so they step in half of
-       the core indent — six times 16px would leave nothing to read in a 300px sidebar.
-       The levels of the page entries above keep the core step. */
-    --sr-toc-heading-indent: calc(var(--level-indent) / 2);
-
-    .toc .h2 .heading-link {
-      text-indent: var(--sr-toc-heading-indent);
-    }
-
-    .toc .h3 .heading-link {
-      text-indent: calc(2 * var(--sr-toc-heading-indent));
-    }
-
-    .toc .h4 .heading-link {
-      text-indent: calc(3 * var(--sr-toc-heading-indent));
-    }
-
-    .toc .h5 .heading-link {
-      text-indent: calc(4 * var(--sr-toc-heading-indent));
-    }
-
-    .toc .h6 .heading-link {
-      text-indent: calc(5 * var(--sr-toc-heading-indent));
-    }
-
-    .toc .h7 .heading-link {
-      text-indent: calc(6 * var(--sr-toc-heading-indent));
-    }
-
     .toc li.page.active {
       background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
       border-left: 3px solid var(--sr-text-color-flash);
@@ -411,6 +357,66 @@
         }
       }
     }
+  }
+}
+
+/* === Table of contents: the levels the system adds ===
+   The core journal window and the one Monk's Enhanced Journal opens share these classes, but the
+   module's sheet carries no `.application`, so these rules sit here rather than in the block above.
+   `!important` because the core rules for the first levels carry one class more. */
+.sheet.journal-entry .journal-sidebar .toc {
+
+  /* Six heading levels instead of the two of core, so they step in half of the core indent:
+     six times 16px would leave nothing to read in a 300px sidebar. The page levels above keep
+     the core step. */
+  --sr-toc-heading-indent: calc(var(--level-indent) / 2);
+
+  li.page.level4 .page-title {
+    text-indent: calc(3 * var(--level-indent)) !important;
+  }
+
+  li.page.level4 .headings {
+    margin-left: calc(4 * var(--level-indent)) !important;
+  }
+
+  li.page.level5 .page-title {
+    text-indent: calc(4 * var(--level-indent)) !important;
+  }
+
+  li.page.level5 .headings {
+    margin-left: calc(5 * var(--level-indent)) !important;
+  }
+
+  li.page.level6 .page-title {
+    text-indent: calc(5 * var(--level-indent)) !important;
+  }
+
+  li.page.level6 .headings {
+    margin-left: calc(6 * var(--level-indent)) !important;
+  }
+
+  .h2 .heading-link {
+    text-indent: var(--sr-toc-heading-indent) !important;
+  }
+
+  .h3 .heading-link {
+    text-indent: calc(2 * var(--sr-toc-heading-indent)) !important;
+  }
+
+  .h4 .heading-link {
+    text-indent: calc(3 * var(--sr-toc-heading-indent)) !important;
+  }
+
+  .h5 .heading-link {
+    text-indent: calc(4 * var(--sr-toc-heading-indent)) !important;
+  }
+
+  .h6 .heading-link {
+    text-indent: calc(5 * var(--sr-toc-heading-indent)) !important;
+  }
+
+  .h7 .heading-link {
+    text-indent: calc(6 * var(--sr-toc-heading-indent)) !important;
   }
 }
 
