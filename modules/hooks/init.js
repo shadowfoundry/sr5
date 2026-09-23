@@ -199,9 +199,15 @@ import {
 import {
   sr5ActorAgentDataModel
 } from "../datamodels/actors/actorAgent.js"
+import {
+  sr5ExtendJournalHeadingLevels,
+  sr5DeepenJournalTableOfContents
+} from "../interface/journal-heading-levels.js"
 
 export async function sr5HookInit() {
   SR5_SystemHelpers.registerSystemSettings()
+  sr5ExtendJournalHeadingLevels()
+  sr5DeepenJournalTableOfContents()
   SR5_SystemHelpers.srLogPublic(`Welcome to the Sixth World, chummer!`)
   SR5_SystemHelpers.srLogPublic(`Remember: Never, ever, cut a deal with a dragon!`)
   SR5_SystemHelpers.srLog(2, `Initializing game system`)

@@ -5,6 +5,9 @@ import {
 import {
   SR5_SystemHelpers
 } from "../system/utilitySystem.js"
+import {
+  initLinkMatchesTooltip 
+} from "../interface/link-matches-tooltip.js"
 
 export function sr5HookReady() {
   // Register the GM-authored spirit types, so that they are offered wherever
@@ -28,6 +31,9 @@ export function sr5HookReady() {
   const chosenStyle = game.settings.get("sr5", "sr5ChooseStyle") ?? "SR5"
   const themeClass = chosenStyle === "SR6" ? "sr-theme-sr6" : "sr-theme-sr5"
   document.body.classList.add(themeClass)
+
+  // Translate the headers of the core "link matches" tooltip
+  initLinkMatchesTooltip()
 
   //game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
   // Determine whether a system migration is required and feasible
