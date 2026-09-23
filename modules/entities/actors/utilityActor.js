@@ -3615,6 +3615,20 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  // The rule constants of a matrix action (type, source, marks, legality, limit attribute) are those of the
+  // schema: an actor created with an earlier version keeps them in its stored data, so a rule fix would
+  // otherwise never reach existing actors
+  static resetMatrixActionRules(actor, key) {
+    const field = actor.system.schema?.getField(`matrix.actions.${key}`)
+    const action = actor.system.matrix?.actions?.[key]
+    if (!field?.fields || !action) return
+    for (const name of ["actionType", "source", "increaseOverwatchScore", "neededMarks"]) {
+      if (field.fields[name] && field.fields[name].initial !== undefined) action[name] = field.fields[name].initial
+    }
+    const linkedAttribute = field.fields.limit?.fields?.linkedAttribute
+    if (linkedAttribute && action.limit) action.limit.linkedAttribute = linkedAttribute.initial
+  }
+
   static generateMatrixActions(actor) {
     let actorData = actor.system, attributes = actorData.attributes, specialAttributes = actorData.specialAttributes, skills = actorData.skills,
       matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions
@@ -3717,6 +3731,7 @@ export class SR5_CharacterUtility extends Actor {
     }
 
     for (let key of Object.keys(SR5.matrixActions)) {
+      this.resetMatrixActionRules(actor, key)
       if (matrixActions[key].test !== undefined) {
         // test
         if (matrix.runningSilent) {
@@ -3747,6 +3762,7 @@ export class SR5_CharacterUtility extends Actor {
     let actorData = actor.system, matrix = actorData.matrix, matrixAttributes = matrix.attributes, matrixActions = matrix.actions
 
     for (let key of Object.keys(SR5.matrixActions)) {
+      this.resetMatrixActionRules(actor, key)
       if (matrixActions[key].test !== undefined) {
         SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.DeviceRating'), "linkedAttribute", matrix.deviceRating)
         SR5_EntityHelpers.updateModifier(matrixActions[key].test, game.i18n.localize('SR5.DeviceRating'), "linkedAttribute", matrix.deviceRating)
