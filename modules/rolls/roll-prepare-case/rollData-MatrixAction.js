@@ -9,7 +9,7 @@ import {
 } from "../roll-helpers/miscellaneous.js"
 import SR5_RollDialog from "../roll-dialog.js"
 import {
-  SR5_MarkHelpers
+  SR5_MarkHelpers, WATCHDOG_INTERRUPTION_COST
 } from "../roll-helpers/mark.js"
 
 export default async function matrixAction(rollData, rollKey, actor){
@@ -63,9 +63,9 @@ export default async function matrixAction(rollData, rollKey, actor){
       if (!SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) return
       rollData.combat.matrixActionType = "interruption"
     }
-  } else if (SR5.watchdogInterruptionCost[rollKey] && !isActorTurn && hasWatchdogMarkOnTarget(rollData)) {
+  } else if (WATCHDOG_INTERRUPTION_COST[rollKey] && !isActorTurn && hasWatchdogMarkOnTarget(rollData)) {
     rollData.dialogSwitch.matrixActionType = true
-    rollData.combat.interruptionInitiativeCost = SR5.watchdogInterruptionCost[rollKey]
+    rollData.combat.interruptionInitiativeCost = WATCHDOG_INTERRUPTION_COST[rollKey]
     rollData.combat.matrixActionTypeDefault = matrixAction.actionType
     rollData.combat.matrixActionTypeLabel = game.i18n.localize(SR5.actionTypes[matrixAction.actionType])
     rollData.combat.matrixActionType = matrixAction.actionType

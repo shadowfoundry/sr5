@@ -5,11 +5,8 @@ import {
   SR5
 } from '../modules/config.js'
 import {
-  SR5_MarkHelpers
+  SR5_MarkHelpers, WATCHDOG_INTERRUPTION_COST
 } from '../modules/rolls/roll-helpers/mark.js'
-import {
-  SR5_EntityHelpers
-} from '../modules/entities/helpers.js'
 
 // Build a minimal actor-like object carrying marks on its items
 function actorWithMarks(marks){
@@ -24,32 +21,31 @@ function actorWithMarks(marks){
 
 describe('Watchdog interruption cost (Kill Code p. 45)', () => {
   it('costs 10 Initiative for Haywire and both Popups', () => {
-    expect(SR5.watchdogInterruptionCost.haywire).toBe(10)
-    expect(SR5.watchdogInterruptionCost.popupHacking).toBe(10)
-    expect(SR5.watchdogInterruptionCost.popupCybercombat).toBe(10)
+    expect(WATCHDOG_INTERRUPTION_COST.haywire).toBe(10)
+    expect(WATCHDOG_INTERRUPTION_COST.popupHacking).toBe(10)
+    expect(WATCHDOG_INTERRUPTION_COST.popupCybercombat).toBe(10)
   })
 
   it('costs 5 Initiative for Squelch', () => {
-    expect(SR5.watchdogInterruptionCost.squelch).toBe(5)
+    expect(WATCHDOG_INTERRUPTION_COST.squelch).toBe(5)
   })
 
   it('opens no other matrix action', () => {
-    expect(Object.keys(SR5.watchdogInterruptionCost).sort()).toEqual([
+    expect(Object.keys(WATCHDOG_INTERRUPTION_COST).sort()).toEqual([
       'haywire', 'popupCybercombat', 'popupHacking', 'squelch'
     ])
   })
 
   it('names actions that exist in the Kill Code action list', () => {
-    for (const key of Object.keys(SR5.watchdogInterruptionCost)) {
+    for (const key of Object.keys(WATCHDOG_INTERRUPTION_COST)) {
       expect(SR5.matrixRolledActions[key], key).toBeTruthy()
     }
   })
 
-  // The init hook runs sortTranslations over every SR5 table and localizes its values.
-  // A table of numbers must be left out, or the whole system dies at startup.
-  it('survives the alphabetical sort run at init', () => {
-    expect(() => SR5_EntityHelpers.sortTranslations(SR5)).not.toThrow()
-    expect(SR5.watchdogInterruptionCost.haywire).toBe(10)
+  // config.js holds translation tables only: the init hook localizes every value it
+  // finds there, and a number kills the whole system startup.
+  it('stays out of the translation tables', () => {
+    expect(SR5.watchdogInterruptionCost).toBeUndefined()
   })
 })
 

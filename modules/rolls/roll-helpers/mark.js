@@ -8,6 +8,16 @@ import {
   SR5_ActorHelper 
 } from "../../entities/actors/entityActor-helpers.js"
 
+/** Kill Code p. 45: Initiative cost of the actions a Watchdog mark can turn into an Interruption action.
+ * It lives here rather than in config.js, which holds translation tables only.
+ */
+export const WATCHDOG_INTERRUPTION_COST = {
+  haywire: 10,
+  popupHacking: 10,
+  popupCybercombat: 10,
+  squelch: 5,
+}
+
 export class SR5_MarkHelpers {
 
   /** Put a mark on a specific Item
