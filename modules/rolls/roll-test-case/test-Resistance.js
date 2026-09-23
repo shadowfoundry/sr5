@@ -142,6 +142,8 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits
 
   //Handle specific target limit damage if any 
+  // Run & Gun p. 129: door lock and window motor have a DV limit of 0 (the 0 elsewhere means "no limit")
+  if (["doorLock", "windowMotor"].includes(cardData.combat.calledShot.location)) cardData.damage.value = 0
   if (cardData.combat.calledShot.limitDV !== 0) {
     if (cardData.combat.calledShot.limitDV < cardData.damage.value) ui.notifications.info(`${game.i18n.format("SR5.INFO_DVLimitByCalledShot", {
       value: cardData.combat.calledShot.limitDV
@@ -188,7 +190,7 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
         cardData.combat.calledShot.effects = {
           "0": {
             "name": "pin",
-            "initialDV": cardData.damage.value - actor.system.itemsProperties.armor.value,
+            "initialDV": cardData.previousMessage.attackerNetHits, // Run & Gun p. 125: the net hits of the attack are the strength of the hold
           }
         }
         cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.ApplyEffect")}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize(SR5.calledShotsEffects[cardData.combat.calledShot.name])}`)

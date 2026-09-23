@@ -32,6 +32,8 @@ export default async function matrixAction(rollData, rollKey, actor){
   //Add others informations
   rollData.test.type = "matrixAction"
   rollData.test.typeSub = rollKey
+  // Rigger 5 p. 34: Detect Target Lock is a simple test with a threshold of 2
+  if (rollKey === "detectTargetLock") rollData.threshold.value = 2
   rollData.limit.type = matrixAction.limit.linkedAttribute
   rollData.matrix.actionType = matrixAction.limit.linkedAttribute
   rollData.matrix.overwatchScore = matrixAction.increaseOverwatchScore

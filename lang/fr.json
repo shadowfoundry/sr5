@@ -2286,6 +2286,7 @@
 	"SR5.No": "Non",
 	"SR5.NoDamage": "Pas de dommages !",
 	"SR5.NoDisarm": "Désarmement échoué",
+	"SR5.DisarmWeaponPenalty": "malus de {value} dé(s) pour utiliser l'arme à sa prochaine phase d'action",
 	"SR5.NoDrain": "Pas de drain !",
 	"SR5.NoEffectApplicable": "Aucun effet applicable",
 	"SR5.NoFading": "Pas de Technodrain !",

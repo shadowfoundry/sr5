@@ -1409,6 +1409,7 @@ SR5.calledShotsEffects = {
   fatigued                 : "SR5.STATUSES_Fatigued",
   pin                      : "SR5.STATUSES_Pin",
   dirtyTrick               : "SR5.STATUSES_DirtyTrick",
+  disarm                   : "SR5.CS_Disarm",
   entanglement             : "SR5.STATUSES_Entanglement",
   trickShot                : "SR5.STATUSES_TrickShot",
   antenna                  : "SR5.STATUSES_Antenna",

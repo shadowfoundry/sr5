@@ -57,6 +57,7 @@ export default async function matrixDefenseInfo(cardData, actorId){
   else {
     switch (cardData.test.typeSub) {
       case "hackOnTheFly":
+      case "watchdog": // Kill Code p. 45: on a success the hacker puts a mark on the target
         cardData.chatCard.buttons.attackerPlaceMark = SR5_RollMessage.generateChatButton("nonOpposedTest", "attackerPlaceMark", `${game.i18n.format('SR5.AttackerPlaceMarkTo', {
           key: cardData.matrix.mark, item: targetItem.name, name: cardData.owner.speakerActor
         })}`)
