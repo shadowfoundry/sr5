@@ -53,6 +53,9 @@ import {
 import {
   sr5PlaceChatJumpToBottom 
 } from './interface/chat-jump-to-bottom.js'
+import {
+  sr5KeepSidebarSettingsLast
+} from './interface/sidebar-tab-order.js'
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -98,6 +101,7 @@ Hooks.on('createActiveEffect', sr5HookCreateActiveEffect)
 Hooks.on('deleteActiveEffect', sr5HookDeleteActiveEffect)
 Hooks.on('renderCompendium', sr5HookRenderCompendium)
 Hooks.on('renderCompendiumDirectory', sr5HookRenderCompendiumDirectory)
+Hooks.on('renderSidebar', sr5KeepSidebarSettingsLast)
 Hooks.on('drawMeasuredTemplate', sr5HookDrawMeasuredTemplate)
 Hooks.on('deleteMeasuredTemplate', sr5HookDeleteMeasuredTemplate)
 Hooks.on('updateMeasuredTemplate', sr5HookUpdateMeasuredTemplate)

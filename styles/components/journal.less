@@ -43,6 +43,66 @@
       border-color: color-mix(in srgb, var(--sr-ui-border-color-idle) 30%, transparent);
     }
 
+    /* Chapters (level 1) lead the table of contents */
+    .toc li.page.level1 .page-title {
+      color: var(--sr-text-color-flash);
+      font-weight: bold;
+    }
+
+    /* Levels 4 and 5, added by the system, follow the indent of the core levels */
+    .toc li.page.level4 .page-title {
+      text-indent: calc(3 * var(--level-indent));
+    }
+
+    .toc li.page.level4 .headings {
+      margin-left: calc(4 * var(--level-indent));
+    }
+
+    .toc li.page.level5 .page-title {
+      text-indent: calc(4 * var(--level-indent));
+    }
+
+    .toc li.page.level5 .headings {
+      margin-left: calc(5 * var(--level-indent));
+    }
+
+    .toc li.page.level6 .page-title {
+      text-indent: calc(5 * var(--level-indent));
+    }
+
+    .toc li.page.level6 .headings {
+      margin-left: calc(6 * var(--level-indent));
+    }
+
+    /* Headings of a page: the system shows the six levels, not two, so they step in half of
+       the core indent — six times 16px would leave nothing to read in a 300px sidebar.
+       The levels of the page entries above keep the core step. */
+    --sr-toc-heading-indent: calc(var(--level-indent) / 2);
+
+    .toc .h2 .heading-link {
+      text-indent: var(--sr-toc-heading-indent);
+    }
+
+    .toc .h3 .heading-link {
+      text-indent: calc(2 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h4 .heading-link {
+      text-indent: calc(3 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h5 .heading-link {
+      text-indent: calc(4 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h6 .heading-link {
+      text-indent: calc(5 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h7 .heading-link {
+      text-indent: calc(6 * var(--sr-toc-heading-indent));
+    }
+
     .toc li.page.active {
       background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent);
       border-left: 3px solid var(--sr-text-color-flash);
@@ -222,7 +282,7 @@
 
       h1, h2, h3, h4, h5, h6 {
         text-transform: uppercase;
-        font-family: var(--sr-font-title) !important;
+        font-family: var(--sr-font-journal-title) !important;
       }
 
       h1 {
@@ -237,8 +297,15 @@
         padding-bottom: 5px;
       }
 
-      h3, h4, h5 {
+      h3 {
         color: var(--sr-ui-border-color);
+      }
+
+      /* Deeper headings stay readable: black text, and no rule under them
+         (the one under section headers of module windows does not belong in a book page) */
+      h4, h5, h6 {
+        color: var(--sr-text-color-dark) !important;
+        border-bottom: none !important;
       }
 
       /* --- Center images --- */
@@ -289,15 +356,22 @@
         border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
         background: none !important;
 
+        /* Compact rows */
+        p { margin: 0; }
+
+        /* Core paints thead with its own dark band, so say both colours here:
+           the dark text this used to set disappeared on it */
         th {
-          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
-          color: var(--sr-text-color-dark);
+          background: var(--sr-ui-bg-color-dark) !important;
+          color: var(--sr-text-color-light) !important;
           font-family: var(--sr-font-title);
-          padding: 4px 8px;
+          padding: 3px 8px;
+          line-height: 1.3;
         }
 
         td {
-          padding: 4px 8px;
+          padding: 3px 8px;
+          line-height: 1.3;
           background: none !important;
         }
 
@@ -349,18 +423,84 @@
     flex-direction: column !important;
   }
 
+  /* Header: the title band runs edge to edge under the window header, the page
+     settings (category, heading level, show title) sit below it on the light surface */
   .journal-header {
     flex: none !important;
+    margin: 0 !important;
+    padding: 0 0 6px;
     background-image: var(--sr-img-window-header);
-    background-size: 100% 100%;
+    background-size: 100% 56px;
+    background-position: top left;
     background-repeat: no-repeat;
 
     .title {
+      height: 56px !important;
+      line-height: 56px !important;
+      /* The generic window input rule forces padding: 0 at a higher specificity,
+         so hold the title off the edges of the band with a margin instead */
+      margin-inline: 12px;
       color: var(--sr-text-color-light) !important;
       font-family: var(--sr-font-title) !important;
+      font-size: 1.75rem !important;
       text-align: center;
       background: none !important;
       border: none !important;
+    }
+
+    .page-metadata {
+      align-items: center;
+      justify-content: flex-start;
+      gap: 6px;
+      /* Same left edge as the editor toolbar below */
+      padding: 6px 1rem 0;
+
+      /* Each setting in a box, like the editor toolbar buttons */
+      > div {
+        flex: none;
+        max-width: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        height: 26px;
+        padding: 0 8px;
+        border: 1px solid var(--sr-ui-border-color-idle);
+        border-radius: 3px;
+        box-sizing: border-box;
+
+        &:hover {
+          border-color: var(--sr-ui-border-color-active);
+        }
+      }
+
+      label {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 0;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body);
+        font-size: var(--sr-font-size-small);
+        white-space: nowrap;
+
+        /* Icon-only labels (category, heading level): keep the icon font */
+        &[class*="fa-"] {
+          font-family: "Font Awesome 6 Pro", "Font Awesome 6 Free";
+          font-weight: 900;
+        }
+      }
+
+      /* Same text line as the "show title" label (the generic window select
+         style inherits a larger font and would win on specificity) */
+      select {
+        height: 24px !important;
+        line-height: 24px !important;
+        margin: 0 !important;
+        color: color-mix(in srgb, var(--sr-text-color-dark) 70%, transparent) !important;
+        font-family: var(--sr-font-body) !important;
+        font-size: var(--sr-font-size-small) !important;
+        font-weight: normal !important;
+      }
     }
   }
 
@@ -473,7 +613,7 @@
       /* --- Headers --- */
       h1, h2, h3, h4, h5, h6 {
         text-transform: uppercase;
-        font-family: var(--sr-font-title) !important;
+        font-family: var(--sr-font-journal-title) !important;
         color: var(--sr-ui-border-color);
       }
 
@@ -485,6 +625,13 @@
       h2 {
         border-bottom: 1px solid var(--sr-ui-border-color);
         padding-bottom: 5px;
+      }
+
+      /* Deeper headings stay readable: black text, and no rule under them
+         (the one under section headers of module windows does not belong in a book page) */
+      h4, h5, h6 {
+        color: var(--sr-text-color-dark) !important;
+        border-bottom: none !important;
       }
 
       /* --- Images --- */
@@ -502,14 +649,21 @@
         border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-dark) 30%, transparent);
         background: none !important;
 
+        /* Compact rows */
+        p { margin: 0; }
+
+        /* Same band in the editor, where the text colour was inherited */
         th {
-          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+          background: var(--sr-ui-bg-color-dark) !important;
+          color: var(--sr-text-color-light) !important;
           font-family: var(--sr-font-title);
-          padding: 4px 8px;
+          padding: 3px 8px;
+          line-height: 1.3;
         }
 
         td {
-          padding: 4px 8px;
+          padding: 3px 8px;
+          line-height: 1.3;
           background: none !important;
         }
 
@@ -549,4 +703,10 @@
       }
     }
   }
+}
+
+/* The generic window select rule ties this one on specificity and wins on import
+   order, leaving an underline under the page settings: one more class settles it */
+.sheet.journal-sheet.journal-entry-page.application .window-content .journal-header .page-metadata select {
+  border: none !important;
 }
