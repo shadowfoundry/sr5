@@ -1,18 +1,18 @@
 /**
- * Journal page titles: five heading levels instead of three.
+ * Journal page titles: the six heading levels the data model allows, instead of three.
  *
  * The data model of a journal page allows levels 1 to 6, but core only offers the first three in the
  * page header. Long rule books need a deeper table of contents in the journal sidebar.
  */
-export const SR5_JOURNAL_HEADING_LEVELS = 5
+export const SR5_JOURNAL_HEADING_LEVELS = 6
 
 /** How many heading levels of a page appear under it in the journal sidebar (core shows 2). */
-export const SR5_JOURNAL_TOC_DEPTH = 4
+export const SR5_JOURNAL_TOC_DEPTH = 6
 
 /**
  * Show more headings of a page in the sidebar table of contents.
  * Core keeps the headings of the two first levels only ("level < minLevel + 2"), which hides the
- * subtitles of a rule chapter.
+ * subtitles of a rule chapter. All six levels are kept here, so h5 and h6 reach the sidebar too.
  */
 export function sr5DeepenJournalTableOfContents() {
   const sheet = foundry.applications.sheets.journal.JournalEntrySheet

@@ -66,13 +66,41 @@
       margin-left: calc(5 * var(--level-indent));
     }
 
-    /* Headings of a page: the system shows two more levels than core */
+    .toc li.page.level6 .page-title {
+      text-indent: calc(5 * var(--level-indent));
+    }
+
+    .toc li.page.level6 .headings {
+      margin-left: calc(6 * var(--level-indent));
+    }
+
+    /* Headings of a page: the system shows the six levels, not two, so they step in half of
+       the core indent — six times 16px would leave nothing to read in a 300px sidebar.
+       The levels of the page entries above keep the core step. */
+    --sr-toc-heading-indent: calc(var(--level-indent) / 2);
+
+    .toc .h2 .heading-link {
+      text-indent: var(--sr-toc-heading-indent);
+    }
+
+    .toc .h3 .heading-link {
+      text-indent: calc(2 * var(--sr-toc-heading-indent));
+    }
+
     .toc .h4 .heading-link {
-      text-indent: calc(3 * var(--level-indent));
+      text-indent: calc(3 * var(--sr-toc-heading-indent));
     }
 
     .toc .h5 .heading-link {
-      text-indent: calc(4 * var(--level-indent));
+      text-indent: calc(4 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h6 .heading-link {
+      text-indent: calc(5 * var(--sr-toc-heading-indent));
+    }
+
+    .toc .h7 .heading-link {
+      text-indent: calc(6 * var(--sr-toc-heading-indent));
     }
 
     .toc li.page.active {
@@ -331,9 +359,11 @@
         /* Compact rows */
         p { margin: 0; }
 
+        /* Core paints thead with its own dark band, so say both colours here:
+           the dark text this used to set disappeared on it */
         th {
-          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
-          color: var(--sr-text-color-dark);
+          background: var(--sr-ui-bg-color-dark) !important;
+          color: var(--sr-text-color-light) !important;
           font-family: var(--sr-font-title);
           padding: 3px 8px;
           line-height: 1.3;
@@ -556,8 +586,10 @@
         /* Compact rows */
         p { margin: 0; }
 
+        /* Same band in the editor, where the text colour was inherited */
         th {
-          background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
+          background: var(--sr-ui-bg-color-dark) !important;
+          color: var(--sr-text-color-light) !important;
           font-family: var(--sr-font-title);
           padding: 3px 8px;
           line-height: 1.3;
