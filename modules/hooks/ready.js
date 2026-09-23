@@ -2,6 +2,9 @@ import SR5TokenHud from "../interface/tokenHud.js"
 import {
   SR5_CompendiumUtility
 } from "../entities/actors/utilityCompendium.js"
+import {
+  initLinkMatchesTooltip 
+} from "../interface/link-matches-tooltip.js"
 
 export function sr5HookReady() {
   // Apply UI theme based on setting
@@ -11,6 +14,8 @@ export function sr5HookReady() {
 
   // Compendium choices for the base items settings
   SR5_CompendiumUtility.refreshCompendiumChoices()
+  // Translate the headers of the core "link matches" tooltip
+  initLinkMatchesTooltip()
 
   //game.settings.set("sr5", "systemMigrationVersion", "0.0.1");
   // Determine whether a system migration is required and feasible
