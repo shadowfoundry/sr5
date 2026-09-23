@@ -253,9 +253,17 @@
       font-family: inherit;
     }
 
-    /* L'en-tête de la page garde la texture rouge des journaux du système */
+    /* ... sauf le code, qui perd sa chasse fixe avec l'héritage ci-dessus */
+    code, pre, kbd, samp {
+      font-family: var(--font-monospace, monospace) !important;
+    }
+
+    /* L'en-tête de la page garde la texture rouge des journaux du système. Le
+       module lui pose une marge qui la détache des bords : la bande touche les
+       bords de la page, comme dans le journal du cœur. */
     .journal-header {
       flex: none !important;
+      margin: 0 !important;
       background-image: var(--sr-img-window-header);
       background-size: 100% 100%;
       background-repeat: no-repeat;
@@ -267,7 +275,14 @@
         font-size: 1.5rem !important;
         text-align: center;
         background: none !important;
-        border: none !important;
+
+        /* Le titre est un champ de saisie : la règle générique des inputs lui pose
+           un filet rouge sous la bande. Elle pèse (0,11,2) ; reprendre ses quatre
+           `:not()` ne donne que (0,11,1), à égalité de classes mais avec un
+           élément de moins. La classe répétée apporte le poids qui manque. */
+        &.title:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+          border: none !important;
+        }
       }
     }
 
@@ -329,10 +344,13 @@
         margin: 0;
       }
 
+      /* Le cœur peint `thead` en bande sombre : dire les deux couleurs, sinon le
+         texte sombre disparaît dessus. La police passe en `!important`, sinon
+         l'héritage posé plus haut sur `*` la remplace par celle du corps. */
       th {
-        background: color-mix(in srgb, var(--sr-text-color-dark) 15%, transparent) !important;
-        color: var(--sr-text-color-dark);
-        font-family: var(--sr-font-title);
+        background: var(--sr-ui-bg-color-dark) !important;
+        color: var(--sr-text-color-light) !important;
+        font-family: var(--sr-font-title) !important;
         padding: 3px 8px;
         line-height: 1.3;
       }
@@ -436,4 +454,11 @@
       border-top: 1px solid var(--sr-ui-border-color-idle);
     }
   }
+}
+
+/* Le module fixe le titre de page à 38px — dans sa fenêtre comme dans le journal
+   du cœur, que son `apsjournal.css` vise aussi. Rendre à ce titre l'échelle du
+   cœur : 2em de la taille de la page, la taille d'avant l'installation du module. */
+.sheet.journal-entry .journal-page-header h1 {
+  font-size: var(--font-h1-size) !important;
 }
