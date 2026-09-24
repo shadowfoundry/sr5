@@ -47,6 +47,31 @@ export class SR5_CombatHelpers {
     actor.createEmbeddedDocuments("ActiveEffect", [effect])
   }
 
+  // Where a scattering projectile lands, as a pixel offset from its aiming point.
+  //
+  // SR5 p. 183 gives the scatter distance in meters and says nothing about grids or diagonals:
+  // the book is not a grid game. So the promise the system keeps is the one a GM can check with
+  // Foundry's own ruler — the projectile ends up at the announced distance *as this scene measures
+  // it*. That is exactly what getTranslatedPoint does: it takes a distance in scene units and
+  // honours the scene's `diagonals` rule, so the answer follows the table's own convention instead
+  // of hard-coding one. On EQUIDISTANT (Foundry's default) a diagonal step costs one square, so
+  // each axis takes the full distance; on EXACT each axis takes distance / sqrt(2).
+  //
+  // It also converts meters to pixels on its own, from the scene's scale — the caller must not.
+  //
+  // The 1d8 is read as a compass, screen-wise (y grows downward), with 7 pointing east:
+  // 7 = 0 deg, 8 = 45, 1 = 90, 2 = 135, 3 = 180, 4 = 225, 5 = 270, 6 = 315.
+  static scatterOffset(grid, direction, distance){
+    let angle = ((direction - 7) * 45 % 360 + 360) % 360
+    let origin = {
+      x: 0, y: 0
+    }
+    let point = grid.getTranslatedPoint(origin, angle, distance)
+    return {
+      x: point.x, y: point.y
+    }
+  }
+
   //Handle grenade scatter
   static async rollScatter(cardData){
     let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId)
@@ -56,11 +81,7 @@ export class SR5_CombatHelpers {
     if (!canvas.scene) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`)
 
     let distanceMod = cardData.roll.hits
-    //Scatter is rolled in meters (SR5 p. 183), so convert meters to pixels with the scene scale
-    //instead of assuming one grid square is one meter.
-    let sceneDistance = canvas.scene.grid.distance || 1
-    let gridUnit = canvas.scene.grid.size / sceneDistance
-    
+
     let template = canvas.scene.templates.find((t) => t.flags.sr5.item === cardData.owner.itemId)
     if (template === undefined) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`)
     
@@ -96,60 +117,8 @@ export class SR5_CombatHelpers {
       distance: distanceRoll.total
     })}`)
         
-    let coordinate = {
-      x:0, y:0
-    }
-    switch(directionRoll.total){
-      case 1:
-        coordinate = {
-          x: 0, 
-          y: distanceRoll.total*gridUnit,
-        }
-        break
-      case 2:
-        coordinate = {
-          x: -(distanceRoll.total*gridUnit)/2, 
-          y: (distanceRoll.total*gridUnit)/2, 
-        }
-        break
-      case 3:
-        coordinate = {
-          x: -distanceRoll.total*gridUnit, 
-          y: 0,
-        }
-        break
-      case 4:
-        coordinate = {
-          x: -(distanceRoll.total*gridUnit)/2, 
-          y: -(distanceRoll.total*gridUnit)/2, 
-        }
-        break
-      case 5:
-        coordinate = {
-          x: 0, 
-          y: -distanceRoll.total*gridUnit,
-        }
-        break
-      case 6:
-        coordinate = {
-          x: (distanceRoll.total*gridUnit)/2, 
-          y: -(distanceRoll.total*gridUnit)/2, 
-        }
-        break
-      case 7:
-        coordinate = {
-          x: distanceRoll.total*gridUnit, 
-          y: 0,
-        }
-        break
-      case 8:
-        coordinate = {
-          x: (distanceRoll.total*gridUnit)/2, 
-          y: (distanceRoll.total*gridUnit)/2, 
-        }
-        break
-    }
-    
+    let coordinate = SR5_CombatHelpers.scatterOffset(canvas.grid, directionRoll.total, distanceRoll.total)
+
     let newPosition = foundry.utils.duplicate(template)
     newPosition.x += coordinate.x
     newPosition.y += coordinate.y
