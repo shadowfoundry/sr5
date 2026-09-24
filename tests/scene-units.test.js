@@ -6,7 +6,7 @@ import {
 } from '../modules/system/utilitySystem.js'
 
 // SR5 states every distance in meters: the weapon range table is headed "RANGE IN METERS" (SR5 p. 186), a
-// blast loses damage per meter (p. 184), an area spell covers a radius in meters equal to its Force (p. 282).
+// blast loses damage per meter (p. 184), an area spell covers a radius in meters equal to its Force (p. 283).
 // A scene's unit is a display setting, so the system converts what it measures instead of constraining the GM.
 
 const FOOT_IN_METERS = 0.3048
@@ -84,7 +84,7 @@ describe('Scene unit conversion', () => {
 
     it('turns a radius taken from the books into scene units', () => {
       setScene('ft')
-      // An area spell of Force 6 covers 6 meters (SR5 p. 282), which is just under 20 feet.
+      // An area spell of Force 6 covers 6 meters (SR5 p. 283), which is just under 20 feet.
       expect(SR5_SystemHelpers.convertMetersToSceneUnits(6)).toBeCloseTo(19.685, 3)
       setScene('m')
       expect(SR5_SystemHelpers.convertMetersToSceneUnits(6)).toBe(6)

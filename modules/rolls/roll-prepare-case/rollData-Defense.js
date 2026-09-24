@@ -176,7 +176,7 @@ async function handleSpellAreaTemplate(rollData, actor, chatData){
   let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor)
     
   // Calcul distance between grenade and defenser
-  // The spell's area is a radius in meters equal to its Force (SR5 p. 282), so the measured distance is
+  // The spell's area is a radius in meters equal to its Force (SR5 p. 283), so the measured distance is
   // converted to meters before the two are compared.
   let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(spellPosition, defenserPosition)
     
