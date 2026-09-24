@@ -58,6 +58,7 @@
     }
   },
   "grid": {
+    "distance": 1.5,
     "units": "m"
   },
   "documentTypes": {

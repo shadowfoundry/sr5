@@ -68,8 +68,12 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     if (!templateShape) return null
 
     //if target is greater than actual map size, recude it
-    if (target > Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size))){
-      target = Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size))
+    //target is a radius in scene units (meters), so the map size is measured in units too,
+    //not in grid squares: a square is not always one meter.
+    const sceneDistance = canvas.scene.grid.distance || 1
+    const mapSizeInUnits = Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size)) * sceneDistance
+    if (target > mapSizeInUnits){
+      target = mapSizeInUnits
     }
 
     // Prepare template data
