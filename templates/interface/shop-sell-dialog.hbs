@@ -1,0 +1,67 @@
+<div class="sr-sell-wrapper">
+
+  <header class="sr-sell-header">
+    <span class="sr-sell-seller">{{actorName}}</span>
+    <div class="sr-sell-search">
+      <i class="fas fa-search"></i>
+      <input type="text" name="search" placeholder="{{localize 'SR5.Search'}}" value="{{searchText}}" autocomplete="off">
+    </div>
+  </header>
+
+  <ul class="sr-sell-list">
+    {{#each items}}
+    <li class="sr-sell-line {{#if this.selected}}selected{{/if}}" data-item-id="{{this.id}}">
+      <input type="checkbox" class="sr-sell-check" {{#if this.selected}}checked{{/if}}>
+      <img src="{{this.img}}" alt="">
+      <span class="sr-sell-name">{{this.name}}</span>
+      <span class="sr-sell-avail">{{#if this.availability}}{{localize 'SR5.AvailabilityShort'}} {{this.availability}}{{/if}}</span>
+      <span class="sr-sell-listed">{{this.listedLabel}}</span>
+      {{#if this.selected}}
+      <input type="number" class="sr-sell-qty" min="1" max="{{this.owned}}" value="{{this.quantity}}"
+             aria-label="{{localize 'SR5.Quantity'}}">
+      {{else}}
+      <span class="sr-sell-owned">{{#if (gt this.owned 1)}}×{{this.owned}}{{/if}}</span>
+      {{/if}}
+      <span class="sr-sell-offer">{{this.contactLabel}}</span>
+    </li>
+    {{else}}
+    <li class="sr-sell-empty">{{localize 'SR5.NoResults'}}</li>
+    {{/each}}
+  </ul>
+
+  <footer class="sr-sell-footer">
+    <div class="sr-sell-options">
+      {{#if hasContacts}}
+      <select data-sell-contact data-tooltip="{{localize 'SR5.ShopFencedBy'}}">
+        <option value="">{{localize 'SR5.ShopNoFence'}}</option>
+        {{#each contacts}}
+        <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}} ({{localize 'SR5.ContactLoyaltyShort'}} {{this.loyalty}})</option>
+        {{/each}}
+      </select>
+      {{/if}}
+      <input type="number" min="0" class="sr-sell-override" data-sell-override value="{{overridePool}}"
+             placeholder="{{localize 'SR5.ShopPoolShort'}}" data-tooltip="{{localize 'SR5.ShopOverridePoolHint'}}">
+      <label class="sr-sell-teamwork" data-tooltip="{{localize 'SR5.ShopFenceTeamworkHint'}}">
+        <input type="checkbox" data-sell-availability {{#if useAvailability}}checked{{/if}}>
+        <span>{{localize 'SR5.ShopFenceTeamwork'}}</span>
+      </label>
+    </div>
+
+    <div class="sr-sell-buttons">
+      <button type="button" data-action="sellToContact" {{#unless hasContact}}disabled{{/unless}}
+              data-tooltip="{{localize 'SR5.ShopSellToContactHint'}}">
+        <i class="fas fa-sm fa-user-tie"></i>
+        {{localize 'SR5.ShopSellToContact'}} ({{rules.contactPercent}}% × {{localize 'SR5.ContactLoyaltyShort'}})
+      </button>
+      <button type="button" data-action="sellOnMarket" {{#unless hasSelection}}disabled{{/unless}}
+              data-tooltip="{{localize 'SR5.ShopSellOnMarketHint'}}">
+        <i class="fas fa-sm fa-magnifying-glass-dollar"></i>
+        {{localize 'SR5.ShopSellOnMarket'}} ({{rules.basePercent}}%)
+      </button>
+      <button type="button" data-action="clearSelection" {{#unless hasSelection}}disabled{{/unless}}>
+        <i class="fas fa-sm fa-eraser"></i>
+      </button>
+    </div>
+  </footer>
+
+</div>

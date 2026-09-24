@@ -393,4 +393,230 @@
       padding: 4px 8px !important;
     }
   }
+
+  // The header carries the whole counter: buyer, funds, contact, pool, limit,
+  // surcharge and creation mode. On a narrow window it wraps rather than
+  // pushing the sort links out of the window.
+  .sr-browser-results-header {
+    flex-wrap: wrap;
+    row-gap: 2px;
+  }
+
+  .sr-browser-shop {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    row-gap: 2px;
+    gap: 6px;
+    color: var(--sr-text-color-light);
+
+    .sr-dropdown {
+      max-width: 160px;
+    }
+  }
+
+  .sr-browser-shop-creation {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    color: var(--sr-text-color-light);
+
+    input[type="checkbox"] {
+      margin: 0;
+    }
+  }
+
+  // Hand-typed pool and limit: same treatment as the other fields on the
+  // dark header, which the theme's generic rule would paint black on black.
+  input[type="number"].sr-browser-shop-override {
+    width: 44px;
+    height: 20px;
+    text-align: center;
+    font-size: var(--sr-font-size-small);
+    font-family: var(--sr-font-body);
+    background: none !important;
+    border: none !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+    color: var(--sr-text-color-light) !important;
+
+    &::placeholder {
+      color: color-mix(in srgb, var(--sr-text-color-light) 45%, transparent);
+    }
+  }
+
+  button.sr-browser-shop-sell {
+    .sr-button-footer();
+    width: auto !important;
+    height: auto !important;
+    min-height: unset !important;
+    padding: 2px 6px !important;
+  }
+
+  .sr-browser-shop-funds {
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+    white-space: nowrap;
+
+    // Creation mode charges nothing: the balance is no longer what decides.
+    &.muted {
+      opacity: 0.5;
+      text-decoration: line-through;
+    }
+  }
+
+  .sr-browser-result-buy {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    flex-shrink: 0;
+
+    // The rows are a dark surface: the theme's generic field rule would paint
+    // black on black here, so the field follows the search box instead.
+    input[type="number"].sr-browser-buy-qty {
+      width: 38px;
+      height: 20px;
+      text-align: center;
+      font-size: var(--sr-font-size-small);
+      font-family: var(--sr-font-body);
+      background: none !important;
+      border: none !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+      color: var(--sr-text-color-light) !important;
+    }
+
+    button {
+      .sr-button-footer();
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      font-size: 11px;
+      padding: 3px 8px !important;
+      height: auto !important;
+      min-height: unset !important;
+      width: auto !important;
+
+      &.too-expensive {
+        opacity: 0.55;
+      }
+    }
+  }
+
+  // The cart footer holds two buttons side by side
+  .sr-browser-cart > footer {
+    display: flex;
+    gap: 6px;
+  }
+
+  .sr-browser-cart {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    max-height: 220px;
+    border-top: 1px solid color-mix(in srgb, var(--sr-text-color-light) 20%, transparent);
+    background: color-mix(in srgb, var(--sr-ui-border-color) 25%, transparent);
+    color: var(--sr-text-color-light);
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+
+    > header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 8px;
+      font-family: var(--sr-font-title);
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 15%, transparent);
+
+      .sr-browser-cart-total {
+        margin-left: auto;
+
+        &.too-expensive {
+          color: var(--sr-ui-color-alert, #d9534f);
+        }
+      }
+
+      button {
+        .sr-button-footer();
+        width: auto !important;
+        height: auto !important;
+        min-height: unset !important;
+        padding: 2px 6px !important;
+      }
+    }
+
+    > footer {
+      padding: 6px 8px;
+
+      button {
+        .sr-button-footer();
+        width: 100%;
+        height: auto !important;
+        min-height: unset !important;
+        padding: 4px 8px !important;
+        font-size: 11px;
+
+        &.too-expensive {
+          opacity: 0.55;
+        }
+      }
+    }
+  }
+
+  .sr-browser-cart-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .sr-browser-cart-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+
+    img {
+      width: 20px;
+      height: 20px;
+      object-fit: cover;
+      border: none;
+      flex-shrink: 0;
+    }
+
+    .sr-browser-cart-name {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .sr-browser-cart-price {
+      white-space: nowrap;
+    }
+
+    input[type="number"].sr-browser-cart-qty {
+      width: 38px;
+      height: 20px;
+      text-align: center;
+      font-size: var(--sr-font-size-small);
+      font-family: var(--sr-font-body);
+      background: none !important;
+      border: none !important;
+      border-bottom: 1px solid color-mix(in srgb, var(--sr-text-color-light) 25%, transparent) !important;
+      color: var(--sr-text-color-light) !important;
+    }
+
+    button {
+      .sr-button-footer();
+      width: auto !important;
+      height: auto !important;
+      min-height: unset !important;
+      padding: 1px 5px !important;
+    }
+  }
 }

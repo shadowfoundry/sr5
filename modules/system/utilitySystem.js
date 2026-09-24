@@ -52,6 +52,84 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Compendium browser: add gear without charging it (character creation,
+    // or fixing an entry a player already paid for). Remembered per user.
+    game.settings.register("sr5", "sr5ShopCreationMode", {
+      name: "SR5.SETTINGS_ShopCreationMode_T",
+      hint: "SR5.SETTINGS_ShopCreationMode_D",
+      scope: "client",
+      config: false,
+      default: false,
+      type: Boolean,
+    })
+
+    // What a bonus die costs on an availability test. SR5 p. 420 sells one
+    // die per 25 % of the price, up to +12 (four times the price); both are
+    // values a table may want to move.
+    game.settings.register("sr5", "sr5ShopSurchargePerDie", {
+      name: "SR5.SETTINGS_ShopSurchargePerDie_T",
+      hint: "SR5.SETTINGS_ShopSurchargePerDie_D",
+      scope: "world",
+      config: true,
+      default: 25,
+      type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopMaxSurchargeDice", {
+      name: "SR5.SETTINGS_ShopMaxSurchargeDice_T",
+      hint: "SR5.SETTINGS_ShopMaxSurchargeDice_D",
+      scope: "world",
+      config: true,
+      default: 12,
+      type: Number,
+    })
+
+    // Fencing gear, SR5 p. 421. Every figure of the rule is a setting: the
+    // share a found buyer starts from, what a net hit of haggling moves, the
+    // threshold to find a buyer at all, what a contact pays per point of
+    // Loyalty, and the buyer's own pool — which the book never gives.
+    game.settings.register("sr5", "sr5ShopFenceBasePercent", {
+      name: "SR5.SETTINGS_ShopFenceBase_T",
+      hint: "SR5.SETTINGS_ShopFenceBase_D",
+      scope: "world", config: true, default: 25, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceStepPercent", {
+      name: "SR5.SETTINGS_ShopFenceStep_T",
+      hint: "SR5.SETTINGS_ShopFenceStep_D",
+      scope: "world", config: true, default: 5, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceThreshold", {
+      name: "SR5.SETTINGS_ShopFenceThreshold_T",
+      hint: "SR5.SETTINGS_ShopFenceThreshold_D",
+      scope: "world", config: true, default: 10, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopContactFencePercent", {
+      name: "SR5.SETTINGS_ShopContactFence_T",
+      hint: "SR5.SETTINGS_ShopContactFence_D",
+      scope: "world", config: true, default: 5, type: Number,
+    })
+
+    game.settings.register("sr5", "sr5ShopFenceBuyerPool", {
+      name: "SR5.SETTINGS_ShopFenceBuyerPool_T",
+      hint: "SR5.SETTINGS_ShopFenceBuyerPool_D",
+      scope: "world", config: true, default: 6, type: Number,
+    })
+
+    // Which contact types deal in goods, for the Bargaining specialization
+    // on availability tests. Free text on the contact sheet, so this is a
+    // keyword list the table can edit.
+    game.settings.register("sr5", "sr5ShopDealerKeywords", {
+      name: "SR5.SETTINGS_ShopDealerKeywords_T",
+      hint: "SR5.SETTINGS_ShopDealerKeywords_D",
+      scope: "world",
+      config: true,
+      default: "fixer, intermediaire, intermédiaire, receleur, recéleur, fourgue, marchand, armurier, talismonger, talismancien, dealer, trafiquant, contrebandier, smuggler, arms dealer",
+      type: String,
+    })
+
     // Display Help Window
     game.settings.register("sr5", "sr5Help.active", {
       name: "SR5.SETTINGS_HelpActive_T",

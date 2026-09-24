@@ -1,0 +1,72 @@
+<div class="sr-shop-card">
+  <header class="SR-CardHeader sr-shop-card-header">
+    <i class="fas fa-hand-holding-dollar"></i>
+    <span>{{localize 'SR5.ShopFenceTest'}}</span>
+  </header>
+
+  <div class="SR-CardContent sr-shop-card-content">
+    {{#if immediate}}
+    <p class="sr-shop-card-searcher">
+      {{localize 'SR5.ShopFencedBy'}}{{localize 'SR5.Colons'}} <strong>{{fenceName}}</strong>
+      — {{percent}}% × {{localize 'SR5.ContactLoyaltyShort'}} {{loyalty}}
+    </p>
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopFenceImmediate'}}</p>
+    {{else}}
+    <p class="sr-shop-card-searcher">
+      {{localize 'SR5.ShopFenceSearch'}}{{localize 'SR5.Colons'}}
+      {{searchHits}} / {{threshold}} {{localize 'SR5.DiceHits'}}
+      ({{localize 'SR5.DicePool'}} {{searchPool}}{{#if teamwork}}, +{{teamwork}} {{localize 'SR5.ShopFenceTeamwork'}}{{/if}},
+      {{searchRolls}}× — {{delayLabel}})
+    </p>
+    {{#if searchFailed}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopFenceNoBuyer'}}</p>
+    {{else}}
+    <p class="sr-shop-card-searcher">
+      {{localize 'SR5.ShopFenceHaggle'}}{{localize 'SR5.Colons'}}
+      {{myHits}} / {{theirHits}} → {{percent}}% {{localize 'SR5.ShopFenceOfListed'}}
+      ({{localize 'SR5.DicePool'}} {{hagglePool}} {{localize 'SR5.ShopVersus'}} {{buyerPool}})
+    </p>
+    {{/if}}
+    {{#if override}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopOverriddenPool'}}</p>
+    {{/if}}
+    {{#if criticalGlitch}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopFenceCriticalGlitch'}}</p>
+    {{else if glitch}}
+    <p class="sr-shop-card-note">{{localize 'SR5.ShopFenceGlitch'}}</p>
+    {{/if}}
+    {{/if}}
+
+    <table class="sr-shop-card-table">
+      <thead>
+        <tr>
+          <th>{{localize 'SR5.Name'}}</th>
+          <th>{{localize 'SR5.AvailabilityShort'}}</th>
+          <th>{{localize 'SR5.ShopListedPrice'}}</th>
+          <th>{{localize 'SR5.ShopOffer'}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each results}}
+        <tr class="sr-shop-line">
+          <td>{{this.name}}{{#if (gt this.quantity 1)}} (x{{this.quantity}}){{/if}}</td>
+          <td>{{#if this.availability}}{{this.availability}}{{else}}—{{/if}}</td>
+          <td>{{this.listedLabel}}</td>
+          <td>{{this.offerLabel}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+
+  <footer class="sr-shop-card-footer">
+    {{#if canSell}}
+    <button type="button" data-fence-action="sell">
+      <i class="fas fa-sm fa-hand-holding-dollar"></i>
+      {{localize 'SR5.ShopCashSale'}} ({{totalLabel}})
+    </button>
+    {{else}}
+    <span class="sr-shop-cashed">{{localize 'SR5.ShopNoBuyerFound'}}</span>
+    {{/if}}
+  </footer>
+</div>
