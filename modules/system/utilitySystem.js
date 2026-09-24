@@ -106,6 +106,17 @@ export class SR5_SystemHelpers {
       type: Boolean,
       onChange: () => window.location.reload()
     })
+
+    // Hide the die and its face on a random table's chat card
+    game.settings.register("sr5", "sr5HideTableRoll", {
+      name: "SR5.SETTINGS_HideTableRoll_T",
+      hint: "SR5.SETTINGS_HideTableRoll_D",
+      scope: "world",
+      config: true,
+      default: false,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    })
   }
 
   /* Display Shadowrun Themed Log Entries Based on Logging Level

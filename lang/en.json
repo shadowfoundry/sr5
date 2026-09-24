@@ -2681,6 +2681,8 @@
 	"SR5.SETTINGS_DevLogLevel_T": "Development Logs Filter",
 	"SR5.SETTINGS_HelpActive_D": "Display the contextual help window in the interface.",
 	"SR5.SETTINGS_HelpActive_T": "Show Help Window",
+	"SR5.SETTINGS_HideTableRoll_D": "Hide the die and its result on random table chat cards. The roll still happens, it is simply no longer shown.",
+	"SR5.SETTINGS_HideTableRoll_T": "Hide the roll on random tables",
 	"SR5.SETTINGS_KillCodeRules_D": "Activate or desactivate Kill Code rules.",
 	"SR5.SETTINGS_KillCodeRules_T": "Use Kill Code",
 	"SR5.SETTINGS_MatrixGridRules_D": "Activate or desactivate Matrix grid rules (Core rulebook, p.233-234)",

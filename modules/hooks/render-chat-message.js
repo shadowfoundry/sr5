@@ -1,8 +1,14 @@
 import {
   SR5_RollMessage
 } from "../rolls/roll-message.js"
+import {
+  sr5DressTableDraw
+} from "../interface/table-draw.js"
 
 export function sr5HookRenderChatMessageHTML(message, html, _data) {
+  // A table draw is rendered by core and wears no SR5 header of its own
+  sr5DressTableDraw(html)
+
   // Apply SR5 custom styling for messages with SR5 roll data
   if (message.flags?.sr5data) {
     html.classList.add("SRCustomMessage")

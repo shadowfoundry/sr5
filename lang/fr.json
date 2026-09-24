@@ -2681,6 +2681,8 @@
 	"SR5.SETTINGS_DevLogLevel_T": "Filtre du journal de développement",
 	"SR5.SETTINGS_HelpActive_D": "Afficher la fenêtre d'aide contextuelle au sein de l'interface.",
 	"SR5.SETTINGS_HelpActive_T": "Activer la fenêtre d'aide",
+	"SR5.SETTINGS_HideTableRoll_D": "Masquer le dé et son résultat sur les cartes de chat des tables aléatoires. Le tirage a toujours lieu, il n'est simplement plus affiché.",
+	"SR5.SETTINGS_HideTableRoll_T": "Masquer le jet sur les tables aléatoires",
 	"SR5.SETTINGS_KillCodeRules_D": "Activer ou désactiver les règles matricielles de Kill Code.",
 	"SR5.SETTINGS_KillCodeRules_T": "Utiliser les règles de Kill Code",
 	"SR5.SETTINGS_MatrixGridRules_D": "Activer ou désactiver les règles de gestion des Grilles pour la Matrice (Livre de base, p.234-235).",
