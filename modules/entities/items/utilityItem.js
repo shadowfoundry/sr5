@@ -1450,7 +1450,7 @@ export class SR5_UtilityItem extends Actor {
     if (itemData.needRoll && actor) {
       let firstLabel = game.i18n.localize(SR5.allAttributes[itemData.testFirstAttribute])
       if (itemData.testFirstAttribute){
-        if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
+        if (SR5.characterSpecialAttributes[itemData.testFirstAttribute]){
           firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value
         } else if (itemData.testFirstAttribute === "rating") {
           firstAttribute = itemData.itemRating
@@ -1466,7 +1466,7 @@ export class SR5_UtilityItem extends Actor {
 	
       let secondLabel = game.i18n.localize(SR5.allAttributes[itemData.testSecondAttribute])
       if (itemData.testSecondAttribute){
-        if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
+        if (SR5.characterSpecialAttributes[itemData.testSecondAttribute]){
           secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value
         } else if (itemData.testSecondAttribute === "rating") {
           secondAttribute = itemData.itemRating
@@ -1505,7 +1505,7 @@ export class SR5_UtilityItem extends Actor {
     if (itemData.needRoll && actor) {
       let firstLabel = game.i18n.localize(SR5.allAttributes[itemData.testFirstAttribute])
       if (itemData.testFirstAttribute){
-        if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
+        if (SR5.characterSpecialAttributes[itemData.testFirstAttribute]){
           firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value
         } else if (itemData.testFirstAttribute === "body" || itemData.testFirstAttribute === "agility" || itemData.testFirstAttribute === "reaction" || itemData.testFirstAttribute === "strength" || itemData.testFirstAttribute === "willpower" || itemData.testFirstAttribute === "logic" || itemData.testFirstAttribute === "intuition" || itemData.testFirstAttribute === "charisma") {
           firstAttribute = actor.system.attributes[itemData.testFirstAttribute].augmented.value
@@ -1517,7 +1517,7 @@ export class SR5_UtilityItem extends Actor {
 	
       let secondLabel = game.i18n.localize(SR5.allAttributes[itemData.testSecondAttribute])
       if (itemData.testSecondAttribute){
-        if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
+        if (SR5.characterSpecialAttributes[itemData.testSecondAttribute]){
           secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value
         } else if (itemData.testSecondAttribute === "body" || itemData.testSecondAttribute === "agility" || itemData.testSecondAttribute === "reaction" || itemData.testSecondAttribute === "strength" || itemData.testSecondAttribute === "willpower" || itemData.testSecondAttribute === "logic" || itemData.testSecondAttribute === "intuition" || itemData.testSecondAttribute === "charisma") {
           secondAttribute = actor.system.attributes[itemData.testSecondAttribute].augmented.value
@@ -2714,7 +2714,7 @@ export class SR5_UtilityItem extends Actor {
       if (actor.type === "actorSpirit" && itemData.testFirstAttribute === "edge"){
         itemData.testFirstAttribute = "magic" 				
       }
-      if (itemData.testFirstAttribute === "edge" || itemData.testFirstAttribute === "magic" || itemData.testFirstAttribute === "resonance"){
+      if (SR5.characterSpecialAttributes[itemData.testFirstAttribute]){
         firstAttribute = actor.system.specialAttributes[itemData.testFirstAttribute].augmented.value
       } else {
         firstAttribute = actor.system.attributes[itemData.testFirstAttribute].augmented.value
@@ -2725,7 +2725,7 @@ export class SR5_UtilityItem extends Actor {
       if (actor.type === "actorSpirit" && itemData.testSecondAttribute === "edge"){
         itemData.testSecondAttribute = "magic" 				
       }
-      if (itemData.testSecondAttribute === "edge" || itemData.testSecondAttribute === "magic" || itemData.testSecondAttribute === "resonance"){
+      if (SR5.characterSpecialAttributes[itemData.testSecondAttribute]){
         secondAttribute = actor.system.specialAttributes[itemData.testSecondAttribute].augmented.value
       } else {
         secondAttribute = actor.system.attributes[itemData.testSecondAttribute].augmented.value

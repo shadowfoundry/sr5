@@ -691,6 +691,27 @@ export class SR5Combat extends Combat {
             ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {
               effect: item.name
             })}`)
+
+            //Head case Attribute Boost (Stolen Souls p. 201): Stun damage equal to the hits once the boost ends.
+            //Applied straight to the monitor: this is not an attack, so no knockdown check
+            if (itemData.type === "naniteAttributeBoost" && Number(itemData.value) > 0 && actor.system.conditionMonitors.stun) {
+              let stunData = foundry.utils.deepClone(actor.system.conditionMonitors.stun)
+              stunData.actual.base += Number(itemData.value)
+              SR5_EntityHelpers.updateValue(stunData.actual, 0)
+              await actor.update({
+                "system.conditionMonitors.stun.actual.base": stunData.actual.base
+              })
+              ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_NaniteBoostDamage", {
+                damage: itemData.value
+              })}`)
+              if (actor.system.conditionMonitors.stun.actual.value >= actor.system.conditionMonitors.stun.value) {
+                //Dynamic import: entityActor-helpers already imports this module
+                const {
+                  SR5_ActorHelper 
+                } = await import("../entities/actors/entityActor-helpers.js")
+                await SR5_ActorHelper.createKoEffect(actor.id)
+              }
+            }
           } else {
             await item.update({
               system: itemData

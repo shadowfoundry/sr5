@@ -36,11 +36,16 @@ SR5.characterSpecialAttributes = {
   edge                      : "SR5.Edge",
   magic                     : "SR5.Magic",
   resonance                 : "SR5.Resonance",
+  nanite                    : "SR5.NaniteVolume",
+  depth                     : "SR5.Depth",
 }
 
+// Special attributes selectable on PC / Grunt sheets (one active at a time)
 SR5.magicOrResonance = {
   magic                     : "SR5.Magic",
   resonance                 : "SR5.Resonance",
+  nanite                    : "SR5.NaniteVolume",
+  depth                     : "SR5.Depth",
 }
 
 //
@@ -2192,7 +2197,13 @@ SR5.matrixRigger5Actions = {
   targetDevice              : "SR5.MatrixActionTargetDevice",
 }
 
+// AI Depth actions (Data Trails p. 159-161)
+SR5.matrixDataTrailsActions = {
+  redefineOwnership         : "SR5.MatrixActionRedefineOwnership",
+}
+
 SR5.matrixRolledActions = {
+  ...SR5.matrixDataTrailsActions,
   ...SR5.matrixCoreRolledActions,
   ...SR5.matrixKillCodeActions,		
   ...SR5.matrixRigger5Actions,
@@ -3464,6 +3475,7 @@ SR5.specialPropertiesList = {
   regeneration              : "SR5.SpiritPowerRegeneration",
   anticoagulant             : "SR5.Anticoagulant",
   essenceDrain              : "SR5.EssenceDrain",
+  naniteToxinResistance     : "SR5.NaniteToxinResistance",
 }
 
 SR5.transactionsTypes = {
@@ -3535,6 +3547,7 @@ SR5.dicePoolModTypes = {
   sensorLockMod             : "SR5.SensorLockedTarget",
   signatureSize             : "SR5.TargetSize",
   mark                      : "SR5.NumberOfWantedMarks",
+  emulate                   : "SR5.MatrixActionEmulate",
   centering                 : "SR5.MetamagicCentering",
   spellShaping              : "SR5.MetamagicSpellShaping",
   healingCondition          : "SR5.HealingConditions",
@@ -3627,6 +3640,7 @@ SR5.limitModTypes = {
   limitModVarious         : "SR5.VariousModifiers",
   limitModPerception      : "SR5.SkillPerceptionType",
   limitModHealingSupplies : "SR5.HealingSupplies",
+  limitModEmulate         : "SR5.MatrixActionEmulate",
   backgroundCount			    : "SR5.SceneBackgroundCount",
 }
 

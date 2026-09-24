@@ -15,9 +15,9 @@ export default async function powerDefense(rollData, actor, chatData){
   rollData.test.title = `${game.i18n.localize("SR5.Defense")} ${game.i18n.localize("SR5.Against")} ${powerItem.name}`
 
   //Determine dicepool composition
-  if (chatData.various.defenseFirstAttribute === "edge" || chatData.various.defenseFirstAttribute === "magic" || chatData.various.defenseFirstAttribute === "resonance") firstAttribute = actorData.specialAttributes[chatData.various.defenseFirstAttribute].augmented.value
+  if (SR5.characterSpecialAttributes[chatData.various.defenseFirstAttribute]) firstAttribute = actorData.specialAttributes[chatData.various.defenseFirstAttribute].augmented.value
   else firstAttribute = actorData.attributes[chatData.various.defenseFirstAttribute].augmented.value
-  if (chatData.various.defenseSecondAttribute === "edge" || chatData.various.defenseSecondAttribute === "magic" || chatData.various.defenseSecondAttribute === "resonance") secondAttribute = actorData.specialAttributes[chatData.various.defenseSecondAttribute].augmented.value
+  if (SR5.characterSpecialAttributes[chatData.various.defenseSecondAttribute]) secondAttribute = actorData.specialAttributes[chatData.various.defenseSecondAttribute].augmented.value
   else secondAttribute = actorData.attributes[chatData.various.defenseSecondAttribute].augmented.value
 
   rollData.dicePool.composition = ([

@@ -302,6 +302,8 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
         detectTargetLock: fullActionSchema('free', 'rigger5', false, 4, 'dataProcessing'),
         suppressNoise: fullActionSchema('complex', 'rigger5', false, 4, 'dataProcessing'),
         targetDevice: fullActionSchema('complex', 'rigger5', false, 0, 'dataProcessing'),
+        // AI Depth action (Data Trails p. 160): the limit is Depth, see generateMatrixActions
+        redefineOwnership: fullActionSchema('complex', 'dataTrails', true, 0, 'dataProcessing'),
         changeIcon: simpleActionSchema('simple', 4),
         enterOrExitHost: simpleActionSchema('complex', 1),
         gridHop: simpleActionSchema('complex', 0),

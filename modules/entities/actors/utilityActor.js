@@ -368,6 +368,7 @@ export class SR5_CharacterUtility extends Actor {
       actorData.specialProperties.doublePenalties = false
       actorData.specialProperties.energyAura = ""
       actorData.specialProperties.regeneration = ""
+      actorData.specialProperties.naniteToxinResistance = false
       actorData.specialProperties.anticoagulant = ""
       actorData.specialProperties.essenceDrain = ""
       actorData.specialProperties.fullDefenseAttribute = "willpower"
@@ -713,7 +714,7 @@ export class SR5_CharacterUtility extends Actor {
       if (actorData.penalties[key].actual.value > 0) actorData.penalties[key].actual.value = 0
     }
 
-    if (actor.type === "actorPc" || actor.type === "actorSpirit") {
+    if ((actor.type === "actorPc" || actor.type === "actorSpirit") && actorData.conditionMonitors.physical && actorData.conditionMonitors.stun) {
       actorData.penalties.condition.actual.base = actorData.penalties.physical.actual.base + actorData.penalties.stun.actual.base
       SR5_EntityHelpers.updateValue(actorData.penalties.condition.actual)
     }
@@ -1185,6 +1186,11 @@ export class SR5_CharacterUtility extends Actor {
     actorData.matrix.deviceRating = actorData.level
   }
 
+  // AI (Data Trails p. 152): an AI is a PC or grunt sheet whose active special attribute is Depth
+  static isDepthActive(actor) {
+    return (actor.type === "actorPc" || actor.type === "actorGrunt") && actor.system.activeSpecialAttribute === "depth"
+  }
+
   // Update Actors Special Attributes
   static updateSpecialAttributes(actor) {
     let actorData = actor.system
@@ -1212,6 +1218,15 @@ export class SR5_CharacterUtility extends Actor {
     if (actor.type === "actorPc" || actor.type === "actorGrunt") {
       // Check Magic/Resonance Actor Sheet Display (and Default to Magic)
       if (!actorData.activeSpecialAttribute) actorData.activeSpecialAttribute = "magic"
+
+      // AI (Data Trails p. 152): Depth is the maximum Edge rating
+      if (actorData.activeSpecialAttribute === "depth" && actorData.specialAttributes.depth) {
+        let depth = actorData.specialAttributes.depth.augmented.value, edge = actorData.specialAttributes.edge.augmented
+        if (edge.value > depth) {
+          SR5_EntityHelpers.updateModifier(edge, game.i18n.localize('SR5.DepthEdgeMax'), "linkedAttribute", depth - edge.value)
+          SR5_EntityHelpers.updateValue(edge, 0)
+        }
+      }
 
       // Update encumbrance
       let armorAccessoriesModifiers = actorData.itemsProperties.armor.modifiers.filter(m => m.type == "armorAccessory")
@@ -1518,6 +1533,15 @@ export class SR5_CharacterUtility extends Actor {
       }
     }
 
+    // AI (Data Trails p. 161): a single core condition monitor, no Stun/Physical monitors and no overflow
+    if (this.isDepthActive(actor)) {
+      delete conditionMonitors.physical
+      delete conditionMonitors.stun
+      delete conditionMonitors.overflow
+      delete actorData.statusBars.physical
+      delete actorData.statusBars.stun
+    }
+
     for (let key of Object.keys(SR5.monitorTypes)) {
       if (conditionMonitors[key]) {
         switch (key) {
@@ -1531,6 +1555,9 @@ export class SR5_CharacterUtility extends Actor {
             if (actor.type == "actorDrone") {
               if (actorData.type === "drone") conditionMonitors[key].base = Math.ceil((attributes.body.augmented.value / 2) + 6)
               else conditionMonitors[key].base = Math.ceil((attributes.body.augmented.value / 2) + 12)
+            } else if (this.isDepthActive(actor) && specialAttributes.depth) {
+              // AI core condition monitor (Data Trails p. 161): 8 + half the Depth, rounded up
+              conditionMonitors[key].base = Math.ceil(specialAttributes.depth.augmented.value / 2) + 8
             } else {
               conditionMonitors[key].base = Math.max(Math.ceil((attributes.willpower.augmented.value / 2) + 8), Math.ceil((attributes.body.augmented.value / 2) + 8))
             }
@@ -1584,6 +1611,13 @@ export class SR5_CharacterUtility extends Actor {
             break
           case "remote":
           case "rigging":
+            if (actorData.controlMode === "rigging" && controlerData?.activeSpecialAttribute === "depth") {
+              // AI loaded in a vehicle (Data Trails p. 161): Pilot replaces Data Processing for Initiative
+              SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.Intuition'), "controler", controlerData.attributes.intuition.augmented.value)
+              SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.VehicleStat_PilotShort'), "linkedAttribute", attributes.pilot.augmented.value)
+              initPhy.dice.base = 4
+              break
+            }
             SR5_EntityHelpers.updateModifier(initPhy, game.i18n.localize('SR5.InitiativeMatrix'), "controler", controlerData.initiatives.matrixInit.value)
             SR5_EntityHelpers.updateModifier(initPhy.dice, game.i18n.localize('SR5.InitiativeMatrix'), "controler", controlerData.initiatives.matrixInit.dice.value)
             break
@@ -1662,6 +1696,17 @@ export class SR5_CharacterUtility extends Actor {
     switch (actor.type) {
       case "actorPc":
       case "actorGrunt":
+        // AI (Data Trails p. 160): (Intuition x 2) + 4D6 without a device, Intuition + Data Processing + 4D6 on a device
+        if (actorData.activeSpecialAttribute === "depth") {
+          // computed once without a device and again once the device is known: start from a clean list
+          initMat.modifiers = []
+          initMat.dice.modifiers = []
+          SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
+          if (actorData.matrix.deviceType) SR5_EntityHelpers.updateModifier(initMat, actorData.matrix.deviceName, "device", matrixAttributes.dataProcessing.value)
+          else SR5_EntityHelpers.updateModifier(initMat, game.i18n.localize('SR5.Intuition'), "linkedAttribute", attributes.intuition.augmented.value)
+          SR5_EntityHelpers.updateModifier(initMat.dice, game.i18n.localize('SR5.Depth'), "linkedAttribute", 4)
+          break
+        }
         switch (actorData.matrix.userMode) {
           case "ar":
             initMat.modifiers = initiatives.physicalInit.modifiers
@@ -1701,7 +1746,7 @@ export class SR5_CharacterUtility extends Actor {
         SR5_SystemHelpers.srLog(1, `Unknown actor type '${actor.type}' in 'updateInitiativeMatrix()'`)
     }
 
-    if (actorData.matrix.userMode !== "ar") this.applyPenalty("condition", initMat, actor)
+    if (actorData.matrix.userMode !== "ar" || this.isDepthActive(actor)) this.applyPenalty("condition", initMat, actor)
     //this.applyPenalty("matrix", initMat, actor);
     //this.applyPenalty("magic", initMat, actor);
     SR5_EntityHelpers.updateValue(initMat, 0)
@@ -1882,6 +1927,10 @@ export class SR5_CharacterUtility extends Actor {
               resistances[key][vector].base = 0
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Body'), "linkedAttribute", attributes.body.augmented.value)
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
+              // Head case advantage (Stolen Souls p. 201): add the Nanite Volume to toxin and disease resistances
+              if (actorData.specialProperties?.naniteToxinResistance && actorData.specialAttributes?.nanite?.augmented.value > 0) {
+                SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.NaniteVolume'), "linkedAttribute", actorData.specialAttributes.nanite.augmented.value)
+              }
               if (actorData.itemsProperties && key === "toxin") {
                 resistances.toxin[vector].modifiers = resistances.toxin[vector].modifiers.concat(actorData.itemsProperties.armor.toxin[vector].modifiers)
               }
@@ -1939,6 +1988,8 @@ export class SR5_CharacterUtility extends Actor {
   // // Generate Actors Limits
   static updateLimits(actor) {
     let actorData = actor.system, limits = actorData.limits, attributes = actorData.attributes
+    // AI on a device (Data Trails p. 160): Data Processing can replace the Mental limit and joins the Social limit
+    let aiDataProcessing = (this.isDepthActive(actor) && actorData.matrix?.deviceType) ? actorData.matrix.attributes.dataProcessing.value : null
 
     for (let key of Object.keys(SR5.characterLimits)) {
       switch (key) {
@@ -1953,6 +2004,7 @@ export class SR5_CharacterUtility extends Actor {
         case "mentalLimit":
           if (limits[key]) {
             limits[key].base = Math.ceil((attributes.logic.augmented.value * 2 + attributes.intuition.augmented.value + attributes.willpower.augmented.value) / 3)
+            if (aiDataProcessing !== null) limits[key].base = Math.max(limits[key].base, aiDataProcessing)
           }
           break
         case "physicalLimit":
@@ -1963,6 +2015,7 @@ export class SR5_CharacterUtility extends Actor {
         case "socialLimit":
           if (limits[key]) {
             limits[key].base = Math.ceil((attributes.charisma.augmented.value * 2 + attributes.willpower.augmented.value + actorData.essence.value) / 3)
+            if (aiDataProcessing !== null) limits[key].base = Math.ceil((attributes.charisma.augmented.value + aiDataProcessing + attributes.willpower.augmented.value + actorData.essence.value) / 3)
           }
           break
         default:
@@ -2529,7 +2582,7 @@ export class SR5_CharacterUtility extends Actor {
           }
         }
         let linkedAttribute = actorData.skills[key].linkedAttribute
-        if (linkedAttribute == 'magic' || linkedAttribute == 'resonance' || linkedAttribute == 'edge') {
+        if (SR5.characterSpecialAttributes[linkedAttribute]) {
           let label = `${game.i18n.localize(SR5.characterSpecialAttributes[linkedAttribute])}`
           SR5_EntityHelpers.updateModifier(actorData.skills[key].test, label, "linkedAttribute", actorData.specialAttributes[linkedAttribute].augmented.value)
         } else {
@@ -3541,13 +3594,16 @@ export class SR5_CharacterUtility extends Actor {
         matrix.attributes.firewall.base = attributes.willpower.augmented.value
         matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value
         break
-      case "headcase":
-        matrix.attributes.attack.base = attributes.charisma.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.sleaze.base = attributes.intuition.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.dataProcessing.base = attributes.logic.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.firewall.base = attributes.willpower.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value
+      case "headcase": {
+        // Head case matrix attributes (Lockdown p. 202): mental attribute + half the Nanite Volume
+        let halfNanite = Math.ceil(actorData.specialAttributes.nanite.augmented.value / 2)
+        matrix.attributes.attack.base = attributes.willpower.augmented.value + halfNanite
+        matrix.attributes.sleaze.base = attributes.logic.augmented.value + halfNanite
+        matrix.attributes.dataProcessing.base = attributes.intuition.augmented.value + halfNanite
+        matrix.attributes.firewall.base = attributes.charisma.augmented.value + halfNanite
+        matrix.deviceRating = actorData.specialAttributes.nanite.augmented.value
         break
+      }
       default:
         SR5_SystemHelpers.srLog(1, `Unknown '${item.system.type}' deck type in generateMatrixAttributes()`)
         return
@@ -3716,6 +3772,12 @@ export class SR5_CharacterUtility extends Actor {
       SR5_EntityHelpers.updateModifier(matrixActions.targetDevice.test, game.i18n.localize('SR5.NoiseReduction'), "matrixAttribute", matrixAttributes.noiseReduction.value)
     }
 
+    // AI Depth action (Data Trails p. 160): Redefine Ownership, Logic + Computer [Depth]
+    if (this.isDepthActive(actor)) {
+      SR5_EntityHelpers.updateModifier(matrixActions.redefineOwnership.test, game.i18n.localize('SR5.SkillComputer'), "skillRating", skills.computer.rating.value)
+      SR5_EntityHelpers.updateModifier(matrixActions.redefineOwnership.test, game.i18n.localize('SR5.Logic'), "linkedAttribute", attributes.logic.augmented.value)
+    }
+
     for (let key of Object.keys(SR5.matrixActions)) {
       if (matrixActions[key].test !== undefined) {
         // test
@@ -3736,7 +3798,8 @@ export class SR5_CharacterUtility extends Actor {
         // limits
         let linkedAttribute = matrixActions[key].limit.linkedAttribute
         matrixActions[key].limit.base = 0
-        SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
+        if (matrixActions[key].source === "dataTrails") SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize('SR5.Depth'), "linkedAttribute", actorData.specialAttributes?.depth?.augmented.value || 0)
+        else SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
         SR5_EntityHelpers.updateValue(matrixActions[key].limit, 0)
       }
     }
@@ -3764,7 +3827,8 @@ export class SR5_CharacterUtility extends Actor {
         // limits
         let linkedAttribute = matrixActions[key].limit.linkedAttribute
         matrixActions[key].limit.base = 0
-        SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
+        if (matrixActions[key].source === "dataTrails") SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize('SR5.Depth'), "linkedAttribute", actorData.specialAttributes?.depth?.augmented.value || 0)
+        else SR5_EntityHelpers.updateModifier(matrixActions[key].limit, game.i18n.localize(SR5.matrixAttributes[linkedAttribute]), "linkedAttribute", matrixAttributes[linkedAttribute].value)
         SR5_EntityHelpers.updateValue(matrixActions[key].limit, 0)
       }
     }
@@ -3954,10 +4018,13 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         break
       case "livingPersona":
-      case "headcase":
-        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value)
+      case "headcase": {
+        // Living personas resist with Resonance, head cases with their Nanite Volume
+        let personaKey = item.system.type === "headcase" ? "nanite" : "resonance"
+        let personaLabel = game.i18n.localize(SR5.characterSpecialAttributes[personaKey])
+        SR5_EntityHelpers.updateModifier(matrixResistances.fading, personaLabel, "linkedAttribute", specialAttributes[personaKey].augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.fading, game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value)
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, personaLabel, "linkedAttribute", specialAttributes[personaKey].augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
@@ -3966,6 +4033,7 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "deviceRating", item.system.deviceRating)
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         break
+      }
       case "baseDevice":
         if (actor.type === "actorDrone") {
           if (actorData.vehicleOwner.id && actorData.slaved) {
