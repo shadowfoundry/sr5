@@ -289,7 +289,7 @@
 
     /* === Content-area buttons === */
     .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker) {
-      .sr-button-footer();
+      .sr-button-light();
     }
 
     /* === File picker / browse button === */
@@ -435,6 +435,11 @@
     background: none;
   }
 
+  /* Generic nav.tabs wraps; a vertical list must scroll instead of wrapping into a hidden column */
+  nav.tabs.vertical {
+    flex-wrap: nowrap;
+  }
+
   /* === Roll Table sheet === */
   &.roll-table-sheet {
     .sheet-header {
@@ -453,7 +458,7 @@
       }
 
       button[data-action="changeMode"] {
-        .sr-button-footer();
+        .sr-button-light();
       }
     }
 
