@@ -7,44 +7,126 @@ import {
 
 export class SR5_CompendiumUtility extends Actor {
 
-  //Get compendium to search for Items
-  //Return an array of items
-  static async getItemCompendium(compendium) {
-    let compendiumItems = []
-    let language = await game.settings.get("core", "language")
-    if (!language) SR5_SystemHelpers.srLog(0, "Could not determine core language used in getBaseItems()")
+  static _warnedMissingCompendiums = new Set()
+  static _compendiumCache = new Map()
+  static _compendiumChoices = {
+  }
 
-    let compendiumName = `sr5-compendiums.${language}_${compendium}`
-    const compendiumPack = game.packs.find((p) => p.collection == compendiumName)
-    if (!compendiumPack) {
-      SR5_SystemHelpers.srLog(3, `No compendium named '${compendiumName}' found, could not add items to actor`)
-      return compendiumItems
-    } else {
-      compendiumItems = await compendiumPack.getDocuments()
-      return compendiumItems
+  // Compendiums used to build actors: each one can be chosen by the GM in the system settings.
+  // "auto" uses the sr5-compendiums module packs for the world language.
+  static CATEGORIES = {
+    creaturePowers: {
+      setting: "compendium.creaturePowers", itemType: "itemPower", defaults: ["powers-creatures"]
+    },
+    spritePowers: {
+      setting: "compendium.spritePowers", itemType: "itemSpritePower", defaults: ["powers-sprites"]
+    },
+    baseWeapons: {
+      setting: "compendium.baseWeapons", itemType: "itemWeapon", defaults: ["weapons-melee", "weapons-ranged"]
+    },
+  }
+
+  static registerSettings() {
+    for (const [key, category] of Object.entries(SR5_CompendiumUtility.CATEGORIES)) {
+      const label = key.charAt(0).toUpperCase() + key.slice(1)
+      game.settings.register("sr5", category.setting, {
+        name: `SR5.SETTINGS_Compendium${label}_T`,
+        hint: `SR5.SETTINGS_Compendium${label}_D`,
+        scope: "world",
+        config: true,
+        type: String,
+        default: "auto",
+        // Filled on ready, once compendiums are available
+        choices: SR5_CompendiumUtility._compendiumChoices,
+        onChange: () => SR5_CompendiumUtility._compendiumCache.clear()
+      })
     }
   }
 
+  static refreshCompendiumChoices() {
+    const choices = SR5_CompendiumUtility._compendiumChoices
+    for (const key of Object.keys(choices)) delete choices[key]
+    choices.auto = game.i18n.localize("SR5.SETTINGS.CompendiumAuto")
+    for (const pack of game.packs.filter(p => p.documentName === "Item")) {
+      choices[pack.collection] = `${pack.title} (${pack.collection})`
+    }
+    // Keep a saved choice selectable even if its compendium is no longer available
+    for (const category of Object.values(SR5_CompendiumUtility.CATEGORIES)) {
+      const value = game.settings.get("sr5", category.setting)
+      if (!(value in choices)) choices[value] = game.i18n.format("SR5.SETTINGS.CompendiumMissing", {
+        name: value
+      })
+    }
+  }
+
+  static getCompendiumIds(categoryKey) {
+    const category = SR5_CompendiumUtility.CATEGORIES[categoryKey]
+    const chosen = game.settings.get("sr5", category.setting)
+    if (chosen && chosen !== "auto") return [chosen]
+    const language = game.settings.get("core", "language")
+    if (!language) SR5_SystemHelpers.srLog(0, "Could not determine core language used in getCompendiumIds()")
+    return category.defaults.map(name => `sr5-compendiums.${language}_${name}`)
+  }
+
+  //Get the items of a category from its configured compendium(s)
+  //Return an array of items
+  static async getCategoryItems(categoryKey) {
+    const {
+      itemType
+    } = SR5_CompendiumUtility.CATEGORIES[categoryKey]
+    const items = []
+    for (const compendiumId of SR5_CompendiumUtility.getCompendiumIds(categoryKey)) {
+      const documents = await SR5_CompendiumUtility.getCompendiumDocuments(compendiumId)
+      // A single compendium may hold every category: keep only the expected item type
+      items.push(...documents.filter(i => i.type === itemType))
+    }
+    return items
+  }
+
+  static async getCompendiumDocuments(compendiumId) {
+    const compendiumPack = game.packs.get(compendiumId)
+    if (!compendiumPack) {
+      SR5_SystemHelpers.srLog(1, `No compendium named '${compendiumId}' found, could not add items to actor`)
+      // Tell the GM once per session: without it, actors are created without their base items/powers
+      if (game.user.isGM && !SR5_CompendiumUtility._warnedMissingCompendiums.has(compendiumId)) {
+        SR5_CompendiumUtility._warnedMissingCompendiums.add(compendiumId)
+        ui.notifications.warn(game.i18n.format("SR5.WARN_MissingCompendium", {
+          name: compendiumId
+        }), {
+          permanent: true
+        })
+      }
+      return []
+    }
+    // The same compendium can back several categories during one actor creation: load it once
+    const cached = SR5_CompendiumUtility._compendiumCache.get(compendiumId)
+    if (cached && (Date.now() - cached.time < 10000)) return cached.documents
+    const documents = await compendiumPack.getDocuments()
+    SR5_CompendiumUtility._compendiumCache.set(compendiumId, {
+      time: Date.now(), documents
+    })
+    return documents
+  }
 
   //Get base items
   static async getBaseItems(actorType, actorSubType, actorLevel) {
     let baseItems = []
 
-    let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons")
-    let powers = await SR5_CompendiumUtility.getItemCompendium("powers-creatures")
-    let spritePowers = await SR5_CompendiumUtility.getItemCompendium("powers-sprites")
-
     if (actorType === "actorPc" || actorType === "actorGrunt") {
+      const weapons = await SR5_CompendiumUtility.getCategoryItems("baseWeapons")
       baseItems = await SR5_CompendiumUtility.findBaseItemInCompendium(baseItems, weapons, actorType)
     }
 
     if (actorType === "actorSpirit") {
+      const weapons = await SR5_CompendiumUtility.getCategoryItems("baseWeapons")
+      const powers = await SR5_CompendiumUtility.getCategoryItems("creaturePowers")
       baseItems = await SR5_CompendiumUtility.findBaseItemInCompendium(baseItems, weapons, actorSubType)
       baseItems = await SR5_CompendiumUtility.findBaseSpiritPowersInCompendium(baseItems, powers, actorSubType)
       baseItems = await SR5_CompendiumUtility.modifyBaseSpiritWeapon(baseItems, actorLevel)
     }
 
     if (actorType === "actorSprite") {
+      const spritePowers = await SR5_CompendiumUtility.getCategoryItems("spritePowers")
       baseItems = await SR5_CompendiumUtility.findBaseItemInCompendium(baseItems, spritePowers, actorSubType)
     }
 
@@ -110,7 +192,7 @@ export class SR5_CompendiumUtility extends Actor {
 
   //Add optional powers to an array of existing powers based on an itemSpirit
   static async addOptionalSpiritPowersFromItem(baseItems, optionalPowers) {
-    let powers = await SR5_CompendiumUtility.getItemCompendium("powers-creatures")
+    let powers = await SR5_CompendiumUtility.getCategoryItems("creaturePowers")
 
     for (let value of Object.values(optionalPowers)) {
       if (value) {
@@ -135,7 +217,7 @@ export class SR5_CompendiumUtility extends Actor {
   static async addOptionalSpritePowersFromItem(baseItems, optionalPowers) {
     //console.log("addOptionalSpritePowersFromItem ok !");
     //console.log("optionalPowers : " + JSON.stringify(optionalPowers));
-    let powers = await SR5_CompendiumUtility.getItemCompendium("powers-sprites")
+    let powers = await SR5_CompendiumUtility.getCategoryItems("spritePowers")
     //console.log("powers : " + JSON.stringify(powers));
 
     for (let value of Object.values(optionalPowers)) {
@@ -167,7 +249,7 @@ export class SR5_CompendiumUtility extends Actor {
 
   //Get a particular item from a particular compendium
   static async getWeaponFromCompendium(weapon, force) {
-    let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons")
+    let weapons = await SR5_CompendiumUtility.getCategoryItems("baseWeapons")
     for (let i of weapons) {
       let systemEffects = i.system.systemEffects
       if (systemEffects.length) {
@@ -175,8 +257,8 @@ export class SR5_CompendiumUtility extends Actor {
           if (systemEffect.value === weapon) {
             let iObject = i.toObject(false)
             if (weapon === "corrosiveSpit") {
-              i.system.damageValue.base = force * 2
-              i.system.armorPenetration.base = -force
+              iObject.system.damageValue.base = force * 2
+              iObject.system.armorPenetration.base = -force
             }
             return iObject
           }

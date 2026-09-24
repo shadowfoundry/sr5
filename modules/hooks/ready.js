@@ -1,5 +1,8 @@
 import SR5TokenHud from "../interface/tokenHud.js"
 import {
+  SR5_CompendiumUtility
+} from "../entities/actors/utilityCompendium.js"
+import {
   initLinkMatchesTooltip 
 } from "../interface/link-matches-tooltip.js"
 import {
@@ -12,6 +15,8 @@ export function sr5HookReady() {
   const themeClass = chosenStyle === "SR6" ? "sr-theme-sr6" : "sr-theme-sr5"
   document.body.classList.add(themeClass)
 
+  // Compendium choices for the base items settings
+  SR5_CompendiumUtility.refreshCompendiumChoices()
   // Translate the headers of the core "link matches" tooltip
   initLinkMatchesTooltip()
 
