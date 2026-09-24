@@ -857,6 +857,17 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  //Give a token the vision its actor is currently using
+  static async applyVisionToToken(actor) {
+    if (!canvas.scene) return
+    let token
+    if (actor.token) token = canvas.scene.tokens.find((t) => t.id === actor.token.id)
+    else token = canvas.scene.tokens.find((t) => t.actorId === actor.id)
+    if (!token) return
+    const tokenData = await SR5_EntityHelpers.getVisionData(foundry.utils.duplicate(token), actor)
+    await token.update(tokenData)
+  }
+
   //Handle astral vision
   static async handleAstralVision(actor) {
     let actorData = actor.system
@@ -873,13 +884,13 @@ export class SR5_CharacterUtility extends Actor {
       await SR5_EntityHelpers.addEffectToActor(actor, "astralVision")
       if (canvas.scene && token) {
         if (tokenData.sight.visionMode === 'astralvision') return
-        tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData)
+        tokenData = await SR5_EntityHelpers.getVisionData(tokenData, actor)
         await token.update(tokenData)
       }
     } else {
       await SR5_EntityHelpers.deleteEffectOnActor(actor, "astralVision")
       if (canvas.scene && token) {
-        tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData)
+        tokenData = await SR5_EntityHelpers.getVisionData(tokenData, actor)
         await token.update(tokenData)
       }
     }
@@ -910,7 +921,7 @@ export class SR5_CharacterUtility extends Actor {
         type: "simple", value: 1, source: "switchPerception" 
       }])
       this.handleAstralVision(actor)
-    }
+    } else await this.applyVisionToToken(actor)
   }
 
   static applyRacialModifers(actor) {

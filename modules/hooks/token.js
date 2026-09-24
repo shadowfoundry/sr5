@@ -9,8 +9,7 @@ export async function sr5HookCreateToken(tokenDocument) {
   if (!game.user.isGM) return
   let tokenData = foundry.utils.duplicate(tokenDocument)
   if (tokenData.texture.src == "") tokenData.texture.src = tokenDocument.actor.img
-  if (tokenDocument.actor.system.visions?.astral?.isActive) tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData)
-  else tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData)
+  tokenData = await SR5_EntityHelpers.getVisionData(tokenData, tokenDocument.actor)
   await tokenDocument.update(tokenData)
 }
 
