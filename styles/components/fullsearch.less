@@ -1,0 +1,223 @@
+@import "../commons/layout-mixin.less";
+@import "../commons/button-mixin.less";
+@import "../commons/input-mixin.less";
+
+/* === Search and Highlight module (fullsearch) ===
+   The module styles itself for a light theme (Garamond, near white fields).
+   Foundry V13 loads module styles in the "modules" cascade layer, after the "system"
+   layer: a module rule wins over a system rule whatever its specificity. Properties
+   the module also sets therefore need !important here. */
+
+/* Sidebar tab: same look as the Settings tab */
+#fullsearch.sidebar-tab {
+  h1.title {
+    font-family: var(--sr-font-title-alt);
+    color: var(--sr-text-color-light);
+  }
+
+  section h4.divider {
+    font-family: var(--sr-font-title-alt);
+    font-size: 16px;
+    color: var(--sr-text-color-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+
+    &::before, &::after {
+      border-top-color: var(--sr-text-color-flash) !important;
+      border-top-style: solid !important;
+    }
+  }
+
+  section.fullsearch {
+    align-items: stretch;
+    gap: 8px;
+    padding: 0 8px;
+
+    button {
+      .sr-button-footer();
+      width: 100% !important;
+      border-color: var(--sr-text-color-flash) !important;
+      background: color-mix(in srgb, var(--sr-text-color-flash) 15%, transparent) !important;
+
+      &:hover {
+        color: var(--sr-text-color-dark) !important;
+      }
+
+      &::before {
+        background: var(--sr-text-color-flash) !important;
+      }
+    }
+
+    /* Quick search field: type a text and press Enter, results go to the chat */
+    input.chatsearchtextbar {
+      .sr-input-base();
+      box-sizing: border-box;
+      width: 100% !important;
+      height: 28px;
+      margin: 0 !important;
+      padding: 0 6px;
+      background: var(--sr-ui-bg-color) !important;
+      color: var(--sr-ui-color-active) !important;
+      font-family: var(--sr-font-body);
+      font-size: var(--sr-font-size-small);
+
+      &::placeholder {
+        color: var(--sr-text-color-grey);
+      }
+
+      &:focus {
+        .sr-input-focus();
+      }
+    }
+  }
+}
+
+/* Search dialog (light window surface) */
+.search_dialog {
+  font: inherit !important;
+  padding: 8px;
+  color: var(--sr-text-color-dark);
+
+  h3 {
+    margin: 4px 0 12px !important;
+    font: var(--sr-font-size-normal) var(--sr-font-title) !important;
+    color: var(--sr-ui-border-color);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--sr-ui-border-color);
+    padding-bottom: 4px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--sr-font-body);
+    font-size: var(--sr-font-size-small);
+  }
+
+  .dialog-buttons {
+    padding-top: 12px !important;
+  }
+}
+
+/* Visible dialog field on the light surface (the generic window input is only a faint underline).
+   The selector matches the generic window input rule specificity, this file comes after it. */
+.window-app.dialog .window-content .search_dialog input[name="searchtext"][type="text"]:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
+  box-sizing: border-box;
+  height: 28px !important;
+  padding: 0 6px !important;
+  background: color-mix(in srgb, var(--sr-text-color-dark) 5%, transparent) !important;
+  border: 1px solid var(--sr-ui-border-color-idle) !important;
+  border-radius: 3px !important;
+
+  &:focus {
+    border-color: var(--sr-ui-border-color-active) !important;
+  }
+}
+
+/* Search results chat message: journal page background, black text with SR5 red icons,
+   blood red header bands, teal separators between journals, links separated by commas */
+.search_chat {
+  margin: -4px;
+  padding: 6px 8px;
+  background: var(--sr-text-color-light) var(--sr-img-bg-white50) top left / cover no-repeat;
+  font: inherit !important;
+  font-family: var(--sr-font-body) !important;
+  font-size: var(--sr-font-size-small) !important;
+  line-height: 1.35;
+  color: var(--sr-text-color-dark);
+  /* Wrap between words only, never inside a word */
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+
+  h3,
+  h4 {
+    margin: 8px 0 4px !important;
+    padding: 2px 6px;
+    background: color-mix(in srgb, var(--sr-ui-border-color) 85%, black);
+    color: var(--sr-text-color-light);
+    font: var(--sr-font-size-small) var(--sr-font-title) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left !important;
+  }
+
+  h3 {
+    margin-top: 0 !important;
+    font-size: var(--sr-font-size-normal) !important;
+  }
+
+  .motif {
+    margin: 4px 0 !important;
+  }
+
+  .btn-highlight button {
+    width: 100%;
+    margin: 4px 0 !important;
+    padding: 2px 6px !important;
+    line-height: 20px !important;
+    color: var(--sr-text-color-dark);
+    background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 6%, transparent);
+    border: 1px solid var(--sr-ui-border-color-idle);
+    border-radius: 3px;
+    font-family: var(--sr-font-title);
+    font-size: var(--sr-font-size-small);
+    text-transform: uppercase;
+
+    &:hover {
+      color: var(--sr-ui-border-color-active);
+      border-color: var(--sr-ui-border-color-active);
+      background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+    }
+  }
+
+  .journal {
+    margin: 0 !important;
+    padding: 4px 0;
+  }
+
+  .journal + .journal {
+    border-top: 1px solid var(--sr-ui-border-color-active);
+  }
+
+  .journal_name {
+    margin-bottom: 1px !important;
+    color: var(--sr-text-color-dark);
+    font-family: var(--sr-font-title);
+    font-weight: normal !important;
+    text-transform: uppercase;
+  }
+
+  /* Pages are one div each, actors and items are separated by <br>: show them inline */
+  .journal_page {
+    display: inline;
+  }
+
+  .journal_page:not(:last-child)::after,
+  div:not(.journal):not(.journal_name):not(.journal_page):not(.motif):not(.btn-highlight) > a.content-link:not(:last-of-type)::after {
+    content: ",";
+    margin-right: 0.35em;
+    color: color-mix(in srgb, var(--sr-text-color-dark) 50%, transparent);
+  }
+
+  br {
+    display: none;
+  }
+
+  a.content-link {
+    background: none !important;
+    border: 0 !important;
+    padding: 0;
+    color: var(--sr-text-color-dark);
+    font-family: var(--sr-font-body);
+
+    i {
+      color: var(--sr-ui-border-color);
+    }
+
+    &:hover {
+      color: var(--sr-ui-border-color);
+      text-shadow: none;
+    }
+  }
+}
