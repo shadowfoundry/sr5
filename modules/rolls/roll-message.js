@@ -38,8 +38,11 @@ import {
   SR5_ThirdPartyHelpers 
 } from "./roll-helpers/thirdparty.js"
 import {
-  SR5_ActorHelper 
+  SR5_ActorHelper
 } from "../entities/actors/entityActor-helpers.js"
+import {
+  SR5_SpellShapingHelpers
+} from "./roll-helpers/spell-shaping.js"
 
 export class SR5_RollMessage {
   //Handle reaction to roll ChatMessage
@@ -288,9 +291,12 @@ export class SR5_RollMessage {
         break
       case "templatePlace": {
         let item = await fromUuid(messageData.owner.itemUuid)
-        await item.placeGabarit(messageId)
+        await item.placeGabarit(messageId, messageData.magic?.spell?.area)
         break
       }
+      case "spellShapingSpare":
+        await SR5_RollMessage.spareWithSpellShaping(messageId, messageData)
+        break
       case "templateRemove":
         SR5_RollMessage.removeTemplate(messageId, messageData.owner.itemUuid)
         break
@@ -718,6 +724,40 @@ export class SR5_RollMessage {
 
   static async _socketUpdateChatButton(message){
     await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption)
+  }
+
+  // SR5 p. 329: the bubbles were paid for at casting; this names who stands in them.
+  // The selected tokens are recorded on the card, and their defense is skipped.
+  static async spareWithSpellShaping(messageId, messageData){
+    let spellData = messageData.magic.spell
+    let spared = Array.isArray(spellData.sparedActors) ? spellData.sparedActors : []
+    let allowed = spellData.sparedCount || 0
+    let selected = canvas.tokens?.controlled ?? []
+
+    if (!selected.length) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpellShapingNoTokenSelected")}`)
+
+    let added = 0
+    for (let token of selected){
+      if (spared.length >= allowed) {
+        ui.notifications.warn(`${game.i18n.format("SR5.WARN_SpellShapingNoBubbleLeft", {
+          number: allowed
+        })}`)
+        break
+      }
+      let key = SR5_SpellShapingHelpers.actorKey(token.actor)
+      if (!key || spared.some(alreadySpared => alreadySpared.id === key)) continue
+      spared.push({
+        id: key, name: token.name
+      })
+      added++
+    }
+    if (!added) return
+
+    spellData.sparedActors = spared
+    if (spared.length >= allowed) delete messageData.chatCard.buttons.spellShapingSpare
+    else messageData.chatCard.buttons.spellShapingSpare = SR5_RollMessage.generateChatButton("nonOpposedTest", "spellShapingSpare", `${game.i18n.localize("SR5.SpellShapingSpare")} (${spared.length}/${allowed})`)
+
+    await SR5_RollMessage.updateRollCardHelper(messageId, messageData)
   }
 
   //Return data for a chat button

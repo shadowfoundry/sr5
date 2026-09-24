@@ -2,11 +2,23 @@ import {
   SR5 
 } from "../../config.js"
 import {
-  SR5_PrepareRollHelper 
+  SR5_PrepareRollHelper
 } from "../roll-prepare-helpers.js"
+import {
+  SR5_SpellShapingHelpers
+} from "../roll-helpers/spell-shaping.js"
 
 export default async function spellResistance(rollData, actor, chatData){
   if (actor.type === "actorAgent" || actor.type === "actorSprite" || actor.type === "actorDevice") return
+
+  // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched; nothing to resist.
+  if (SR5_SpellShapingHelpers.isSpared(actor, chatData.magic.spell)){
+    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
+      name: actor.name
+    })}`)
+    return
+  }
+
   let spellItem = await fromUuid(chatData.owner.itemUuid)
   let spellData = spellItem.system
 

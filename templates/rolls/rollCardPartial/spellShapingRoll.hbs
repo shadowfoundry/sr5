@@ -1,0 +1,15 @@
+<li class="grid SR-LigneEnTete SR-PaddingTop10">
+    <div class="col-10">{{localize 'SR5.RangeArea'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{magic.spell.area}} {{localize 'SR5.MeterUnit'}}</div>
+</li>
+{{#if magic.spell.sparedCount}}
+<li class="grid SR-PaddingTop5 SR-GreyColor">
+    <div class="col-10">{{localize 'SR5.SpellShapingSpared'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2 SR-TextRight">{{magic.spell.sparedActors.length}}/{{magic.spell.sparedCount}}</div>
+</li>
+{{#each magic.spell.sparedActors}}
+<li class="grid SR-GreyColor">
+    <div class="col-12">{{name}}</div>
+</li>
+{{/each}}
+{{/if}}

@@ -20,8 +20,11 @@ import {
   SR5_CalledShotHelpers 
 } from "./roll-helpers/calledShot.js"
 import {
-  SR5Combat 
+  SR5Combat
 } from "../system/srcombat.js"
+import {
+  SR5_SpellShapingHelpers
+} from "./roll-helpers/spell-shaping.js"
 
 export default class SR5_RollDialog {
 
@@ -489,18 +492,10 @@ export default class SR5_RollDialog {
         this.updateFadingValue(html)
         if (html.querySelector('#level')) html.querySelector('#level').value = value
         return
-      case "dicePoolModSpellShaping":
-        if (value > 0) {
-          ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMin'))
-          value = 0
-        } else if (-value > actor.system.magic.metamagics.spellShapingValue.value){
-          value = -actor.system.magic.metamagics.spellShapingValue.value
-          ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {
-            magic: value
-          }))
-        }
-        dialogData.magic.spell.area = -value
-        break
+      case "spellShapingArea":
+      case "spellShapingSpared":
+        this._updateSpellShaping(html, dialogData, actor, target, value)
+        return
       case "manaBarrierRating": {
         let barrierRating = parseInt((html.querySelector('[name="manaBarrierRating"]').value || 1))
         html.querySelector('[name="baseDicePool"]').value = barrierRating * 2
@@ -538,6 +533,41 @@ export default class SR5_RollDialog {
       type: modifierName,
       label: game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
       value: value
+    })
+    this.updateDicePoolValue(html)
+  }
+
+  // SR5 p. 329: each -1 die buys either one metre of radius or one bubble, and the
+  // total penalty may not exceed Magic (plus a Spell Shaping focus, SR5 p. 323).
+  _updateSpellShaping(html, dialogData, actor, target, value){
+    let readInput = (inputName) => {
+      let field = html.querySelector(`[name="${inputName}"]`)
+      return field ? field.value : 0
+    }
+    let changed = (target === "spellShapingSpared") ? "spared" : "area"
+    let shaping = SR5_SpellShapingHelpers.share({
+      area: (changed === "area") ? value : readInput("spellShapingArea"),
+      spared: (changed === "spared") ? value : readInput("spellShapingSpared"),
+      max: actor.system.magic.metamagics.spellShapingValue.value,
+      bubbleCost: game.settings.get("sr5", "sr5SpellShapingBubbleCost"),
+      changed: changed,
+    })
+
+    if (shaping.clamped) ui.notifications.warn(game.i18n.format('SR5.WARN_SpellShapingMaxMagic', {
+      magic: actor.system.magic.metamagics.spellShapingValue.value
+    }))
+
+    if (html.querySelector('[name="spellShapingArea"]')) html.querySelector('[name="spellShapingArea"]').value = shaping.area
+    if (html.querySelector('[name="spellShapingSpared"]')) html.querySelector('[name="spellShapingSpared"]').value = shaping.spared
+
+    dialogData.magic.spell.areaShaping = shaping.area
+    dialogData.magic.spell.sparedCount = shaping.spared
+
+    SR5_MiscellaneousHelpers.removeElementFromArray(dialogData.dicePool.modifiers, 'type', "spellShaping")
+    if (shaping.penalty > 0) dialogData.dicePool.modifiers.push({
+      type: "spellShaping",
+      label: `${game.i18n.localize(SR5.dicePoolModTypes.spellShaping)} (${shaping.area} ${game.i18n.localize("SR5.MeterUnit")} / ${shaping.spared})`,
+      value: -shaping.penalty,
     })
     this.updateDicePoolValue(html)
   }

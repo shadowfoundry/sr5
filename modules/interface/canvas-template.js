@@ -29,7 +29,7 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
 	 * @return {AbilityTemplate|null}     The template object, or null if the item does not produce a template
 	 */
 
-  static fromItem(item) {
+  static fromItem(item, radius) {
     let target = 0
     let flags = {
     }
@@ -54,7 +54,12 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     }
 
     if ((item.type === "itemSpell" || item.type === "itemPreparation")) {
-      target = item.system.spellAreaOfEffect.value
+      // The area the cast produced wins over the item's own: the item is computed
+      // from its stored Force alone and knows nothing of the Spell Shaping points
+      // spent at casting (SR5 p. 329). Without this the circle is smaller than the
+      // area the defense test uses, and a defender between the two is inside for
+      // the rule and outside on screen.
+      target = (radius > 0) ? radius : item.system.spellAreaOfEffect.value
       //if spell has a transferable effect, add item to canvas template
       for (let e of Object.values(item.system.customEffects)){
         if (e.transfer){

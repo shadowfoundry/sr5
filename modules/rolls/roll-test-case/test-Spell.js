@@ -52,10 +52,19 @@ export default async function spellInfo(cardData){
 			
     //Handle spell Area
     if (cardData.magic.spell.range === "area"){
-      cardData.magic.spell.area += cardData.magic.force
+      cardData.magic.spell.area = cardData.magic.force
       if (item.system.category === "detection") {
         if (item.system.spellAreaExtended === true) cardData.magic.spell.area = cardData.magic.spell.area * actorData.specialAttributes.magic.augmented.value * 10
         else cardData.magic.spell.area = cardData.magic.spell.area * actorData.specialAttributes.magic.augmented.value
+      }
+      // SR5 p. 329: Spell Shaping adds one flat metre of radius per point taken,
+      // so it lands after the multiplier a detection spell applies to its area.
+      cardData.magic.spell.area += (cardData.magic.spell.areaShaping || 0)
+
+      // Bubbles are declared at casting; which characters they cover is picked
+      // once the area is on the canvas, hence a button rather than a dialog list.
+      if (cardData.magic.spell.sparedCount > 0){
+        cardData.chatCard.buttons.spellShapingSpare = SR5_RollMessage.generateChatButton("nonOpposedTest", "spellShapingSpare", `${game.i18n.localize("SR5.SpellShapingSpare")} (0/${cardData.magic.spell.sparedCount})`)
       }
     }
 

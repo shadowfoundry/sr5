@@ -655,10 +655,13 @@ export class SR5Item extends Item {
     }
   }
 
-  async placeGabarit(messageId) {
+  // `radius` overrides the item's own area of effect: the circle then shows the
+  // area the cast actually produced (Force chosen at casting, plus Spell Shaping,
+  // SR5 p. 329), which is the same value the defense test measures against.
+  async placeGabarit(messageId, radius) {
     let actorPosition = SR5_EntityHelpers.getActorCanvasPosition(this.parent)
     if (canvas.scene && actorPosition !==0) {
-      const template = await AbilityTemplate.fromItem(this)
+      const template = await AbilityTemplate.fromItem(this, radius)
       if (template) {
         await template.drawPreview()
         if (this.type === "itemWeapon") this.rollTest("weapon")

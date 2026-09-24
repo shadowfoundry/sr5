@@ -44,6 +44,10 @@
 		{{#if (and (eq test.type 'iceDefense') (or (eq iceType 'iceBlaster') ) )}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/matrixDamageRoll.hbs}}
 		{{/if}}
+		<!--Spell area & Spell Shaping info-->
+		{{#if (gt magic.spell.area 0)}}
+			{{> systems/sr5/templates/rolls/rollCardPartial/spellShapingRoll.hbs}}
+		{{/if}}
 		<!--Limit info-->
 		{{#if (gt limit.value 0)}}
 			{{> systems/sr5/templates/rolls/rollCardPartial/limitRoll.hbs}}
