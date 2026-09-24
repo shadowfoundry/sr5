@@ -51,6 +51,12 @@ import {
   sr5HookRenderCompendium, sr5HookRenderCompendiumDirectory 
 } from './hooks/compendium.js'
 import {
+  sr5AddTableFormulaField, sr5AddResultQuantityField
+} from './interface/table-config.js'
+import {
+  sr5HookRenderTableNuyen
+} from './interface/table-nuyen.js'
+import {
   sr5KeepSidebarSettingsLast
 } from './interface/sidebar-tab-order.js'
 
@@ -96,6 +102,9 @@ Hooks.on('createActiveEffect', sr5HookCreateActiveEffect)
 Hooks.on('deleteActiveEffect', sr5HookDeleteActiveEffect)
 Hooks.on('renderCompendium', sr5HookRenderCompendium)
 Hooks.on('renderCompendiumDirectory', sr5HookRenderCompendiumDirectory)
+Hooks.on('renderRollTableSheet', sr5AddTableFormulaField)
+Hooks.on('renderTableResultConfig', sr5AddResultQuantityField)
+Hooks.on('renderChatMessageHTML', sr5HookRenderTableNuyen)
 Hooks.on('renderSidebar', sr5KeepSidebarSettingsLast)
 Hooks.on('drawMeasuredTemplate', sr5HookDrawMeasuredTemplate)
 Hooks.on('deleteMeasuredTemplate', sr5HookDeleteMeasuredTemplate)
