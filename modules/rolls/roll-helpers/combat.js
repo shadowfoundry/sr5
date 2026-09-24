@@ -5,6 +5,9 @@ import {
   SR5_EntityHelpers 
 } from "../../entities/helpers.js"
 import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
   SR5_ConverterHelpers 
 } from "./converter.js"
 import {
@@ -56,7 +59,12 @@ export class SR5_CombatHelpers {
     if (!canvas.scene) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`)
 
     let distanceMod = cardData.roll.hits
-    let gridUnit = canvas.scene.grid.size
+    // The deviation table gives a distance in meters -- "DEVIATION (1D6 - hits) meters", SR5 p. 183 --
+    // while the canvas positions a template in pixels. grid.size is the pixels of ONE square and
+    // grid.distance is what that square is worth in the scene's own unit, so the meters become scene
+    // units, then squares, then pixels. Multiplying by grid.size alone read the deviation as a number
+    // of squares: a 3 m deviation moved the template 3 squares, which is 4.5 m on a 1.5 m grid.
+    let pixelsPerMeter = canvas.scene.grid.size / ((canvas.scene.grid.distance || 1) * SR5_SystemHelpers.getSceneUnitInMeters())
     
     let template = canvas.scene.templates.find((t) => t.flags.sr5.item === cardData.owner.itemId)
     if (template === undefined) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`)
@@ -100,49 +108,49 @@ export class SR5_CombatHelpers {
       case 1:
         coordinate = {
           x: 0, 
-          y: distanceRoll.total*gridUnit,
+          y: distanceRoll.total*pixelsPerMeter,
         }
         break
       case 2:
         coordinate = {
-          x: -(distanceRoll.total*gridUnit)/2, 
-          y: (distanceRoll.total*gridUnit)/2, 
+          x: -(distanceRoll.total*pixelsPerMeter)/2, 
+          y: (distanceRoll.total*pixelsPerMeter)/2, 
         }
         break
       case 3:
         coordinate = {
-          x: -distanceRoll.total*gridUnit, 
+          x: -distanceRoll.total*pixelsPerMeter, 
           y: 0,
         }
         break
       case 4:
         coordinate = {
-          x: -(distanceRoll.total*gridUnit)/2, 
-          y: -(distanceRoll.total*gridUnit)/2, 
+          x: -(distanceRoll.total*pixelsPerMeter)/2, 
+          y: -(distanceRoll.total*pixelsPerMeter)/2, 
         }
         break
       case 5:
         coordinate = {
           x: 0, 
-          y: -distanceRoll.total*gridUnit,
+          y: -distanceRoll.total*pixelsPerMeter,
         }
         break
       case 6:
         coordinate = {
-          x: (distanceRoll.total*gridUnit)/2, 
-          y: -(distanceRoll.total*gridUnit)/2, 
+          x: (distanceRoll.total*pixelsPerMeter)/2, 
+          y: -(distanceRoll.total*pixelsPerMeter)/2, 
         }
         break
       case 7:
         coordinate = {
-          x: distanceRoll.total*gridUnit, 
+          x: distanceRoll.total*pixelsPerMeter, 
           y: 0,
         }
         break
       case 8:
         coordinate = {
-          x: (distanceRoll.total*gridUnit)/2, 
-          y: (distanceRoll.total*gridUnit)/2, 
+          x: (distanceRoll.total*pixelsPerMeter)/2, 
+          y: (distanceRoll.total*pixelsPerMeter)/2, 
         }
         break
     }

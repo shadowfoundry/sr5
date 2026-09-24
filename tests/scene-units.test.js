@@ -55,6 +55,13 @@ describe('Scene unit conversion', () => {
       }
     })
 
+    it('takes an empty unit as meters -- a scene in the world has one', () => {
+      setScene('')
+      expect(SR5_SystemHelpers.getSceneUnitInMeters()).toBe(1)
+      setScene('   ')
+      expect(SR5_SystemHelpers.getSceneUnitInMeters()).toBe(1)
+    })
+
     it('survives a scene that has no unit at all', () => {
       globalThis.canvas = undefined
       expect(SR5_SystemHelpers.getSceneUnitInMeters()).toBe(1)

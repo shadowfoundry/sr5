@@ -1,4 +1,8 @@
 export class SR5_SystemHelpers {
+
+  // Scene units already reported as unrecognised, so the warning is written once and not on every roll.
+  static _unknownSceneUnits = new Set()
+
   static registerSystemSettings() {
 
     // System Migration Version
@@ -212,6 +216,14 @@ export class SR5_SystemHelpers {
     if (typeof units !== "string") return 1
     const normalized = units.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\.$/, "")
     if (["ft", "feet", "foot", "'", "pi", "pied", "pieds"].includes(normalized)) return 0.3048
+    if (normalized !== "" && !["m", "meter", "meters", "metre", "metres"].includes(normalized)) {
+      // Leaving an unknown unit alone is the safe choice, but doing it in complete silence would make the
+      // day someone plays in yards indistinguishable from a working scene. One line per unseen unit.
+      if (game?.settings && !SR5_SystemHelpers._unknownSceneUnits.has(normalized)) {
+        SR5_SystemHelpers._unknownSceneUnits.add(normalized)
+        SR5_SystemHelpers.srLog(1, `Scene unit "${units}" is not recognised: distances are taken as meters and left unconverted.`)
+      }
+    }
     return 1
   }
 
