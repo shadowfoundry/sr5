@@ -240,10 +240,15 @@ export class SR5_RollMessage {
         break
       case "applyEffect":
       case "applyEffectAuto":
+        // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched. These
+        // buttons post the effect with no test at all, so without this guard a
+        // spared character would dodge every roll and still take the effect.
+        if (SR5_RollMessage.isSparedBySpellShaping(actor, messageData)) break
         actor.applyExternalEffect(messageData, "customEffects")
         if (messageData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "applyEffectOnItem":
+        if (SR5_RollMessage.isSparedBySpellShaping(actor, messageData)) break
         actor.applyExternalEffect(messageData, "itemEffects")
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
@@ -724,6 +729,18 @@ export class SR5_RollMessage {
 
   static async _socketUpdateChatButton(message){
     await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption)
+  }
+
+  // True when this card is a spell and this actor was put inside a bubble; says so
+  // once, so the chat buttons that apply an effect without any test agree with the
+  // defense tests that skip it.
+  static isSparedBySpellShaping(actor, messageData){
+    if (messageData.test.type !== "spell") return false
+    if (!SR5_SpellShapingHelpers.isSpared(actor, messageData.magic?.spell)) return false
+    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
+      name: actor.name
+    })}`)
+    return true
   }
 
   // SR5 p. 329: the bubbles were paid for at casting; this names who stands in them.

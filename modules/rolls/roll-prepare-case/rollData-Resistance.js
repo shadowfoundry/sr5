@@ -20,7 +20,7 @@ export default async function resistance(rollData, rollType, actor, chatData){
 
   // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched, so a direct
   // area spell does no damage there and there is nothing to resist.
-  if (chatData.test.type === "spell" && SR5_SpellShapingHelpers.isSpared(actor, chatData.magic.spell)){
+  if (chatData.test.type === "spell" && SR5_SpellShapingHelpers.isSpared(actor, chatData.magic?.spell)){
     ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
       name: actor.name
     })}`)
