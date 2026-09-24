@@ -79,19 +79,23 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
 
     // No cap against the map size here, on purpose -- the radius drawn is the radius the books give.
     //
-    // A previous version shrank target down to the smaller side of the scene. It was removed because the
-    // template is what decides who stands in the area: shrinking it silently shrinks an area of effect, so a
-    // defender ends up outside a Fireball because the map is small rather than because the rules say so. No
-    // page asks for such a cap. It also compared a RADIUS to a whole map side, so it was off by a factor of
-    // two even on its own terms -- a cap meant to keep the circle inside the map would bound the diameter.
-    // Measured before removal: a radius of 15, 18 or 25 m all came out at 14 on a 21 m tall map.
+    // A previous version shrank target down to the smaller side of the scene. It was removed because this
+    // template is what decides who stands in the area: shrinking it shrinks an area of effect, so a defender
+    // ends up outside a Fireball because the map is small rather than because the rules say so. The books go
+    // the other way -- a blast in a confined space is not clipped by the walls, it bounces off them and hits
+    // again (SR5 p. 184, 156P instead of 80P). The one place the rules let scenery shape a blast, they make
+    // it worse. The cap also compared a RADIUS to a whole map side, so it was off by a factor of two even on
+    // its own terms: a cap meant to keep the circle inside the map would bound the diameter.
+    //
+    // How large a radius can actually reach here: an area spell is its Force, but a detection spell is Force
+    // x augmented Magic, x10 again with extended range (see spellAreaOfEffect in utilityItem.js), so Force 6
+    // for a Magic 6 mage reaches 360 m. The cap bit every one of those down to the smaller side of the map.
     //
     // A circle larger than the map costs nothing measurable. Measured on 2026-09-24 in Foundry V13, radii
-    // from 10 up to 50 000 scene units: the document stores the radius unchanged, no console error and no
-    // notification, and the circle is turned into a polygon whose vertex count follows the square root of the
-    // radius (32 vertices at 10, 2 222 at 50 000) in 0.2 ms or less. Nothing in the data comes close anyway:
-    // the largest radius any item in the world and its packs can produce is 18 m (a fragmentation grenade),
-    // and 8 m for an area spell.
+    // from 10 up to 50 000 scene units: the document stores the radius unchanged, with no console error and
+    // no notification, and the circle becomes a polygon whose vertex count follows the SQUARE ROOT of the
+    // radius -- 32 vertices at 10, 2 222 at 50 000, all within 1% of 10*sqrt(r) -- built in 0.2 ms or less.
+    // That measures the polygon conversion only; drawing and hit-testing were not measured.
 
     // Prepare template data
     const templateData = {
