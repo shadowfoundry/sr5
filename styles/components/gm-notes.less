@@ -71,6 +71,14 @@
         color: var(--sr-text-color-dark);
       }
 
+      /* The generic window rule for h3 and h4 is one class more specific, and would give a
+         note's headings the red title style and the rule underneath that belong to window
+         section headers */
+      h3, h4 {
+        color: var(--sr-text-color-dark) !important;
+        border-bottom: none !important;
+      }
+
       a {
         color: var(--sr-ui-border-color);
       }

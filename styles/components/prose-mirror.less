@@ -206,8 +206,10 @@ prose-mirror menu.editor-menu,
 
 }
 
-/* Legacy editor only: core styles these toolbar parts for <prose-mirror> but not for .editor */
-.editor menu.editor-menu {
+/* Legacy editor only. The <prose-mirror> element gives itself the `editor` class as well, so the
+   selector has to exclude it: otherwise these rules reach every editor, and the hidden
+   concurrent-users would take the "who else is editing" mark off a collaborative page. */
+.editor:not(prose-mirror) menu.editor-menu {
   .pm-dropdown {
     /* The table dropdown is also button.icon, whose core flex-basis would keep it icon sized */
     flex: none;
