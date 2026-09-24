@@ -103,6 +103,7 @@ export class SR5Combat extends Combat {
     const turn = 0
 
     for (const combatant of combat.combatants) {
+      await SR5Combat.decreaseInitiativePassEffects(combatant)
       const initiative = SR5Combat.reduceIniResultAfterPass(Number(combatant.initiative))
       await combatant.update({
         initiative: initiative,
@@ -134,6 +135,7 @@ export class SR5Combat extends Combat {
         "flags.sr5.blitz": false,
         "flags.sr5.hasPlayed": combatant.isDefeated,
       })
+      await SR5Combat.decreaseInitiativePassEffects(combatant)
       await SR5Combat.manageTurnEnd(combatant)
     }
     await SR5Combat.setInitiativePass(combat, 1)
@@ -614,8 +616,10 @@ export class SR5Combat extends Combat {
       else ui.notifications.info(`${game.i18n.format("SR5.INFO_TakeActions", {
         actor: actor.name, actionValue: action.value, actionType: game.i18n.localize(SR5.actionTypes[action.type]), actionSource: game.i18n.localize(SR5.actionSources[action.source])
       })}`) 
+      // SR5 p. 170: an interruption action lowers the Initiative score by its own cost — 5 by default,
+      // 10 for a Watchdog Haywire or Popup (Kill Code p. 45)
       if (action.type === "interruption") {
-        initModifier = -5
+        initModifier = -(action.initiativeCost || 5)
       }
     }
     if (initModifier) await SR5Combat.changeInitInCombatHelper(documentId, initModifier)
@@ -666,6 +670,24 @@ export class SR5Combat extends Combat {
     await actor.update({
       system: actorData
     })
+  }
+
+  //Effects lasting until the next Initiative Pass (Kill Code p. 43, I Am the Firewall): counted down at each pass and each new round
+  static async decreaseInitiativePassEffects(combatant){
+    let actor = SR5Combat.getActorFromCombatant(combatant)
+    if (!actor) return
+    for (let item of actor.items){
+      if (item.type !== "itemEffect" || item.system.durationType !== "initiativePass") continue
+      let duration = item.system.duration - 1
+      if (duration <= 0){
+        await actor.deleteEmbeddedDocuments("Item", [item.id])
+        ui.notifications.info(`${combatant.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.format("SR5.INFO_DurationFinished", {
+          effect: item.name
+        })}`)
+      } else await item.update({
+        "system.duration": duration
+      })
+    }
   }
 
   //Do stuff on actor when turn is ending

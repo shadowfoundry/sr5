@@ -94,6 +94,18 @@ export default class SR5_RollDialog {
     }
   }
 
+  // SR5 p. 170: an interruption action can only be taken if the initiative score is higher than its cost
+  static hasInitiativeForInterruption(actor, cost){
+    if (!game.combat || !(cost > 0)) return true
+    let combatant = SR5Combat.getCombatantFromActor(actor)
+    if (!combatant || combatant.initiative === null || combatant.initiative === undefined) return true
+    if (combatant.initiative > cost) return true
+    ui.notifications.warn(game.i18n.format("SR5.WARN_NotEnoughInitiative", {
+      actor: actor.name, initiative: combatant.initiative, cost: cost
+    }))
+    return false
+  }
+
   calculRecoil(html){
     let firingModeValue,
       dialogData = this.dialogData
@@ -235,6 +247,10 @@ export default class SR5_RollDialog {
         break
       case "fullDefense":
         value = actor.system.specialProperties.fullDefenseValue || 0
+        if (isChecked && !actor.effects.find(e => e.origin === "fullDefense") && !SR5_RollDialog.hasInitiativeForInterruption(actor, 10)) {
+          ev.target.checked = false
+          isChecked = false
+        }
         break
       case "reagents":
         if (isChecked) {
@@ -783,11 +799,31 @@ export default class SR5_RollDialog {
             dialogData.combat.firingMode.actionSpent = false
           }
           break
-        case "defenseMode":
+        case "matrixActionType": {
+          // Kill Code p. 43: I Am the Firewall is a Complex action or an Interruption action (-5 Initiative)
+          // Kill Code p. 45: a Watchdog mark opens the same choice on Haywire, Popup (-10) and Squelch (-5)
+          let cost = dialogData.combat.interruptionInitiativeCost || 5
+          let chosen = ev.target.value
+          if (chosen === "interruption" && !SR5_RollDialog.hasInitiativeForInterruption(actor, cost)) chosen = ev.target.value = dialogData.combat.matrixActionTypeDefault
+          dialogData.combat.matrixActionType = chosen
+          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: chosen, value: 1, source: "matrixAction", initiativeCost: cost
+          })
+          return
+        }
+        case "defenseMode": {
+          if (!SR5_RollDialog.hasInitiativeForInterruption(actor, -SR5_ConverterHelpers.activeDefenseToInitMod(ev.target.value))) ev.target.value = "none"
           value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`
           dialogData.combat.activeDefenseSelected = ev.target.value
+          // SR5 p. 191-192: dodge, block and parry use a skill, so the Physical limit applies to the defense test
+          let usesSkill = ["dodge", "block", "parryClubs", "parryBlades"].includes(ev.target.value)
+          dialogData.limit.base = usesSkill ? (dialogData.combat.activeDefenses.limit || 0) : 0
+          dialogData.limit.type = usesSkill ? "physicalLimit" : ""
+          let limitRow = html.querySelector('#activeDefenseLimit')
+          if (limitRow) limitRow.style.display = usesSkill ? '' : 'none'
           break
+        }
         case "cover":
           value = SR5_ConverterHelpers.coverToMod(ev.target.value)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[ev.target.value])})`

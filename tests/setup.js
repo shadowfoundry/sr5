@@ -42,6 +42,10 @@ if (!globalThis.canvas) globalThis.canvas = {
   ready: false,
 }
 
+// CONFIG stub: modules/config.js writes into it at import time
+if (!globalThis.CONFIG) globalThis.CONFIG = {
+}
+
 // Provide game.i18n.localize as identity function (returns the key unchanged)
 if (!globalThis.game) globalThis.game = {
 }
