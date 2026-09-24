@@ -276,6 +276,71 @@ export class SR5_ActorHelper {
     }
   }
 
+  //Handle dumpshock disorientation (SR5 p. 231): -2 dice to every action for (10 - Willpower) minutes
+  static async dumpshockEffect(actorId){
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
+    let duration = Math.max(1, 10 - (actor.system.attributes?.willpower?.augmented?.value || 0))
+    let existingEffect = actor.items.find((item) => item.type === "itemEffect" && item.system.type === "dumpshock")
+
+    if (existingEffect){
+      if (existingEffect.system.duration < duration) await existingEffect.update({
+        "system.duration": duration
+      })
+      return
+    }
+
+    let effect = {
+      name: game.i18n.localize("SR5.Dumpshock"),
+      type: "itemEffect",
+      "system.type": "dumpshock",
+      "system.target": game.i18n.localize("SR5.GlobalPenalty"),
+      "system.value": -2,
+      "system.durationType": "minute",
+      "system.duration": duration,
+      "system.customEffects": {
+        "0": {
+          "category": "penaltyTypes",
+          "target": "system.penalties.special.actual",
+          "type": "value",
+          "value": -2,
+          "forceAdd": true,
+        }
+      }
+    }
+    await actor.createEmbeddedDocuments("Item", [effect])
+    ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} ${game.i18n.localize("SR5.Applied")}.`)
+  }
+
+  //Handle suppressive fire zone (SR5 p. 181): -hits dice to every action other than defending, until the end of the combat turn
+  static async suppressiveFireEffect(actorId, hits){
+    if (!(hits > 0)) return
+    let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
+    let existingEffect = actor.items.find((item) => item.type === "itemEffect" && item.system.type === "suppressiveFire")
+    if (existingEffect && existingEffect.system.value <= -hits) return
+    if (existingEffect) await actor.deleteEmbeddedDocuments("Item", [existingEffect.id])
+
+    let effect = {
+      name: game.i18n.localize("SR5.WeaponModeSF"),
+      type: "itemEffect",
+      "system.type": "suppressiveFire",
+      "system.target": game.i18n.localize("SR5.GlobalPenalty"),
+      "system.value": -hits,
+      "system.durationType": "round",
+      "system.duration": 1,
+      "system.customEffects": {
+        "0": {
+          "category": "penaltyTypes",
+          "target": "system.penalties.special.actual",
+          "type": "value",
+          "value": -hits,
+          "forceAdd": true,
+        }
+      }
+    }
+    await actor.createEmbeddedDocuments("Item", [effect])
+    ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${effect.name} (${-hits}) ${game.i18n.localize("SR5.Applied")}.`)
+  }
+
   //Handle Special Damage : Anticoagulant
   static async anticoagulantDamageEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)

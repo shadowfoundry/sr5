@@ -3671,6 +3671,7 @@
 	"SR5.WeaponModeSB": "Rafale semi-automatique",
 	"SR5.WeaponModeSBShort": "SA",
 	"SR5.WeaponModeSF": "Tir de couverture",
+	"SR5.SuppressiveFireDefenseExempt": "Tir de couverture : la défense n'est pas pénalisée",
 	"SR5.WeaponModeSFShort": "TA",
 	"SR5.WeaponModeSS": "Coup par coup",
 	"SR5.WeaponModesShort": "Mode(s)",

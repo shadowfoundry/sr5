@@ -2,6 +2,9 @@ import {
   SR5_EntityHelpers 
 } from "../../entities/helpers.js"
 import {
+  SR5_ActorHelper
+} from "../../entities/actors/entityActor-helpers.js"
+import {
   SR5_RollMessage 
 } from "../roll-message.js"
 import {
@@ -22,6 +25,9 @@ export default async function defenseInfo(cardData, actorId){
   let actorData = actor.system
   let immunity
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits
+
+  // SR5 p. 181: anyone caught in a suppressive fire zone suffers a penalty equal to the shooter's hits, whatever the outcome of the defense
+  if (cardData.combat.firingMode.selected === "SF") await SR5_ActorHelper.suppressiveFireEffect(actorId, cardData.previousMessage.hits)
 
   //Special case for injection ammo, need 3 net hits if armor is weared
   const injReq = cardData.combat.ammo.effects?.injectionNetHits || (cardData.combat.ammo.type === "injection" ? 3 : 0)

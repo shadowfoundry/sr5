@@ -3386,6 +3386,8 @@ SR5.effectTypes = {
   electricityDamage         : "SR5.ElementalDamage",
   acidDamage                : "SR5.ElementalDamage",
   fireDamage                : "SR5.ElementalDamage",
+  dumpshock                 : "SR5.Dumpshock",
+  suppressiveFire           : "SR5.WeaponModeSF",
   sensorLock                : "SR5.SensorTargetingActive",
   signalJam                 : "SR5.EffectSignalJam",
   signalJammed              : "SR5.EffectSignalJammed",
