@@ -51,6 +51,9 @@ import {
   sr5HookRenderCompendium, sr5HookRenderCompendiumDirectory 
 } from './hooks/compendium.js'
 import {
+  sr5PlaceChatJumpToBottom 
+} from './interface/chat-jump-to-bottom.js'
+import {
   sr5KeepSidebarSettingsLast
 } from './interface/sidebar-tab-order.js'
 
@@ -63,6 +66,8 @@ Hooks.once('init', sr5HookInit)
 Hooks.once('ready', sr5HookReady)
 Hooks.once('canvasReady', sr5HookCanvasReady)
 Hooks.once('renderChatLog', sr5HookRenderChatLog)
+Hooks.on('renderChatLog', sr5PlaceChatJumpToBottom)
+Hooks.on('renderChatInput', sr5PlaceChatJumpToBottom)
 
 Hooks.on('hotbarDrop', sr5HookHotbarDrop)
 Hooks.on('renderPlayers', sr5HookRenderPlayers)
