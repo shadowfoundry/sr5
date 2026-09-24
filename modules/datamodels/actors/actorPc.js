@@ -111,6 +111,23 @@ export class sr5ActorPcDataModel extends foundry.abstract.TypeDataModel {
             ...sr5ModsPartialModel.defineSchema()
           }),
         }),
+        // Nanite Volume (head cases, Stolen Souls p. 199) and Depth (AIs, Data Trails p. 152)
+        nanite: new fields.SchemaField({
+          natural: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+          augmented: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+        }),
+        depth: new fields.SchemaField({
+          natural: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+          augmented: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+        }),
       }),
       skills: new fields.SchemaField({
         ...allSkillFields(),
@@ -131,6 +148,14 @@ export class sr5ActorPcDataModel extends foundry.abstract.TypeDataModel {
         ...sr5ModsPartialModel.defineSchema()
       }),
       conditionMonitors: new fields.SchemaField({
+        // Single core monitor used when Depth is the active special attribute (AI, Data Trails p. 161)
+        condition: new fields.SchemaField({
+          ...sr5ModsPartialModel.defineSchema(),
+          actual: new fields.SchemaField({
+            ...sr5ModsPartialModel.defineSchema()
+          }),
+          boxes: new fields.ArrayField(new fields.ObjectField()),
+        }),
         stun: new fields.SchemaField({
           ...sr5ModsPartialModel.defineSchema(),
           actual: new fields.SchemaField({

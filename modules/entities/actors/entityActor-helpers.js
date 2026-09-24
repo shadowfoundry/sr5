@@ -50,9 +50,19 @@ export class SR5_ActorHelper {
     if (actorData.specialProperties?.damageReduction) damageReduction = actorData.specialProperties.damageReduction.value
     if (damage > 1) damage -= damageReduction
 
+    // Single condition monitor on a PC or spirit sheet: AI core (Data Trails p. 161), homunculus, watcher
+    let singleMonitor = (actor.type === "actorPc" || actor.type === "actorSpirit") && realActor.system.conditionMonitors.condition && !realActor.system.conditionMonitors.physical
+
     switch (actor.type){
       case "actorPc":
       case "actorSpirit":
+        if (singleMonitor) {
+          if (options.damage.matrix.value > 0) damage = options.damage.matrix.value
+          actorData.conditionMonitors.condition.actual.base += damage
+          SR5_EntityHelpers.updateValue(actorData.conditionMonitors.condition.actual, 0)
+          ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${damage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`)
+          break
+        }
         if (options.damage.matrix.value > 0) {
           damage = options.damage.matrix.value
           damageType = "stun"
@@ -138,6 +148,11 @@ export class SR5_ActorHelper {
     switch (actor.type){
       case "actorPc":
       case "actorSpirit":
+        if (singleMonitor) {
+          // A full core monitor dissipates the AI (Data Trails p. 161)
+          if (actorData.conditionMonitors.condition.actual.value >= realActor.system.conditionMonitors.condition.value) await SR5_ActorHelper.createDeadEffect(actorId)
+          break
+        }
         if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) await SR5_ActorHelper.createDeadEffect(actorId)
         else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await SR5_ActorHelper.createKoEffect(actorId)
         else if ((damage > (actorData.limits.physicalLimit.value + gelAmmo) || damage >= 10) &&
@@ -1147,6 +1162,11 @@ export class SR5_ActorHelper {
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     let item = await fromUuid(data.owner.itemUuid)
     let itemData = item.system
+    // Head case Attribute Boost (Stolen Souls p. 201): lasts a number of combat turns equal to the hits,
+    // then the head case takes as many boxes of Stun damage (applied when the effect expires, see SR5Combat.manageTurnEnd)
+    let isNaniteBoost = Object.values(itemData.systemEffects || {
+    }).some(s => s.value === "naniteAttributeBoost")
+    let naniteBoostMarked = false
 
     for (let e of Object.values(itemData[effectType])){
       if (e.transfer) {
@@ -1198,6 +1218,15 @@ export class SR5_ActorHelper {
           "system.ownerItem": data.owner.itemUuid,
           "system.duration": 0,
           "system.durationType": "sustained",
+        }
+
+        if (isNaniteBoost) {
+          itemEffect["system.duration"] = data.roll.hits
+          itemEffect["system.durationType"] = "round"
+          if (e.category === "characterAttributes" && !naniteBoostMarked) {
+            itemEffect["system.type"] = "naniteAttributeBoost"
+            naniteBoostMarked = true
+          }
         }
 
         if (effectType === "customEffects"){

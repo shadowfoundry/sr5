@@ -676,7 +676,7 @@ export default class SR5_RollDialog {
         case "attribute":
           if (ev.target.value === "none") value = 0
           else {
-            if (ev.target.value === "edge" || ev.target.value === "magic" || ev.target.value === "resonance"){
+            if (SR5.characterSpecialAttributes[ev.target.value]){
               value = actor.system.specialAttributes[ev.target.value].augmented.value
             } else {
               value = actor.system.attributes[ev.target.value].augmented.value
