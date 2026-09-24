@@ -72,7 +72,7 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     if (!templateShape) return null
 
     // target holds a radius taken from the books, in meters: a blast radius (SR5 p. 184) or an area spell's
-    // radius, equal in meters to its Force (SR5 p. 282). A MeasuredTemplate's distance is expressed in the
+    // radius, equal in meters to its Force (SR5 p. 283). A MeasuredTemplate's distance is expressed in the
     // scene's own unit, so the radius is converted the other way round here -- without it, a Force 6 area
     // spell drew a 6 ft circle on a scene measured in feet.
     target = SR5_SystemHelpers.convertMetersToSceneUnits(target)

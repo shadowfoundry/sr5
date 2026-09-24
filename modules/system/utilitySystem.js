@@ -202,7 +202,7 @@ export class SR5_SystemHelpers {
    *
    * SR5 states every range, radius and reach in meters: the weapon range table is headed "RANGE IN METERS"
    * (SR5 p. 186), a blast loses damage per meter (p. 184) and an area spell covers a radius in meters equal
-   * to its Force (p. 282). A scene's unit, on the other hand, is a display setting the GM picks, and Foundry
+   * to its Force (p. 283). A scene's unit, on the other hand, is a display setting the GM picks, and Foundry
    * ships "ft" as its default. So the scene is read and converted, never constrained.
    *
    * grid.units is free text, so only the feet spellings are recognised. Anything else -- yards, kilometers,
