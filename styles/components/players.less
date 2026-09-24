@@ -10,11 +10,63 @@
     }
   }
 
+  /* Separate bubbles: active players, scene noise / background count, latency / FPS */
+  #players-active {
+    background: none;
+    border: none;
+    padding: 0;
+    gap: 8px;
+
+    > .players-list,
+    > #sr5-scene-indicators,
+    > #performance-stats {
+      .sr-block-slot();
+      border-radius: 8px;
+      padding: 6px 8px;
+      pointer-events: all;
+    }
+  }
+
   #latency, #fps {
     color: var(--sr-text-color-light);
 
     .average {
       color: var(--sr-ui-color);
+    }
+  }
+
+  /* Expand button moved from the performance stats to the own player row */
+  .player #players-expand {
+    --button-size: 20px;
+    flex: none;
+    margin-left: auto;
+    background: none;
+    border: none;
+    pointer-events: all;
+    color: var(--sr-text-color-light);
+  }
+
+  /* Scene matrix noise and background count */
+  #sr5-scene-indicators {
+    font-family: var(--font-monospace);
+    gap: 8px;
+    color: var(--sr-text-color-light);
+
+    > div {
+      flex: none;
+    }
+
+    label {
+      margin-right: 4px;
+    }
+
+    .value {
+      color: var(--sr-text-color-grey-dark);
+    }
+
+    .active .value {
+      color: var(--sr-text-color-flash);
+      font-weight: bold;
     }
   }
 }

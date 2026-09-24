@@ -48,8 +48,11 @@ import {
   sr5HookCanvasReady, sr5HookDrawMeasuredTemplate, sr5HookDeleteMeasuredTemplate, sr5HookUpdateMeasuredTemplate, sr5HookUpdateScene 
 } from './hooks/canvas.js'
 import {
-  sr5HookRenderCompendium, sr5HookRenderCompendiumDirectory 
+  sr5HookRenderCompendium, sr5HookRenderCompendiumDirectory
 } from './hooks/compendium.js'
+import {
+  renderSceneIndicators, sr5HookUpdateSceneIndicators
+} from './interface/scene-indicators.js'
 import {
   sr5KeepSidebarSettingsLast
 } from './interface/sidebar-tab-order.js'
@@ -101,3 +104,5 @@ Hooks.on('drawMeasuredTemplate', sr5HookDrawMeasuredTemplate)
 Hooks.on('deleteMeasuredTemplate', sr5HookDeleteMeasuredTemplate)
 Hooks.on('updateMeasuredTemplate', sr5HookUpdateMeasuredTemplate)
 Hooks.on('updateScene', sr5HookUpdateScene)
+Hooks.on('updateScene', sr5HookUpdateSceneIndicators)
+Hooks.on('canvasReady', renderSceneIndicators)
