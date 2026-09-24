@@ -13,9 +13,12 @@ const LIGNE_VERS_MOD = {
   0: 0, 1: -1, 2: -3, 3: -6, 4: -10
 }
 
+// The real getFlag returns undefined for a flag that was never written, which is what a scene whose
+// SR5 tab has never been opened looks like. Returning 0 here would make the mock kinder than Foundry
+// and hide what parseInt(undefined) does to the whole computation.
 function scene(flags) {
   return {
-    getFlag: (_module, key) => flags[key] ?? 0
+    getFlag: (_module, key) => flags[key]
   }
 }
 
@@ -124,6 +127,26 @@ describe("handleEnvironmentalModifiers", () => {
     expect(mod({
       environModVisibility: 4, environModWind: 4
     })).toBe(-10)
+  })
+
+  it("still counts a template and the character's gear on a scene that was never configured", () => {
+    // No flag at all is what a scene whose SR5 tab has never been opened looks like. Dense smoke
+    // dropped by a template is still the dense row of the Visibility column.
+    expect(SR5_CombatHelpers.handleEnvironmentalModifiers(scene({
+    }), acteur(), false, {
+      visibility: 3, light: 0, glare: 0, wind: 0
+    })).toBe(-6)
+    // And so is glare coming from the character's own gear.
+    expect(mod({
+    }, {
+      acteurOptions: {
+        glare: 2
+      }
+    })).toBe(-3)
+    // With nothing anywhere, no condition: zero, which is also what the broken version returned —
+    // that coincidence is why this defect stayed invisible.
+    expect(mod({
+    })).toBe(0)
   })
 
   it("adds what the character's own gear contributes to a column", () => {
