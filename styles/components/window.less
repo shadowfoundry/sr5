@@ -184,6 +184,12 @@
       font-size    : inherit;
       accent-color : var(--sr-text-color-flash);
       caret-color  : var(--sr-ui-border-color-active);
+      /* The global input style gives placeholders a light grey made for the dark UI */
+      --input-placeholder-color: color-mix(in srgb, var(--sr-text-color-dark) 45%, transparent);
+
+      &::placeholder {
+        color: var(--input-placeholder-color);
+      }
 
       &::selection {
         background-color: var(--sr-ui-border-color-active);
@@ -208,6 +214,7 @@
       input:not([type="checkbox"]):not([type="radio"]):not([type="color"]):not([type="range"]) {
         color: var(--sr-text-color-light) !important;
         border-bottom-color: color-mix(in srgb, var(--sr-text-color-light) 30%, transparent) !important;
+        --input-placeholder-color: color-mix(in srgb, var(--sr-text-color-light) 50%, transparent);
       }
 
       select {
@@ -769,6 +776,27 @@
         right: auto !important;
         width: 100% !important;
       }
+    }
+  }
+}
+
+/* === Default buttons on the light window surface ===
+   The global button style (teal text on a translucent dark red) is made for the dark UI.
+   Buttons without their own style in a light window (e.g. plain <button> added by modules)
+   get dark text instead. :where() keeps the global specificity, so this file order wins over
+   the global rule while any more specific system or module rule still applies. */
+:where(.window-app:not(.actor):not(.SR-Item):not(.sidebar-popout), .application:not(.sr-application):not(.actor):not(.SR-Item):not(.sidebar-popout)) :where(.window-content) {
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    color: var(--sr-text-color-dark);
+    background-color: color-mix(in srgb, var(--sr-ui-bg-color-dark) 6%, transparent);
+    border-color: var(--sr-ui-border-color-idle);
+
+    &:hover {
+      color: var(--sr-ui-border-color-active);
+      background-color: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent);
+      border-color: var(--sr-ui-border-color-active);
     }
   }
 }
