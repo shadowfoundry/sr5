@@ -1,10 +1,20 @@
 <li class="grid">
-    <div class="col-10">{{localize 'SR5.MetamagicSpellShaping'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-10">{{localize 'SR5.SpellShapingArea'}}{{localize 'SR5.Colons'}}</div>
     <div class="col-1 SR-TextRight">
-		<a class="SR-ModControl" data-target="dicePoolModSpellShaping" data-type="minus" data-modifier="spellShaping"><em class="fas fa-minus-circle"></em></a>
-		<a class="SR-ModControl" data-target="dicePoolModSpellShaping" data-type="plus" data-modifier="spellShaping"><em class="fas fa-plus-circle"></em></a>
+		<a class="SR-ModControl" data-target="spellShapingArea" data-type="minus" data-modifier="spellShaping"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="spellShapingArea" data-type="plus" data-modifier="spellShaping"><em class="fas fa-plus-circle"></em></a>
 	</div>
     <div class="col-1 SR-TextCenter">
-        <input type="number" class="SR-ModInput" data-modifier="spellShaping" name="dicePoolModSpellShaping" value="" placeholder="0" data-dtype="Number" />
+        <input type="number" class="SR-ModInput" data-modifier="spellShaping" name="spellShapingArea" value="0" placeholder="0" min="0" data-dtype="Number" />
+    </div>
+</li>
+<li class="grid">
+    <div class="col-10">{{localize 'SR5.SpellShapingSpared'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1 SR-TextRight">
+		<a class="SR-ModControl" data-target="spellShapingSpared" data-type="minus" data-modifier="spellShaping"><em class="fas fa-minus-circle"></em></a>
+		<a class="SR-ModControl" data-target="spellShapingSpared" data-type="plus" data-modifier="spellShaping"><em class="fas fa-plus-circle"></em></a>
+	</div>
+    <div class="col-1 SR-TextCenter">
+        <input type="number" class="SR-ModInput" data-modifier="spellShaping" name="spellShapingSpared" value="0" placeholder="0" min="0" data-dtype="Number" />
     </div>
 </li>

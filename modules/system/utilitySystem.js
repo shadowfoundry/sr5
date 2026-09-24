@@ -74,6 +74,21 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Spell Shaping (SR5 p. 329): a one-metre bubble is too small to model on a
+    // battle grid, so the system approximates it as "one shaping point spares one
+    // character". The book gives no conversion, so the rate is a world setting.
+    game.settings.register("sr5", "sr5SpellShapingBubbleCost", {
+      name: "SR5.SETTINGS_SpellShapingBubbleCost_T",
+      hint: "SR5.SETTINGS_SpellShapingBubbleCost_D",
+      scope: "world",
+      config: true,
+      default: 1,
+      type: Number,
+      range: {
+        min: 1, max: 5, step: 1
+      },
+    })
+
     // Run & Gun Rules
     game.settings.register("sr5", "sr5CalledShotsRules", {
       name: "SR5.SETTINGS_CalledShotsRules_T",

@@ -433,6 +433,11 @@ export class SR5_PrepareRollTest {
           objectCanResist: false,
           range: 0,
           area: 0,
+          // Spell Shaping (SR5 p. 329): shaping points spent on widening the area,
+          // and points spent on bubbles that leave characters untouched.
+          areaShaping: 0,
+          sparedCount: 0,
+          sparedActors: [],
           type: "",
         },
         spiritAid: {

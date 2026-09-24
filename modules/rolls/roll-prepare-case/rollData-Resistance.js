@@ -5,8 +5,11 @@ import {
   SR5_SystemHelpers 
 } from "../../system/utilitySystem.js"
 import {
-  SR5_CombatHelpers 
+  SR5_CombatHelpers
 } from "../roll-helpers/combat.js"
+import {
+  SR5_SpellShapingHelpers
+} from "../roll-helpers/spell-shaping.js"
 import {
   SR5 
 } from "../../config.js"
@@ -14,6 +17,14 @@ import {
 //Add info for Resistance Roll
 export default async function resistance(rollData, rollType, actor, chatData){
   let actorData = actor.system
+
+  // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched, so a direct
+  // area spell does no damage there and there is nothing to resist.
+  if (SR5_SpellShapingHelpers.skips(actor, chatData)){
+    SR5_SpellShapingHelpers.announceSpared(actor)
+    return
+  }
+
   //Transfert necessary info from chatCard
   rollData.damage.base = chatData.damage.value
   rollData.damage.type = chatData.damage.type

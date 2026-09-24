@@ -8,8 +8,11 @@ import {
   SR5_SystemHelpers 
 } from "../../system/utilitySystem.js"
 import {
-  SR5_CombatHelpers 
+  SR5_CombatHelpers
 } from "../roll-helpers/combat.js"
+import {
+  SR5_SpellShapingHelpers
+} from "../roll-helpers/spell-shaping.js"
 
 //Add info for Defense Roll
 export default async function defense(rollData, actor, chatData){
@@ -79,6 +82,14 @@ export default async function defense(rollData, actor, chatData){
     rollData = await handleAstralCombat(rollData, actor, chatData)
   }
                 
+  // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched, so there is
+  // no defense test to roll at all. Checked here rather than inside the area
+  // template handler, which only runs for spells that have one.
+  if (SR5_SpellShapingHelpers.skips(actor, chatData)){
+    SR5_SpellShapingHelpers.announceSpared(actor)
+    return
+  }
+
   //Manage spell area templates
   if (canvas.scene && chatData.type === "spell" && chatData.spellRange === "area"){
     rollData = await handleSpellAreaTemplate(rollData, actor, chatData)
