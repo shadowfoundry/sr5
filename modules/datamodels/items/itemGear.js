@@ -44,6 +44,21 @@ export class sr5ItemGearDataModel extends foundry.abstract.TypeDataModel {
       isMedkit: new fields.BooleanField({
         initial: false
       }),
+      // A certified credstick carries money the way a magazine carries rounds:
+      // it is bearer cash, so it moves with the item (SR5 p. 445).
+      isCredstick: new fields.BooleanField({
+        initial: false
+      }),
+      funds: new fields.SchemaField({
+        // Nuyens currently loaded on the stick
+        value: new fields.NumberField({
+          initial: 0
+        }),
+        // Most it can be certified for. 0 means no ceiling.
+        max: new fields.NumberField({
+          initial: 0
+        }),
+      }),
       isPlugged: new fields.BooleanField({
         initial: false
       }),

@@ -1,0 +1,12 @@
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.IsCredstick'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="checkbox" data-dtype="Boolean" name="system.isCredstick" {{checked system.isCredstick}}/></div>
+</li>
+{{#if system.isCredstick}}
+<li class="grid">
+    <div class="col-5">{{localize 'SR5.CredstickFunds'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-1"><input type="number" data-dtype="Number" name="system.funds.value" value="{{system.funds.value}}" placeholder="0" onfocus="this.select()"/></div>
+    <div class="col-4 SR-TextRight">{{localize 'SR5.CredstickCapacity'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-2"><input type="number" data-dtype="Number" name="system.funds.max" value="{{system.funds.max}}" placeholder="0" onfocus="this.select()"/></div>
+</li>
+{{/if}}

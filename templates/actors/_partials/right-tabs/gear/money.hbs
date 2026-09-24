@@ -15,6 +15,38 @@
 	</ul>
 </div>
 
+<!-- LIQUIDE : CREDITUBES -->
+<div class="SRBlockSheet">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-9 SR-TextUppercase">{{localize 'SR5.CharacterCash'}}</div>
+			<div class="col-3 SR-TextRight">{{nuyen actor.cashOnHand}}</div>
+		</li>
+		{{#each actor.credsticks}}
+		<li class="item grid" data-item-id="{{_id}}">
+			<div class="col-5 deplie">{{name}}</div>
+			<div class="col-3 SR-TextCenter">
+				{{nuyen system.funds.value}}{{#if system.funds.max}} / {{nuyen system.funds.max}}{{/if}}
+			</div>
+			<div class="col-4 SR-TextRight">
+				{{#if @root.owner}}
+				<a class="credstick-withdraw" data-item-id="{{_id}}" data-tooltip="{{localize 'SR5.CredstickWithdraw'}}">
+					<em class="fas fa-arrow-down-to-line"></em>
+				</a>
+				<a class="credstick-deposit" data-item-id="{{_id}}" data-tooltip="{{localize 'SR5.CredstickDeposit'}}">
+					<em class="fas fa-arrow-up-from-line"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{else}}
+		<li class="grid">
+			<div class="col-12 SR-TextCenter SR-TextItalic">{{localize 'SR5.CredstickNone'}}</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>
+
 <!-- GAINS  -->
 <div class="SRBlockSheet">
 	<ul>
