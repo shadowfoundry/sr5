@@ -24,8 +24,8 @@ export class SR5_EffectArea {
    * not a variant of this one, and it has no constant radius. It generates noise equal to its Device
    * Rating, reduced by 1 every 5 meters in a sphere or every 20 meters in a 30-degree cone, so its reach
    * is derived from its rating rather than fixed: it stops where the noise reaches zero (a rating 6
-   * sphere fades at 30 m, a rating 1 one at 5 m). Do not reuse this constant for it. That page also leaves walls to the gamemaster's discretion,
-   * which is a table call and not something to code.
+   * sphere fades at 30 m, a rating 1 one at 5 m). Do not reuse this constant for it. That page also
+   * leaves walls to the gamemaster's discretion, which is a table call and not something to code.
    */
   static JAM_SIGNALS_RADIUS_IN_METERS = 100
 
