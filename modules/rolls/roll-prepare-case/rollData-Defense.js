@@ -176,7 +176,9 @@ async function handleSpellAreaTemplate(rollData, actor, chatData){
   let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor)
     
   // Calcul distance between grenade and defenser
-  let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(spellPosition, defenserPosition)
+  // The spell's area is a radius in meters equal to its Force (SR5 p. 282), so the measured distance is
+  // converted to meters before the two are compared.
+  let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(spellPosition, defenserPosition)
     
   //modify the damage based on distance and damage dropoff.
   if (chatData.magic.spell.area < distance) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)

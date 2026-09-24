@@ -1,3 +1,7 @@
+import {
+  SR5_SystemHelpers
+} from "../system/utilitySystem.js"
+
 export default class SR5Template extends foundry.canvas.placeables.MeasuredTemplate {
   /**
 	* Track the timestamp when the last mouse move event was captured.
@@ -66,6 +70,12 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
 
     const templateShape = "circle"
     if (!templateShape) return null
+
+    // target holds a radius taken from the books, in meters: a blast radius (SR5 p. 184) or an area spell's
+    // radius, equal in meters to its Force (SR5 p. 282). A MeasuredTemplate's distance is expressed in the
+    // scene's own unit, so the radius is converted the other way round here -- without it, a Force 6 area
+    // spell drew a 6 ft circle on a scene measured in feet.
+    target = SR5_SystemHelpers.convertMetersToSceneUnits(target)
 
     //if target is greater than actual map size, recude it
     if (target > Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size))){

@@ -235,7 +235,9 @@ async function handleTargetInfo(rollData, actor, item){
   }
 
   //Calcul distance between Attacker and Target
-  rollData.target.rangeInMeters = await SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target)
+  // The field is named rangeInMeters and it is compared to the weapon's range table, which is headed
+  // "RANGE IN METERS" (SR5 p. 186). The canvas measures in the scene's own unit, so it is converted here.
+  rollData.target.rangeInMeters = await SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(attacker, target)
 
   //Handle Melee specifics
   if (itemData.category === "meleeWeapon") {

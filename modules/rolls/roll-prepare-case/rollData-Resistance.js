@@ -388,7 +388,9 @@ async function handleFatiguedDamage(rollData, actorData, chatData){
 async function handleGrenade(rollData, chatData, actor){
   let grenadePosition = await SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId)          
   let defenserPosition = await SR5_EntityHelpers.getActorCanvasPosition(actor)
-  let distance = Math.round(SR5_SystemHelpers.getDistanceBetweenTwoPoint(grenadePosition, defenserPosition))
+  // A blast loses its damage per meter travelled (SR5 p. 184), so the measured distance becomes meters
+  // before it is multiplied by the fall-off.
+  let distance = Math.round(SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(grenadePosition, defenserPosition))
   let modToDamage = distance * chatData.combat.grenade.damageFallOff
   rollData.damage.base  = chatData.damage.base + modToDamage
   if (rollData.damage.base <= 0 && chatData.damage.element !== "toxin") return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)  
