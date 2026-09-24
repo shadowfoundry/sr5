@@ -114,6 +114,10 @@ export class sr5ActorPcDataModel extends foundry.abstract.TypeDataModel {
       }),
       skills: new fields.SchemaField({
         ...allSkillFields(),
+        // Optional for PCs, shown only when the "sr5FlightSkill" setting is enabled
+        flight: new fields.SchemaField({
+          ...baseSkillSchema('agility', 'physicalLimit', 'athleticsGroup', 'physicalSkills', true)
+        }),
         compiling: new fields.SchemaField({
           ...baseSkillSchema('resonance', 'spriteLevel', 'taskingGroup', 'resonanceSkills', false)
         }),

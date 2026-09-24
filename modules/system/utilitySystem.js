@@ -96,6 +96,17 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Flight skill on player characters (in the Athletics skill group)
+    game.settings.register("sr5", "sr5FlightSkill", {
+      name: "SR5.SETTINGS_FlightSkill_T",
+      hint: "SR5.SETTINGS_FlightSkill_D",
+      scope: "world",
+      config: true,
+      default: false,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    })
+
     // Rigger 5 Rules
     game.settings.register("sr5", "sr5Rigger5Actions", {
       name: "SR5.SETTINGS_Rigger5Actions_T",
