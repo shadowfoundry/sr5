@@ -12,10 +12,8 @@ export default async function spellResistance(rollData, actor, chatData){
   if (actor.type === "actorAgent" || actor.type === "actorSprite" || actor.type === "actorDevice") return
 
   // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched; nothing to resist.
-  if (SR5_SpellShapingHelpers.isSpared(actor, chatData.magic?.spell)){
-    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
-      name: actor.name
-    })}`)
+  if (SR5_SpellShapingHelpers.skips(actor, chatData)){
+    SR5_SpellShapingHelpers.announceSpared(actor)
     return
   }
 

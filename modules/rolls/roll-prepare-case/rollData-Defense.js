@@ -85,10 +85,8 @@ export default async function defense(rollData, actor, chatData){
   // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched, so there is
   // no defense test to roll at all. Checked here rather than inside the area
   // template handler, which only runs for spells that have one.
-  if (chatData.test.type === "spell" && SR5_SpellShapingHelpers.isSpared(actor, chatData.magic?.spell)){
-    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
-      name: actor.name
-    })}`)
+  if (SR5_SpellShapingHelpers.skips(actor, chatData)){
+    SR5_SpellShapingHelpers.announceSpared(actor)
     return
   }
 

@@ -243,12 +243,18 @@ export class SR5_RollMessage {
         // SR5 p. 329: a Spell Shaping bubble leaves its occupant untouched. These
         // buttons post the effect with no test at all, so without this guard a
         // spared character would dodge every roll and still take the effect.
-        if (SR5_RollMessage.isSparedBySpellShaping(actor, messageData)) break
+        if (SR5_SpellShapingHelpers.skips(actor, messageData)) {
+          SR5_SpellShapingHelpers.announceSpared(actor)
+          break
+        }
         actor.applyExternalEffect(messageData, "customEffects")
         if (messageData.magic.spell.area < 1) SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "applyEffectOnItem":
-        if (SR5_RollMessage.isSparedBySpellShaping(actor, messageData)) break
+        if (SR5_SpellShapingHelpers.skips(actor, messageData)) {
+          SR5_SpellShapingHelpers.announceSpared(actor)
+          break
+        }
         actor.applyExternalEffect(messageData, "itemEffects")
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
@@ -731,18 +737,6 @@ export class SR5_RollMessage {
     await SR5_RollMessage.updateChatButton(message.data.message, message.data.buttonToUpdate, message.data.firstOption)
   }
 
-  // True when this card is a spell and this actor was put inside a bubble; says so
-  // once, so the chat buttons that apply an effect without any test agree with the
-  // defense tests that skip it.
-  static isSparedBySpellShaping(actor, messageData){
-    if (messageData.test.type !== "spell") return false
-    if (!SR5_SpellShapingHelpers.isSpared(actor, messageData.magic?.spell)) return false
-    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
-      name: actor.name
-    })}`)
-    return true
-  }
-
   // SR5 p. 329: the bubbles were paid for at casting; this names who stands in them.
   // The selected tokens are recorded on the card, and their defense is skipped.
   static async spareWithSpellShaping(messageId, messageData){
@@ -771,7 +765,8 @@ export class SR5_RollMessage {
     if (!added) return
 
     spellData.sparedActors = spared
-    if (spared.length >= allowed) delete messageData.chatCard.buttons.spellShapingSpare
+    // null, not delete: see updateRollCard — a deleted key survives the merge.
+    if (spared.length >= allowed) messageData.chatCard.buttons.spellShapingSpare = null
     else messageData.chatCard.buttons.spellShapingSpare = SR5_RollMessage.generateChatButton("nonOpposedTest", "spellShapingSpare", `${game.i18n.localize("SR5.SpellShapingSpare")} (${spared.length}/${allowed})`)
 
     await SR5_RollMessage.updateRollCardHelper(messageId, messageData)
@@ -800,6 +795,11 @@ export class SR5_RollMessage {
       temp.innerHTML = html
       const divButtons = temp.querySelector('[id="srButtonTest"]')
       for (let button in newMessage.chatCard.buttons){
+        // A button a card has finished with is set to null rather than deleted:
+        // writing "flags.sr5data" merges, so a deleted key survives in the flags
+        // with its stale label and comes back on the next render. Measured on the
+        // Spell Shaping card, which still offered "(0/1)" once it was used up.
+        if (!newMessage.chatCard.buttons[button]) continue
         divButtons.insertAdjacentHTML("beforeend", `<button class="messageAction ${newMessage.chatCard.buttons[button].testType}" data-action="${newMessage.chatCard.buttons[button].testType}" data-type="${newMessage.chatCard.buttons[button].actionType}">${newMessage.chatCard.buttons[button].label}</button>`)
       }
       html = temp.innerHTML

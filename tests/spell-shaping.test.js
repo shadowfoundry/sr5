@@ -149,6 +149,55 @@ describe("Spell Shaping — who stands in a bubble", () => {
     }, spell)).toBe(false)
   })
 
+  // The single predicate the five resolution paths ask, so none of them can
+  // disagree with the others about who is untouched.
+  it("skips a spared actor on a spell card", () => {
+    const carte = {
+      test: {
+        type: "spell"
+      }, magic: {
+        spell: {
+          sparedActors: [{
+            id: "actor1", name: "Kaz"
+          }]
+        }
+      }
+    }
+    expect(SR5_SpellShapingHelpers.skips({
+      id: "actor1", isToken: false
+    }, carte)).toBe(true)
+  })
+
+  it("skips nobody on a card that is not a spell", () => {
+    const carte = {
+      test: {
+        type: "attack"
+      }, magic: {
+        spell: {
+          sparedActors: [{
+            id: "actor1", name: "Kaz"
+          }]
+        }
+      }
+    }
+    expect(SR5_SpellShapingHelpers.skips({
+      id: "actor1", isToken: false
+    }, carte)).toBe(false)
+  })
+
+  it("skips nobody on a card with no magic block", () => {
+    expect(SR5_SpellShapingHelpers.skips({
+      id: "actor1", isToken: false
+    }, {
+      test: {
+        type: "spell"
+      }
+    })).toBe(false)
+    expect(SR5_SpellShapingHelpers.skips({
+      id: "actor1", isToken: false
+    }, undefined)).toBe(false)
+  })
+
   // Chat cards cast before this feature existed carry no list at all.
   it("spares nobody when the card has no list", () => {
     expect(SR5_SpellShapingHelpers.isSpared({

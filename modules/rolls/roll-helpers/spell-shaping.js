@@ -73,6 +73,24 @@ export class SR5_SpellShapingHelpers {
     return spellData.sparedActors.some(spared => spared.id === key)
   }
 
+  /**
+   * The one question the five resolution paths ask: does this card leave this
+   * actor untouched? Pure on purpose — it says nothing and shows nothing, so it
+   * can be tested without Foundry and so a path that also announces elsewhere
+   * cannot print the message twice.
+   */
+  static skips(actor, chatData){
+    if (chatData?.test?.type !== "spell") return false
+    return SR5_SpellShapingHelpers.isSpared(actor, chatData.magic?.spell)
+  }
+
+  /** The single wording every path uses to say it. */
+  static announceSpared(actor){
+    ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {
+      name: actor.name
+    })}`)
+  }
+
   static _positive(value){
     let parsed = parseInt(value)
     if (isNaN(parsed) || parsed < 0) return 0
