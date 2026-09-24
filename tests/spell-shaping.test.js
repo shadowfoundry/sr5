@@ -253,6 +253,37 @@ describe("Spell Shaping — who stands in a bubble", () => {
     expect(choix.ambiguous).toBe(true)
   })
 
+  // The other way round, and it is not the same case: the GM still has the victim
+  // targeted from the cast, then selects the victim and an ally. Inclusion cannot
+  // be read as agreement, precisely because targets are never cleared.
+  it("refuses when the targets are a subset of the selection", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "victime"
+    }], [{
+      id: "victime"
+    }, {
+      id: "allie"
+    }])
+    expect(choix.tokens).toEqual([])
+    expect(choix.ambiguous).toBe(true)
+  })
+
+  // Compared as sets of ids, so a duplicate cannot make two different collections
+  // pass for an agreement. Unreachable through Foundry, whose targets and
+  // selection are Sets — but this function is pure and takes plain arrays.
+  it("does not mistake a duplicated id for an agreement", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "a"
+    }, {
+      id: "b"
+    }], [{
+      id: "a"
+    }, {
+      id: "a"
+    }])
+    expect(choix.ambiguous).toBe(true)
+  })
+
   it("spares nobody when neither is set", () => {
     const choix = SR5_SpellShapingHelpers.tokensToSpare([], [])
     expect(choix.tokens).toEqual([])

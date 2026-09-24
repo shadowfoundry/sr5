@@ -108,8 +108,14 @@ export class SR5_SpellShapingHelpers {
       tokens: targeted, ambiguous: false
     }
 
+    // Compared as sets of ids, not by length: a duplicated id on one side would
+    // otherwise make two different collections count as an agreement. Both sources
+    // are Foundry Sets today, so duplicates cannot occur — but this function is
+    // pure and gets called with plain arrays in its tests, and "cannot occur" is a
+    // belief until something enforces it.
     let targetedIds = new Set(targeted.map(token => token.id))
-    let sameSet = (targeted.length === selected.length) && selected.every(token => targetedIds.has(token.id))
+    let selectedIds = new Set(selected.map(token => token.id))
+    let sameSet = (targetedIds.size === selectedIds.size) && [...selectedIds].every(id => targetedIds.has(id))
     if (sameSet) return {
       tokens: targeted, ambiguous: false
     }
