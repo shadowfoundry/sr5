@@ -149,7 +149,7 @@
 	  	{{/each}}
 		
 	  	<!-- SPECIAL ATTRIBUTES -->
-		<!-- Handling Magic/Resonance display -->
+		<!-- Handling Magic / Resonance / Nanite Volume / Depth display -->
 		<li class="grid">
 			<div class="col-6" data-helpTitle="{{localize 'SR5.HELP_ActiveSpecialAttribute' key=(localize 'SR5.Edge')}}" data-helpMessage="{{localize 'SR5.HELP_ActiveSpecialAttributeMsg'}}">
 				{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt'))}}
@@ -213,6 +213,36 @@
 				  data-helpDetails="system.specialAttributes.resonance.augmented"
 				  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}">
 					{{system.specialAttributes.resonance.augmented.value}}
+				</div>
+			{{else ife system.activeSpecialAttribute 'nanite'}}
+				{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt'))}}
+					<div class="col-2 SR-TextCenter"></div>
+					<div class="col-2 SR-TextCenter" 
+					  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(localize 'SR5.NaniteVolume')}}" 
+					  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+						<input type="text" data-dtype="Number" class="input" name="system.specialAttributes.nanite.natural.base" value="{{system.specialAttributes.nanite.natural.base}}" onfocus="this.select()">
+					</div>
+				{{/if}}
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="nanite"
+				  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(localize 'SR5.NaniteVolume')}}"
+				  data-helpDetails="system.specialAttributes.nanite.augmented"
+				  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}">
+					{{system.specialAttributes.nanite.augmented.value}}
+				</div>
+			{{else ife system.activeSpecialAttribute 'depth'}}
+				{{#if (or (eq actor.type 'actorPc') (eq actor.type 'actorGrunt'))}}
+					<div class="col-2 SR-TextCenter"></div>
+					<div class="col-2 SR-TextCenter" 
+					  data-helpTitle="{{localize 'SR5.HELP_AttributeNat' key=(localize 'SR5.Depth')}}" 
+					  data-helpMessage="{{localize 'SR5.HELP_AttributeNatMsg'}}">
+						<input type="text" data-dtype="Number" class="input" name="system.specialAttributes.depth.natural.base" value="{{system.specialAttributes.depth.natural.base}}" onfocus="this.select()">
+					</div>
+				{{/if}}
+				<div class="col-2 SR-TextCenter roll-logo sr-roll" data-rolltype="attribute" data-rollkey="depth"
+				  data-helpTitle="{{localize 'SR5.HELP_AttributeAug' key=(localize 'SR5.Depth')}}"
+				  data-helpDetails="system.specialAttributes.depth.augmented"
+				  data-helpMessage="{{localize 'SR5.HELP_AttributeAugMsg'}}">
+					{{system.specialAttributes.depth.augmented.value}}
 				</div>
 			{{/ife}}
 		</li>

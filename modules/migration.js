@@ -249,6 +249,22 @@ export default class Migration {
         updateData["flags.sr5.-=vehicleControler"] = null
       }
 
+      //Head cases used to store their Nanite Volume in Resonance: move it to the dedicated special attribute
+      if ((actor.type === "actorPc" || actor.type === "actorGrunt") && actor.system.specialAttributes?.resonance) {
+        const items = actor.items ?? []
+        let hasHeadcaseDevice = false
+        for (const i of items) {
+          if (i.type === "itemDevice" && i.system?.type === "headcase") hasHeadcaseDevice = true
+        }
+        const resonanceBase = actor.system.specialAttributes.resonance.natural?.base ?? 0
+        const naniteBase = actor.system.specialAttributes.nanite?.natural?.base ?? 0
+        if (hasHeadcaseDevice && resonanceBase > 0 && naniteBase === 0) {
+          updateData["system.specialAttributes.nanite.natural.base"] = resonanceBase
+          updateData["system.specialAttributes.resonance.natural.base"] = 0
+          updateData["system.activeSpecialAttribute"] = "nanite"
+        }
+      }
+
       //Change on hardened armors
       if (actor.system.specialProperties) {
         updateData["system.specialProperties.-=hardenedArmorType"] = null
