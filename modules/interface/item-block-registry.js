@@ -97,6 +97,9 @@ export const ITEM_BLOCK_REGISTRY = {
   sinSummary:          {
     partial: `${PARTIAL_ROOT}/blocks/sin/sin-summary.hbs`,                   label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE 
   },
+  storageSummary:      {
+    partial: `${PARTIAL_ROOT}/blocks/storage/storage-summary.hbs`,           label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE 
+  },
   ammunitionSummary:   {
     partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-summary.hbs`,     label: 'SR5.Summary', size: ITEM_BLOCK_SIZE.SINGLE
   },
@@ -209,6 +212,9 @@ export const ITEM_BLOCK_REGISTRY = {
   },
   sinStat:             {
     partial: `${PARTIAL_ROOT}/blocks/sin/sin-stat.hbs`,                      label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE 
+  },
+  storageStat:         {
+    partial: `${PARTIAL_ROOT}/blocks/storage/storage-stat.hbs`,              label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE 
   },
   ammunitionStat:      {
     partial: `${PARTIAL_ROOT}/blocks/ammunition/ammunition-stat.hbs`,        label: 'SR5.ItemConfiguration', size: ITEM_BLOCK_SIZE.DOUBLE

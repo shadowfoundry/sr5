@@ -2,6 +2,9 @@ import {
   descriptionPartialModel 
 } from './partial/description.js'
 import {
+  storablePartialModel 
+} from './partial/storable.js'
+import {
   boughtOrSoldPartialModel 
 } from './partial/boughtOrSold.js'
 
@@ -10,6 +13,7 @@ export class sr5ItemAmmunitionDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
+      ...storablePartialModel.defineSchema(),
       ...boughtOrSoldPartialModel.defineSchema(),
       quantity: new fields.NumberField({
         initial: 1

@@ -177,6 +177,7 @@ const ITEM_LAYOUTS = {
   // 2-tab: Description + Configuration (no effects)
   itemVehicle:      () => _descStatLayout('vehicleSummary', 'vehicleStat'),
   itemSin:          () => _descStatLayout('sinSummary', 'sinStat'),
+  itemStorage:      () => _descStatLayout('storageSummary', 'storageStat'),
   itemLifestyle:    () => _descStatLayout('lifestyleSummary', 'lifestyleStat'),
   itemContact:      () => _descStatLayout('contactSummary', 'contactStat'),
   itemAmmunition:     () => _descStatLayout('ammunitionSummary', 'ammunitionStat'),

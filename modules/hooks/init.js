@@ -162,6 +162,9 @@ import {
   sr5ItemSpritePowerDataModel
 } from "../datamodels/items/itemSpritePower.js"
 import {
+  sr5ItemStorageDataModel
+} from "../datamodels/items/itemStorage.js"
+import {
   sr5ItemTraditionDataModel
 } from "../datamodels/items/itemTradition.js"
 import {
@@ -266,6 +269,7 @@ export async function sr5HookInit() {
     itemSpirit: sr5ItemSpiritDataModel,
     itemSprite: sr5ItemSpriteDataModel,
     itemSpritePower: sr5ItemSpritePowerDataModel,
+    itemStorage: sr5ItemStorageDataModel,
     itemTradition: sr5ItemTraditionDataModel,
     itemVehicle: sr5ItemVehicleDataModel,
     itemVehicleMod: sr5ItemVehicleModDataModel,

@@ -14,9 +14,9 @@
 			</div>
 	  	</li>
 	  	{{#each actor.vehicles as |item i|}}
-	  	<li class="item" data-item-id="{{item._id}}" draggable="true">
+	  	<li class="item {{#if storedInName}}sr-stored{{/if}}" data-item-id="{{item._id}}" draggable="true">
 			<div class="grid">
-		  		<div class="col-10 deplie">{{item.name}}</div>
+		  		<div class="col-10 deplie">{{item.name}}{{#if storedInName}} <span class="sr-stored-note">({{localize 'SR5.StoredIn' storage=storedInName}})</span>{{/if}}</div>
 				<div class="col-1 SR-TextCenter">
 					{{#if system.isCreated}}
 					<a class="sidekickDestroy" data-dtype="Boolean" data-item-id="{{_id}}" data-binding="system.isCreated"

@@ -1,0 +1,45 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.StorageType'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{findTranslation 'storageTypes' system.type}}</span>
+    </p>
+</li>
+
+{{#if (eq system.type "garage")}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.StorageVehicleType'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{findTranslation 'storageVehicleTypes' system.vehicleType}}</span>
+    </p>
+</li>
+{{/if}}
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.StorageCapacity'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">
+            {{#if system.capacity.value}}
+                {{system.capacity.used}} / {{system.capacity.value}}
+            {{else}}
+                {{localize 'SR5.StorageCapacityUnlimited'}}
+            {{/if}}
+        </span>
+    </p>
+</li>
+
+{{#if system.streetAddress}}
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.FullAddress'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{system.streetAddress}},<br>{{system.city}} ({{system.country}})</span>
+    </p>
+</li>
+{{/if}}
+
+{{#if system.isDeployable}}
+<li class="grid">
+    <p>
+        <span class="col-auto SR-GreyColor">{{localize 'SR5.StorageIsDeployableHint'}}</span>
+    </p>
+</li>
+{{/if}}

@@ -478,6 +478,19 @@ export class SR5Actor extends Actor {
     for (let i of actor.items) {
       let iData = i.system
       SR5_SystemHelpers.srLog(3, `Parsing '${i.type}' item named '${i.name}'`, i)
+
+      // Gear left in a storage is out of play: an armour at the stash protects
+      // nobody, a deck in the garage answers no call on the Matrix. Its own
+      // values are still computed so the storage can show it, but it is held
+      // inactive here rather than on the item, so taking it out gives it back
+      // exactly as it was.
+      if (iData.storedIn) {
+        i.prepareData()
+        iData.isActive = false
+        if (iData.wirelessTurnedOn !== undefined) iData.wirelessTurnedOn = false
+        continue
+      }
+
       switch (i.type) {
         case "itemGear":
           i.prepareData()
@@ -768,6 +781,8 @@ export class SR5Actor extends Actor {
     let actorData = actor.system
     for (let i of actor.items) {
       let iData = i.system
+      // Stored gear takes no part in what the character can do
+      if (iData.storedIn) continue
       switch (i.type){
         case "itemDevice":
           if (actor.type === "actorPc" || actor.type === "actorGrunt"){

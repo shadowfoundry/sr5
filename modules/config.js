@@ -499,6 +499,25 @@ SR5.metatypes = {
 }
 
 // Lifestyle Types
+// Storage Types
+SR5.storageTypes = {
+  stash                     : "SR5.StorageTypeStash",
+  safe                      : "SR5.StorageTypeSafe",
+  backpack                  : "SR5.StorageTypeBackpack",
+  cache                     : "SR5.StorageTypeCache",
+  garage                    : "SR5.StorageTypeGarage",
+}
+
+// Garage vehicle categories (Run Faster p. 216)
+SR5.storageVehicleTypes = {
+  motorcycle                : "SR5.StorageVehicleMotorcycle",
+  carLight                  : "SR5.StorageVehicleCarLight",
+  carHeavy                  : "SR5.StorageVehicleCarHeavy",
+  boat                      : "SR5.StorageVehicleBoat",
+  plane                     : "SR5.StorageVehiclePlane",
+  helicopter                : "SR5.StorageVehicleHelicopter",
+}
+
 SR5.lifestyleTypes = {
   boltHole                  : "SR5.LifestyleBoltHole",
   streets                   : "SR5.LifestyleStreets",
@@ -3667,6 +3686,7 @@ SR5.itemTypes = {
   itemComplexForm           : "TYPES.Item.itemComplexForm",
   itemContact               : "TYPES.Item.itemContact",
   itemDevice                : "TYPES.Item.itemDevice",
+  itemDrug                  : "TYPES.Item.itemDrug",
   itemEcho                  : "TYPES.Item.itemEcho",
   itemEffect                : "TYPES.Item.itemEffect",
   itemFocus                 : "TYPES.Item.itemFocus",
@@ -3690,6 +3710,7 @@ SR5.itemTypes = {
   itemSpirit                : "TYPES.Item.itemSpirit",
   itemSprite                : "TYPES.Item.itemSprite",
   itemSpritePower           : "TYPES.Item.itemSpritePower",
+  itemStorage               : "TYPES.Item.itemStorage",
   itemTradition             : "TYPES.Item.itemTradition",
   itemVehicle               : "TYPES.Item.itemVehicle",
   itemVehicleMod            : "TYPES.Item.itemVehicleMod",

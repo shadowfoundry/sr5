@@ -16,6 +16,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/assets/img/icons/nav-deck.svg",
     "systems/sr5/assets/img/icons/nav-derived.svg",
     "systems/sr5/assets/img/icons/nav-gear.svg",
+    "systems/sr5/assets/img/icons/nav-storage.svg",
     "systems/sr5/assets/img/icons/nav-information.svg",
     "systems/sr5/assets/img/icons/nav-magic.svg",
     "systems/sr5/assets/img/icons/nav-matrix.svg",
@@ -152,6 +153,8 @@ export const preloadHandlebarsTemplates = async function () {
     //Right Tab - Gear partials
     "systems/sr5/templates/actors/_partials/right-tabs/gear/variousGear.hbs",
     "systems/sr5/templates/actors/_partials/right-tabs/gear/vehicles.hbs",
+    "systems/sr5/templates/actors/_partials/right-tabs/storage/storages.hbs",
+    "systems/sr5/templates/interface/storage-put-in.hbs",
     "systems/sr5/templates/actors/_partials/right-tabs/gear/money.hbs",
 
     //Right Tab - Augmentations partials
@@ -261,6 +264,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/blocks/ritual/ritual-summary.hbs",
     "systems/sr5/templates/items/blocks/sin/sin-stat.hbs",
     "systems/sr5/templates/items/blocks/sin/sin-summary.hbs",
+    "systems/sr5/templates/items/blocks/storage/storage-stat.hbs",
+    "systems/sr5/templates/items/blocks/storage/storage-summary.hbs",
     "systems/sr5/templates/items/blocks/spell/spell-stat.hbs",
     "systems/sr5/templates/items/blocks/spell/spell-summary.hbs",
     "systems/sr5/templates/items/blocks/spirit/spirit-stat.hbs",
@@ -329,6 +334,7 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/summary/program-summary.hbs",
     "systems/sr5/templates/items/_partial/summary/quality-summary.hbs",
     "systems/sr5/templates/items/_partial/summary/sin-summary.hbs",
+    "systems/sr5/templates/items/_partial/summary/storage-summary.hbs",
     "systems/sr5/templates/items/_partial/summary/spell-summary.hbs",
     "systems/sr5/templates/items/_partial/summary/spirit-summary.hbs",
     "systems/sr5/templates/items/_partial/summary/sprite-summary.hbs",
@@ -470,6 +476,11 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/editable/sin/nationality-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/sin/familySituation-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/sin/licenses-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/gear/intangible-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/storage/type-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/storage/capacity-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/storage/deployable-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/storage/address-edit.hbs",
 
     //Spell
     "systems/sr5/templates/items/_partial/editable/spell/category-edit.hbs",
