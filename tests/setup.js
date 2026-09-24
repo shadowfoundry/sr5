@@ -53,6 +53,11 @@ if (!globalThis.game.settings) globalThis.game.settings = {
 }
 if (!globalThis.game.i18n.format) globalThis.game.i18n.format = (key, _data) => key
 
+// CONFIG stub: config.js assigns CONFIG.statusEffects while it is being imported, so anything that
+// imports it — directly, or through a helper that does — needs this to exist before that import runs.
+if (!globalThis.CONFIG) globalThis.CONFIG = {
+}
+
 // UI notification stubs
 if (!globalThis.ui) globalThis.ui = {
 }

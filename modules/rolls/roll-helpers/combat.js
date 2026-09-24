@@ -24,8 +24,18 @@ export class SR5_CombatHelpers {
     let glareMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + areaEffect.glare + actorData.glare.value, 0), 4)
     let windMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + areaEffect.wind + actorData.wind.value, 0), 4)
 
-    let arrayMod = [visibilityMod, lightMod, glareMod, windMod]
-    if (noWind) arrayMod = [visibilityMod, lightMod, glareMod]
+    // SR5 p. 176: Light and Glare are a single column of the Environmental Modifiers table,
+    // "LUMIERE / EBLOUISSEMENT", with one row per degree (partial light / weak glare, dim light /
+    // moderate glare, total darkness / blinding glare). The scene keeps them as two flags, so the
+    // worst of the two is that column's value.
+    let lightGlareMod = Math.max(lightMod, glareMod)
+
+    // Only then can the "equally severe" rule be applied, since it counts conditions and not flags:
+    // "Si plusieurs modificateurs environnementaux sont aussi severes les uns que les autres,
+    // augmentez la categorie du modificateur d'un cran." With light and glare listed apart, one
+    // condition was counted twice and dim light in moderate glare came out one row too far.
+    let arrayMod = [visibilityMod, lightGlareMod, windMod]
+    if (noWind) arrayMod = [visibilityMod, lightGlareMod]
     let finalMod = Math.max(...arrayMod)
 
     if (finalMod > 0 && finalMod < 4) {
