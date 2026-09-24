@@ -4352,6 +4352,85 @@ export class SR5_CharacterUtility extends Actor {
 
   }
 
+  // SR5 p. 322-323: an active focus adds its Force to the tests of its category.
+  // A focus that already carries a custom effect on the same target is left to that effect (older worlds).
+  static applyFocusBonus(item, actor) {
+    let focus = item.system, actorData = actor.system, force = parseInt(focus.itemRating) || 0
+    if (force <= 0) return
+    let targets = []
+    switch (focus.type) {
+      case "spellcasting":
+      case "counterspelling":
+      case "ritualSpellcasting":
+        if (focus.subType && actorData.skills?.[focus.type]?.spellCategory?.[focus.subType]) targets.push({
+          path: `system.skills.${focus.type}.spellCategory.${focus.subType}`, property: actorData.skills[focus.type].spellCategory[focus.subType]
+        })
+        break
+      case "summoning":
+      case "binding":
+      case "banishing":
+        if (focus.subType && actorData.skills?.[focus.type]?.spiritType?.[focus.subType]) targets.push({
+          path: `system.skills.${focus.type}.spiritType.${focus.subType}`, property: actorData.skills[focus.type].spiritType[focus.subType]
+        })
+        break
+      case "alchemical":
+        if (actorData.skills?.alchemy) targets.push({
+          path: "system.skills.alchemy.test", property: actorData.skills.alchemy.test
+        })
+        break
+      case "disenchanting":
+        if (actorData.skills?.disenchanting) targets.push({
+          path: "system.skills.disenchanting.test", property: actorData.skills.disenchanting.test
+        })
+        break
+      case "power":
+        if (actorData.specialAttributes?.magic) targets.push({
+          path: "system.specialAttributes.magic.augmented", property: actorData.specialAttributes.magic.augmented
+        })
+        break
+      case "centering":
+        if (actorData.magic?.metamagics?.centeringValue) targets.push({
+          path: "system.magic.metamagics.centeringValue", property: actorData.magic.metamagics.centeringValue
+        })
+        break
+      case "spellShaping":
+        if (actorData.magic?.metamagics?.spellShapingValue) targets.push({
+          path: "system.magic.metamagics.spellShapingValue", property: actorData.magic.metamagics.spellShapingValue
+        })
+        break
+      default:
+        // weapon, sustaining and qi foci have their own handling; masking and flexibleSignature have no pool in the system
+        return
+    }
+
+    let customTargets = Object.values(item.system.customEffects || {
+    }).map(e => e.target)
+    for (let target of targets) {
+      if (customTargets.includes(target.path)) continue
+      SR5_EntityHelpers.updateModifier(target.property, item.name, "itemFocus", force)
+    }
+  }
+
+  // SR5 p. 246-248: the rules of a program are known by its name. An active program named like one of the
+  // system's programs (in the current language or in English) switches the matching flag on, so the coded
+  // programs work even when the item carries no custom effect.
+  static switchProgramFlagByName(item, actor) {
+    let programs = actor.system.matrix?.programs
+    if (!programs) return
+    let name = item.name.trim().toLowerCase()
+    let key = Object.keys(SR5.programs).find(k => {
+      let label = SR5.programs[k]
+      return game.i18n.localize(label).trim().toLowerCase() === name || SR5_CharacterUtility._englishLabel(label) === name
+    })
+    if (key && programs[key]) programs[key].isActive = true
+  }
+
+  // English fallback label of a translation key ("SR5.ProgramHammer" -> "hammer"), for worlds played in another language
+  static _englishLabel(label) {
+    let english = game.i18n._fallback?.SR5?.[label.slice(4)]
+    return typeof english === "string" ? english.trim().toLowerCase() : ""
+  }
+
   static applyCustomEffects(item, actor) {
     let itemData = item.system
 
