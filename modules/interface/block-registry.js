@@ -47,6 +47,7 @@ export const TAB_ICONS = {
   effects:       `${ICON_ROOT}/nav-modifiers.svg`,
   device:        `${ICON_ROOT}/nav-information.svg`,
   drone:         `${ICON_ROOT}/nav-gear.svg`,
+  storage:       `${ICON_ROOT}/nav-storage.svg`,
 }
 
 // ---------------------------------------------------------------------------
@@ -207,6 +208,12 @@ export const BLOCK_REGISTRY = {
   },
   vehicles:            {
     partial: `${PARTIAL_ROOT}/right-tabs/gear/vehicles.hbs`,                label: 'SR5.SheetConfig.Block.Vehicles',         size: BLOCK_SIZE.DOUBLE 
+  },
+  storages:            {
+    partial: `${PARTIAL_ROOT}/right-tabs/storage/storages.hbs`,             label: 'SR5.SheetConfig.Block.Storages',         size: BLOCK_SIZE.DOUBLE 
+  },
+  storageContents:     {
+    partial: `${PARTIAL_ROOT}/right-tabs/storage/storageContents.hbs`,      label: 'SR5.StorageContents',                    size: BLOCK_SIZE.DOUBLE 
   },
   money:               {
     partial: `${PARTIAL_ROOT}/right-tabs/gear/money.hbs`,                   label: 'SR5.SheetConfig.Block.Money',            size: BLOCK_SIZE.DOUBLE 

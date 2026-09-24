@@ -1,0 +1,40 @@
+<!-- WHAT IS INSIDE A STORAGE PUT DOWN ON THE MAP -->
+<div class="SRBlockSheet sr-dropped-storage">
+	<ul>
+		<li class="SR-LigneEnTete grid">
+			<div class="col-6 SR-TextUppercase">{{localize 'SR5.StorageContents'}}</div>
+			<div class="col-3 SR-TextCenter">{{localize 'SR5.Type'}}</div>
+			<div class="col-2 SR-TextCenter">{{localize 'SR5.Quantity'}}</div>
+			<div class="col-1 SR-TextRight">
+				{{#if actor.contents.length}}
+				<a class="storage-loot-all" data-title="{{localize 'SR5.StorageLootAll'}}"
+				  data-helpTitle="{{localize 'SR5.HELP_StorageLootAll'}}"
+				  data-helpMessage="{{localize 'SR5.HELP_StorageLootMsg'}}">
+					<em class="fas fa-sm fa-hand-holding"></em>
+				</a>
+				{{/if}}
+			</div>
+		</li>
+		{{#each actor.contents as |content|}}
+		<li class="item grid" data-item-id="{{content._id}}" draggable="true">
+			<div class="col-6 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
+				<img class="sr-storage-icon" src="{{content.img}}" alt="" />
+				<span>{{content.name}}</span>
+			</div>
+			<div class="col-3 SR-TextCenter SR-GreyColor">{{findTranslation 'itemTypes' content.type}}</div>
+			<div class="col-2 SR-TextCenter">{{valueOrDash content.system.quantity}}</div>
+			<div class="col-1 SR-TextRight">
+				<a class="storage-loot" data-item-id="{{content._id}}" data-title="{{localize 'SR5.StorageLoot'}}"
+				  data-helpTitle="{{localize 'SR5.HELP_StorageLoot' key=content.name}}"
+				  data-helpMessage="{{localize 'SR5.HELP_StorageLootMsg'}}">
+					<em class="fas fa-sm fa-hand-holding"></em>
+				</a>
+			</div>
+		</li>
+		{{else}}
+		<li class="grid">
+			<div class="col-12 sr-storage-empty SR-GreyColor">{{localize 'SR5.StorageDroppedEmpty'}}</div>
+		</li>
+		{{/each}}
+	</ul>
+</div>

@@ -56,9 +56,9 @@
 			</div>
 		</li>
 		{{else if (eq system.isPlugged false)}}
-		<li class="item grid" data-item-id="{{_id}}" draggable="true">
+		<li class="item grid {{#if storedInName}}sr-stored{{/if}}" data-item-id="{{_id}}" draggable="true">
 			<div class="col-4 deplie" data-helpTitle="{{localize 'SR5.HELP_MoreInfos'}}" data-helpMessage="{{localize 'SR5.HELP_MoreInfosMsg'}}">
-				{{name}}
+				{{name}}{{#if storedInName}} <span class="sr-stored-note">({{localize 'SR5.StoredIn' storage=storedInName}})</span>{{/if}}
 			</div>
 			<div class="col-2 SR-TextCenter changeValueByClick" data-binding="system.itemRating"
 			  data-helpTitle="{{localize 'SR5.HELP_Rating' key=name}}"

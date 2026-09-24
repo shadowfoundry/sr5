@@ -2,6 +2,9 @@ import {
   descriptionPartialModel 
 } from './partial/description.js'
 import {
+  storablePartialModel 
+} from './partial/storable.js'
+import {
   effectsPartialModel 
 } from './partial/effects.js'
 import {
@@ -19,6 +22,7 @@ export class sr5ItemFocusDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
+      ...storablePartialModel.defineSchema(),
       ...effectsPartialModel.defineSchema(),
       ...boughtOrSoldPartialModel.defineSchema(),
       ...activationPartialModel.defineSchema(),

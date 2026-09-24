@@ -52,6 +52,48 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // When someone dies, leave a bag on the body holding part of their gear.
+    // No rule says so, so it stays off until a table asks for it.
+    game.settings.register("sr5", "sr5StorageDropOnDeath", {
+      name: "SR5.SETTINGS_StorageDropOnDeath_T",
+      hint: "SR5.SETTINGS_StorageDropOnDeath_D",
+      scope: "world",
+      config: true,
+      default: false,
+      type: Boolean,
+    })
+
+    game.settings.register("sr5", "sr5StorageDropOnDeathShare", {
+      name: "SR5.SETTINGS_StorageDropOnDeathShare_T",
+      hint: "SR5.SETTINGS_StorageDropOnDeathShare_D",
+      scope: "world",
+      config: true,
+      default: 50,
+      type: Number,
+    })
+
+    // A garage is a lifestyle Asset with a minimum lifestyle (Run Faster
+    // p. 216). Tables that do not track lifestyles can switch the check off.
+    game.settings.register("sr5", "sr5StorageCheckGarageLifestyle", {
+      name: "SR5.SETTINGS_StorageCheckGarageLifestyle_T",
+      hint: "SR5.SETTINGS_StorageCheckGarageLifestyle_D",
+      scope: "world",
+      config: true,
+      default: true,
+      type: Boolean,
+    })
+
+    // Storage tab: icons in cells, or one detailed row per item. Each player
+    // picks their own and it is remembered.
+    game.settings.register("sr5", "sr5StorageViewMode", {
+      name: "SR5.SETTINGS_StorageViewMode_T",
+      hint: "SR5.SETTINGS_StorageViewMode_D",
+      scope: "client",
+      config: false,
+      default: "grid",
+      type: String,
+    })
+
     // Display Help Window
     game.settings.register("sr5", "sr5Help.active", {
       name: "SR5.SETTINGS_HelpActive_T",

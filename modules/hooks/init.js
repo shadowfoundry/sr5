@@ -41,6 +41,9 @@ import {
   SR5AgentSheet
 } from "../entities/actors/agentSheet.js"
 import {
+  SR5StorageSheet
+} from "../entities/actors/storageSheet.js"
+import {
   SR5Item
 } from "../entities/items/entityItem.js"
 import {
@@ -162,6 +165,12 @@ import {
   sr5ItemSpritePowerDataModel
 } from "../datamodels/items/itemSpritePower.js"
 import {
+  sr5ItemStorageDataModel
+} from "../datamodels/items/itemStorage.js"
+import {
+  sr5ActorStorageDataModel
+} from "../datamodels/actors/actorStorage.js"
+import {
   sr5ItemTraditionDataModel
 } from "../datamodels/items/itemTradition.js"
 import {
@@ -232,6 +241,7 @@ export async function sr5HookInit() {
     actorDevice: sr5ActorDeviceDataModel,
     actorSprite: sr5ActorSpriteDataModel,
     actorAgent: sr5ActorAgentDataModel,
+    actorStorage: sr5ActorStorageDataModel,
   })
   Object.assign(CONFIG.Item.dataModels, {
     itemAdeptPower: sr5ItemAdeptPowerDataModel,
@@ -266,6 +276,7 @@ export async function sr5HookInit() {
     itemSpirit: sr5ItemSpiritDataModel,
     itemSprite: sr5ItemSpriteDataModel,
     itemSpritePower: sr5ItemSpritePowerDataModel,
+    itemStorage: sr5ItemStorageDataModel,
     itemTradition: sr5ItemTraditionDataModel,
     itemVehicle: sr5ItemVehicleDataModel,
     itemVehicleMod: sr5ItemVehicleModDataModel,
@@ -322,6 +333,11 @@ export async function sr5HookInit() {
     types: ["actorAgent"],
     makeDefault: true,
     label: "SR5.Sheet.Agent"
+  })
+  foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Actor, "SR5", SR5StorageSheet, {
+    types: ["actorStorage"],
+    makeDefault: true,
+    label: "SR5.Sheet.Storage"
   })
   foundry.applications.apps.DocumentSheetConfig.registerSheet(foundry.documents.Item, "SR5", SR5ItemSheet, {
     makeDefault: true,

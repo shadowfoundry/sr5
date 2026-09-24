@@ -80,6 +80,9 @@ function _characterDefaultLayout() {
         _tab('Gear', 'gear', [
           _block('variousGear'), _block('vehicles'), _block('money'),
         ]),
+        _tab('Storage', 'storage', [
+          _block('storages'),
+        ]),
         _tab('Augmentations', 'augmentation', [
           _block('augmentations'), _block('externalEffects'),
         ]),
@@ -292,6 +295,26 @@ function _agentDefaultLayout() {
 //  Public API
 // ---------------------------------------------------------------------------
 
+// ---------------------------------------------------------------------------
+//  Storage put down on the map — what is inside it, and a word about it
+// ---------------------------------------------------------------------------
+
+function _storageDefaultLayout() {
+  _nextId = 0
+  return {
+    panels: [
+      _panel('MAIN', 2, [
+        _tab('Contents', 'storage', [
+          _block('storageContents'),
+        ]),
+        _tab('Bio', 'bio', [
+          _block('description'),
+        ]),
+      ]),
+    ],
+  }
+}
+
 export function getDefaultLayout(actorType) {
   switch (actorType) {
     case 'SR5ActorSheet':     return _characterDefaultLayout()
@@ -301,6 +324,7 @@ export function getDefaultLayout(actorType) {
     case 'SR5SpriteSheet':    return _spriteDefaultLayout()
     case 'SR5AppareilSheet':  return _deviceDefaultLayout()
     case 'SR5AgentSheet':     return _agentDefaultLayout()
+    case 'SR5StorageSheet':   return _storageDefaultLayout()
     default:                  return _characterDefaultLayout()
   }
 }

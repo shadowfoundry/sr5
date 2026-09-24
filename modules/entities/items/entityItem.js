@@ -181,6 +181,10 @@ export class SR5Item extends Item {
         SR5_UtilityItem._handleLifeStyle(itemData)
         SR5_UtilityItem._handleItemPrice(itemData)
         break
+      case "itemStorage":
+        SR5_UtilityItem._handleItemPrice(itemData)
+        SR5_UtilityItem._handleItemAvailability(itemData)
+        break
       case "itemSin":
         if (typeof itemData.license === "object") itemData.license = Object.values(itemData.license)
         SR5_UtilityItem._handleSinLicense(itemData)

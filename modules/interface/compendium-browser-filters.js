@@ -209,6 +209,9 @@ export const BROWSER_FILTERS = {
   itemLifestyle:   {
     label: 'TYPES.Item.itemLifestyle', icon: 'fa-home', filters: [] 
   },
+  itemStorage:     {
+    label: 'TYPES.Item.itemStorage', icon: 'fa-box-archive', filters: [] 
+  },
   itemPreparation: {
     label: 'TYPES.Item.itemPreparation', icon: 'fa-flask', filters: [] 
   },

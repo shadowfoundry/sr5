@@ -2,6 +2,9 @@ import {
   SR5 
 } from "../../config.js"
 import {
+  garageRequirement 
+} from "../../interface/storage-rules.js"
+import {
   SR5_EntityHelpers 
 } from "../helpers.js"
 import {
@@ -271,6 +274,10 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
     context.owner = this.document.isOwner
     context.lists = SR5_EntityHelpers.sortTranslations(SR5)
     context.isPlay = this.isPlayMode
+    // What the rule asks of a garage holding this kind of vehicle
+    if (item.type === "itemStorage" && item.system.type === "garage") {
+      context.garageRule = garageRequirement(item)
+    }
 
     // Custom ammunition type choices for weapon ammo dropdown
     if (item.type === 'itemWeapon') {

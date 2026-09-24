@@ -1,0 +1,14 @@
+<form>
+	<p class="notes">{{localize 'SR5.StorageLootWhoHint' storage=storageName}}</p>
+	<ul class="sr-storage-choice">
+		{{#each candidates as |candidate|}}
+		<li>
+			<label>
+				<input type="radio" name="looter" value="{{candidate.id}}" {{#if @first}}checked{{/if}} />
+				<img src="{{candidate.img}}" alt="" />
+				<span class="sr-storage-choice-name">{{candidate.name}}</span>
+			</label>
+		</li>
+		{{/each}}
+	</ul>
+</form>

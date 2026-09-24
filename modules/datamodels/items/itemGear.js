@@ -2,6 +2,9 @@ import {
   descriptionPartialModel 
 } from './partial/description.js'
 import {
+  storablePartialModel 
+} from './partial/storable.js'
+import {
   ratingPartialModel 
 } from './partial/rating.js'
 import {
@@ -28,6 +31,7 @@ export class sr5ItemGearDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
+      ...storablePartialModel.defineSchema(),
       ...ratingPartialModel.defineSchema(),
       ...boughtOrSoldPartialModel.defineSchema(),
       ...wirelessPartialModel.defineSchema(),
@@ -37,6 +41,11 @@ export class sr5ItemGearDataModel extends foundry.abstract.TypeDataModel {
       ...capacityPartialModel.defineSchema(),
       quantity: new fields.NumberField({
         initial: 1
+      }),
+      // A DocWagon contract, a licence, a subscription: owned, but not a
+      // thing that can be left in a stash.
+      isIntangible: new fields.BooleanField({
+        initial: false
       }),
       charge: new fields.NumberField({
         initial: 0
