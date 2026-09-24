@@ -21,10 +21,10 @@ export class SR5_EffectArea {
    * device standing at exactly 100 m is jammed -- hence every comparison below is inclusive.
    *
    * This belongs to the ACTION and to nothing else. The physical jammer of SR5 p. 443 is a second rule,
-   * not a variant of this one: it has no distance limit at all. It generates noise equal to its Device
+   * not a variant of this one, and it has no constant radius. It generates noise equal to its Device
    * Rating, reduced by 1 every 5 meters in a sphere or every 20 meters in a 30-degree cone, so its reach
-   * falls out of its rating instead of a constant (a rating 6 sphere fades at 30 m, a rating 1 one at
-   * 5 m). Do not reuse this constant for it. That page also leaves walls to the gamemaster's discretion,
+   * is derived from its rating rather than fixed: it stops where the noise reaches zero (a rating 6
+   * sphere fades at 30 m, a rating 1 one at 5 m). Do not reuse this constant for it. That page also leaves walls to the gamemaster's discretion,
    * which is a table call and not something to code.
    */
   static JAM_SIGNALS_RADIUS_IN_METERS = 100
@@ -111,11 +111,14 @@ export class SR5_EffectArea {
     for (let token of canvas.tokens.placeables){
       if (token.id !== activeToken.id){
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
-        // Compared to JAM_SIGNALS_RADIUS_IN_METERS just below, which SR5 p. 239 states in meters.
+        // canvas.tokens.placeables holds Token objects, whose own x/y are the PIXI position and stay at 0
+        // in V13; the grid coordinates live on the document, as tokenAura already reads them above.
+        // The result is compared to JAM_SIGNALS_RADIUS_IN_METERS just below, which SR5 p. 239 states in
+        // meters, so the scene's own unit is converted first.
         let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
-          x: activeToken.x, y: activeToken.y
+          x: activeToken.document.x, y: activeToken.document.y
         }, {
-          x: token.x, y: token.y
+          x: token.document.x, y: token.document.y
         })
         let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId)
         if (distance <= SR5_EffectArea.JAM_SIGNALS_RADIUS_IN_METERS && !jammedEffect){
