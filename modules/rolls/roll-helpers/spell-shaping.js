@@ -84,6 +84,40 @@ export class SR5_SpellShapingHelpers {
     return SR5_SpellShapingHelpers.isSpared(actor, chatData.magic?.spell)
   }
 
+  /**
+   * Which tokens the caster means to spare.
+   *
+   * Selecting a token requires OWNER on its actor, so a player could never spare
+   * an NPC that way; targeting carries no permission check, so it is the route
+   * that works for everyone. But **targets persist**: nothing in the system ever
+   * clears them, and the GM who just cast an area spell still has the victim
+   * targeted — that is how they cast it. Preferring one silently would spare the
+   * wrong token in the most ordinary case at the table.
+   *
+   * So when the two disagree, this decides nothing and says so.
+   *
+   * @returns {{tokens: object[], ambiguous: boolean}}
+   */
+  static tokensToSpare(targeted, selected){
+    let hasTargets = Array.isArray(targeted) && targeted.length
+    let hasSelection = Array.isArray(selected) && selected.length
+    if (!hasTargets) return {
+      tokens: hasSelection ? selected : [], ambiguous: false
+    }
+    if (!hasSelection) return {
+      tokens: targeted, ambiguous: false
+    }
+
+    let targetedIds = new Set(targeted.map(token => token.id))
+    let sameSet = (targeted.length === selected.length) && selected.every(token => targetedIds.has(token.id))
+    if (sameSet) return {
+      tokens: targeted, ambiguous: false
+    }
+    return {
+      tokens: [], ambiguous: true
+    }
+  }
+
   /** The single wording every path uses to say it. */
   static announceSpared(actor){
     ui.notifications.info(`${game.i18n.format("SR5.INFO_SparedBySpellShaping", {

@@ -825,6 +825,7 @@
 	"SR5.SpellShapingSpared": "Façonnage : personnages épargnés",
 	"SR5.WARN_SpellShapingNoBubbleLeft": "Toutes les bulles déclarées sont utilisées ({number}).",
 	"SR5.WARN_SpellShapingNoTokenSelected": "Ciblez (touche T) ou sélectionnez d'abord les jetons à épargner sur la scène.",
+	"SR5.WARN_SpellShapingTargetAndSelectionDiffer": "Votre cible et votre sélection ne désignent pas les mêmes jetons : le système ne devine pas lequel épargner. Retirez l'un des deux.",
 	"SR5.description": "Un système de jeu avancé pour des parties de Shadowrun 5 dans l'environnement de table virtuelle FoundryVTT.",
 	"SR5.Description": "Description",
 	"SR5.Details": "Détails",

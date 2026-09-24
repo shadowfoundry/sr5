@@ -743,13 +743,12 @@ export class SR5_RollMessage {
     let spellData = messageData.magic.spell
     let spared = Array.isArray(spellData.sparedActors) ? spellData.sparedActors : []
     let allowed = spellData.sparedCount || 0
-    // Targets first, selection as a fallback. Selecting a token needs OWNER on its
-    // actor (Token#_canControl falls back to canUserModify "update", and no world
-    // permission grants it), so a player could never spare an NPC by selecting it.
-    // Targeting carries no permission check at all, so it is the route that works
-    // for everyone; the GM keeps their habit of selecting.
-    let chosen = [...(game.user.targets ?? [])]
-    if (!chosen.length) chosen = canvas.tokens?.controlled ?? []
+    // Targets or selection, whichever the caster used — and a refusal when the two
+    // disagree, because targets persist and the GM still has the victim targeted
+    // from the cast itself. See SR5_SpellShapingHelpers.tokensToSpare.
+    let choice = SR5_SpellShapingHelpers.tokensToSpare([...(game.user.targets ?? [])], [...(canvas.tokens?.controlled ?? [])])
+    if (choice.ambiguous) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpellShapingTargetAndSelectionDiffer")}`)
+    let chosen = choice.tokens
 
     if (!chosen.length) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpellShapingNoTokenSelected")}`)
 

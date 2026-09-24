@@ -198,6 +198,67 @@ describe("Spell Shaping — who stands in a bubble", () => {
     }, undefined)).toBe(false)
   })
 
+  // Nothing in the system ever clears a target — measured by searching modules/ —
+  // and the GM who cast an area spell still has the victim targeted, since that is
+  // how they cast it. So "targets first" would spare the victim in the most
+  // ordinary case at the table. When the two sources disagree, decide nothing.
+  it("takes the targets when nothing is selected", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "a"
+    }], [])
+    expect(choix.tokens.map(t => t.id)).toEqual(["a"])
+    expect(choix.ambiguous).toBe(false)
+  })
+
+  it("takes the selection when nothing is targeted", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([], [{
+      id: "b"
+    }])
+    expect(choix.tokens.map(t => t.id)).toEqual(["b"])
+    expect(choix.ambiguous).toBe(false)
+  })
+
+  it("proceeds when target and selection are the same tokens", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "a"
+    }, {
+      id: "b"
+    }], [{
+      id: "b"
+    }, {
+      id: "a"
+    }])
+    expect(choix.tokens.length).toBe(2)
+    expect(choix.ambiguous).toBe(false)
+  })
+
+  it("refuses rather than guess when they disagree", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "victime"
+    }], [{
+      id: "allie"
+    }])
+    expect(choix.tokens).toEqual([])
+    expect(choix.ambiguous).toBe(true)
+  })
+
+  it("refuses when the selection is a subset of the targets", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([{
+      id: "a"
+    }, {
+      id: "b"
+    }], [{
+      id: "a"
+    }])
+    expect(choix.ambiguous).toBe(true)
+  })
+
+  it("spares nobody when neither is set", () => {
+    const choix = SR5_SpellShapingHelpers.tokensToSpare([], [])
+    expect(choix.tokens).toEqual([])
+    expect(choix.ambiguous).toBe(false)
+  })
+
   // Chat cards cast before this feature existed carry no list at all.
   it("spares nobody when the card has no list", () => {
     expect(SR5_SpellShapingHelpers.isSpared({
