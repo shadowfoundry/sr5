@@ -1147,6 +1147,11 @@ export class SR5_ActorHelper {
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     let item = await fromUuid(data.owner.itemUuid)
     let itemData = item.system
+    // Head case Attribute Boost (Stolen Souls p. 201): lasts a number of combat turns equal to the hits,
+    // then the head case takes as many boxes of Stun damage (applied when the effect expires, see SR5Combat.manageTurnEnd)
+    let isNaniteBoost = Object.values(itemData.systemEffects || {
+    }).some(s => s.value === "naniteAttributeBoost")
+    let naniteBoostMarked = false
 
     for (let e of Object.values(itemData[effectType])){
       if (e.transfer) {
@@ -1198,6 +1203,15 @@ export class SR5_ActorHelper {
           "system.ownerItem": data.owner.itemUuid,
           "system.duration": 0,
           "system.durationType": "sustained",
+        }
+
+        if (isNaniteBoost) {
+          itemEffect["system.duration"] = data.roll.hits
+          itemEffect["system.durationType"] = "round"
+          if (e.category === "characterAttributes" && !naniteBoostMarked) {
+            itemEffect["system.type"] = "naniteAttributeBoost"
+            naniteBoostMarked = true
+          }
         }
 
         if (effectType === "customEffects"){

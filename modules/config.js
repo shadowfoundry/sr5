@@ -36,11 +36,16 @@ SR5.characterSpecialAttributes = {
   edge                      : "SR5.Edge",
   magic                     : "SR5.Magic",
   resonance                 : "SR5.Resonance",
+  nanite                    : "SR5.NaniteVolume",
+  depth                     : "SR5.Depth",
 }
 
+// Special attributes selectable on PC / Grunt sheets (one active at a time)
 SR5.magicOrResonance = {
   magic                     : "SR5.Magic",
   resonance                 : "SR5.Resonance",
+  nanite                    : "SR5.NaniteVolume",
+  depth                     : "SR5.Depth",
 }
 
 //
@@ -3464,6 +3469,7 @@ SR5.specialPropertiesList = {
   regeneration              : "SR5.SpiritPowerRegeneration",
   anticoagulant             : "SR5.Anticoagulant",
   essenceDrain              : "SR5.EssenceDrain",
+  naniteToxinResistance     : "SR5.NaniteToxinResistance",
 }
 
 SR5.transactionsTypes = {

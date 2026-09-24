@@ -368,6 +368,7 @@ export class SR5_CharacterUtility extends Actor {
       actorData.specialProperties.doublePenalties = false
       actorData.specialProperties.energyAura = ""
       actorData.specialProperties.regeneration = ""
+      actorData.specialProperties.naniteToxinResistance = false
       actorData.specialProperties.anticoagulant = ""
       actorData.specialProperties.essenceDrain = ""
       actorData.specialProperties.fullDefenseAttribute = "willpower"
@@ -1882,6 +1883,10 @@ export class SR5_CharacterUtility extends Actor {
               resistances[key][vector].base = 0
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Body'), "linkedAttribute", attributes.body.augmented.value)
               SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
+              // Head case advantage (Stolen Souls p. 201): add the Nanite Volume to toxin and disease resistances
+              if (actorData.specialProperties?.naniteToxinResistance && actorData.specialAttributes?.nanite?.augmented.value > 0) {
+                SR5_EntityHelpers.updateModifier(resistances[key][vector], game.i18n.localize('SR5.NaniteVolume'), "linkedAttribute", actorData.specialAttributes.nanite.augmented.value)
+              }
               if (actorData.itemsProperties && key === "toxin") {
                 resistances.toxin[vector].modifiers = resistances.toxin[vector].modifiers.concat(actorData.itemsProperties.armor.toxin[vector].modifiers)
               }
@@ -2529,7 +2534,7 @@ export class SR5_CharacterUtility extends Actor {
           }
         }
         let linkedAttribute = actorData.skills[key].linkedAttribute
-        if (linkedAttribute == 'magic' || linkedAttribute == 'resonance' || linkedAttribute == 'edge') {
+        if (SR5.characterSpecialAttributes[linkedAttribute]) {
           let label = `${game.i18n.localize(SR5.characterSpecialAttributes[linkedAttribute])}`
           SR5_EntityHelpers.updateModifier(actorData.skills[key].test, label, "linkedAttribute", actorData.specialAttributes[linkedAttribute].augmented.value)
         } else {
@@ -3541,13 +3546,16 @@ export class SR5_CharacterUtility extends Actor {
         matrix.attributes.firewall.base = attributes.willpower.augmented.value
         matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value
         break
-      case "headcase":
-        matrix.attributes.attack.base = attributes.charisma.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.sleaze.base = attributes.intuition.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.dataProcessing.base = attributes.logic.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.attributes.firewall.base = attributes.willpower.augmented.value + actorData.specialAttributes.resonance.augmented.value
-        matrix.deviceRating = actorData.specialAttributes.resonance.augmented.value
+      case "headcase": {
+        // Head case matrix attributes (Lockdown p. 202): mental attribute + half the Nanite Volume
+        let halfNanite = Math.ceil(actorData.specialAttributes.nanite.augmented.value / 2)
+        matrix.attributes.attack.base = attributes.willpower.augmented.value + halfNanite
+        matrix.attributes.sleaze.base = attributes.logic.augmented.value + halfNanite
+        matrix.attributes.dataProcessing.base = attributes.intuition.augmented.value + halfNanite
+        matrix.attributes.firewall.base = attributes.charisma.augmented.value + halfNanite
+        matrix.deviceRating = actorData.specialAttributes.nanite.augmented.value
         break
+      }
       default:
         SR5_SystemHelpers.srLog(1, `Unknown '${item.system.type}' deck type in generateMatrixAttributes()`)
         return
@@ -3954,10 +3962,13 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         break
       case "livingPersona":
-      case "headcase":
-        SR5_EntityHelpers.updateModifier(matrixResistances.fading, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value)
+      case "headcase": {
+        // Living personas resist with Resonance, head cases with their Nanite Volume
+        let personaKey = item.system.type === "headcase" ? "nanite" : "resonance"
+        let personaLabel = game.i18n.localize(SR5.characterSpecialAttributes[personaKey])
+        SR5_EntityHelpers.updateModifier(matrixResistances.fading, personaLabel, "linkedAttribute", specialAttributes[personaKey].augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.fading, game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
-        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, `${game.i18n.localize('SR5.Resonance')}`, "linkedAttribute", specialAttributes.resonance.augmented.value)
+        SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, personaLabel, "linkedAttribute", specialAttributes[personaKey].augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.matrixDamage, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Willpower'), "linkedAttribute", attributes.willpower.augmented.value)
         SR5_EntityHelpers.updateModifier(matrixResistances.biofeedback, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
@@ -3966,6 +3977,7 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, item.name, "deviceRating", item.system.deviceRating)
         SR5_EntityHelpers.updateModifier(matrixResistances.dataBomb, game.i18n.localize('SR5.Firewall'), "matrixAttribute", matrixAttributes.firewall.value)
         break
+      }
       case "baseDevice":
         if (actor.type === "actorDrone") {
           if (actorData.vehicleOwner.id && actorData.slaved) {
