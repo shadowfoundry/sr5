@@ -743,12 +743,18 @@ export class SR5_RollMessage {
     let spellData = messageData.magic.spell
     let spared = Array.isArray(spellData.sparedActors) ? spellData.sparedActors : []
     let allowed = spellData.sparedCount || 0
-    let selected = canvas.tokens?.controlled ?? []
+    // Targets first, selection as a fallback. Selecting a token needs OWNER on its
+    // actor (Token#_canControl falls back to canUserModify "update", and no world
+    // permission grants it), so a player could never spare an NPC by selecting it.
+    // Targeting carries no permission check at all, so it is the route that works
+    // for everyone; the GM keeps their habit of selecting.
+    let chosen = [...(game.user.targets ?? [])]
+    if (!chosen.length) chosen = canvas.tokens?.controlled ?? []
 
-    if (!selected.length) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpellShapingNoTokenSelected")}`)
+    if (!chosen.length) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_SpellShapingNoTokenSelected")}`)
 
     let added = 0
-    for (let token of selected){
+    for (let token of chosen){
       if (spared.length >= allowed) {
         ui.notifications.warn(`${game.i18n.format("SR5.WARN_SpellShapingNoBubbleLeft", {
           number: allowed

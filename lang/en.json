@@ -824,7 +824,7 @@
 	"SR5.SpellShapingSpare": "Spare the selected tokens",
 	"SR5.SpellShapingSpared": "Spell Shaping: spared characters",
 	"SR5.WARN_SpellShapingNoBubbleLeft": "Every declared bubble is already used ({number}).",
-	"SR5.WARN_SpellShapingNoTokenSelected": "Select the tokens to spare on the scene first.",
+	"SR5.WARN_SpellShapingNoTokenSelected": "Target (T key) or select the tokens to spare on the scene first.",
 	"SR5.description": "An advanced game system for running games of Shadowrun 5 within the virtual tabletop FoundryVTT environment.",
 	"SR5.Description": "Description",
 	"SR5.Details": "Details",
