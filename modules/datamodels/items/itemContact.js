@@ -1,4 +1,7 @@
 import {
+  sidekickPartialModel 
+} from './partial/sidekick.js'
+import {
   descriptionPartialModel 
 } from './partial/description.js'
 import {
@@ -25,6 +28,7 @@ export class sr5ItemContactDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
+      ...sidekickPartialModel.defineSchema(),
       ...characterAttributesPartialModel.defineSchema(),
       ...characterMagicAttributesPartialModel.defineSchema(),
       ...skillGroupsPartialModel.defineSchema(),

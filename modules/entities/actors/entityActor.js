@@ -320,9 +320,18 @@ export class SR5Actor extends Actor {
         SR5_SystemHelpers.srLog(1, `Unknown '${this.type}' type in 'base _preCreate()'`)
     }
 
-    if (this.system.sideKickPrototypeToken) {
+    // A summoned actor wears the token kept when it was last dismissed. That
+    // token may be empty or half written on older items, so never let it erase
+    // the picture its item carries.
+    let rememberedToken = this.system.sideKickPrototypeToken
+    if (rememberedToken && Object.keys(rememberedToken).length) {
       foundry.utils.mergeObject(createData, {
-        "prototypeToken": this.system.sideKickPrototypeToken
+        "prototypeToken": rememberedToken
+      })
+    }
+    if (this.system.creatorItemId) {
+      foundry.utils.mergeObject(createData, {
+        "prototypeToken.texture.src": this.prototypeToken?.texture?.src || rememberedToken?.texture?.src || this.img
       })
     }
 

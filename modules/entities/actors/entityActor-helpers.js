@@ -490,6 +490,8 @@ export class SR5_ActorHelper {
       "name": item.name,
       "type": petType,
       "img": img,
+      // The token picture picked on the item, or the portrait when left empty
+      "prototypeToken.texture.src": itemData.tokenImg || img,
     }
 
     // Give permission to player
@@ -695,6 +697,17 @@ export class SR5_ActorHelper {
   }
 
   //Dismiss sidekick : update his parent item and then delete actor
+  // Keep the token a sidekick wore, so the next summoning looks like the last
+  // one. dimissSidekick() is handed a plain object and not a document, either
+  // straight from the sheet or through the socket, so nothing here may lean on
+  // toObject().
+  static rememberSidekickToken(modifiedItem, actor){
+    const proto = actor.prototypeToken
+    if (!proto) return
+    modifiedItem.system.sideKickPrototypeToken = (typeof proto.toObject === "function") ? proto.toObject() : foundry.utils.duplicate(proto)
+    modifiedItem.system.tokenImg = proto.texture?.src || ""
+  }
+
   static async dimissSidekick(actor){
     let ownerActor = SR5_EntityHelpers.getRealActorFromID(actor.system.creatorId)
     let item = ownerActor.getEmbeddedDocument("Item", actor.system.creatorItemId)
@@ -706,7 +719,7 @@ export class SR5_ActorHelper {
         if (a.type === "itemPower") powers.push(a)
       }
       modifiedItem.img = actor.img
-      modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
+      SR5_ActorHelper.rememberSidekickToken(modifiedItem, actor)
       modifiedItem.system.services.value = actor.system.services.value
       modifiedItem.system.services.max = actor.system.services.max
       if (actor.system.type === "watcher" || actor.system.type === "homunculus"){
@@ -736,7 +749,7 @@ export class SR5_ActorHelper {
         if (a.type === "itemSpritePower") spritePowers.push(a)
       }
       modifiedItem.img = actor.img
-      modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
+      SR5_ActorHelper.rememberSidekickToken(modifiedItem, actor)
       modifiedItem.system.decks = decks
       modifiedItem.system.spritePowers = spritePowers
       modifiedItem.system.tasks.value = actor.system.tasks.value
@@ -760,7 +773,7 @@ export class SR5_ActorHelper {
         if (a.type === "itemDevice") decks.push(a)
       }
       modifiedItem.img = actor.img
-      modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
+      SR5_ActorHelper.rememberSidekickToken(modifiedItem, actor)
       modifiedItem.system.decks = decks
       if (actor.img != "systems/sr5/assets/img/actors/actorAgent.svg" && modifiedItem.system.gameEffect.includes(actor.img) === false) {
         if (modifiedItem.system.gameEffect.includes("SR-BioItemPortrait")) {
@@ -791,7 +804,7 @@ export class SR5_ActorHelper {
       }
       modifiedItem.name = actor.name
       modifiedItem.img = actor.img	
-      modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
+      SR5_ActorHelper.rememberSidekickToken(modifiedItem, actor)
       modifiedItem.system.language = language,	
       modifiedItem.system.knowledge = knowledge,	
       modifiedItem.system.weapons = weapons,	
@@ -842,7 +855,7 @@ export class SR5_ActorHelper {
         if (a.type === "itemVehicleMod") vehiclesMod.push(a)
       }
       modifiedItem.img = actor.img
-      modifiedItem.system.sideKickPrototypeToken = actor.prototypeToken
+      SR5_ActorHelper.rememberSidekickToken(modifiedItem, actor)
       modifiedItem.system.autosoft = autosoft
       modifiedItem.system.weapons = weapons
       modifiedItem.system.ammunitions = ammunitions

@@ -3419,6 +3419,7 @@
 	"SR5.TryToNotCatchFire": "Try To Not Catch Fire",
 	"SR5.Type": "Type",
 	"SR5.UI_ChangePicture": "Change Picture",
+	"SR5.UI_ChangeTokenPicture": "Change Token Picture",
 	"SR5.UI_WarningMissingValues": "Warning! Some required values for this '{type}' item are missing.",
 	"SR5.UltrasoundVision": "Ultrasound vision",
 	"SR5.UltrasoundVisionAugmented": "Ultrasound vision (Augmented)",

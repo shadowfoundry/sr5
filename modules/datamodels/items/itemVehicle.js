@@ -1,4 +1,7 @@
 import {
+  sidekickPartialModel 
+} from './partial/sidekick.js'
+import {
   descriptionPartialModel 
 } from './partial/description.js'
 import {
@@ -16,6 +19,7 @@ export class sr5ItemVehicleDataModel extends foundry.abstract.TypeDataModel {
     const fields = foundry.data.fields
     return {
       ...descriptionPartialModel.defineSchema(),
+      ...sidekickPartialModel.defineSchema(),
       ...boughtOrSoldPartialModel.defineSchema(),
       ...wirelessPartialModel.defineSchema(),
       type: new fields.StringField({

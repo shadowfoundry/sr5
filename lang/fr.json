@@ -3419,6 +3419,7 @@
 	"SR5.TryToNotCatchFire": "Éviter de prendre feu",
 	"SR5.Type": "Type",
 	"SR5.UI_ChangePicture": "Changer l'image",
+	"SR5.UI_ChangeTokenPicture": "Changer l'image du jeton",
 	"SR5.UI_WarningMissingValues": "Attention ! Certaines valeurs requises pour cet objet de type '{type}' sont manquantes.",
 	"SR5.UltrasoundVision": "Vision ultrasonique",
 	"SR5.UltrasoundVisionAugmented": "Vision ultrasonique (Augmentée)",

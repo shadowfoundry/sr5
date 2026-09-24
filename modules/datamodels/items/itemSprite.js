@@ -1,4 +1,7 @@
 import {
+  sidekickPartialModel 
+} from './partial/sidekick.js'
+import {
   ratingPartialModel 
 } from './partial/rating.js'
 import {
@@ -14,6 +17,7 @@ export class sr5ItemSpriteDataModel extends foundry.abstract.TypeDataModel {
     return {
       ...ratingPartialModel.defineSchema(),
       ...descriptionPartialModel.defineSchema(),
+      ...sidekickPartialModel.defineSchema(),
       type: new fields.StringField({
         initial: ''
       }),
