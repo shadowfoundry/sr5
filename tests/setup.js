@@ -23,6 +23,10 @@ globalThis.foundry = {
     TypeDataModel: class {},
     DataModel: class {},
   },
+  documents: {
+    RollTable: class {},
+    TableResult: class {},
+  },
   applications: {
     api: {
       ApplicationV2: class {},
