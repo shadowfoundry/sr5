@@ -19,7 +19,9 @@ export class SR5_EffectArea {
     const scene = game.scenes.get(token._object.scene.id)
     for (let t of scene.tokens){
       if (t.id !== token.id) {
-        // checkAuraJamming compares this to the jammer's 100 m area, so it is measured in meters.
+        // checkAuraJamming compares this to a bare 100, a system constant with no page behind it. It is
+        // converted like every other threshold on the assumption that it was written in meters; on a scene
+        // that already measures in meters nothing changes either way.
         let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: token.x, y: token.y
         }, {
@@ -95,7 +97,7 @@ export class SR5_EffectArea {
     for (let token of canvas.tokens.placeables){
       if (token.id !== activeToken.id){
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
-        // Compared to the jammer's 100 m area just below, so it is measured in meters.
+        // Compared to the bare 100 just below -- a system constant, not a rule with a page. Assumed meters.
         let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: activeToken.x, y: activeToken.y
         }, {
