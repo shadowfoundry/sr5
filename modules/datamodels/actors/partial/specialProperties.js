@@ -72,6 +72,10 @@ export class specialPropertiesPartialModel extends foundry.abstract.TypeDataMode
         anticoagulant: new fields.BooleanField({
           initial: false
         }),
+        // Aggravated Wounds critter power (Howling Shadows p. 213)
+        aggravatedWounds: new fields.BooleanField({
+          initial: false
+        }),
         fullDefenseAttribute: new fields.StringField({
           initial: 'willpower'
         }),

@@ -334,6 +334,7 @@ export class SR5_PrepareRollTest {
         isContinuous: false,
         source: "",
         resistanceType: "",
+        aggravated: false,
         matrix: {
           value: 0,
           base: 0,

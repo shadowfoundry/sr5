@@ -157,15 +157,18 @@ export class SR5_EntityHelpers {
     let conditionMonitors = entity.conditionMonitors
     let monitorMaximum = conditionMonitors[monitorType].value, currentMonitorValue = conditionMonitors[monitorType].actual.value
 
+    let aggravated = Math.min(conditionMonitors[monitorType].aggravated || 0, currentMonitorValue)
+
     conditionMonitors[monitorType].boxes = []
     for (let loop = 1; loop < monitorMaximum + 1; loop++) {
       if (monitorType == 'overflow' && conditionMonitors['physical'].actual.value < conditionMonitors['physical'].value)
         conditionMonitors[monitorType].boxes.push({
-          filled: false, locked: true 
+          filled: false, locked: true
         })
       else
         conditionMonitors[monitorType].boxes.push({
-          filled: (loop <= currentMonitorValue ? true : false) 
+          filled: (loop <= currentMonitorValue ? true : false),
+          aggravated: (loop <= aggravated),
         })
     }
   }
