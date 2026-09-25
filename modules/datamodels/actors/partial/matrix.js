@@ -298,7 +298,7 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
         tag: fullActionSchema('simple', 'killCode', false, 0, 'dataProcessing'),
         watchdog: fullActionSchema('complex', 'killCode', true, 0, 'sleaze'),
         breakTargetLock: fullActionSchema('simple', 'rigger5', false, 0, 'dataProcessing'),
-        confusePilot: fullActionSchema('complex', 'rigger5', true, 0, 'attack'),
+        confusePilot: fullActionSchema('complex', 'rigger5', false, 0, 'dataProcessing'),
         detectTargetLock: fullActionSchema('free', 'rigger5', false, 4, 'dataProcessing'),
         suppressNoise: fullActionSchema('complex', 'rigger5', false, 4, 'dataProcessing'),
         targetDevice: fullActionSchema('complex', 'rigger5', false, 0, 'dataProcessing'),
