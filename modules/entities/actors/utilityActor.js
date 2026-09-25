@@ -346,6 +346,10 @@ export class SR5_CharacterUtility extends Actor {
         actorData.visions[key].natural = false
         actorData.visions[key].augmented = false
       }
+      if (actorData.visions.cyberEyes) {
+        actorData.visions.cyberEyes.hasCyberEyes = !!this.getCyberEyes(actor)
+        actorData.visions.cyberEyes.replacedNaturalVision = []
+      }
     }
 
     // Reset Special properties
@@ -840,6 +844,8 @@ export class SR5_CharacterUtility extends Actor {
         SR5_EntityHelpers.updateModifier(actorData.itemsProperties.environmentalMod.light, `${game.i18n.localize('SR5.UltrasoundVision')}`, "visionType", -3, false, false)
       }
     }
+    actorData.visions.hasActiveVision = Object.keys(SR5.visionActive).some(key => actorData.visions[key].isActive)
+
     //environmental modifiers
     if (actorData.itemsProperties?.environmentalMod) {
       for (let key of Object.keys(SR5.environmentalModifiers)) {
@@ -857,6 +863,17 @@ export class SR5_CharacterUtility extends Actor {
     }
   }
 
+  //Give a token the vision its actor is currently using
+  static async applyVisionToToken(actor) {
+    if (!canvas.scene) return
+    let token
+    if (actor.token) token = canvas.scene.tokens.find((t) => t.id === actor.token.id)
+    else token = canvas.scene.tokens.find((t) => t.actorId === actor.id)
+    if (!token) return
+    const tokenData = await SR5_EntityHelpers.getVisionData(foundry.utils.duplicate(token), actor)
+    await token.update(tokenData)
+  }
+
   //Handle astral vision
   static async handleAstralVision(actor) {
     let actorData = actor.system
@@ -871,15 +888,18 @@ export class SR5_CharacterUtility extends Actor {
     if (token) tokenData = foundry.utils.duplicate(token)
     if (actorData.visions.astral.isActive) {
       await SR5_EntityHelpers.addEffectToActor(actor, "astralVision")
+      //No early return on the vision mode alone : getVisionData also settles the range, the
+      //colour, the look and the detection modes, so a token whose document already carried
+      //'astralvision' kept a range of 0 and no astral detection mode. An update that changes
+      //nothing costs nothing.
       if (canvas.scene && token) {
-        if (tokenData.sight.visionMode === 'astralvision') return
-        tokenData = await SR5_EntityHelpers.getAstralVisionData(tokenData)
+        tokenData = await SR5_EntityHelpers.getVisionData(tokenData, actor)
         await token.update(tokenData)
       }
     } else {
       await SR5_EntityHelpers.deleteEffectOnActor(actor, "astralVision")
       if (canvas.scene && token) {
-        tokenData = await SR5_EntityHelpers.getBasicVisionData(tokenData)
+        tokenData = await SR5_EntityHelpers.getVisionData(tokenData, actor)
         await token.update(tokenData)
       }
     }
@@ -910,19 +930,50 @@ export class SR5_CharacterUtility extends Actor {
         type: "simple", value: 1, source: "switchPerception" 
       }])
       this.handleAstralVision(actor)
+    } else await this.applyVisionToToken(actor)
+  }
+
+  //Return the cybereyes the character wears, if any. Cybereyes are the only eyeware that
+  //holds a Capacity : everything else in that category plugs into them (SR5 p. 456).
+  static getCyberEyes(actor) {
+    return actor.items?.find(i => i.type === "itemAugmentation" &&
+      i.system.category === "eyeware" &&
+      !i.system.isAccessory &&
+      Number(i.system.capacity?.base ?? 0) > 0) ?? null
+  }
+
+  //Grant a vision the character owes to its metatype. The book does not say what becomes of it
+  //once the eyes it came with have been replaced by cybereyes, so a world setting decides.
+  static grantMetatypeVision(actor, vision) {
+    let actorData = actor.system
+    const cyberEyes = actorData.visions?.cyberEyes
+    if (cyberEyes?.hasCyberEyes && game.settings.get("sr5", "sr5CyberEyesReplaceNaturalVision")) {
+      if (!cyberEyes.replacedNaturalVision.includes(vision)) cyberEyes.replacedNaturalVision.push(vision)
+      return
     }
+    actorData.visions[vision].natural = true
+  }
+
+  //Return the metatype of a character. A player character holds it in 'metatype', which is the
+  //field its own sheet writes ; a grunt, and the sidekick built from an item, hold it in
+  //'characterMetatype'. Reading only one of the two leaves the other kind of character without
+  //its metatype, and so without the vision that metatype is owed (SR5 p. 68).
+  static getMetatype(actor) {
+    const biography = actor?.system?.biography
+    return biography?.characterMetatype || biography?.metatype || ""
   }
 
   static applyRacialModifers(actor) {
     let actorData = actor.system
-    if (!actorData.biography.characterMetatype) return
-    let label = `${game.i18n.localize(SR5.metatypes[actorData.biography.characterMetatype])}`
+    const metatype = this.getMetatype(actor)
+    if (!metatype) return
+    let label = `${game.i18n.localize(SR5.metatypes[metatype])}`
 
-    switch (actorData.biography.characterMetatype) {
+    switch (metatype) {
       case "human":
         break
       case "elf":
-        actorData.visions.lowLight.natural = true
+        this.grantMetatypeVision(actor, "lowLight")
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(actorData.attributes.agility.natural, label, "metatype", 1)
           SR5_EntityHelpers.updateModifier(actorData.attributes.charisma.natural, label, "metatype", 2)
@@ -930,7 +981,7 @@ export class SR5_CharacterUtility extends Actor {
         break
       case "dwarf":
         // TODO : lifestyle cost * 1.2
-        actorData.visions.thermographic.natural = true
+        this.grantMetatypeVision(actor, "thermographic")
         for (let vector of Object.keys(SR5.propagationVectors)) {
           SR5_EntityHelpers.updateModifier(actorData.resistances.disease[vector], label, "metatype", 2)
           SR5_EntityHelpers.updateModifier(actorData.resistances.toxin[vector], label, "metatype", 2)
@@ -943,7 +994,7 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       case "ork":
-        actorData.visions.lowLight.natural = true
+        this.grantMetatypeVision(actor, "lowLight")
         if (actor.type === "actorGrunt") {
           SR5_EntityHelpers.updateModifier(actorData.attributes.body.natural, label, "metatype", 3)
           SR5_EntityHelpers.updateModifier(actorData.attributes.strength.natural, label, "metatype", 2)
@@ -953,7 +1004,7 @@ export class SR5_CharacterUtility extends Actor {
         break
       case "troll":
         // TODO : lifestyle cost * 2
-        actorData.visions.thermographic.natural = true
+        this.grantMetatypeVision(actor, "thermographic")
         SR5_EntityHelpers.updateModifier(actorData.reach, label, "metatype", 1)
         SR5_EntityHelpers.updateModifier(actorData.resistances.physicalDamage, label, "metatype", 1)
         if (actor.type === "actorGrunt") {
@@ -965,7 +1016,7 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       default:
-        SR5_SystemHelpers.srLog(1, `Unknown metatype '${actorData.biography.characterMetatype}' in 'applyRacialModifers()'`)
+        SR5_SystemHelpers.srLog(1, `Unknown metatype '${metatype}' in 'applyRacialModifers()'`)
         return
     }
   }

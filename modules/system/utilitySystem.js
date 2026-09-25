@@ -74,6 +74,35 @@ export class SR5_SystemHelpers {
       onChange: () => window.location.reload()
     })
 
+    // Cybereyes replace the eyes the character was born with
+    game.settings.register('sr5', 'sr5CyberEyesReplaceNaturalVision', {
+      name: 'SR5.SETTINGS_CyberEyesReplaceNaturalVision_T',
+      hint: 'SR5.SETTINGS_CyberEyesReplaceNaturalVision_D',
+      scope: 'world',
+      config: true,
+      default: true,
+      type: Boolean,
+      onChange: () => window.location.reload()
+    })
+
+    // Token vision ranges, in scene units (0 = only what is lit)
+    const visionRanges = {
+      sr5VisionRangeLowLight: 0,
+      sr5VisionRangeThermographic: 30,
+      sr5VisionRangeUltrasound: 50,
+      sr5VisionRangeAstral: 300,
+    }
+    for (const [key, range] of Object.entries(visionRanges)) {
+      game.settings.register('sr5', key, {
+        name: `SR5.SETTINGS_${key.slice(3)}_T`,
+        hint: `SR5.SETTINGS_${key.slice(3)}_D`,
+        scope: 'world',
+        config: true,
+        default: range,
+        type: Number,
+      })
+    }
+
     // Run & Gun Rules
     game.settings.register("sr5", "sr5CalledShotsRules", {
       name: "SR5.SETTINGS_CalledShotsRules_T",
