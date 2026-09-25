@@ -379,6 +379,8 @@ async function handleFatiguedDamage(rollData, actorData, chatData){
 
   //Add others informations
   rollData.test.typeSub = "physicalDamage"
+
+  return rollData
 }
 
 
