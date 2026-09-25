@@ -785,11 +785,18 @@ export default class SR5_RollDialog {
             dialogData.combat.firingMode.actionSpent = false
           }
           break
-        case "defenseMode":
+        case "defenseMode": {
           value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`
           dialogData.combat.activeDefenseSelected = ev.target.value
+          // SR5 p. 191-192: dodge, block and parry use a skill, so the Physical limit applies to the defense test
+          let usesSkill = ["dodge", "block", "parryClubs", "parryBlades"].includes(ev.target.value)
+          dialogData.limit.base = usesSkill ? (dialogData.combat.activeDefenses.limit || 0) : 0
+          dialogData.limit.type = usesSkill ? "physicalLimit" : ""
+          let limitRow = html.querySelector('#activeDefenseLimit')
+          if (limitRow) limitRow.style.display = usesSkill ? '' : 'none'
           break
+        }
         case "cover":
           value = SR5_ConverterHelpers.coverToMod(ev.target.value)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[ev.target.value])})`

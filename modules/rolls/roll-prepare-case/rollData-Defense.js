@@ -37,6 +37,8 @@ export default async function defense(rollData, actor, chatData){
   rollData.combat.activeDefenses.block = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "block", "unarmedCombat")
   rollData.combat.activeDefenses.parryClubs = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "parryClubs", "clubs")
   rollData.combat.activeDefenses.parryBlades = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "parryBlades", "blades")
+  // SR5 p. 191-192: dodge, block and parry add a skill, so the Physical limit applies to them
+  rollData.combat.activeDefenses.limit = actorData.limits?.physicalLimit?.value || 0
 
   //Transfering data from chatCard
   rollData.previousMessage.hits = chatData.roll.hits
