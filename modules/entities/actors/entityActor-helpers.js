@@ -39,7 +39,8 @@ export class SR5_ActorHelper {
     let realActor = SR5_EntityHelpers.getRealActorFromID(actorId)
     let damage = options.damage.value,
       damageType = options.damage.type,
-      actor = foundry.utils.duplicate(realActor),
+      // Read prepared data: monitor maxima, limits and armor are computed, not stored in the source
+      actor = realActor.toObject(false),
       actorData = actor.system,
       gelAmmo = 0,
       damageReduction = 0,
@@ -134,9 +135,13 @@ export class SR5_ActorHelper {
         break
     }
 
-    await realActor.update({
-      system: actorData
-    })
+    // Only write the damage taken, so computed values never end up frozen in the source
+    let monitorUpdates = {
+    }
+    for (let [key, monitor] of Object.entries(actorData.conditionMonitors)) {
+      if (monitor?.actual) monitorUpdates[`system.conditionMonitors.${key}.actual.base`] = monitor.actual.base
+    }
+    await realActor.update(monitorUpdates)
 
     //Status
     switch (actor.type){
