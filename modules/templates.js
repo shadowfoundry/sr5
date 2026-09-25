@@ -264,6 +264,8 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/blocks/spell/spell-stat.hbs",
     "systems/sr5/templates/items/blocks/spell/spell-summary.hbs",
     "systems/sr5/templates/items/blocks/spirit/spirit-stat.hbs",
+    "systems/sr5/templates/items/blocks/spiritType/spiritType-stat.hbs",
+    "systems/sr5/templates/items/blocks/spiritType/spiritType-summary.hbs",
     "systems/sr5/templates/items/blocks/spirit/spirit-summary.hbs",
     "systems/sr5/templates/items/blocks/sprite/sprite-stat.hbs",
     "systems/sr5/templates/items/blocks/sprite/sprite-summary.hbs",
@@ -501,6 +503,12 @@ export const preloadHandlebarsTemplates = async function () {
     "systems/sr5/templates/items/_partial/editable/tradition/drain-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/tradition/spirits-edit.hbs",
     "systems/sr5/templates/items/_partial/editable/tradition/possession-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/identity-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/attributes-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/skills-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/powers-edit.hbs",
+    "systems/sr5/templates/items/_partial/editable/spiritType/preview-edit.hbs",
+    "systems/sr5/templates/items/_partial/summary/spiritType-summary.hbs",
 
     //Preparation
     "systems/sr5/templates/items/_partial/editable/preparation/lynchpin-edit.hbs",

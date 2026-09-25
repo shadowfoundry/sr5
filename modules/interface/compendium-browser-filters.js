@@ -194,6 +194,13 @@ export const BROWSER_FILTERS = {
   itemTradition:   {
     label: 'TYPES.Item.itemTradition', icon: 'fa-scroll', filters: [] 
   },
+  itemSpiritType:  {
+    label: 'TYPES.Item.itemSpiritType', icon: 'fa-wind', filters: [
+      {
+        key: 'system.basedOn', type: 'select', label: 'SR5.SpiritTypeBasedOn', options: 'spiritTypes'
+      },
+    ]
+  },
   itemContact:     {
     label: 'TYPES.Item.itemContact', icon: 'fa-address-book', filters: [] 
   },

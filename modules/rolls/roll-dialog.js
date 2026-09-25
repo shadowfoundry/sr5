@@ -22,6 +22,12 @@ import {
 import {
   SR5Combat 
 } from "../system/srcombat.js"
+import {
+  SR5_SpiritTypes
+} from "../entities/items/spirit-types.js"
+import {
+  SR5_SystemHelpers
+} from "../system/utilitySystem.js"
 
 export default class SR5_RollDialog {
 
@@ -600,14 +606,25 @@ export default class SR5_RollDialog {
         case "level":
           this.updateFadingValue(html)
           continue
-        case "spiritType":
-          if (dialogData.target.actorId && (dialogData.test.typeSub === "binding")){
-            value = actor.system.skills.binding.spiritType[targetActor.system.type].dicePool - actor.system.skills.binding.test.dicePool
-            label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.spiritTypes[targetActor.system.type])})`
+        case "spiritType": {
+          // Binding reads the type off the targeted spirit, so the type may be
+          // one the list no longer holds: a custom type whose item was deleted
+          // leaves its spirits behind with a key nothing answers to.
+          const boundType = targetActor?.system.type
+          const boundSpiritPool = (dialogData.target.actorId && dialogData.test.typeSub === "binding") ?
+            actor.system.skills.binding.spiritType[boundType] :
+            null
+          if (boundSpiritPool) {
+            value = boundSpiritPool.dicePool - actor.system.skills.binding.test.dicePool
+            label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${SR5_SpiritTypes.label(boundType)})`
           } else {
+            if (boundType && dialogData.test.typeSub === "binding") {
+              SR5_SystemHelpers.srLog(2, `Unknown spirit type '${boundType}' on the bound spirit, no type modifier applied`)
+            }
             value = 0
           }
           break
+        }
         case "patientEssence": {
           let patientEssence = (targetActor?.system.essence.value ? targetActor.system.essence.value : 6)
           html.querySelector('[name="patientEssence"]').value = patientEssence

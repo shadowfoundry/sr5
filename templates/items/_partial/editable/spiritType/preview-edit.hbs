@@ -1,0 +1,32 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.SpiritTypePreview'}}</p>
+</li>
+{{#if spiritTypePreview}}
+<li class="grid">
+    <div class="col-12 SR-GreyColor">{{localize 'SR5.SpiritTypePreviewHint' }} {{spiritTypePreviewForce}}</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.Attributes'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-9">{{#each spiritTypePreview.attributes as |attribute|}}{{localize attribute.label}} {{attribute.value}}{{#unless @last}} · {{/unless}}{{/each}}</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.Skills'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-9">{{#each spiritTypePreview.skillGroups as |group|}}{{localize 'SR5.Rating'}} {{group.value}}{{localize 'SR5.Colons'}} {{#each group.labels as |label|}}{{localize label}}{{#unless @last}}, {{/unless}}{{/each}}{{#unless @last}} — {{/unless}}{{else}}—{{/each}}</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.Initiative'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-9">{{spiritTypePreview.initiativeDice}}d6 · {{localize 'SR5.InitiativeAstral'}} {{spiritTypePreview.astral}} + {{spiritTypePreview.astralDice}}d6</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.SpiritTypeConditionMonitor'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-9">{{#if spiritTypePreview.singleMonitor}}{{localize 'SR5.SpiritTypeMonitorSingle'}}{{else}}{{localize 'SR5.SpiritTypeMonitorStandard'}}{{/if}}</div>
+</li>
+<li class="grid">
+    <div class="col-3">{{localize 'SR5.SpiritPowers'}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-9">{{#each spiritTypePreview.powers as |power|}}{{power}}{{#unless @last}} · {{/unless}}{{else}}—{{/each}}</div>
+</li>
+{{else}}
+<li class="grid">
+    <div class="col-12 SR-GreyColor">{{localize 'SR5.SpiritTypePreviewNone'}}</div>
+</li>
+{{/if}}

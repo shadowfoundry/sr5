@@ -1,0 +1,34 @@
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpiritTypeKey'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash spiritTypeKeyPlaceholder}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpiritTypeBasedOn'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypes" system.basedOn)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpiritTypeConditionMonitor'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash (findTranslation "spiritTypeMonitors" system.conditionMonitor)}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.Skills'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{spiritTypeSkillsCount}}</span>
+    </p>
+</li>
+
+<li class="grid">
+    <p>
+        <span class="col-auto">{{localize 'SR5.SpiritTypePowersBase'}}{{localize 'SR5.Colons'}}</span>
+        <span class="col-auto SR-GreyColor">{{valueOrDash spiritTypePowersLabel}}</span>
+    </p>
+</li>

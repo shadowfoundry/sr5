@@ -1,0 +1,15 @@
+<li class="SR-EnTete">
+    <p class="SR-TextUppercase">{{localize 'SR5.Attributes'}}</p>
+</li>
+<li class="grid">
+    <div class="col-6"></div>
+    <div class="col-3 SR-GreyColor">{{localize 'SR5.SpiritTypeAttributeModifier'}}</div>
+    <div class="col-3 SR-GreyColor">{{localize 'SR5.SpiritTypeAttributeOverride'}}</div>
+</li>
+{{#each spiritTypeAttributes as |attribute|}}
+<li class="grid">
+    <div class="col-6">{{localize attribute.label}}{{localize 'SR5.Colons'}}</div>
+    <div class="col-3"><input type="number" data-dtype="Number" name="system.attributes.{{attribute.key}}.modifier" value="{{attribute.modifier}}" placeholder="0" onfocus="this.select()"/></div>
+    <div class="col-3"><input type="number" data-dtype="Number" name="system.attributes.{{attribute.key}}.override" value="{{attribute.override}}" placeholder="{{localize 'SR5.Force'}}" onfocus="this.select()"/></div>
+</li>
+{{/each}}

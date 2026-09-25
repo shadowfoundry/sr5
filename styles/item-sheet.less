@@ -616,3 +616,38 @@
     }
 
 }
+
+/* Foundry's <multi-select> is first used by the spirit type sheet. Two of the
+   theme's own rules make it unusable there: the generic tag row is aligned to
+   the right, and the dropdown trigger collapses to a sliver when its label is
+   empty, which is the normal state of a picker that adds rather than shows.
+   Stack the chosen tags above a trigger tall enough to aim at. */
+.SR-Item multi-select {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+
+    & > .tags {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin: 0;
+    }
+
+    & > .sr-dropdown {
+        width: 100%;
+    }
+
+    .sr-dropdown-trigger {
+        min-height: 22px;
+        padding: 2px 6px;
+    }
+}
+
+/* A spirit type whose identifier is already taken is ignored; the sheet says
+   so, and has to be read. The theme's flash teal only reaches 3.7:1 on the
+   light window surface, so alerts use the theme's red instead. */
+.SR-Item .SR-AlertColor {
+    color: var(--sr-text-color-alert);
+}
