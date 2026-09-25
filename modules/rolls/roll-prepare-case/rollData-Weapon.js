@@ -231,7 +231,7 @@ async function handleTargetInfo(rollData, actor, item){
 
   //Add specific data for grenade & missile
   if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") {
-    target = SR5_SystemHelpers.getTemplateItemPosition(item.id)
+    target = await SR5_SystemHelpers.getTemplateItemPosition(item.id)
     rollData.test.typeSub = "grenade"
     rollData.chatCard.templateRemove = true
     rollData.combat.grenade.isGrenade = true
@@ -274,7 +274,9 @@ async function handleTargetInfo(rollData, actor, item){
     // unmeasurable distance carries no range modifier, which is short range (+0, SR5 p. 186); the GM
     // applies a band by hand if the fiction calls for one.
     else if (Number.isFinite(rollData.target.rangeInMeters)) {
-      if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
+      // removeTemplate matches on flags.sr5.itemUuid, which AbilityTemplate.fromItem fills from
+      // item.uuid; flags.sr5.item holds the id and is what getTemplateItemPosition looks up.
+      if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.uuid)
       ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
       return false
     }
