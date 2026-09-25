@@ -62,6 +62,25 @@ describe('firingModeToCode', () => {
   })
 })
 
+describe('firingModeChangeCost', () => {
+  const fnHar = current => ({
+    singleShot: true, semiAutomatic: true, burstFire: true, fullyAutomatic: true, current,
+  })
+
+  it('gives the action back when going back to the preselected mode, even if the saved mode is empty or translated', () => {
+    // FN HAR saved as "" opens on SS; saved as "TA" opens on FA
+    for (const [current, opened, other] of [["", "SS", "FA"], ["TA", "FA", "BF"], ["FA", "FA", "BF"]]) {
+      expect(SR5_ConverterHelpers.firingModeChangeCost(fnHar(current), other, false, localizeFr), `${current} → ${other}`).toBe(1)
+      expect(SR5_ConverterHelpers.firingModeChangeCost(fnHar(current), opened, true, localizeFr), `${current} → back to ${opened}`).toBe(-1)
+    }
+  })
+
+  it('spends the action only once', () => {
+    expect(SR5_ConverterHelpers.firingModeChangeCost(fnHar(""), "BF", true, localizeFr)).toBe(0)
+    expect(SR5_ConverterHelpers.firingModeChangeCost(fnHar("TA"), "FA", false, localizeFr)).toBe(0)
+  })
+})
+
 describe('addActions', () => {
   it('ignores an undefined action, so readers never meet action.type on undefined', () => {
     const actions = SR5_MiscellaneousHelpers.addActions([], SR5_ConverterHelpers.firingModeToAction("CC"))

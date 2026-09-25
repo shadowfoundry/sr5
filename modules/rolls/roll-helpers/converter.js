@@ -57,6 +57,16 @@ export class SR5_ConverterHelpers {
     return enabled[0]
   }
 
+  //Action spent (1) or given back (-1) when the roll dialog changes the firing mode, 0 otherwise.
+  //The weapon's saved mode is read through firingModeToCode, like the dialog's preselection:
+  //an empty or translated firingMode.current must count as the mode the dialog opened on.
+  static firingModeChangeCost(firingMode, selected, actionSpent, localize){
+    const current = this.firingModeToCode(firingMode, localize)
+    if (current !== selected && !actionSpent) return 1
+    if (current === selected && actionSpent) return -1
+    return 0
+  }
+
   //Conver firing mode choice to action type
   static firingModeToAction(mode){
     switch(mode){

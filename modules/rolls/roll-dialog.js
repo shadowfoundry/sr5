@@ -650,7 +650,7 @@ export default class SR5_RollDialog {
       actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
       label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
       position = this.dialog.position,
-      chokeLimitModify, chokeLimitModified, weapon
+      chokeLimitModify, chokeLimitModified, weapon, changeCost
 
     position.height = "auto"
 
@@ -765,7 +765,8 @@ export default class SR5_RollDialog {
           label = game.i18n.localize(SR5.dicePoolModTypes[modifierName])
           //actions
           weapon = await fromUuid(dialogData.owner.itemUuid)
-          if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
+          changeCost = SR5_ConverterHelpers.firingModeChangeCost(weapon.system.firingMode, dialogData.combat.firingMode.selected, dialogData.combat.firingMode.actionSpent)
+          if (changeCost > 0){
             action = [{
               type: "simple", value: 1, source: "changeFiringMode"
             }]
@@ -774,7 +775,7 @@ export default class SR5_RollDialog {
             }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.firingMode.actionSpent = true
-          } else if (weapon.system.firingMode.current === dialogData.combat.firingMode.selected && dialogData.combat.firingMode.actionSpent){
+          } else if (changeCost < 0){
             action = [{
               type: "simple", value: -1, source: "changeFiringMode"
             }]
