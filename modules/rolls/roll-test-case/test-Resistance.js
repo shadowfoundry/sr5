@@ -212,6 +212,13 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
     }
   }
 
+  // Run & Gun p. 126 et 128 : les effets d'une localisation (personnage ou véhicule) et l'hémorragie
+  // de Chair déchiquetée ne s'appliquent que si la cible subit des dommages après sa résistance
+  const needsDamage = ['specificTarget', 'upTheAnte', 'shreddedFlesh'].includes(cardData.combat.calledShot.name)
+  if (needsDamage && cardData.damage.value <= 0 && cardData.combat.calledShot.effects.length) {
+    cardData.combat.calledShot.effects = []
+    ui.notifications.info(game.i18n.localize('SR5.INFO_CalledShotEffectsResisted'))
+  }
   if (cardData.combat.calledShot.effects.length) {		
     let effectsName = []
     for (let effect of Object.values(cardData.combat.calledShot.effects)) {
