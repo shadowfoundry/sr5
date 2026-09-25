@@ -247,11 +247,16 @@ async function handleTargetInfo(rollData, actor, item){
   //Handle Melee specifics
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
-    // Melee range is a number of grid squares: the adjacent one, diagonal included, plus one per point of
-    // Reach (SR5 p. 187). It is counted in squares rather than compared to a distance, which would depend on
-    // the scene's scale and on its diagonal rule. Only a measured distance is checked, as for ranged weapons:
-    // with no target or no token there is nothing to refuse.
-    if (Number.isFinite(rollData.target.rangeInMeters) && !SR5_SystemHelpers.isInMeleeRange(canvas.grid, attacker, target, itemData.reach.value)) {
+    // Melee range is a number of grid spaces: the adjacent one, diagonal included, plus one per point of
+    // Reach (SR5 p. 187). It is counted between the spaces both tokens cover rather than compared to a
+    // distance, which would depend on the scene's scale, its diagonal rule and the tokens' sizes. Only a
+    // measured distance is checked, as for ranged weapons: with no target or no token there is nothing to
+    // refuse. A gridless scene has no space to count, so it falls back to (Reach + 1) grid units.
+    const attackerDocument = actor.token ?? canvas.scene.tokens.find(t => t.actorId === actor.id)
+    const targetDocument = Array.from(game.user.targets).at(-1)?.document
+    let inReach = SR5_SystemHelpers.isInMeleeRange(canvas.grid, attackerDocument?.getOccupiedGridSpaceOffsets(), targetDocument?.getOccupiedGridSpaceOffsets(), itemData.reach.value)
+    if (inReach === null) inReach = rollData.target.rangeInMeters <= (itemData.reach.value + 1) * SR5_SystemHelpers.convertSceneUnitsToMeters(canvas.scene.grid.distance)
+    if (Number.isFinite(rollData.target.rangeInMeters) && !inReach) {
       ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
       return false
     }
