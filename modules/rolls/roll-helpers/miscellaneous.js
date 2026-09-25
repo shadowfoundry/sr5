@@ -104,4 +104,18 @@ export class SR5_MiscellaneousHelpers {
       arr.splice(index, 1)
     }
   }
+
+  /**
+     *Which distance modifier a prone defender gets: "close" (5 m or less), "far" (20 m or more), or null.
+     *Only a measured distance counts. A shot with no target, or from an actor with no token, has no distance:
+     *it is NaN on the attack and turns into null once the chat card stores it as JSON, and null <= 5 is true,
+     *so without this check a prone defender took the close-range penalty against a shot that was never measured.
+    @param {rangeInMeters} number the attacker's distance, as carried by the chat card
+    */
+  static proneDefenseRange(rangeInMeters) {
+    if (!Number.isFinite(rangeInMeters)) return null
+    if (rangeInMeters <= 5) return "close"
+    if (rangeInMeters >= 20) return "far"
+    return null
+  }
 }
