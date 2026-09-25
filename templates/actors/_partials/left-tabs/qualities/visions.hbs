@@ -4,6 +4,19 @@
 		<li class="grid SR-LigneEnTete SR-TextUppercase">
 			<div class="col-12">{{localize 'SR5.VisionTypes'}}</div>
 		</li>
+        <li class="grid">
+            <div class="col-11">{{localize 'SR5.VISION.ModeNatural'}}</div>
+            <div class="col-1 SR-TextCenter"
+		  	  data-helpTitle="{{localize 'SR5.VISION.ModeNatural'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_VisionNaturalMsg'}}"
+			>
+            {{#if system.visions.hasActiveVision}}
+			    <a class= "vision-switch" data-binding="natural" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
+			{{else}}
+            <a class= "vision-switch" data-binding="natural" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
+			{{/if}}
+			</div>
+        </li>
         {{#if system.visions.lowLight.hasVision}}
         <li class="grid">
             <div class="col-11">{{localize 'SR5.LowLightVision'}}</div>
@@ -45,6 +58,20 @@
             <a class= "vision-switch" data-binding="ultrasound" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack SR-SubColor"></em></a>
 			{{else}}
 			    <a class= "vision-switch" data-binding="ultrasound" data-dtype="Boolean"><em class="fas fa-sm fa-thumbtack"></em></a>
+			{{/if}}
+			</div>
+        </li>
+        {{/if}}
+        {{#if system.visions.cyberEyes.hasCyberEyes}}
+        <li class="grid">
+            <div class="col-12 SR-TextSmall SR-SubColor"
+		  	  data-helpTitle="{{localize 'SR5.CyberEyes'}}"
+			  data-helpMessage="{{localize 'SR5.HELP_CyberEyesMsg'}}"
+			>
+            {{#if system.visions.cyberEyes.replacedNaturalVision.length}}
+            {{localize 'SR5.CyberEyesReplacedVision'}}
+			{{else}}
+            {{localize 'SR5.CyberEyesWorn'}}
 			{{/if}}
 			</div>
         </li>
