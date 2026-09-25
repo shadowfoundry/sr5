@@ -2,8 +2,7 @@ import {
   describe, it, expect
 } from 'vitest'
 import {
-  BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS,
-  ITEM_INDEX_FIELDS, ACTOR_INDEX_FIELDS, getEntryInfo,
+  BROWSER_FILTERS, ACTOR_BROWSER_FILTERS, OTHER_BROWSER_FILTERS, getEntryInfo,
 } from '../modules/interface/compendium-browser-filters.js'
 
 describe('BROWSER_FILTERS', () => {
@@ -60,23 +59,29 @@ describe('BROWSER_FILTERS', () => {
   })
 })
 
-describe('INDEX_FIELDS', () => {
-  it('ITEM_INDEX_FIELDS is a non-empty array of strings', () => {
-    expect(Array.isArray(ITEM_INDEX_FIELDS)).toBe(true)
-    expect(ITEM_INDEX_FIELDS.length).toBeGreaterThan(0)
-    for (const field of ITEM_INDEX_FIELDS) {
+describe('champs demandés à l’index', () => {
+  const ALL = {
+    ...BROWSER_FILTERS, ...ACTOR_BROWSER_FILTERS, ...OTHER_BROWSER_FILTERS
+  }
+  const subtypeFields = [...new Set(
+    Object.values(ALL).filter(def => def.subtypes).map(def => def.subtypes.field)
+  )]
+
+  it('les champs de sous-type sont des chemins system.*', () => {
+    expect(subtypeFields.length).toBeGreaterThan(0)
+    for (const field of subtypeFields) {
       expect(typeof field).toBe('string')
       expect(field).toMatch(/^system\./)
     }
   })
 
-  it('ACTOR_INDEX_FIELDS is a non-empty array of strings', () => {
-    expect(Array.isArray(ACTOR_INDEX_FIELDS)).toBe(true)
-    expect(ACTOR_INDEX_FIELDS.length).toBeGreaterThan(0)
-    for (const field of ACTOR_INDEX_FIELDS) {
-      expect(typeof field).toBe('string')
-      expect(field).toMatch(/^system\./)
-    }
+  // Le navigateur ne demande à chaque pack que ces champs-là. En réclamer
+  // davantage oblige Foundry à lire tous les documents du pack, ce qui
+  // empêchait la fenêtre de s'ouvrir sur un module de plusieurs milliers
+  // d'objets. Ce plafond est là pour que la liste ne regrossisse pas sans
+  // qu'on y pense.
+  it('restent assez peu nombreux pour que l’index reste léger', () => {
+    expect(subtypeFields.length).toBeLessThanOrEqual(4)
   })
 })
 

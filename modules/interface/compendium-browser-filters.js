@@ -282,23 +282,13 @@ export const OTHER_BROWSER_FILTERS = {
   },
 }
 
-/** All system.* fields needed in the compendium index for filtering and display */
-export const ITEM_INDEX_FIELDS = [
-  'system.category', 'system.type', 'system.isAccessory',
-  'system.grade', 'system.target', 'system.duration',
-  'system.range', 'system.actionType',
-  // Display fields
-  'system.damageValue.base', 'system.damageType', 'system.armorPenetration.base',
-  'system.armorValue.base', 'system.essenceCost.base',
-  'system.price.base', 'system.availability.base',
-  'system.powerPointsCost.base', 'system.drain.base',
-  'system.fadingModifier', 'system.karmaCost',
-  'system.deviceRating', 'system.itemRating',
-]
-
-export const ACTOR_INDEX_FIELDS = [
-  'system.type', 'system.metatype',
-]
+/*
+ * The browser used to ask each pack for these fields up front, which made
+ * Foundry read every document it held — several thousand on a large module,
+ * and the window never opened. The fields are now read from the documents of
+ * the page being displayed, so the lists live in getEntryInfo below and this
+ * pair of constants is gone.
+ */
 
 /**
  * Build a short info string for a compendium index entry.

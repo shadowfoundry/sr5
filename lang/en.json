@@ -575,6 +575,7 @@
 	"SR5.BrowserRollTable": "Roll Table",
 	"SR5.BrowserScene": "Scene",
 	"SR5.CompendiumBrowser": "Compendium Browser",
+	"SR5.CompendiumBrowserFailed": "The compendium browser could not be opened. See the console for details.",
 	"SR5.ChooseControler": "Choose controler",
 	"SR5.ChooseDamageType": "Choose damage type",
 	"SR5.ChooseItemToPan": "Choose item to add to PAN",
