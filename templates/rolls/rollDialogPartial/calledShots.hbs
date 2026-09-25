@@ -23,7 +23,7 @@
     <div class="col-7 SR-TextRight">
         <select class="SR-ModSelect" data-target="dicePoolModCalledShots" data-modifier="calledShotSpecificTarget">
             <option class="SR-LightGreyColor" value="">{{localize 'SR5.ChooseOne'}}</option>
-            {{#if (eq targetActorType "actorDrone")}}
+            {{#if (eq target.actorType "actorDrone")}}
                 {{selectOptions lists.calledShotsSpecificDroneTarget selected=calledShotSpecificTarget localize=false sort=true}}
             {{else}}
                 {{selectOptions lists.calledShotsSpecificTarget selected=calledShotSpecificTarget localize=false sort=true}}
