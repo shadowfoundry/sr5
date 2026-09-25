@@ -307,6 +307,12 @@ async function handleDirectSpell(rollData, actorData, chatData){
 }
 
 async function handleBiofeedbackDamage(rollData, actorData, chatData){
+  // SR5 p. 231: characters in AR take no biofeedback damage
+  if (actorData.matrix.userMode === "ar") {
+    ui.notifications.info(`${game.i18n.localize("SR5.INFO_ImmunityToBiofeedback")}`)
+    return
+  }
+
   //Determine title
   rollData.test.title = `${game.i18n.localize("SR5.ResistBiofeedbackDamage")} (${rollData.damage.base})`
 

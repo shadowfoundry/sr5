@@ -1674,6 +1674,7 @@
 	"SR5.INFO_ImmunityToNormalWeapons": "Armure renforcée ({hardenedArmor} [PA:{pa}]) supérieure à la VD modifiée ({damage})",
 	"SR5.INFO_ImmunityToPhysicalSpell": "Les acteur de de type '{type}' sont immunisés aux sort Physique",
 	"SR5.INFO_ImmunityToStunDamage": "Les Drones et vehicules sont immunisés aux dommages étourdissants",
+	"SR5.INFO_ImmunityToBiofeedback": "Les personnages en RA ne subissent pas de dommages de biofeedback",
 	"SR5.INFO_ImmunityToToxin": "Immunisé aux Toxines",
 	"SR5.INFO_IsDisconnected": "est déconnecté",
 	"SR5.INFO_IsLinkLocked": "connexion verrouillée par",
