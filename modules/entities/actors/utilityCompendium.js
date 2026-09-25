@@ -7,6 +7,8 @@ import {
 
 export class SR5_CompendiumUtility extends Actor {
 
+  static _warnedMissingCompendiums = new Set()
+
   //Get compendium to search for Items
   //Return an array of items
   static async getItemCompendium(compendium) {
@@ -17,7 +19,16 @@ export class SR5_CompendiumUtility extends Actor {
     let compendiumName = `sr5-compendiums.${language}_${compendium}`
     const compendiumPack = game.packs.find((p) => p.collection == compendiumName)
     if (!compendiumPack) {
-      SR5_SystemHelpers.srLog(3, `No compendium named '${compendiumName}' found, could not add items to actor`)
+      SR5_SystemHelpers.srLog(1, `No compendium named '${compendiumName}' found, could not add items to actor`)
+      // Tell the GM once per session: without it, actors are created without their base items/powers
+      if (game.user.isGM && !SR5_CompendiumUtility._warnedMissingCompendiums.has(compendiumName)) {
+        SR5_CompendiumUtility._warnedMissingCompendiums.add(compendiumName)
+        ui.notifications.warn(game.i18n.format("SR5.WARN_MissingCompendium", {
+          name: compendiumName
+        }), {
+          permanent: true
+        })
+      }
       return compendiumItems
     } else {
       compendiumItems = await compendiumPack.getDocuments()
@@ -25,12 +36,19 @@ export class SR5_CompendiumUtility extends Actor {
     }
   }
 
+  //Weapons are split in two compendiums (melee and ranged)
+  static async getWeaponCompendiums() {
+    const melee = await SR5_CompendiumUtility.getItemCompendium("weapons-melee")
+    const ranged = await SR5_CompendiumUtility.getItemCompendium("weapons-ranged")
+    return [...melee, ...ranged]
+  }
+
 
   //Get base items
   static async getBaseItems(actorType, actorSubType, actorLevel) {
     let baseItems = []
 
-    let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons")
+    let weapons = await SR5_CompendiumUtility.getWeaponCompendiums()
     let powers = await SR5_CompendiumUtility.getItemCompendium("powers-creatures")
     let spritePowers = await SR5_CompendiumUtility.getItemCompendium("powers-sprites")
 
@@ -167,7 +185,7 @@ export class SR5_CompendiumUtility extends Actor {
 
   //Get a particular item from a particular compendium
   static async getWeaponFromCompendium(weapon, force) {
-    let weapons = await SR5_CompendiumUtility.getItemCompendium("weapons")
+    let weapons = await SR5_CompendiumUtility.getWeaponCompendiums()
     for (let i of weapons) {
       let systemEffects = i.system.systemEffects
       if (systemEffects.length) {
@@ -175,8 +193,8 @@ export class SR5_CompendiumUtility extends Actor {
           if (systemEffect.value === weapon) {
             let iObject = i.toObject(false)
             if (weapon === "corrosiveSpit") {
-              i.system.damageValue.base = force * 2
-              i.system.armorPenetration.base = -force
+              iObject.system.damageValue.base = force * 2
+              iObject.system.armorPenetration.base = -force
             }
             return iObject
           }

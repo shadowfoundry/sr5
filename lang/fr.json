@@ -3617,6 +3617,7 @@
 	"SR5.WARN_InvalidActorType": "Type d'Acteur invalide pour cette action.",
 	"SR5.WARN_MaxReagents": "Vous ne pouvez pas dépenser plus de réactifs que vous n'en possédez ({reagents})",
 	"SR5.WARN_MissingCasing": "Vous devez définir une méthode de rechargement pour cette arme.",
+	"SR5.WARN_MissingCompendium": "Compendium « {name} » introuvable : les objets et pouvoirs de base n'ont pas pu être ajoutés. Activez le module « Shadowrun 5 - Compendiums » dans ce monde.",
 	"SR5.WARN_NoActiveScene": "Pas de scène active !",
 	"SR5.WARN_NotAnAmmunitionType": "Seuls les objets Type de munition peuvent être déposés ici.",
 	"SR5.WARN_NoActor": "Vous devez sélectionner un Acteur !",

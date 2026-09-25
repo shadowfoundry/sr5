@@ -3617,6 +3617,7 @@
 	"SR5.WARN_InvalidActorType": "Invalid Actor Type for this action.",
 	"SR5.WARN_MaxReagents": "You can't spend more reagents than you have ({reagents})",
 	"SR5.WARN_MissingCasing": "You must define a reload method for this weapon.",
+	"SR5.WARN_MissingCompendium": "Compendium '{name}' not found: base items and powers could not be added. Enable the 'Shadowrun 5 - Compendiums' module in this world.",
 	"SR5.WARN_NoActiveScene": "No active scene !",
 	"SR5.WARN_NotAnAmmunitionType": "Only Ammunition Type items can be dropped here.",
 	"SR5.WARN_NoActor": "You must select an Actor first.",
