@@ -40,6 +40,23 @@ export class SR5_ConverterHelpers {
     }
   }
 
+  //Resolve the firing mode code (SS, SA, BF, FA...) to preselect for a ranged weapon.
+  //firingMode.value holds translated abbreviations for display ("CC", "TR", "TA" in French),
+  //and rolls made before this fix saved such an abbreviation in firingMode.current.
+  static firingModeToCode(firingMode, localize = key => game.i18n.localize(key)){
+    const baseModes = {
+      singleShot: "SS", semiAutomatic: "SA", burstFire: "BF", fullyAutomatic: "FA",
+    }
+    const enabled = Object.entries(baseModes).filter(([key]) => firingMode[key]).map(([, code]) => code)
+    const current = firingMode.current
+    if (current && this.firingModeToAction(current)) return current
+    if (current) {
+      const code = enabled.find(c => localize(`SR5.WeaponMode${c}Short`) === current)
+      if (code) return code
+    }
+    return enabled[0]
+  }
+
   //Conver firing mode choice to action type
   static firingModeToAction(mode){
     switch(mode){

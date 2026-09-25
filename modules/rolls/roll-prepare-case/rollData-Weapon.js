@@ -19,6 +19,9 @@ import {
 import {
   SR5_MiscellaneousHelpers 
 } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_ConverterHelpers
+} from "../roll-helpers/converter.js"
 
 //Add info for weapon Roll
 export default async function weapon(rollData, actor, item){
@@ -256,8 +259,7 @@ async function handleTargetInfo(rollData, actor, item){
 
   //Handle ranged weapon current firing mode
   if (itemData.category === "rangedWeapon") {
-    if (itemData.firingMode.current !== "") rollData.combat.firingMode.selected = itemData.firingMode.current
-    else rollData.combat.firingMode.selected = itemData.firingMode.value[0]
+    rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
   }
     
   //Handle shotgun current choke settings
