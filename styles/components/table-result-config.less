@@ -1,0 +1,40 @@
+/* === Table result dialog, and the summary tab of a table === */
+// Core draws the form straight on the window content, so the generic window
+// rule that pads ".standard-form" never reaches it and the fields sit against
+// the frame. The placeholders also come out white on the light surface.
+.application.table-result-config,
+.application.roll-table-sheet {
+
+  .window-content.standard-form {
+    padding: 10px 14px !important;
+    gap: 6px !important;
+  }
+
+  .form-group {
+    padding-bottom: 6px;
+    border-bottom: 1px solid color-mix(in srgb, var(--sr-ui-border-color-idle) 35%, transparent);
+
+    &:has(prose-mirror) {
+      border-bottom: none;
+    }
+
+    > label {
+      font-family: var(--sr-font-title);
+      text-transform: uppercase;
+      font-size: var(--sr-font-size-small);
+      letter-spacing: 0.03em;
+    }
+
+    .hint {
+      flex: 0 0 100%;
+      margin: 2px 0 0;
+      font-style: italic;
+      line-height: 1.35;
+    }
+  }
+
+  input::placeholder {
+    color: var(--input-placeholder-color) !important;
+    opacity: 1;
+  }
+}

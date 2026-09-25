@@ -80,6 +80,16 @@ function placeAfter(root, anchorName, group) {
 export function sr5AddTableFormulaField(app, html) {
   if (html.querySelector(`[name="flags.sr5.${ROLLS_FORMULA}"]`)) return
 
+  // Core gives "draw with replacement" a label and nothing else, and the
+  // label alone does not say which way round the box works.
+  const replacement = html.querySelector(`[name="replacement"]`)?.closest(".form-group")
+  if (replacement && !replacement.querySelector(".hint")) {
+    const hint = document.createElement("p")
+    hint.className = "hint"
+    hint.textContent = game.i18n.localize("SR5.TableReplacementHint")
+    replacement.append(hint)
+  }
+
   placeAfter(html, "formula", formulaGroup({
     name: `flags.sr5.${NUYEN_FORMULA}`,
     value: app.document.getFlag("sr5", NUYEN_FORMULA),

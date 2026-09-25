@@ -3309,6 +3309,7 @@
 	"SR5.TableNuyenNoTarget": "Select at least one player character token to receive the nuyen.",
 	"SR5.TableNuyenPaid": "{amount}¥ paid to {names}.",
 	"SR5.TableNuyenPay": "Hand over",
+	"SR5.TableReplacementHint": "Checked: a drawn result stays in the table and can come up again on the next draw. Unchecked: a drawn result is set aside and will not come up again until \"Reset Results\"; a table emptied this way puts itself back in play when drawn again.",
 	"SR5.TableResultQuantity": "Quantity",
 	"SR5.TableResultQuantityHint": "A formula for how many of this line come up (2d6, 1d3+1). On a line pointing at another table, it is how many times that table is rolled. Blank or 1: just one.",
 	"SR5.TableRollsFormula": "Number of draws",
