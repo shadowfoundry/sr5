@@ -14,6 +14,9 @@ import {
   SR5_CombatHelpers 
 } from "../roll-helpers/combat.js"
 import {
+  isRecoilCarriedOver
+} from "../roll-helpers/recoil.js"
+import {
   SR5_RollMessage 
 } from "../roll-message.js"
 import {
@@ -62,6 +65,12 @@ export default async function weapon(rollData, actor, item){
   //Handle Targets & range
   rollData = await handleTargetInfo(rollData, actor, item)
   if(!rollData) return
+
+  //SR5 p. 178: outside combat there are no action phases, each shot stands alone
+  if (!isRecoilCarriedOver(actor)){
+    rollData.combat.recoil.value += rollData.combat.recoil.cumulative
+    rollData.combat.recoil.cumulative = 0
+  }
 
   //Handle Martial Arts for Called Shots
   rollData = await handleMartialArtsCalledShot(rollData, actor)

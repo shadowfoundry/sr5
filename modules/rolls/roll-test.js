@@ -16,6 +16,9 @@ import {
 } from "../system/srcombat.js"
 import SR5_RollDialog from "./roll-dialog.js"
 import {
+  isRecoilCarriedOver
+} from "./roll-helpers/recoil.js"
+import {
   SR5_ConverterHelpers 
 } from "./roll-helpers/converter.js"
 import {
@@ -132,8 +135,9 @@ export class SR5_RollTest {
 
     // SR5 p. 178: recoil builds up shot after shot until the character spends a simple or complex action on something other than firing
     // SR5 p. 180: single-shot (SS) and suppressive fire (SF) weapons neither build nor suffer progressive recoil
+    // Outside combat there are no action phases to carry recoil over: each shot stands alone
     if (dialogData.combat.ammo.fired > 0){
-      if (dialogData.combat.firingMode.selected !== "SS" && dialogData.combat.firingMode.selected !== "SF"){
+      if (dialogData.combat.firingMode.selected !== "SS" && dialogData.combat.firingMode.selected !== "SF" && isRecoilCarriedOver(actor)){
         let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0
         actualRecoil += dialogData.combat.ammo.fired
         await actor.setFlag("sr5", "cumulativeRecoil", actualRecoil)
