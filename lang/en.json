@@ -3621,6 +3621,7 @@
 	"SR5.WARN_NoActiveScene": "No active scene !",
 	"SR5.WARN_NotAnAmmunitionType": "Only Ammunition Type items can be dropped here.",
 	"SR5.WARN_NoActor": "You must select an Actor first.",
+	"SR5.WARN_RitualLeaderNotFound": "Ritual leader not found: Drain left as Stun, check its type by hand.",
 	"SR5.WARN_NoEquippedWeapon": "No weapon equipped !",
 	"SR5.WARN_NoForce": "You don't have declared Force. Magic is applied by default.",
 	"SR5.WARN_NoLevel": "You don't have declared Level. Resonance is applied by default.",

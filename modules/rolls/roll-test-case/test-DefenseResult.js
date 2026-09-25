@@ -64,8 +64,11 @@ export default async function defenseResultInfo(cardData, type){
       {
         let leader = SR5_EntityHelpers.getRealActorFromID(prevData.owner.actorId)
         let leaderMagic = leader?.system.specialAttributes.magic.augmented.value
-        if (typeof leaderMagic !== "number") SR5_SystemHelpers.srLog(1, `Ritual leader's Magic not found for '${prevData.owner.actorId}': drain left as stun`)
-        else if (prevData.roll.hits > leaderMagic) cardData.magic.drain.type = "physical"
+        if (typeof leaderMagic !== "number") {
+          // Never fall back to stun silently: the GM has to know the type was not computed
+          SR5_SystemHelpers.srLog(1, `Ritual leader's Magic not found for '${prevData.owner.actorId}': drain left as stun`)
+          ui.notifications.warn(game.i18n.localize("SR5.WARN_RitualLeaderNotFound"))
+        } else if (prevData.roll.hits > leaderMagic) cardData.magic.drain.type = "physical"
       }
       if (cardData.magic.reagentsSpent > cardData.magic.force) {
         cardData.magic.drain.modifiers.hits = {

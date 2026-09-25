@@ -118,4 +118,17 @@ describe('ritual sealing - drain type (SR5 p. 299 + errata)', () => {
       leaderHits: 6, leaderMagic: 3, oppositionHits: 4
     })).value).toBe(8)
   })
+
+  it('warns the GM when the leader cannot be found, instead of a silent stun', async () => {
+    const warn = vi.fn()
+    globalThis.ui = {
+      notifications: {
+        warn
+      }
+    }
+    expect((await seal({
+      leaderHits: 6, leaderMagic: undefined, oppositionHits: 2
+    })).type).toBe('stun')
+    expect(warn).toHaveBeenCalledWith('SR5.WARN_RitualLeaderNotFound')
+  })
 })
