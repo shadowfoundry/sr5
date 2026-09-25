@@ -56,6 +56,9 @@ import * as SRVision from "../system/vision.js"
 import {
   SR5CombatTracker
 } from "../interface/srcombat-tracker.js"
+import {
+  SR5ItemDirectory
+} from "../interface/sr-item-directory.js"
 import SR5SceneConfig from "../interface/sceneConfig.js"
 import SR5MeasuredTemplateConfig from "../interface/measuredTemplateConfig.js"
 import * as macros from "../interface/macros.js"
@@ -278,6 +281,7 @@ export async function sr5HookInit() {
   CONFIG.Item.documentClass = SR5Item
   CONFIG.Combat.documentClass = SR5Combat
   CONFIG.ui.combat = SR5CombatTracker
+  CONFIG.ui.items = SR5ItemDirectory
   CONFIG.Token.objectClass = SR5Token
   CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision
 
