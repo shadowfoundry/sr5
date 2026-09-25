@@ -357,22 +357,41 @@ export class SR5_MatrixHelpers {
     ui.notifications.info(`${target.name}${game.i18n.format('SR5.Colons')} ${game.i18n.localize('SR5.MatrixActionDenialOfService')} (${deviceTarget.name})`)
   }
 
-  //create I Am the Firewall Effect
-  static async applyIAmTheFirewallEffect(cardData, speaker, sourceActor){
+  //Allies receiving a matrix support effect: the tokens targeted by the user, or the selected token as a fallback
+  static _getSupportedAllies(speaker){
+    let allies = Array.from(game.user.targets).map(t => t.actor).filter(a => a)
+    if (!allies.length) {
+      let selected = SR5_EntityHelpers.getRealActorFromID(speaker.token)
+      if (selected) allies = [selected]
+    }
+    if (!allies.length) ui.notifications.warn(game.i18n.localize("SR5.WARN_MatrixSupportNoTarget"))
+    return allies
+  }
 
-    let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token)
-    let hits = cardData.roll.hits
+  //Create an effect on an ally, through the GM when the user does not own the ally.
+  //A previous effect of the same kind from the same hacker is replaced, not stacked.
+  static async _createEffectOnAlly(ally, effect){
+    let previous = ally.items.filter(i => i.type === "itemEffect" && i.system.type === effect["system.type"] && i.system.ownerID === effect["system.ownerID"]).map(i => i.id)
+    if (ally.isOwner) {
+      if (previous.length) await ally.deleteEmbeddedDocuments("Item", previous)
+      await ally.createEmbeddedDocuments("Item", [effect])
+    } else await SR5_SocketHandler.emitForGM("createItemEffect", {
+      actorId: ally.uuid, effect: effect, replace: previous,
+    })
+  }
 
-    let effect = {
-      name: `${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (${sourceActor.name})`,
+  //Defense bonus effect shared by the Kill Code support actions (I Am the Firewall, Intervene)
+  static _defenseBonusEffect(name, type, sourceActor, hits, duration, durationType, gameEffect){
+    return {
+      name: `${game.i18n.localize(name)} (${sourceActor.name})`,
       type: "itemEffect",
       "system.target": game.i18n.localize("SR5.Defense"),
-      "system.type": "matrixAction",
+      "system.type": type,
       "system.value": hits,
       "system.ownerID": sourceActor.id,
       "system.ownerName": sourceActor.name,
-      "system.duration": 1,
-      "system.durationType": "round",
+      "system.duration": duration,
+      "system.durationType": durationType,
       "system.customEffects": {
         "0": {
           "category": "defenses",
@@ -382,68 +401,45 @@ export class SR5_MatrixHelpers {
           "forceAdd": true,
         }
       },
-      "system.gameEffect": game.i18n.localize("SR5.MatrixActionIAmTheFirewall_GE"),
+      "system.gameEffect": game.i18n.localize(gameEffect),
     }
-    await actor.createEmbeddedDocuments("Item", [effect])
-    ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (+${hits})`)
-
   }
 
-  //create Intervene Effect
-  static async applyInterveneEffect(cardData, speaker, sourceActor){
-
-    let actor = SR5_EntityHelpers.getRealActorFromID(speaker.token)
+  //create I Am the Firewall Effect (Kill Code p. 43): every ally on the hacker's AR feed, at most Data Processing users,
+  //gets the hits as Defense dice until the hacker's next Initiative Pass
+  static async applyIAmTheFirewallEffect(cardData, speaker, sourceActor){
     let hits = cardData.roll.hits
+    let allies = SR5_MatrixHelpers._getSupportedAllies(speaker)
+    if (!allies.length) return
+    let maxUsers = sourceActor.system.matrix?.attributes?.dataProcessing?.value || 0
+    if (allies.length > maxUsers) return ui.notifications.warn(game.i18n.format("SR5.WARN_IAmTheFirewallTooManyTargets", {
+      actor: sourceActor.name, max: maxUsers, count: allies.length,
+    }))
 
-    let effect = {
-      name: `${game.i18n.format('SR5.MatrixActionIntervene')} (${sourceActor.name})`,            
-      type: "itemEffect",
-      "system.target": game.i18n.localize("SR5.Defense"),
-      "system.type": "matrixAction",
-      "system.value": hits,
-      "system.ownerID": sourceActor.id,
-      "system.ownerName": sourceActor.name,
-      "system.duration": 1,
-      "system.durationType": "action",
-      "system.customEffects": {
-        "0": {
-          "category": "matrixAttributes",
-          "target": "system.matrix.attributes.firewall",
-          "type": "value",
-          "value": hits,
-          "forceAdd": true,
-        },
-        "1": {
-          "category": "matrixAttributes",
-          "target": "system.matrix.attributes.dataProcessing",
-          "type": "value",
-          "value": hits,
-          "forceAdd": true,
-        },
-        "2": {
-          "category": "matrixAttributes",
-          "target": "system.matrix.attributes.sleaze",
-          "type": "value",
-          "value": hits,
-          "forceAdd": true,
-        },
-        "3": {
-          "category": "matrixAttributes",
-          "target": "system.matrix.attributes.attack",
-          "type": "value",
-          "value": hits,
-          "forceAdd": true,
-        }
-      },
-      "system.gameEffect": game.i18n.localize("SR5.MatrixActionIntervene_GE"),
+    let effect = SR5_MatrixHelpers._defenseBonusEffect("SR5.MatrixActionIAmTheFirewall", "iAmTheFirewall", sourceActor, hits, 1, "initiativePass", "SR5.MatrixActionIAmTheFirewall_GE")
+    for (let ally of allies){
+      await SR5_MatrixHelpers._createEffectOnAlly(ally, effect)
+      ui.notifications.info(`${ally.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionIAmTheFirewall')} (+${hits})`)
     }
-    await actor.createEmbeddedDocuments("Item", [effect])
-    ui.notifications.info(`${actor.name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffect', {
+  }
+
+  //create Intervene Effect (Kill Code p. 43-44): the hits are added to the ally's current Defense test only
+  static async applyInterveneEffect(cardData, speaker, sourceActor){
+    let hits = cardData.roll.hits
+    let allies = SR5_MatrixHelpers._getSupportedAllies(speaker)
+    if (!allies.length) return false
+    if (allies.length > 1) {
+      ui.notifications.warn(game.i18n.localize("SR5.WARN_InterveneSingleTarget"))
+      return false
+    }
+
+    let effect = SR5_MatrixHelpers._defenseBonusEffect("SR5.MatrixActionIntervene", "intervene", sourceActor, hits, 1, "action", "SR5.MatrixActionIntervene_GE")
+    await SR5_MatrixHelpers._createEffectOnAlly(allies[0], effect)
+    ui.notifications.info(`${allies[0].name}${game.i18n.format('SR5.Colons')} ${game.i18n.format('SR5.MatrixActionInterveneEffectNotification', {
       hits: hits
     })}`)
-
+    return true
   }
-
   //create popup Effect
   static async applyPopupEffect(cardData, sourceActor, target){
     let netHits = cardData.previousMessage.hits - cardData.roll.hits

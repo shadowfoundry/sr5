@@ -801,6 +801,16 @@ export default class SR5_RollDialog {
             dialogData.combat.firingMode.actionSpent = false
           }
           break
+        case "matrixActionType": {
+          // Kill Code p. 43: I Am the Firewall is a Complex action or an Interruption action (-5 Initiative)
+          let chosen = ev.target.value
+          if (chosen === "interruption" && !SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) chosen = ev.target.value = "complex"
+          dialogData.combat.matrixActionType = chosen
+          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: chosen, value: 1, source: "matrixAction"
+          })
+          return
+        }
         case "defenseMode": {
           if (!SR5_RollDialog.hasInitiativeForInterruption(actor, -SR5_ConverterHelpers.activeDefenseToInitMod(ev.target.value))) ev.target.value = "none"
           value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses)

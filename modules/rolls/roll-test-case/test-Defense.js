@@ -23,6 +23,10 @@ export default async function defenseInfo(cardData, actorId){
   let immunity
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits
 
+  // Kill Code p. 44: the Intervene bonus applies to the current defense test only
+  let interveneEffects = actor.items.filter(i => i.type === "itemEffect" && i.system.type === "intervene").map(i => i.id)
+  if (interveneEffects.length) await actor.deleteEmbeddedDocuments("Item", interveneEffects)
+
   //Special case for injection ammo, need 3 net hits if armor is weared
   const injReq = cardData.combat.ammo.effects?.injectionNetHits || (cardData.combat.ammo.type === "injection" ? 3 : 0)
   if (injReq && actor.system.itemsProperties.armor.value > 0){
