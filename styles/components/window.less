@@ -286,12 +286,13 @@
     }
 
     /* === Content-area buttons === */
-    .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker) {
+    .form-fields button:not(.inline-control):not(.fa-file-import):not(.file-picker):not(document-tags > button) {
       .sr-button-light();
     }
 
-    /* === File picker / browse button === */
+    /* === File picker / browse button, and the add button of a document field === */
     .form-fields button.fa-file-import,
+    .form-fields document-tags > button,
     .form-fields button.file-picker {
       background      : none !important;
       border          : none !important;

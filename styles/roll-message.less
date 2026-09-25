@@ -485,3 +485,50 @@
   width     : 20px;
   text-align: right;
 }
+
+
+// A drawn line that came up more than once says so before its name. Written
+// into the message by core's own result template, from
+// modules/entities/rollTables/entityRollTable.js — no colour of its own, so
+// it reads the same on every surface a chat card lands on.
+// A result line is a `.flexrow`, and core hands every child of one an equal
+// share of the width. Left to itself a three-character count took 117px and
+// pushed its own text out of line with the rows above it, so the badge is
+// told to take only the room it needs.
+.SR-TableQuantity {
+  flex        : 0 0 auto;
+  font-weight : bold;
+  margin-right: 4px;
+  white-space : nowrap;
+}
+
+
+// What a table handed over, and the buttons that hand it on. One row per
+// payment — the gear, the money — under the results of a table draw,
+// inside the card core wrote.
+.SR-TablePayout {
+  margin     : 4px 5px 0 5px;
+  padding-top: 4px;
+
+  .SR-TablePayoutRow {
+    align-items    : center;
+    display        : flex;
+    gap            : 6px;
+    justify-content: space-between;
+
+    & + .SR-TablePayoutRow {
+      margin-top: 4px;
+    }
+  }
+
+  .SR-TablePayoutLabel {
+    flex       : 1 1 auto;
+    font-weight: bold;
+  }
+
+  button {
+    flex       : 0 0 auto;
+    line-height: normal;
+    width      : auto;
+  }
+}

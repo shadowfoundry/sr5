@@ -50,6 +50,9 @@ import {
   SR5Combat, _getInitiativeFormula
 } from "../system/srcombat.js"
 import {
+  SR5RollTable, SR5TableResult
+} from "../entities/rollTables/entityRollTable.js"
+import {
   SR5Token
 } from "../interface/token.js"
 import * as SRVision from "../system/vision.js"
@@ -277,6 +280,8 @@ export async function sr5HookInit() {
   CONFIG.Actor.documentClass = SR5Actor
   CONFIG.Item.documentClass = SR5Item
   CONFIG.Combat.documentClass = SR5Combat
+  CONFIG.RollTable.documentClass = SR5RollTable
+  CONFIG.TableResult.documentClass = SR5TableResult
   CONFIG.ui.combat = SR5CombatTracker
   CONFIG.Token.objectClass = SR5Token
   CONFIG.Canvas.visionModes.astralvision = SRVision.astralVision
