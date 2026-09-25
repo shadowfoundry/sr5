@@ -391,16 +391,18 @@ export class SR5_EntityHelpers {
     }
   }
 
-  //Return the vision type a token should use : the one switched on, or, failing that,
-  //the natural vision the actor owes to its metatype (SR5 p. 68)
+  //Return the vision type a token should use : the one the character has switched on, and
+  //ordinary sight when it has switched none on.
+  //A character owns the vision its metatype gives it, but owning it is not using it : the sheet
+  //offers a 'natural vision' pin, and the environmental modifiers of a vision are applied on
+  //'isActive' only. Falling back on the metatype vision here made that pin impossible to pick,
+  //and left the picture disagreeing with the dice - a dwarf saw a heat picture while its light
+  //modifier stayed at 0.
   static getActiveVisionType(actor){
     const visions = actor?.system?.visions
     if (!visions) return "basic"
     for (const key of Object.keys(SR5.visionActive)) {
       if (visions[key]?.isActive) return key
-    }
-    for (const key of ["thermographic", "lowLight", "ultrasound"]) {
-      if (visions[key]?.natural || visions[key]?.augmented) return key
     }
     return "basic"
   }

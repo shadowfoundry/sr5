@@ -951,12 +951,22 @@ export class SR5_CharacterUtility extends Actor {
     actorData.visions[vision].natural = true
   }
 
+  //Return the metatype of a character. A player character holds it in 'metatype', which is the
+  //field its own sheet writes ; a grunt, and the sidekick built from an item, hold it in
+  //'characterMetatype'. Reading only one of the two leaves the other kind of character without
+  //its metatype, and so without the vision that metatype is owed (SR5 p. 68).
+  static getMetatype(actor) {
+    const biography = actor.system?.biography
+    return biography?.characterMetatype || biography?.metatype || ""
+  }
+
   static applyRacialModifers(actor) {
     let actorData = actor.system
-    if (!actorData.biography.characterMetatype) return
-    let label = `${game.i18n.localize(SR5.metatypes[actorData.biography.characterMetatype])}`
+    const metatype = this.getMetatype(actor)
+    if (!metatype) return
+    let label = `${game.i18n.localize(SR5.metatypes[metatype])}`
 
-    switch (actorData.biography.characterMetatype) {
+    switch (metatype) {
       case "human":
         break
       case "elf":
@@ -1003,7 +1013,7 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       default:
-        SR5_SystemHelpers.srLog(1, `Unknown metatype '${actorData.biography.characterMetatype}' in 'applyRacialModifers()'`)
+        SR5_SystemHelpers.srLog(1, `Unknown metatype '${metatype}' in 'applyRacialModifers()'`)
         return
     }
   }
