@@ -140,8 +140,12 @@ function handlePreviousButtons(cardData) {
 
 async function handleCalledShotResistanceInfo(cardData, actor, actorId){
   cardData.roll.netHits = cardData.previousMessage.hits - cardData.roll.hits
+  // Run & Gun p. 128 : l'effet exige des dommages « après son test de résistance », donc avant la
+  // limite de VD de la localisation. Sinon la limite 0 de la poignée de porte et du moteur de vitre
+  // (p. 129) effacerait toujours leur effet.
+  const damageAfterResistance = cardData.damage.value
 
-  //Handle specific target limit damage if any 
+  //Handle specific target limit damage if any
   // Run & Gun p. 129: door lock and window motor have a DV limit of 0 (the 0 elsewhere means "no limit")
   if (["doorLock", "windowMotor"].includes(cardData.combat.calledShot.location)) cardData.damage.value = 0
   if (cardData.combat.calledShot.limitDV !== 0) {
@@ -217,7 +221,7 @@ async function handleCalledShotResistanceInfo(cardData, actor, actorId){
   // Run & Gun p. 126 et 128 : les effets d'une localisation (personnage ou véhicule) et l'hémorragie
   // de Chair déchiquetée ne s'appliquent que si la cible subit des dommages après sa résistance
   const needsDamage = ['specificTarget', 'upTheAnte', 'shreddedFlesh'].includes(cardData.combat.calledShot.name)
-  if (needsDamage && cardData.damage.value <= 0 && cardData.combat.calledShot.effects.length) {
+  if (needsDamage && damageAfterResistance <= 0 &&cardData.combat.calledShot.effects.length) {
     cardData.combat.calledShot.effects = []
     ui.notifications.info(game.i18n.localize('SR5.INFO_CalledShotEffectsResisted'))
   }
