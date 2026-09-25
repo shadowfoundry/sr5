@@ -964,9 +964,10 @@ export class SR5Actor extends Actor {
     }
   }
 
-  //Reset Cumulative Recoil
-  resetRecoil(){
-    this.setFlag("sr5", "cumulativeRecoil", 0)
+  //Reset Cumulative Recoil (SR5 p. 178)
+  async resetRecoil(){
+    if (!(this.getFlag("sr5", "cumulativeRecoil") > 0)) return
+    await this.setFlag("sr5", "cumulativeRecoil", 0)
     ui.notifications.info(`${this.name}${game.i18n.localize("SR5.Colons")} ${game.i18n.localize("SR5.CumulativeRecoilSetTo0")}.`)
   }
 
