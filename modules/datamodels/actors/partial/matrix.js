@@ -292,7 +292,7 @@ export class matrixPartialModel extends foundry.abstract.TypeDataModel {
         intervene: fullActionSchema('interruption', 'killCode', false, 0, 'dataProcessing'),
         masquerade: fullActionSchema('complex', 'killCode', true, 2, 'sleaze'),
         popupHacking: fullActionSchema('simple', 'killCode', true, 1, 'sleaze'),
-        popupCybercombat: fullActionSchema('simple', 'killCode', true, 1, 'sleaze'),
+        popupCybercombat: fullActionSchema('simple', 'killCode', true, 1, 'attack'),
         squelch: fullActionSchema('simple', 'killCode', true, 0, 'attack'),
         subvertInfrastructure: fullActionSchema('complex', 'killCode', true, 1, 'sleaze'),
         tag: fullActionSchema('simple', 'killCode', false, 0, 'dataProcessing'),
