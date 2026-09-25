@@ -122,6 +122,14 @@ export class itemsPropertiesPartialModel extends foundry.abstract.TypeDataModel 
               ...sr5ModsPartialModel.defineSchema()
             }),
           }),
+          reversal: new fields.SchemaField({
+            isActive: new fields.BooleanField({
+              initial: false
+            }),
+            modifier: new fields.SchemaField({
+              ...sr5ModsPartialModel.defineSchema()
+            }),
+          }),
         }),
       }),
     }
