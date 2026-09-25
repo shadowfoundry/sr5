@@ -81,6 +81,8 @@ export class SR5_MiscellaneousHelpers {
 
   //Add an action to actions array, removing foundry.utils.duplicated source
   static addActions(actions, actionToAdd){
+    //An unknown firing mode converts to no action: never let it into the array, readers expect action.type
+    if (!actionToAdd) return actions
     if (!actions.length) actions.push(actionToAdd)
     else {
       if (actions.find(a => a.source === actionToAdd.source)) {
