@@ -73,7 +73,7 @@ export default async function defenseInfo(cardData, actorId){
 
   //Add fire threshold
   if (cardData.damage.element === "fire") {
-    cardData.threshold.value = cardData.roll.netHit
+    cardData.threshold.value = cardData.roll.netHits
     //If Hardened Armor, check if damage do something
     if (actorData.specialProperties?.hardenedArmors.fire.value > 0) {
       immunity = actorData.specialProperties.hardenedArmors.fire.value + cardData.combat.armorPenetration
