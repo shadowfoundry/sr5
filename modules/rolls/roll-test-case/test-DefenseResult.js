@@ -8,8 +8,11 @@ import {
   SR5_RollTestHelper 
 } from "../roll-test-helper.js"
 import {
-  SR5_EntityHelpers 
+  SR5_EntityHelpers
 } from "../../entities/helpers.js"
+import {
+  SR5_SystemHelpers
+} from "../../system/utilitySystem.js"
 
 export default async function defenseResultInfo(cardData, type){
   let key, label, labelEnd, successTestType = "nonOpposedTest", failedTestType = "SR-CardButtonHit endTest", failedKey = ""
@@ -55,8 +58,15 @@ export default async function defenseResultInfo(cardData, type){
       label = game.i18n.localize("SR5.RitualSuccess")
       labelEnd = game.i18n.localize("SR5.RitualFailed")
       cardData.magic.drain.value = cardData.roll.hits * 2
-      if (prevData.test.realHits > prevData.actorMagic) cardData.magic.drain.type = "physical"
-      else cardData.magic.drain.type = "stun"
+      // SR5 p. 299 (errata: Magic attribute): physical if the leader's hits on the ritual test exceed their Magic.
+      // prevData is the leader's ritual card; its hits are taken after the limit, as for spellcasting (SR5 p. 284)
+      cardData.magic.drain.type = "stun"
+      {
+        let leader = SR5_EntityHelpers.getRealActorFromID(prevData.owner.actorId)
+        let leaderMagic = leader?.system.specialAttributes.magic.augmented.value
+        if (typeof leaderMagic !== "number") SR5_SystemHelpers.srLog(1, `Ritual leader's Magic not found for '${prevData.owner.actorId}': drain left as stun`)
+        else if (prevData.roll.hits > leaderMagic) cardData.magic.drain.type = "physical"
+      }
       if (cardData.magic.reagentsSpent > cardData.magic.force) {
         cardData.magic.drain.modifiers.hits = {
           value: cardData.roll.hits * 2,
