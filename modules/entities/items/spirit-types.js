@@ -162,11 +162,17 @@ export class SR5_SpiritTypes {
     return table
   }
 
-  /** Rebuild the registry and let every open sheet catch up. */
+  /**
+	 * Rebuild the registry and let every open sheet catch up.
+	 *
+	 * Only spirits read the registry while preparing their data, so only they
+	 * are reset: resetting every actor made each edit of a type cost several
+	 * seconds in a large world. Other open sheets are redrawn for their pickers.
+	 */
   static async reload() {
     await SR5_SpiritTypes.refresh()
     for (const actor of game.actors) {
-      actor.reset()
+      if (actor.type === "actorSpirit") actor.reset()
       actor.sheet?.rendered && actor.sheet.render(false)
     }
   }

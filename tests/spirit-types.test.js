@@ -73,6 +73,52 @@ describe('SR5_SpiritTypes', () => {
     expect(Object.keys(SR5.spiritTypes)).toEqual(Object.keys(officialTypes))
   })
 
+  // An empty translation leaves a blank entry, and a stray comma, wherever
+  // a spirit's powers are listed.
+  it('names every spirit power in each language', async () => {
+    const {
+      readFileSync 
+    } = await import('node:fs')
+    for (const lang of ['fr', 'en']) {
+      const strings = JSON.parse(readFileSync(`lang/${lang}.json`, 'utf8'))
+      const blank = Object.values(SR5.AllSpiritPowers).filter(key => strings[key] === "")
+      expect(blank, lang).toEqual([])
+    }
+  })
+
+  describe('reload', () => {
+    it('resets only spirits, and redraws every open sheet', async () => {
+      const saved = {
+        items: game.items, packs: game.packs, actors: game.actors
+      }
+      const made = []
+      const actor = (type, rendered) => {
+        const a = {
+          type, resets: 0, renders: 0
+        }
+        a.reset = () => a.resets++
+        a.sheet = {
+          rendered, render: () => a.renders++
+        }
+        made.push(a)
+        return a
+      }
+      const spirit = actor('actorSpirit', false)
+      const pc = actor('actorPc', true)
+      const grunt = actor('actorGrunt', false)
+      Object.assign(game, {
+        items: [], packs: [], actors: made
+      })
+      try {
+        await SR5_SpiritTypes.reload()
+      } finally {
+        Object.assign(game, saved)
+      }
+      expect([spirit.resets, pc.resets, grunt.resets]).toEqual([1, 0, 0])
+      expect([spirit.renders, pc.renders, grunt.renders]).toEqual([0, 1, 0])
+    })
+  })
+
   describe('baseType', () => {
     it('leaves an official type alone', () => {
       expect(SR5_SpiritTypes.baseType('fire')).toBe('fire')
