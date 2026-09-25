@@ -32,7 +32,7 @@ export default function ramming(rollData, actor){
   rollData.damage.type = "physical"
   rollData.combat.armorPenetration = -6
   rollData.combat.activeDefenses.full = actor.system.specialProperties.fullDefenseValue || 0
-  rollData.combat.activeDefenses.dodge = actor.system.skills?.gymnastics?.rating.value || 0
+  rollData.combat.activeDefenses.dodge = SR5_PrepareRollHelper.getActiveDefenseValue(actor.system, "dodge", "gymnastics")
 
   //Handle Actions
   rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {

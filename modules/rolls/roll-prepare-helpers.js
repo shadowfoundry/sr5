@@ -27,6 +27,22 @@ export class SR5_PrepareRollHelper {
     return dicePoolComposition
   }
 
+  // SR5 p. 191-192: an active defense adds a skill to the standard defense pool. The modifiers carried by
+  // that defense alone (an effect on Dodge only, for instance) go with the skill; those already carried by
+  // the standard defense (penalties, effects on every defense) are not counted twice.
+  static getActiveDefenseValue(actorData, defenseKey, skillKey){
+    let value = actorData.skills?.[skillKey]?.rating.value || 0
+    let defense = actorData.defenses?.[defenseKey]
+    if (!defense) return value
+    let alreadyCounted = (actorData.defenses?.defend?.modifiers || []).map(m => `${m.source}|${m.type}`)
+    for (let m of defense.modifiers){
+      if (m.type === "linkedAttribute" || m.type === "skillRating" || m.type === "skillGroup" || m.type === "controler") continue
+      if (alreadyCounted.includes(`${m.source}|${m.type}`)) continue
+      value += m.value
+    }
+    return value
+  }
+
   //Return dice pool modifiers object;
   static getDicepoolModifiers(rollData, modifiers){
     rollData.dicePool.modifiers = []
