@@ -637,6 +637,34 @@
     input[type="file"] {
       color: var(--sr-text-color-dark);
     }
+
+    /* The generic footer flex-basis: 100% takes the whole column height here
+       and squeezes the file list (.body) down to zero */
+    > footer,
+    > .form-footer {
+      flex: 0 0 auto;
+    }
+
+    /* Picker docked in the sidebar by Filepicker Plus: long labels go above
+       their field instead of wrapping in a thin column, favorites start on the left */
+    &:is(#filepicker-tab *) {
+      .subheader .form-group:not(.current-dir) {
+        flex-wrap: wrap;
+
+        > label {
+          flex: 0 1 auto;
+        }
+
+        > .form-fields,
+        > .split-button {
+          flex: 1 1 8rem;
+        }
+      }
+
+      .subheader .form-group.slim .form-fields {
+        justify-content: flex-start;
+      }
+    }
   }
 
   /* === Cards / Deck sheet === */
