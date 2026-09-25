@@ -56,7 +56,10 @@ export class SR5_CombatHelpers {
     if (!canvas.scene) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActiveScene")}`)
 
     let distanceMod = cardData.roll.hits
-    let gridUnit = canvas.scene.grid.size
+    //Scatter is rolled in meters (SR5 p. 183), so convert meters to pixels with the scene scale
+    //instead of assuming one grid square is one meter.
+    let sceneDistance = canvas.scene.grid.distance || 1
+    let gridUnit = canvas.scene.grid.size / sceneDistance
     
     let template = canvas.scene.templates.find((t) => t.flags.sr5.item === cardData.owner.itemId)
     if (template === undefined) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoTemplateInScene")}`)
