@@ -123,6 +123,46 @@ describe("handleEnvironmentalModifiers", () => {
     })).toBe(-6)
   })
 
+  it("keeps the glare and drops the wind in melee (SR5 p. 188)", () => {
+    const melee = (flags, acteurOptions = {
+    }) =>
+      SR5_CombatHelpers.handleEnvironmentalModifiers(scene(flags), acteur(acteurOptions), true, undefined, true)
+    // "Light" at p. 188 is the "Light / Glare" column of the p. 176 table: blinding glare counts.
+    expect(melee({
+      environModGlare: 3
+    })).toBe(-6)
+    expect(melee({
+      environModWind: 3
+    })).toBe(0)
+    // Dim light in moderate glare stays a single condition in melee too.
+    expect(melee({
+      environModLight: 2, environModGlare: 2
+    })).toBe(-3)
+    // Low-light vision cancels dim light, not the glare.
+    expect(melee({
+      environModLight: 2, environModGlare: 1
+    }, {
+      lowLight: true
+    })).toBe(-1)
+  })
+
+  it("lets low-light vision cancel partial and dim light, not total darkness (SR5 p. 177)", () => {
+    const vn = {
+      acteurOptions: {
+        lowLight: true
+      }
+    }
+    expect(mod({
+      environModLight: 1
+    }, vn)).toBe(0)
+    expect(mod({
+      environModLight: 2
+    }, vn)).toBe(0)
+    expect(mod({
+      environModLight: 3
+    }, vn)).toBe(-6)
+  })
+
   it("never steps up past the extreme row", () => {
     expect(mod({
       environModVisibility: 4, environModWind: 4

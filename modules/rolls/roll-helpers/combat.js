@@ -24,7 +24,7 @@ function sceneFlag(scene, key) {
 export class SR5_CombatHelpers {
 
   //Handle environmental modifiers
-  //noWind: ignore the wind column (perception, melee); melee: SR5 p. 188, only the Light and Visibility columns apply
+  //noWind: ignore the wind column (perception, melee); melee: SR5 p. 188, only the Visibility and Light / Glare columns apply
   static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {
     visibility:0, light:0, glare:0, wind:0
   }, melee = false){
@@ -48,8 +48,9 @@ export class SR5_CombatHelpers {
     // augmentez la categorie du modificateur d'un cran." With light and glare listed apart, one
     // condition was counted twice and dim light in moderate glare came out one row too far.
     let arrayMod = [visibilityMod, lightGlareMod, windMod]
-    if (melee) arrayMod = [visibilityMod, lightMod]
-    else if (noWind) arrayMod = [visibilityMod, lightGlareMod]
+    // SR5 p. 188: melee uses only the Visibility and Light columns of the p. 176 table, whose Light
+    // column is "Light / Glare": melee drops the wind, as noWind does, and keeps the glare.
+    if (melee || noWind) arrayMod = [visibilityMod, lightGlareMod]
     let finalMod = Math.max(...arrayMod)
 
     if (finalMod > 0 && finalMod < 4) {
