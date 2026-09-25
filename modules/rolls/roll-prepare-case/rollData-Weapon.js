@@ -247,13 +247,11 @@ async function handleTargetInfo(rollData, actor, item){
   //Handle Melee specifics
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
-    // Melee range is a number of grid squares. How far away the adjacent square is depends on the scene's
-    // scale, so no fixed distance can stand for "next to me". An adjacent target is always in range, and
-    // each point of Reach (SR5 p. 187) adds one square. rangeInMeters is in meters whatever the scene's unit,
-    // so one square is converted to meters too -- on a 5 ft grid, 5 read as meters would put targets six
-    // squares away in reach.
-    const meleeRange = (itemData.reach.value + 1) * SR5_SystemHelpers.convertSceneUnitsToMeters(canvas?.scene?.grid?.distance ?? 1)
-    if (rollData.target.rangeInMeters > meleeRange) {
+    // Melee range is a number of grid squares: the adjacent one, diagonal included, plus one per point of
+    // Reach (SR5 p. 187). It is counted in squares rather than compared to a distance, which would depend on
+    // the scene's scale and on its diagonal rule. Only a measured distance is checked, as for ranged weapons:
+    // with no target or no token there is nothing to refuse.
+    if (Number.isFinite(rollData.target.rangeInMeters) && !SR5_SystemHelpers.isInMeleeRange(canvas.grid, attacker, target, itemData.reach.value)) {
       ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
       return false
     }

@@ -258,6 +258,31 @@ export class SR5_SystemHelpers {
   }
 
   /**
+   * Tell whether a target stands within melee range: the adjacent square, plus one square per point of Reach
+   * (SR5 p. 187 gives Reach as a number, the book gives no distance, so the square is the convention).
+   *
+   * Counted in squares, not in distance. A distance depends on the scene's diagonal rule: under the "exact"
+   * rule the adjacent diagonal square is 1.41 squares away, under "rectilinear" or "alternating" it is 2, so a
+   * distance bound left a target standing diagonally next to the attacker out of reach. On a square grid the
+   * number of squares between two cells is the larger of the row and column gaps, whatever the rule.
+   * @param grid      The scene's grid (canvas.grid)
+   * @param attacker  The attacker's position {x, y}
+   * @param target    The target's position {x, y}
+   * @param reach     The weapon's Reach
+   * @return {boolean}
+   */
+  static isInMeleeRange(grid, attacker, target, reach){
+    const squares = reach + 1
+    if (grid.isSquare) {
+      const a = grid.getOffset(attacker), b = grid.getOffset(target)
+      return Math.max(Math.abs(a.i - b.i), Math.abs(a.j - b.j)) <= squares
+    }
+    // Hexagonal grids have no diagonal, and a gridless scene has no square: both compare a distance, in the
+    // scene's own unit on both sides.
+    return grid.measurePath([attacker, target]).distance <= squares * grid.distance
+  }
+
+  /**
 	 * Get the position of a template based on the id of the item which has created it
 	 * @param itemId                     The item's id which has created the template
 	 * @return {templatePosition || 0}   The coordinates of the template on the grid scene
