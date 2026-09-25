@@ -57,18 +57,16 @@ export default async function weapon(rollData, actor, item){
   rollData.combat.recoil.cumulative = actor.getFlag("sr5", "cumulativeRecoil") || 0
   rollData.combat.recoil.value = rollData.combat.recoil.compensationActor - rollData.combat.recoil.cumulative
   if (actor.type !== "actorDrone") rollData.combat.recoil.value += rollData.combat.recoil.compensationWeapon
-
-  //Handle ranged weapon current firing mode, with or without a scene
-  if (itemData.category === "rangedWeapon") {
-    rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
-  }
-
+    
   //Handle Targets & range
   rollData = await handleTargetInfo(rollData, actor, item)
   if(!rollData) return
 
   //Handle Martial Arts for Called Shots
   rollData = await handleMartialArtsCalledShot(rollData, actor)
+
+  //Handle ranged weapon current firing mode here too: handleTargetInfo skips it when no scene is viewed
+  if (itemData.category === "rangedWeapon" && !rollData.combat.firingMode.selected) rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
 
   //Handle Toxin
   if (itemData.damageElement === "toxin") rollData.damage.toxin = itemData.toxin
@@ -262,6 +260,11 @@ async function handleTargetInfo(rollData, actor, item){
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect)
   }
 
+  //Handle ranged weapon current firing mode
+  if (itemData.category === "rangedWeapon") {
+    rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
+  }
+    
   //Handle shotgun current choke settings
   if (itemData.type === "shotgun") {
     if (itemData.choke.current !== "") rollData.combat.choke.selected = itemData.choke.current
