@@ -956,7 +956,7 @@ export class SR5_CharacterUtility extends Actor {
   //'characterMetatype'. Reading only one of the two leaves the other kind of character without
   //its metatype, and so without the vision that metatype is owed (SR5 p. 68).
   static getMetatype(actor) {
-    const biography = actor.system?.biography
+    const biography = actor?.system?.biography
     return biography?.characterMetatype || biography?.metatype || ""
   }
 
