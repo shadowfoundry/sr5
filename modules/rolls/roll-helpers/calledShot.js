@@ -894,6 +894,7 @@ export class SR5_CalledShotHelpers {
         switch(ammoType) {
           case "flare":
           case "gyrojet":
+          case "gyrojetTaser":
             return -10
           case "tracer":
             return -6
