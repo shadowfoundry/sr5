@@ -324,7 +324,9 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
         override: item.system.attributes[key]?.override ?? null,
       }))
       const names = (list, table) => (list ?? []).map(k => game.i18n.localize(table[k] ?? k)).join(", ")
-      context.spiritTypeSkillsLabel = names(item.system.skills, SR5.skills)
+      context.spiritTypeSkillsCount = game.i18n.format("SR5.SpiritTypeSkillsCount", {
+        full: item.system.skills?.length ?? 0, half: item.system.halfSkills?.length ?? 0
+      })
       context.spiritTypePowersLabel = names(item.system.powers, SR5.AllSpiritPowers)
       // A key already taken means the type is ignored; the sheet says so.
       context.spiritTypeKeyConflict = SR5_SpiritTypes.conflictFor(item)

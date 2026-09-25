@@ -3157,6 +3157,7 @@
 	"SR5.SpiritTypeRatioFull": "At Force",
 	"SR5.SpiritTypeRatioHalf": "At half Force",
 	"SR5.SpiritTypeSkillsFull": "Skills at Force",
+	"SR5.SpiritTypeSkillsCount": "{full} skills at Force · {half} at half Force",
 	"SR5.SpiritTypeSkillsHalf": "Skills at half Force",
 	"SR5.SpiritTypes": "Spirit Types",
 	"SR5.SpiritTypeShort": "Type",

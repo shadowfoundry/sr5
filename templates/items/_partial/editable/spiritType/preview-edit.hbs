@@ -11,7 +11,7 @@
 </li>
 <li class="grid">
     <div class="col-3">{{localize 'SR5.Skills'}}{{localize 'SR5.Colons'}}</div>
-    <div class="col-9">{{#each spiritTypePreview.skills as |skill|}}{{localize skill.label}} {{skill.value}}{{#unless @last}} · {{/unless}}{{else}}—{{/each}}</div>
+    <div class="col-9">{{#each spiritTypePreview.skillGroups as |group|}}{{localize 'SR5.Rating'}} {{group.value}}{{localize 'SR5.Colons'}} {{#each group.labels as |label|}}{{localize label}}{{#unless @last}}, {{/unless}}{{/each}}{{#unless @last}} — {{/unless}}{{else}}—{{/each}}</div>
 </li>
 <li class="grid">
     <div class="col-3">{{localize 'SR5.Initiative'}}{{localize 'SR5.Colons'}}</div>

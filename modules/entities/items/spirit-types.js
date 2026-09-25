@@ -249,12 +249,30 @@ export class SR5_SpiritTypes {
       force,
       attributes,
       skills,
+      skillGroups: SR5_SpiritTypes.skillGroups(skills),
       powers,
       initiativeDice: data.initiatives?.physicalInit?.dice?.value ?? 0,
       astral: data.initiatives?.astralInit?.value ?? 0,
       astralDice: data.initiatives?.astralInit?.dice?.value ?? 0,
       singleMonitor: !data.conditionMonitors?.physical,
     }
+  }
+
+  /**
+	 * Skills gathered by rating, highest first: they share a handful of
+	 * ratings, so each one is stated once instead of after every skill.
+	 */
+  static skillGroups(skills) {
+    const groups = new Map()
+    for (const {
+      label, value 
+    } of skills) {
+      if (!groups.has(value)) groups.set(value, [])
+      groups.get(value).push(label)
+    }
+    return [...groups].sort((x, y) => y[0] - x[0]).map(([value, labels]) => ({
+      value, labels
+    }))
   }
 
   // -------------------------------------------------------------------------

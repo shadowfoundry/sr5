@@ -86,6 +86,27 @@ describe('SR5_SpiritTypes', () => {
     }
   })
 
+  it('groups skills by rating, highest first, keeping full and half apart', () => {
+    const groups = SR5_SpiritTypes.skillGroups([
+      {
+        label: 'a', value: 2 
+      }, {
+        label: 'b', value: 4 
+      }, {
+        label: 'c', value: 2 
+      }, {
+        label: 'd', value: 4 
+      },
+    ])
+    expect(groups).toEqual([
+      {
+        value: 4, labels: ['b', 'd'] 
+      }, {
+        value: 2, labels: ['a', 'c'] 
+      },
+    ])
+  })
+
   describe('reload', () => {
     it('resets only spirits, and redraws every open sheet', async () => {
       const saved = {
