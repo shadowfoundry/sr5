@@ -19,10 +19,14 @@ export default function fading(rollData, actor, chatData){
   rollData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(rollData, actor.system.matrix.resistances.fading.modifiers)
 
   //Determine fading damage type
-  // SR5 p. 254: threading fading is physical when the hits exceed Resonance,
-  // compiling fading when the sprite Level exceeds Resonance. The compiling fading button
-  // sits on the sprite's resistance card (test.type "compilingResistance"), which carries the Level
-  let comparedValue = chatData.test.type === "compilingResistance" ? chatData.matrix.level : chatData.roll.hits
+  // SR5 p. 254: threading fading is physical when the hits exceed Resonance; compiling,
+  // decompiling or registering a sprite, and killing a complex form, when the sprite or
+  // complex form Level exceeds Resonance. The compiling fading button sits on the sprite's
+  // resistance card (test.type "compilingResistance"), which carries the Level; the other
+  // cards carry it in matrix.fadingLevel
+  let comparedValue = chatData.roll.hits
+  if (chatData.test.type === "compilingResistance") comparedValue = chatData.matrix.level
+  else if (chatData.matrix.fadingLevel !== undefined) comparedValue = chatData.matrix.fadingLevel
   if (comparedValue > actor.system.specialAttributes.resonance.augmented.value) rollData.matrix.fading.type = "physical"
   else rollData.matrix.fading.type = "stun"
 
