@@ -14,14 +14,28 @@ import {
 
 export class SR5_EffectArea {
 
+  /**
+   * Radius, in meters, of the "Jam Signals" matrix action (SR5 p. 239): the acting device turns into an
+   * area jammer and adds its hits to the noise of every matrix action taken by or targeting any device
+   * within a radius of 100 meters. The page says meters, and a radius includes its own boundary, so a
+   * device standing at exactly 100 m is jammed -- hence every comparison below is inclusive.
+   *
+   * This belongs to the ACTION and to nothing else. The physical jammer of SR5 p. 443 is a second rule,
+   * not a variant of this one, and it has no constant radius. It generates noise equal to its Device
+   * Rating, reduced by 1 every 5 meters in a sphere or every 20 meters in a 30-degree cone, so its reach
+   * is derived from its rating rather than fixed: it stops where the noise reaches zero (a rating 6
+   * sphere fades at 30 m, a rating 1 one at 5 m). Do not reuse this constant for it. That page also
+   * leaves walls to the gamemaster's discretion, which is a table call and not something to code.
+   */
+  static JAM_SIGNALS_RADIUS_IN_METERS = 100
+
   //Manage token aura
   static async tokenAura(token){
     const scene = game.scenes.get(token._object.scene.id)
     for (let t of scene.tokens){
       if (t.id !== token.id) {
-        // checkAuraJamming compares this to a bare 100, a system constant with no page behind it. It is
-        // converted like every other threshold on the assumption that it was written in meters; on a scene
-        // that already measures in meters nothing changes either way.
+        // checkAuraJamming compares this to JAM_SIGNALS_RADIUS_IN_METERS, which SR5 p. 239 states in
+        // meters, so the scene's own unit is converted before the comparison.
         let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: token.x, y: token.y
         }, {
@@ -46,7 +60,7 @@ export class SR5_EffectArea {
     //passive token is jamming
     if (passiveJamEffect){
       //check distance
-      if (distance > 100) {
+      if (distance > SR5_EffectArea.JAM_SIGNALS_RADIUS_IN_METERS) {
         if (actorJammedEffect?.system?.ownerID === passiveActor.id){
           if (game.user?.isGM) {
             let jammedActiveEffect = actor.effects.find(i => i.origin === "signalJammed")
@@ -65,7 +79,7 @@ export class SR5_EffectArea {
     //active token is jamming
     if (actorJamEffect){
       //check distance
-      if (distance <= 100) {
+      if (distance <= SR5_EffectArea.JAM_SIGNALS_RADIUS_IN_METERS) {
         if (passiveJammedEffect?.system?.ownerID !== actor.id){
           if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(actor, passiveActor, actorJamEffect.system.value)
         }
@@ -99,14 +113,15 @@ export class SR5_EffectArea {
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
         // canvas.tokens.placeables holds Token objects, whose own x/y are the PIXI position and stay at 0
         // in V13; the grid coordinates live on the document, as tokenAura already reads them above.
-        // Compared to the bare 100 just below -- a system constant, not a rule with a page. Assumed meters.
+        // The result is compared to JAM_SIGNALS_RADIUS_IN_METERS just below, which SR5 p. 239 states in
+        // meters, so the scene's own unit is converted first.
         let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: activeToken.document.x, y: activeToken.document.y
         }, {
           x: token.document.x, y: token.document.y
         })
         let jammedEffect = tokenActor.items.find(i => i.system.type === "signalJammed" && i.system.ownerID === actorId)
-        if (distance < 100 && !jammedEffect){
+        if (distance <= SR5_EffectArea.JAM_SIGNALS_RADIUS_IN_METERS && !jammedEffect){
           if (game.user?.isGM) await SR5_EffectArea.createJammedEffect(activeActor, tokenActor, jamEffect.system.value)
         }
       }
