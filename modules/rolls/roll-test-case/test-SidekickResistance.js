@@ -1,6 +1,9 @@
 import {
   SR5_RollMessage 
 } from "../roll-message.js"
+import {
+  SR5_EntityHelpers
+} from "../../entities/helpers.js"
 
 export default async function sidekickResistanceInfo(cardData, type){
   let originalMessage = game.messages.get(cardData.previousMessage.messageId)
@@ -50,6 +53,8 @@ export default async function sidekickResistanceInfo(cardData, type){
     if (newMessage.matrix.fading.value < 2) newMessage.matrix.fading.value = 2
     newMessage.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${newMessage.matrix.fading.value})`)
   } else if (resistType === "drain"){
+    // Keep the spirit's Force on the card: it decides if the drain is physical (SR5 p. 303-304)
+    newMessage.magic.force = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId)?.system.force.value
     newMessage.magic.drain.value = cardData.roll.hits * 2
     if (newMessage.magic.drain.value < 2) newMessage.magic.drain.value = 2
     newMessage.chatCard.buttons.drain = SR5_RollMessage.generateChatButton("nonOpposedTest", "drain", `${game.i18n.localize("SR5.ResistDrain")} (${newMessage.magic.drain.value})`)
