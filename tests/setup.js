@@ -37,6 +37,10 @@ globalThis.foundry = {
   },
 }
 
+// CONFIG stub: config.js writes CONFIG.statusEffects at import time
+if (!globalThis.CONFIG) globalThis.CONFIG = {
+}
+
 // Canvas stub
 if (!globalThis.canvas) globalThis.canvas = {
   ready: false,
