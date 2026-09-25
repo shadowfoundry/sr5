@@ -3628,6 +3628,7 @@
 	"SR5.WARN_NoReagents": "Vous n'avez plus de réactifs !",
 	"SR5.WARN_NotASpirit": "Vous devez sélectionner un esprit !",
 	"SR5.WARN_NotASprite": "Vous devez sélectionner un sprite !",
+	"SR5.WARN_NotEnoughInitiative": "{actor} n'a pas assez d'initiative ({initiative}) pour une action d'interruption qui en coûte {cost}.",
 	"SR5.WARN_NoTemplateInScene": "Pas de gabarit dans la scène !",
 	"SR5.WARN_NotEnoughAction": "Pas assez d'actions disponibles ! Vous devez posséder au moins {value} action {action}",
 	"SR5.WARN_NotPossibleInCombat": "Impossible en situation de combat.",

@@ -94,6 +94,18 @@ export default class SR5_RollDialog {
     }
   }
 
+  // SR5 p. 170: an interruption action can only be taken if the initiative score is higher than its cost
+  static hasInitiativeForInterruption(actor, cost){
+    if (!game.combat || !(cost > 0)) return true
+    let combatant = SR5Combat.getCombatantFromActor(actor)
+    if (!combatant || combatant.initiative === null || combatant.initiative === undefined) return true
+    if (combatant.initiative > cost) return true
+    ui.notifications.warn(game.i18n.format("SR5.WARN_NotEnoughInitiative", {
+      actor: actor.name, initiative: combatant.initiative, cost: cost
+    }))
+    return false
+  }
+
   calculRecoil(html){
     let firingModeValue,
       dialogData = this.dialogData
@@ -237,6 +249,10 @@ export default class SR5_RollDialog {
         break
       case "fullDefense":
         value = actor.system.specialProperties.fullDefenseValue || 0
+        if (isChecked && !actor.effects.find(e => e.origin === "fullDefense") && !SR5_RollDialog.hasInitiativeForInterruption(actor, 10)) {
+          ev.target.checked = false
+          isChecked = false
+        }
         break
       case "reagents":
         if (isChecked) {
@@ -786,6 +802,7 @@ export default class SR5_RollDialog {
           }
           break
         case "defenseMode": {
+          if (!SR5_RollDialog.hasInitiativeForInterruption(actor, -SR5_ConverterHelpers.activeDefenseToInitMod(ev.target.value))) ev.target.value = "none"
           value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`
           dialogData.combat.activeDefenseSelected = ev.target.value
