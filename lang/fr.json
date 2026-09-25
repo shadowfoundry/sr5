@@ -3622,6 +3622,7 @@
 	"SR5.WARN_NotAnAmmunitionType": "Seuls les objets Type de munition peuvent être déposés ici.",
 	"SR5.WARN_NoActor": "Vous devez sélectionner un Acteur !",
 	"SR5.WARN_RitualLeaderNotFound": "Leader du rituel introuvable : le Drain est laissé étourdissant, vérifiez son type à la main.",
+	"SR5.WARN_RitualLeaderMissing": "Leader du rituel introuvable : la résistance du rituel ne peut pas être lancée.",
 	"SR5.WARN_NoEquippedWeapon": "Aucune arme équipée !",
 	"SR5.WARN_NoForce": "Vous n'avez pas défini de Puissance ! Par défaut Magie est appliquée.",
 	"SR5.WARN_NoLevel": "Vous n'avez pas défini de Niveau ! Par défaut Résonance est appliquée.",

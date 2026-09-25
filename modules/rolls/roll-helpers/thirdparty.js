@@ -27,6 +27,12 @@ export class SR5_ThirdPartyHelpers {
   static async createItemResistance(cardData, messageId) {
     let targetItem
     let actor = SR5_EntityHelpers.getRealActorFromID(cardData.owner.actorId)
+    // The owner may have been deleted since the card was posted: stop here, the roll data needs it
+    if (!actor) {
+      SR5_SystemHelpers.srLog(1, `Resistance owner not found for '${cardData.owner.actorId}': resistance not rolled`)
+      if (cardData.test.type === "ritual") ui.notifications.warn(game.i18n.localize("SR5.WARN_RitualLeaderMissing"))
+      return
+    }
     let rollData = SR5_PrepareRollTest.getBaseRollData(null, actor)
 
     //Transfer basic info from previous message
