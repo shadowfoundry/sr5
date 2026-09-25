@@ -575,7 +575,7 @@ export class SR5_ActorHelper {
         "system.sideKickPrototypeToken": itemData.sideKickPrototypeToken,
         "system.biography.description": itemData.description,
         "system.biography.background": itemData.gameEffect,
-        "system.biography.characterMetatype": itemData.metatype,
+        "system.biography.metatype": itemData.metatype,
         "system.biography.gender": itemData.gender,
         "system.biography.age": itemData.age,
         "system.biography.nickname": itemData.nickname,

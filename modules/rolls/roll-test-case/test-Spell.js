@@ -23,6 +23,8 @@ export default async function spellInfo(cardData){
       if (cardData.test.typeSub === "indirect") {
         actionType = "defenseRangedWeapon"
         label = game.i18n.localize("SR5.Defend")
+        // Defense computes DV from damage.base + net hits (like ranged weapons): DV = Force + net hits, AP = -Force
+        cardData.damage.base = cardData.magic.force
         cardData.damage.value = cardData.magic.force
         cardData.combat.armorPenetration = -cardData.magic.force
         cardData.damage.resistanceType = "physicalDamage"

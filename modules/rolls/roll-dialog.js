@@ -860,6 +860,8 @@ export default class SR5_RollDialog {
             html.querySelector(name).value = actor.system.skills.summoning.spiritType[ev.target.value].dicePool - actor.system.skills.summoning.test.dicePool
             dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[ev.target.value].modifiers)
             dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData)
+            //The base dice pool field feeds updateDicePoolValue back: keep it in step with the recomputed base
+            html.querySelector('[name="baseDicePool"]').value = dialogData.dicePool.base
             dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[ev.target.value].modifiers)
           }
           dialogData.magic.spiritType = ev.target.value
@@ -1154,6 +1156,8 @@ export default class SR5_RollDialog {
           html.querySelector(targetInputName).value = actor.system.skills.summoning.spiritType[selectValue].dicePool - actor.system.skills.summoning.test.dicePool
           dialogData.dicePool.composition = SR5_PrepareRollHelper.getDicepoolComposition(actor.system.skills.summoning.spiritType[selectValue].modifiers)
           dialogData.dicePool.base = SR5_PrepareRollHelper.getBaseDicepool(dialogData)
+          //The base dice pool field feeds updateDicePoolValue back: keep it in step with the recomputed base
+          html.querySelector('[name="baseDicePool"]').value = dialogData.dicePool.base
           dialogData.dicePool.modifiers = SR5_PrepareRollHelper.getDicepoolModifiers(dialogData, actor.system.skills.summoning.spiritType[selectValue].modifiers)
           dialogData.magic.spiritType = selectValue
           this.updateDicePoolValue(html)

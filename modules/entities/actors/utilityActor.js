@@ -915,10 +915,10 @@ export class SR5_CharacterUtility extends Actor {
 
   static applyRacialModifers(actor) {
     let actorData = actor.system
-    if (!actorData.biography.characterMetatype) return
-    let label = `${game.i18n.localize(SR5.metatypes[actorData.biography.characterMetatype])}`
+    if (!actorData.biography.metatype) return
+    let label = `${game.i18n.localize(SR5.metatypes[actorData.biography.metatype])}`
 
-    switch (actorData.biography.characterMetatype) {
+    switch (actorData.biography.metatype) {
       case "human":
         break
       case "elf":
@@ -965,7 +965,7 @@ export class SR5_CharacterUtility extends Actor {
         }
         break
       default:
-        SR5_SystemHelpers.srLog(1, `Unknown metatype '${actorData.biography.characterMetatype}' in 'applyRacialModifers()'`)
+        SR5_SystemHelpers.srLog(1, `Unknown metatype '${actorData.biography.metatype}' in 'applyRacialModifers()'`)
         return
     }
   }
@@ -1438,7 +1438,7 @@ export class SR5_CharacterUtility extends Actor {
           SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.Strength'), "linkedAttribute", attributes.strength.augmented.value)
           SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.SkillRunning'), "skillRating", skills.running.rating.value)
           movements[key].movement.base = attributes.agility.augmented.value * movements[key].multiplier.value
-          if (biography && (biography.characterMetatype === "dwarf" || biography.characterMetatype === "troll"))
+          if (biography && (biography.metatype === "dwarf" || biography.metatype === "troll"))
             movements[key].extraMovement.base = 1
           else {
             if (actor.type == "actorSpirit") {
@@ -1452,7 +1452,7 @@ export class SR5_CharacterUtility extends Actor {
           SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.Strength'), "linkedAttribute", attributes.strength.augmented.value)
           SR5_EntityHelpers.updateModifier(movements[key].test, game.i18n.localize('SR5.SkillSwimming'), "skillRating", skills.swimming.rating.value)
           movements[key].movement.base = Math.ceil((attributes.strength.augmented.value + attributes.agility.augmented.value) / 2)
-          if (biography && (biography.characterMetatype === "elf" || biography.characterMetatype === "troll"))
+          if (biography && (biography.metatype === "elf" || biography.metatype === "troll"))
             movements[key].extraMovement.base = 2
           else {
             if (actor.type == "actorSpirit") {
@@ -1769,6 +1769,9 @@ export class SR5_CharacterUtility extends Actor {
   // Generate Actor defense
   static updateDefenses(actor) {
     let actorData = actor.system, attributes = actorData.attributes, skills = actorData.skills, defenses = actorData.defenses
+
+    // The actor's own reach (troll +1, broken weapon effects) is read by the melee defense roll: total it here.
+    if (actorData.reach) SR5_EntityHelpers.updateValue(actorData.reach)
 
     for (let key of Object.keys(SR5.characterDefenses)) {
       if (defenses[key]) {

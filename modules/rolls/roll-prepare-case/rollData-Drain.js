@@ -24,6 +24,10 @@ export default function drain(rollData, actor, chatData){
     if (chatData.test.type === "summoningResistance" || chatData.test.type === "binding" || chatData.test.type === "banishing"){
       if (chatData.magic.force > actor.system.specialAttributes.magic.augmented.value) rollData.magic.drain.type = "physical"
       else rollData.magic.drain.type = "stun"
+    } else if (chatData.test.type === "ritualResistance") {
+      // SR5 p. 299 (errata): physical if the leader's hits exceed their Magic; computed when the ritual is sealed,
+      // the hits on this card are those of the opposing Force x 2 pool
+      rollData.magic.drain.type = chatData.magic.drain.type || "stun"
     } else {
       if (chatData.roll.hits > actor.system.specialAttributes.magic.augmented.value) rollData.magic.drain.type = "physical"
       else rollData.magic.drain.type = "stun"
