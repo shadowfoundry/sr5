@@ -115,6 +115,19 @@ describe('takeDamage reads computed condition monitor maxima', () => {
     expect(written.every(p => p.endsWith('.actual.base'))).toBe(true)
   })
 
+  // Knocked down when damage exceeds the physical limit (computed, 0 in the source)
+  it('reads the computed physical limit: 6P stands, 7P knocks down', async () => {
+    // Source maxima are right here: only the limit is missing, so nothing else can fail
+    const source = pcData(4, 4)
+    source.limits.physicalLimit.value = 0
+    actor = fakeActor('actorPc', pcData(4, 4), source)
+    await SR5_ActorHelper.takeDamage('a1', hit(6))
+    expect(status).toEqual([])
+    actor = fakeActor('actorPc', pcData(4, 4), source)
+    await SR5_ActorHelper.takeDamage('a1', hit(7))
+    expect(status).toEqual(['prone'])
+  })
+
   it('a grunt (source maximum at 0) survives 3 damage', async () => {
     const data = {
       limits: {
