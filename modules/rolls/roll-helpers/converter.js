@@ -403,7 +403,7 @@ export class SR5_ConverterHelpers {
       case "speedRamming201":
         return Math.ceil((body*3)/2)
       case "speedRamming301":
-        return Math.ceil(body*2,5)
+        return Math.ceil(body*2.5)
       case "speedRamming501":
         return Math.ceil(body*5)
       default:

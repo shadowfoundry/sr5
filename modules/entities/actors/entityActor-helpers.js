@@ -39,11 +39,13 @@ export class SR5_ActorHelper {
     let realActor = SR5_EntityHelpers.getRealActorFromID(actorId)
     let damage = options.damage.value,
       damageType = options.damage.type,
-      actor = foundry.utils.duplicate(realActor),
+      // Read prepared data: monitor maxima, limits and armor are computed, not stored in the source
+      actor = realActor.toObject(false),
       actorData = actor.system,
       gelAmmo = 0,
       damageReduction = 0,
-      realDamage
+      realDamage,
+      isDead = false
 
     if (options.combat.ammo.effects?.gelDamageReduction) gelAmmo = options.combat.ammo.effects.gelDamageReduction
     else if (options.combat.ammo.type === "gel") gelAmmo = -2
@@ -73,21 +75,24 @@ export class SR5_ActorHelper {
         if (realDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${realDamage}${game.i18n.localize(SR5.damageTypesShort[damageType])} ${game.i18n.localize("SR5.Applied")}.`)
 
         if (actorData.conditionMonitors.stun.actual.value > actorData.conditionMonitors.stun.value) {
-          let carriedDamage = actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value
+          // SR5 p. 171: half (rounded down) of the excess stun damage carries over to the physical monitor
+          let carriedDamage = Math.floor((actorData.conditionMonitors.stun.actual.value - actorData.conditionMonitors.stun.value) / 2)
           actorData.conditionMonitors.physical.actual.base += carriedDamage
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0)
           actorData.conditionMonitors.stun.actual.base = actorData.conditionMonitors.stun.value
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.stun.actual, 0)
-          ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`)
+          if (carriedDamage > 0) ui.notifications.info(`${realActor.name}${game.i18n.localize("SR5.Colons")} ${carriedDamage}${game.i18n.localize(SR5.damageTypesShort.physical)} ${game.i18n.localize("SR5.Applied")}.`)
         }
 
-        if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actorData.type === "actorPc") {
+        if ((actorData.conditionMonitors.physical.actual.value > actorData.conditionMonitors.physical.value) && actor.type === "actorPc") {
           let carriedDamage = actorData.conditionMonitors.physical.actual.value - actorData.conditionMonitors.physical.value
           actorData.conditionMonitors.overflow.actual.base += carriedDamage
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0)
           actorData.conditionMonitors.physical.actual.base = actorData.conditionMonitors.physical.value
           SR5_EntityHelpers.updateValue(actorData.conditionMonitors.physical.actual, 0)
+          // SR5 p. 172: the character dies only when the overflow exceeds their Body
           if (actorData.conditionMonitors.overflow.actual.value > actorData.conditionMonitors.overflow.value){
+            isDead = true
             actorData.conditionMonitors.overflow.actual.base = actorData.conditionMonitors.overflow.value
             SR5_EntityHelpers.updateValue(actorData.conditionMonitors.overflow.actual, 0)
           }
@@ -130,16 +135,23 @@ export class SR5_ActorHelper {
         break
     }
 
-    await realActor.update({
-      system: actorData
-    })
+    // Only write the damage taken, so computed values never end up frozen in the source
+    let monitorUpdates = {
+    }
+    for (let [key, monitor] of Object.entries(actorData.conditionMonitors)) {
+      if (monitor?.actual) monitorUpdates[`system.conditionMonitors.${key}.actual.base`] = monitor.actual.base
+    }
+    await realActor.update(monitorUpdates)
 
     //Status
     switch (actor.type){
       case "actorPc":
       case "actorSpirit":
-        if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) await SR5_ActorHelper.createDeadEffect(actorId)
-        else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await SR5_ActorHelper.createKoEffect(actorId)
+        if (actorData.conditionMonitors.physical.actual.value >= actorData.conditionMonitors.physical.value) {
+          // SR5 p. 172: a full physical monitor knocks the character out; death needs an overflow greater than Body
+          if (isDead || actor.type === "actorSpirit") await SR5_ActorHelper.createDeadEffect(actorId)
+          else await SR5_ActorHelper.createKoEffect(actorId)
+        } else if (actorData.conditionMonitors.stun.actual.value >= actorData.conditionMonitors.stun.value) await SR5_ActorHelper.createKoEffect(actorId)
         else if ((damage > (actorData.limits.physicalLimit.value + gelAmmo) || damage >= 10) &&
                   actorData.conditionMonitors.stun.actual.value < actorData.conditionMonitors.stun.value &&
                   actorData.conditionMonitors.physical.actual.value < actorData.conditionMonitors.physical.value) await SR5_ActorHelper.createProneEffect(actorId, damage, gelAmmo)
@@ -220,7 +232,7 @@ export class SR5_ActorHelper {
   static async createDeadEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     for (let e of actor.effects){
-      if (e.statuses === "dead") return
+      if (e.statuses.has("dead")) return
     }
     let effect = await _getSRStatusEffect("dead")
     await actor.createEmbeddedDocuments('ActiveEffect', [effect])
@@ -231,7 +243,7 @@ export class SR5_ActorHelper {
   static async createKoEffect(actorId){
     let actor = SR5_EntityHelpers.getRealActorFromID(actorId)
     for (let e of actor.effects){
-      if (e.statuses === "unconscious") return
+      if (e.statuses.has("unconscious")) return
     }
     let effect = await _getSRStatusEffect("unconscious")
     await actor.createEmbeddedDocuments('ActiveEffect', [effect])
