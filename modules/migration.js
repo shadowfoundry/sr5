@@ -204,6 +204,16 @@ export default class Migration {
         updateData["system.skills.locksmith.limit.base"] = "physicalLimit"
       }
 
+      //Rename legacy biography keys (characterMetatype → metatype)
+      if (actor.system.biography?.characterMetatype) {
+        if (!actor.system.biography.metatype) updateData["system.biography.metatype"] = actor.system.biography.characterMetatype
+        updateData["system.biography.-=characterMetatype"] = null
+      }
+      if (actor.system.biography?.characterMetatypeVariant) {
+        if (!actor.system.biography.metatypeVariant) updateData["system.biography.metatypeVariant"] = actor.system.biography.characterMetatypeVariant
+        updateData["system.biography.-=characterMetatypeVariant"] = null
+      }
+
       //Rename negociation skill to negotiation (French → English)
       if (actor.system.skills?.negociation) {
         updateData["system.skills.negotiation"] = actor.system.skills.negociation
