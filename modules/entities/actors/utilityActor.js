@@ -888,8 +888,11 @@ export class SR5_CharacterUtility extends Actor {
     if (token) tokenData = foundry.utils.duplicate(token)
     if (actorData.visions.astral.isActive) {
       await SR5_EntityHelpers.addEffectToActor(actor, "astralVision")
+      //No early return on the vision mode alone : getVisionData also settles the range, the
+      //colour, the look and the detection modes, so a token whose document already carried
+      //'astralvision' kept a range of 0 and no astral detection mode. An update that changes
+      //nothing costs nothing.
       if (canvas.scene && token) {
-        if (tokenData.sight.visionMode === 'astralvision') return
         tokenData = await SR5_EntityHelpers.getVisionData(tokenData, actor)
         await token.update(tokenData)
       }
