@@ -5,6 +5,9 @@ import {
   SR5_EntityHelpers 
 } from "../../entities/helpers.js"
 import {
+  SR5_SystemHelpers 
+} from "../../system/utilitySystem.js"
+import {
   SR5_ConverterHelpers 
 } from "./converter.js"
 import {
@@ -117,7 +120,9 @@ export class SR5_CombatHelpers {
       distance: distanceRoll.total
     })}`)
         
-    let coordinate = SR5_CombatHelpers.scatterOffset(canvas.grid, directionRoll.total, distanceRoll.total)
+    // The deviation table gives meters (SR5 p. 183); getTranslatedPoint takes the scene's own unit,
+    // so the meters are converted first -- on a scene measured in feet they would otherwise be read as feet.
+    let coordinate = SR5_CombatHelpers.scatterOffset(canvas.grid, directionRoll.total, SR5_SystemHelpers.convertMetersToSceneUnits(distanceRoll.total))
 
     let newPosition = foundry.utils.duplicate(template)
     newPosition.x += coordinate.x

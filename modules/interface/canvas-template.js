@@ -1,3 +1,7 @@
+import {
+  SR5_SystemHelpers
+} from "../system/utilitySystem.js"
+
 export default class SR5Template extends foundry.canvas.placeables.MeasuredTemplate {
   /**
 	* Track the timestamp when the last mouse move event was captured.
@@ -67,14 +71,20 @@ export default class SR5Template extends foundry.canvas.placeables.MeasuredTempl
     const templateShape = "circle"
     if (!templateShape) return null
 
+    // target holds a radius taken from the books, in meters: a blast radius (SR5 p. 184) or an area spell's
+    // radius, equal in meters to its Force (SR5 p. 283). A MeasuredTemplate's distance is expressed in the
+    // scene's own unit, so the radius is converted the other way round here -- without it, a Force 6 area
+    // spell drew a 6 ft circle on a scene measured in feet.
+    target = SR5_SystemHelpers.convertMetersToSceneUnits(target)
+
     //if target is greater than actual map size, recude it
-    //target is a radius in scene units (meters), so the map size is measured in units too,
-    //not in grid squares: a square is not always one meter.
-    const sceneDistance = canvas.scene.grid.distance || 1
-    const mapSizeInUnits = Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size)) * sceneDistance
-    if (target > mapSizeInUnits){
-      target = mapSizeInUnits
-    }
+    // rect.width / dimensions.size is a NUMBER OF SQUARES, while target is a distance in scene units, so the
+    // bound is multiplied by what one square is worth. Compared as they were, a scene 20 squares high capped
+    // every radius at 20 units -- which on a 5 ft grid is 100 ft, not 20, and silently undid the metric
+    // conversion above for any radius over 20.
+    const squares = Math.min((canvas.scene.dimensions.rect.width/canvas.scene.dimensions.size), (canvas.scene.dimensions.rect.height/canvas.scene.dimensions.size))
+    const mapSize = squares * (canvas.scene.grid?.distance ?? 1)
+    if (target > mapSize) target = mapSize
 
     // Prepare template data
     const templateData = {

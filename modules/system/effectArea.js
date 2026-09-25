@@ -19,7 +19,10 @@ export class SR5_EffectArea {
     const scene = game.scenes.get(token._object.scene.id)
     for (let t of scene.tokens){
       if (t.id !== token.id) {
-        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
+        // checkAuraJamming compares this to a bare 100, a system constant with no page behind it. It is
+        // converted like every other threshold on the assumption that it was written in meters; on a scene
+        // that already measures in meters nothing changes either way.
+        let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: token.x, y: token.y
         }, {
           x: t.x, y: t.y
@@ -96,7 +99,8 @@ export class SR5_EffectArea {
         let tokenActor = SR5_EntityHelpers.getRealActorFromID(token.document.id)
         // canvas.tokens.placeables holds Token objects, whose own x/y are the PIXI position and stay at 0
         // in V13; the grid coordinates live on the document, as tokenAura already reads them above.
-        let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
+        // Compared to the bare 100 just below -- a system constant, not a rule with a page. Assumed meters.
+        let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint({
           x: activeToken.document.x, y: activeToken.document.y
         }, {
           x: token.document.x, y: token.document.y
@@ -257,6 +261,8 @@ export class SR5_EffectArea {
 
   //Test if a template contains a given token
   static async checkIfTemplateContainsToken(template, token){
+    // Both sides are in the scene's own unit here -- a MeasuredTemplate's distance is expressed in scene
+    // units, not in meters -- so this one is deliberately NOT converted.
     let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint({
       x: template.x, y: template.y
     }, {

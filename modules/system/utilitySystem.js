@@ -1,4 +1,8 @@
 export class SR5_SystemHelpers {
+
+  // Scene units already reported as unrecognised, so the warning is written once and not on every roll.
+  static _unknownSceneUnits = new Set()
+
   static registerSystemSettings() {
 
     // System Migration Version
@@ -191,6 +195,66 @@ export class SR5_SystemHelpers {
   static getDistanceBetweenTwoPoint(firstDocument, secondDocument){
     const distance = canvas.grid.measurePath([firstDocument, secondDocument])
     return distance.distance
+  }
+
+  /**
+   * How many meters one unit of the current scene's distance measurement is worth.
+   *
+   * SR5 states every range, radius and reach in meters: the weapon range table is headed "RANGE IN METERS"
+   * (SR5 p. 186), a blast loses damage per meter (p. 184) and an area spell covers a radius in meters equal
+   * to its Force (p. 283). A scene's unit, on the other hand, is a display setting the GM picks, and Foundry
+   * ships "ft" as its default. So the scene is read and converted, never constrained.
+   *
+   * grid.units is free text, so only the feet spellings are recognised. Anything else -- yards, kilometers,
+   * a label the GM typed -- is assumed to be meters and left alone, because guessing at an unknown unit
+   * would trade a known wrong answer for an unpredictable one.
+   *
+   * @return {number}   Meters per scene unit (1 when the scene already measures in meters)
+   */
+  static getSceneUnitInMeters(){
+    const units = canvas?.scene?.grid?.units
+    if (typeof units !== "string") return 1
+    const normalized = units.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\.$/, "")
+    if (["ft", "feet", "foot", "'", "pi", "pied", "pieds"].includes(normalized)) return 0.3048
+    if (normalized !== "" && !["m", "meter", "meters", "metre", "metres"].includes(normalized)) {
+      // Leaving an unknown unit alone is the safe choice, but doing it in complete silence would make the
+      // day someone plays in yards indistinguishable from a working scene. One line per unseen unit.
+      if (game?.settings && !SR5_SystemHelpers._unknownSceneUnits.has(normalized)) {
+        SR5_SystemHelpers._unknownSceneUnits.add(normalized)
+        SR5_SystemHelpers.srLog(1, `Scene unit "${units}" is not recognised: distances are taken as meters and left unconverted.`)
+      }
+    }
+    return 1
+  }
+
+  /**
+   * Convert a distance measured on the canvas into the meters the rules are written in
+   * @param value     A distance in the scene's own units
+   * @return {number} The same distance in meters
+   */
+  static convertSceneUnitsToMeters(value){
+    return value * SR5_SystemHelpers.getSceneUnitInMeters()
+  }
+
+  /**
+   * Convert a distance taken from the books into the units the scene draws with
+   * @param value     A distance in meters
+   * @return {number} The same distance in the scene's own units
+   */
+  static convertMetersToSceneUnits(value){
+    return value / SR5_SystemHelpers.getSceneUnitInMeters()
+  }
+
+  /**
+	 * Return the distance between two documents on the canvas, in meters
+	 * @param firstDocument     The first document
+	 * @param secondDocument    The second document
+	 * @return {distance}       The distance between first and second document, in meters, whatever unit the
+	 *                          scene measures in. Use this one, not getDistanceBetweenTwoPoint, whenever the
+	 *                          result is compared to a value taken from the rules.
+	 */
+  static getDistanceInMetersBetweenTwoPoint(firstDocument, secondDocument){
+    return SR5_SystemHelpers.convertSceneUnitsToMeters(SR5_SystemHelpers.getDistanceBetweenTwoPoint(firstDocument, secondDocument))
   }
 
   /**
