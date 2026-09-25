@@ -166,7 +166,8 @@ export class SR5_RollMessage {
       actor = SR5_EntityHelpers.getRealActorFromID(speaker.token)
       if (actor == null) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_NoActor")}`)
     } else if (action === "nonOpposedTest" && messageData) {
-      if (messageData.target.actorId && (messageData.test.typeSub === "banishing" ||
+      // The sprite or spirit handles its own buttons, but the fading is resisted by the technomancer (SR5 p. 254)
+      if (messageData.target.actorId && type !== "fading" && (messageData.test.typeSub === "banishing" ||
               messageData.test.typeSub ==="binding" || messageData.test.typeSub ==="decompileSprite" ||
               messageData.test.typeSub ==="registerSprite")) actor = SR5_EntityHelpers.getRealActorFromID(messageData.target.actorId)
       else actor = SR5_EntityHelpers.getRealActorFromID(messageData.owner.speakerId)
