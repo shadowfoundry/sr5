@@ -241,7 +241,7 @@ async function handleTargetInfo(rollData, actor, item){
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
     if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
-    sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect)
+    sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect, true)
   } else { // Handle weapon ranged based on distance
     if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short"
     else if (rollData.target.rangeInMeters < itemData.range.medium.value) rollData.target.range = "medium"

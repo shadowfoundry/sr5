@@ -14,9 +14,10 @@ import {
 export class SR5_CombatHelpers {
 
   //Handle environmental modifiers
+  //noWind: ignore the wind column (perception, melee); melee: SR5 p. 188, only the Light and Visibility columns apply
   static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {
     visibility:0, light:0, glare:0, wind:0
-  }){
+  }, melee = false){
     let actorData = actor.itemsProperties.environmentalMod
     let visibilityMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + areaEffect.visibility + actorData.visibility.value, 0), 4)
     let lightMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light + actorData.light.value, 0), 4)
@@ -27,7 +28,8 @@ export class SR5_CombatHelpers {
     let windMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + areaEffect.wind + actorData.wind.value, 0), 4)
 
     let arrayMod = [visibilityMod, lightMod, glareMod, windMod]
-    if (noWind) arrayMod = [visibilityMod, lightMod, glareMod]
+    if (melee) arrayMod = [visibilityMod, lightMod]
+    else if (noWind) arrayMod = [visibilityMod, lightMod, glareMod]
     let finalMod = Math.max(...arrayMod)
 
     if (finalMod > 0 && finalMod < 4) {
