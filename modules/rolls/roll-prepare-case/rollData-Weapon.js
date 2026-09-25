@@ -251,11 +251,21 @@ async function handleTargetInfo(rollData, actor, item){
     }
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect)
   } else { // Handle weapon ranged based on distance
-    if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short"
-    else if (rollData.target.rangeInMeters < itemData.range.medium.value) rollData.target.range = "medium"
-    else if (rollData.target.rangeInMeters < itemData.range.long.value) rollData.target.range = "long"
-    else if (rollData.target.rangeInMeters < itemData.range.extreme.value) rollData.target.range = "extreme"
-    else if (rollData.target.rangeInMeters > itemData.range.extreme.value) {
+    // SR5 p. 186: the range bands of the Weapon Ranges table are inclusive of their upper bound (0-5, 6-10,
+    // 11-15, 16-20), so a target exactly at short range is at short range. Comparing with < also left the
+    // distance exactly equal to extreme range in no band at all, and the roll kept the initial "short".
+    if (rollData.target.rangeInMeters <= itemData.range.short.value) rollData.target.range = "short"
+    else if (rollData.target.rangeInMeters <= itemData.range.medium.value) rollData.target.range = "medium"
+    else if (rollData.target.rangeInMeters <= itemData.range.long.value) rollData.target.range = "long"
+    else if (rollData.target.rangeInMeters <= itemData.range.extreme.value) rollData.target.range = "extreme"
+    // Only refuse a distance that was actually measured. A ranged attack does not require a designated
+    // target: suppressive fire (SR5 p. 181) is rolled with no target at all, and an actor with no token on
+    // the scene has no position either. In both cases the point stays 0, measurePath returns NaN, and NaN
+    // compares false against every band above - so without this condition the bare else would refuse the
+    // roll as "target too far", which is wrong twice over: there is no target, and nothing is far. An
+    // unmeasurable distance carries no range modifier, which is short range (+0, SR5 p. 186); the GM
+    // applies a band by hand if the fiction calls for one.
+    else if (Number.isFinite(rollData.target.rangeInMeters)) {
       if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
       ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
       return false
