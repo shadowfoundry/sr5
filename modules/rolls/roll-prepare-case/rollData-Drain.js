@@ -5,7 +5,7 @@ import {
   SR5 
 } from "../../config.js"
 import {
-  getDrainTypeFromCard
+  isSpiritForceDrain
 } from "../roll-helpers/drainType.js"
 
 export default function drain(rollData, actor, chatData){
@@ -24,7 +24,13 @@ export default function drain(rollData, actor, chatData){
   //Determine drain damage type
   if (chatData?.test?.type) {
     // Drain from a previous roll (spellcasting, summoning, binding, banishing)
-    rollData.magic.drain.type = getDrainTypeFromCard(chatData, actor.system.specialAttributes.magic.augmented.value)
+    if (isSpiritForceDrain(chatData)){
+      if (chatData.magic.force > actor.system.specialAttributes.magic.augmented.value) rollData.magic.drain.type = "physical"
+      else rollData.magic.drain.type = "stun"
+    } else {
+      if (chatData.roll.hits > actor.system.specialAttributes.magic.augmented.value) rollData.magic.drain.type = "physical"
+      else rollData.magic.drain.type = "stun"
+    }
     rollData.magic.drain.value = chatData.magic.drain.value
     rollData.previousMessage.hits = chatData.roll.hits
     rollData.previousMessage.messageId = chatData.owner.messageId

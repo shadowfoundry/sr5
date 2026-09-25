@@ -2,39 +2,29 @@ import {
   describe, it, expect
 } from 'vitest'
 import {
-  getDrainTypeFromCard
+  isSpiritForceDrain
 } from '../modules/rolls/roll-helpers/drainType.js'
 
 // A card as the chat keeps it: binding and banishing are skill tests, told apart by typeSub
-const card = (type, typeSub, hits, force) => ({
+const card = (type, typeSub) => ({
   test: {
     type, typeSub
   },
-  roll: {
-    hits
-  },
-  magic: {
-    force
-  },
 })
 
-describe('getDrainTypeFromCard', () => {
-  it('compares the spirit Force, not the hits, to the Magic on binding and banishing cards (SR5 p. 303-304)', () => {
-    // Magic 3, spirit Force 6, 2 hits: the two readings disagree
-    expect(getDrainTypeFromCard(card("skillDicePool", "binding", 2, 6), 3)).toBe("physical")
-    expect(getDrainTypeFromCard(card("skillDicePool", "banishing", 2, 6), 3)).toBe("physical")
-    // Magic 5, spirit Force 3, 6 hits
-    expect(getDrainTypeFromCard(card("skillDicePool", "binding", 6, 3), 5)).toBe("stun")
-    expect(getDrainTypeFromCard(card("skillDicePool", "banishing", 6, 3), 5)).toBe("stun")
+describe('isSpiritForceDrain', () => {
+  it('reads the spirit Force on binding and banishing cards, which are skill tests (SR5 p. 303-304)', () => {
+    expect(isSpiritForceDrain(card("skillDicePool", "binding"))).toBe(true)
+    expect(isSpiritForceDrain(card("skillDicePool", "banishing"))).toBe(true)
   })
 
   it('keeps the spirit Force on summoning', () => {
-    expect(getDrainTypeFromCard(card("summoningResistance", null, 1, 6), 3)).toBe("physical")
-    expect(getDrainTypeFromCard(card("summoningResistance", null, 6, 3), 5)).toBe("stun")
+    expect(isSpiritForceDrain(card("summoningResistance", null))).toBe(true)
   })
 
   it('keeps the hits on every other card', () => {
-    expect(getDrainTypeFromCard(card("spell", null, 6, 3), 5)).toBe("physical")
-    expect(getDrainTypeFromCard(card("skillDicePool", "disenchanting", 2, 6), 3)).toBe("stun")
+    expect(isSpiritForceDrain(card("spell", null))).toBe(false)
+    expect(isSpiritForceDrain(card("skillDicePool", "disenchanting"))).toBe(false)
+    expect(isSpiritForceDrain(card("skillDicePool", "counterspelling"))).toBe(false)
   })
 })
