@@ -141,6 +141,14 @@ export class SR5_CalledShotHelpers {
                 "target": "system.skills.perception.perceptionType.sight.test",
                 "type": "value",
                 "value": -8,
+              },
+              // Run & Gun p. 128: both eyes blinded, -8 dice to every action
+              "1": {
+                "category": "penaltyTypes",
+                "target": "system.penalties.special.actual",
+                "type": "value",
+                "value": -8,
+                "forceAdd": true,
               }
             },
             "system.gameEffect": game.i18n.localize("SR5.STATUSES_Blinded_GE"),
@@ -243,6 +251,14 @@ export class SR5_CalledShotHelpers {
                 "target": "system.skills.perception.perceptionType.hearing.test",
                 "type": "value",
                 "value": -4,
+              },
+              // Run & Gun p. 128: both ears deafened, -4 dice to every action
+              "1": {
+                "category": "penaltyTypes",
+                "target": "system.penalties.special.actual",
+                "type": "value",
+                "value": -4,
+                "forceAdd": true,
               }
             },
             "system.gameEffect": game.i18n.localize("SR5.STATUSES_Deafened_GE"),
@@ -292,6 +308,29 @@ export class SR5_CalledShotHelpers {
           itemEffects.push(effect)
         }
         break
+      case "disarm": // Run & Gun p. 126: weapon kept, penalty equal to the net hits on the next action phase
+        if (!hasEffect){
+          effect = foundry.utils.mergeObject(effect, {
+            "system.target": game.i18n.localize("SR5.Penalty"),
+            "system.value": effecType.value || -1,
+            "system.duration": 1,
+            "system.durationType": "action",
+            "system.customEffects": {
+              "0": {
+                "category": "penaltyTypes",
+                "target": "system.penalties.special.actual",
+                "type": "value",
+                "value": effecType.value || -1,
+                "forceAdd": true,
+              }
+            },
+            "system.gameEffect": game.i18n.format("SR5.DisarmWeaponPenalty", {
+              value: -(effecType.value || -1) 
+            }),
+          })
+          itemEffects.push(effect)
+        }
+        break
       case "entanglement": //done
         if (!hasEffect){
           effect = foundry.utils.mergeObject(effect, {
@@ -312,8 +351,9 @@ export class SR5_CalledShotHelpers {
           itemEffects.push(effect)
         }
         break
-      case "feint":  //done
-        if (!hasEffect){
+      case "feint":  //done. Run & Gun p. 126: only the last feint counts, a new one replaces the previous
+        if (hasEffect) await actor.deleteEmbeddedDocuments("Item", [hasEffect.id])
+        {
           effect = foundry.utils.mergeObject(effect, {
             "system.target": game.i18n.localize("SR5.Penalty"),
             "system.value": -info.roll.netHits,
@@ -401,12 +441,13 @@ export class SR5_CalledShotHelpers {
         await SR5_ActorHelper.createProneEffect(actor.id, 0, 0, duration, "knockdown")
         break
       case "oneArmBandit": //Partially done: can't apply an effect based on arm usage
+        // Run & Gun p. 128: the arm is unusable for (DV) combat turns, then -6 dice until healed: the effect stays until removed
         if (!hasEffect){
           effect = foundry.utils.mergeObject(effect, {
             "system.target": game.i18n.localize("SR5.Penalty"),
             "system.value": -6,
             "system.duration": effecType.initialDV,
-            "system.durationType": "round",
+            "system.durationType": "special",
             "system.gameEffect": game.i18n.localize("SR5.STATUSES_OneArmBandit_GE"),
           })
           itemEffects.push(effect)

@@ -2287,6 +2287,7 @@
 	"SR5.No": "No",
 	"SR5.NoDamage": "No Damage !",
 	"SR5.NoDisarm": "Disarm failed",
+	"SR5.DisarmWeaponPenalty": "{value} dice penalty to use the weapon on their next action phase",
 	"SR5.NoDrain": "No Drain !",
 	"SR5.NoEffectApplicable": "No effect applicable",
 	"SR5.NoFading": "No Fading !",

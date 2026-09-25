@@ -141,7 +141,17 @@ async function handleCalledShotDefenseInfo(cardData, actorData){
       break
     case "disarm":
       if ((cardData.roll.netHits + attacker.system.attributes.strength.augmented.value) > actorData.limits.physicalLimit.value) cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.Disarm"))
-      else cardData.chatCard.buttons.actionEnd = SR5_RollMessage.generateChatButton("SR-CardButtonHit endTest","",game.i18n.localize("SR5.NoDisarm"))
+      else {
+        // Run & Gun p. 126: the weapon stays in hand, but its user takes a penalty equal to the net hits on their next action phase
+        cardData.combat.calledShot.effects = {
+          "0": {
+            "name": "disarm", "value": -cardData.roll.netHits
+          }
+        }
+        cardData.chatCard.buttons.calledShotEffect = SR5_RollMessage.generateChatButton("nonOpposedTest", "calledShotEffect",`${game.i18n.localize("SR5.NoDisarm")} : ${game.i18n.format("SR5.DisarmWeaponPenalty", {
+          value: cardData.roll.netHits
+        })}`)
+      }
       break
     case "knockdown":
       if ((cardData.roll.netHits + attacker.system.attributes.strength.augmented.value) > actorData.limits.physicalLimit.value) {
