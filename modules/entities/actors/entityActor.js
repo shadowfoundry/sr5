@@ -816,6 +816,7 @@ export class SR5Actor extends Actor {
           break
         case "itemSpell":
           iData.casterMagic = actorData.specialAttributes.magic.augmented.value
+          SR5_UtilityItem._handleSpellRange(iData, iData.casterMagic)
           break
         case "itemSpirit":
           if (iData.isBounded){

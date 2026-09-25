@@ -1368,6 +1368,25 @@ export class SR5_UtilityItem extends Actor {
 
   ////////////////// SORTS ////////////////////
 
+  //Spell area and detection range (SR5 p. 287): Force × caster's Magic metres, × 10 when extended.
+  //Called from the actor's second pass on items, once the caster's Magic is computed:
+  //in the first pass, magic.augmented.value is still 0.
+  static _handleSpellRange(itemData, magic) {
+    itemData.spellAreaOfEffect.base = 0
+    itemData.spellAreaOfEffect.modifiers = []
+    if (itemData.range === "area" || itemData.category === "detection"){
+      SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellForce'), "spell", parseInt(itemData.force || 0), false, true)
+    }
+    //Range for detection spell
+    if (itemData.category === "detection") {
+      SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellRangeShort'), "spell", magic, true, true)
+      if (itemData.spellAreaExtended === true) {
+        SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.ExtendedRange'), "spell", 10, true, true)
+      }
+    }
+    SR5_EntityHelpers.updateValue(itemData.spellAreaOfEffect, 0)
+  }
+
   //Handle spell
   static _handleSpell(item, actor) {
     let itemData = item.system
@@ -1386,19 +1405,7 @@ export class SR5_UtilityItem extends Actor {
       }
     }
 
-    //Handle range
-    itemData.spellAreaOfEffect.base = 0
-    if (itemData.range === "area" || itemData.category === "detection"){
-      SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellForce'), "spell", parseInt(itemData.force || 0), false, true)
-    }
-    //Range for detection spell
-    if (itemData.category === "detection") {
-      SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.SpellRangeShort'), "spell", actor.system.specialAttributes.magic.augmented.value, true, true)
-      if (itemData.spellAreaExtended === true) {
-        SR5_EntityHelpers.updateModifier(itemData.spellAreaOfEffect, game.i18n.localize('SR5.ExtendedRange'), "spell", 10, true, true)
-      } 
-    }
-    SR5_EntityHelpers.updateValue(itemData.spellAreaOfEffect, 0)
+    //Handle range: computed in the actor's second pass, see _handleSpellRange
 
     //Modified drain value
     itemData.drainValue.base = 0
