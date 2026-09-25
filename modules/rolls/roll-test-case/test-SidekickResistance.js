@@ -44,6 +44,8 @@ export default async function sidekickResistanceInfo(cardData, type){
 
   //Manage Drain or Fading
   if (resistType === "fading"){
+    // SR5 p. 254: the fading is physical when the sprite Level exceeds the technomancer's Resonance
+    newMessage.matrix.fadingLevel = cardData.matrix.spriteLevel
     newMessage.matrix.fading.value = cardData.roll.hits * 2
     if (newMessage.matrix.fading.value < 2) newMessage.matrix.fading.value = 2
     newMessage.chatCard.buttons.fadingResistance = SR5_RollMessage.generateChatButton("nonOpposedTest", "fading", `${game.i18n.localize("SR5.ResistFading")} (${newMessage.matrix.fading.value})`)

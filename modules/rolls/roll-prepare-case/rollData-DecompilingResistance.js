@@ -23,6 +23,7 @@ export default function decompilingResistance(rollData, actor, chatData){
 
   //Add others informations
   rollData.test.type = "decompilingResistance"
+  rollData.matrix.spriteLevel = actor.system.level
   rollData.previousMessage.actorId = chatData.owner.actorId
   rollData.previousMessage.hits = chatData.roll.hits
   rollData.previousMessage.messageId = chatData.owner.messageId
