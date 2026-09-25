@@ -52,8 +52,9 @@ export default async function weapon(rollData, actor, item){
   rollData.combat.recoil.compensationActor = actorData.recoilCompensation.value
   rollData.combat.recoil.compensationWeapon = itemData.recoilCompensation.value
   rollData.combat.recoil.cumulative = actor.getFlag("sr5", "cumulativeRecoil") || 0
-  rollData.combat.recoil.value = rollData.combat.recoil.compensationActor - rollData.combat.recoil.cumulative
-  if (actor.type !== "actorDrone") rollData.combat.recoil.value += rollData.combat.recoil.compensationWeapon
+  // SR5 p. 179: a mounted weapon gets the vehicle's Body as compensation on top of the weapon's own (updateRecoil sets
+  // the drone's compensation to its Body); the dialog (calculRecoil) already adds both, keep the stored value consistent
+  rollData.combat.recoil.value = rollData.combat.recoil.compensationActor + rollData.combat.recoil.compensationWeapon - rollData.combat.recoil.cumulative
     
   //Handle Targets & range
   rollData = await handleTargetInfo(rollData, actor, item)
