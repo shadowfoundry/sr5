@@ -259,6 +259,19 @@ export class SR5_SpiritTypes {
   }
 
   /**
+	 * How many skills a spirit of the previewed type has at its Force and at
+	 * half its Force, inherited ones included.
+	 */
+  static skillCounts(preview) {
+    const skills = preview?.skills ?? []
+    const force = preview?.force ?? 0
+    return {
+      full: skills.filter(s => s.value === force).length,
+      half: skills.filter(s => s.value === Math.ceil(force / 2)).length,
+    }
+  }
+
+  /**
 	 * Skills gathered by rating, highest first: they share a handful of
 	 * ratings, so each one is stated once instead of after every skill.
 	 */

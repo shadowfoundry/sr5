@@ -324,15 +324,15 @@ export class SR5ItemSheet extends foundry.applications.api.HandlebarsApplication
         override: item.system.attributes[key]?.override ?? null,
       }))
       const names = (list, table) => (list ?? []).map(k => game.i18n.localize(table[k] ?? k)).join(", ")
-      context.spiritTypeSkillsCount = game.i18n.format("SR5.SpiritTypeSkillsCount", {
-        full: item.system.skills?.length ?? 0, half: item.system.halfSkills?.length ?? 0
-      })
       context.spiritTypePowersLabel = names(item.system.powers, SR5.AllSpiritPowers)
       // A key already taken means the type is ignored; the sheet says so.
       context.spiritTypeKeyConflict = SR5_SpiritTypes.conflictFor(item)
       // What a spirit built on this type would actually have.
       context.spiritTypePreview = SR5_SpiritTypes.preview(item, SR5ItemSheet.SPIRIT_PREVIEW_FORCE)
       context.spiritTypePreviewForce = SR5ItemSheet.SPIRIT_PREVIEW_FORCE
+      // Counted on the preview, so that inherited skills are included.
+      context.spiritTypeSkillsCount = game.i18n.format("SR5.SpiritTypeSkillsCount",
+        SR5_SpiritTypes.skillCounts(context.spiritTypePreview))
     }
 
     // Weapon focus: populate weapon choices from parent actor

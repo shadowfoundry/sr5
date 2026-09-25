@@ -107,6 +107,29 @@ describe('SR5_SpiritTypes', () => {
     ])
   })
 
+  it('counts the skills a spirit gets, inherited ones included', () => {
+    // One skill added by the type, two inherited from its base type.
+    const preview = {
+      force: 5,
+      skills: [{
+        label: 'added', value: 5 
+      }, {
+        label: 'inherited', value: 5 
+      },
+      {
+        label: 'half', value: 3 
+      }, {
+        label: 'other', value: 1 
+      }],
+    }
+    expect(SR5_SpiritTypes.skillCounts(preview)).toEqual({
+      full: 2, half: 1 
+    })
+    expect(SR5_SpiritTypes.skillCounts(null)).toEqual({
+      full: 0, half: 0 
+    })
+  })
+
   describe('reload', () => {
     it('resets only spirits, and redraws every open sheet', async () => {
       const saved = {
