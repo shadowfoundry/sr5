@@ -20,7 +20,8 @@
 
     &.open .key {
       background-color: transparent;
-      color: var(--sr-ui-color);
+      /* An empty slot stays discreet, but its number has to stay readable */
+      color: var(--sr-text-color-grey);
     }
 
     &.sr-macro-active {
@@ -34,8 +35,8 @@
       right: 3px;
       font-size: 12px;
       line-height: 1;
-      color: var(--sr-ui-color);
-      opacity: 0.5;
+      color: var(--sr-text-color-grey-dark);
+      opacity: 0.6;
 
       &.active {
         color: var(--sr-ui-color-active);

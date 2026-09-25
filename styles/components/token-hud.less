@@ -1,6 +1,17 @@
 /* === Token HUD === */
 #token-hud {
+  /* Posed over the map, which can be bright: keep a near-white icon and a dark
+     halo, the way Foundry's own placeable HUD does. */
+  --control-icon-color: var(--sr-text-color-grey-dark);
+  --control-hover-icon-color: var(--sr-ui-color-active);
+  --control-active-icon-color: var(--sr-ui-color-active);
+
   button {
-    color: var(--sr-ui-color);
+    color: var(--sr-text-color-grey-dark);
+    text-shadow: 0 0 3px var(--sr-text-color-dark);
+
+    &:hover {
+      color: var(--sr-ui-color-active);
+    }
   }
 }
