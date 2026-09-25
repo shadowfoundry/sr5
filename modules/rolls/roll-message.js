@@ -277,8 +277,15 @@ export class SR5_RollMessage {
         actor.rollTest("skillDicePool", "perception", messageData)
         break
       case "calledShotEffect":
-        if (messageData.combat.calledShot.name === "trickShot") await originalActionActor.applyCalledShotsEffect(messageData)
-        else await actor.applyCalledShotsEffect(messageData)
+        try {
+          if (messageData.combat.calledShot.name === "trickShot") await originalActionActor.applyCalledShotsEffect(messageData)
+          else await actor.applyCalledShotsEffect(messageData)
+        } catch (error) {
+          // Keep the button: a failure must never be shown as "Effect applied"
+          console.error(error)
+          ui.notifications.error(game.i18n.localize("SR5.ERROR_CalledShotEffectNotApplied"))
+          break
+        }
         SR5_RollMessage.updateChatButtonHelper(messageId, type)
         break
       case "applyFearEffect":

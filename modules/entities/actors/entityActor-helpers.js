@@ -1369,8 +1369,11 @@ export class SR5_ActorHelper {
 
       if (!actor.effects.find(e => e.origin === key.name)){
         status = await _getSRStatusEffect(key.name)
-        statusEffects = statusEffects.concat(status)
-        ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.label} ${game.i18n.localize("SR5.Applied")}.`)
+        // A called shot without a token status still gets its item effect (and its penalty)
+        if (status) {
+          statusEffects = statusEffects.concat(status)
+          ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.name} ${game.i18n.localize("SR5.Applied")}.`)
+        }
       }
     }
 	
@@ -1378,7 +1381,7 @@ export class SR5_ActorHelper {
       if (!actor.effects.find(e => e.origin === "weakSide") && (!statusEffects.find(s => s.origin === "weakSide")) ){
         status = await _getSRStatusEffect("weakSide")
         statusEffects = statusEffects.concat(status)
-        ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.label} ${game.i18n.localize("SR5.Applied")}.`)
+        ui.notifications.info(`${actor.name}${game.i18n.localize("SR5.Colons")} ${status.name} ${game.i18n.localize("SR5.Applied")}.`)
       }
     }
 

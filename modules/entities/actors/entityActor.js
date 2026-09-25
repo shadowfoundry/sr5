@@ -1008,7 +1008,8 @@ export class SR5Actor extends Actor {
   //Apply specific called shots effect
   async applyCalledShotsEffect(data){
     let actorId = (this.isToken ? this.token.id : this.id)
-    SR5_ActorHelper.applyCalledShotsEffect(actorId, data)
+    // Awaited: the chat card must not say "Effect applied" before the effect exists
+    return await SR5_ActorHelper.applyCalledShotsEffect(actorId, data)
   }
 
 }

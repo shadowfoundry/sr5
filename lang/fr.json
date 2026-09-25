@@ -981,6 +981,7 @@
 	"SR5.Edit": "Modifier",
 	"SR5.EditResult": "Modifier le nombre de succès obtenus",
 	"SR5.EffectApplied": "Effet appliqué",
+	"SR5.ERROR_CalledShotEffectNotApplied": "L'effet de l'attaque ciblée n'a pas pu être appliqué (voir la console).",
 	"SR5.EffectIncreaseFirewall": "Augmentation de Firewall",
 	"SR5.EffectIncreaseFirewallDone": "Firewall augmenté de {hits}",
 	"SR5.EffectLinkLockedConnection": "Connexion verrouillée",

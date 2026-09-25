@@ -586,6 +586,18 @@ export const _getSRStatusEffect = async function(origin, value) {
         },
         statuses: ["feint"]
       }
+    case "disarm": // Run & Gun p. 126: failed disarm, penalty to use the weapon on the next action phase
+      return {
+        name: game.i18n.localize('SR5.NoDisarm'),
+        origin: "disarm",
+        icon: "systems/sr5/assets/img/status/StatusBrokenGripOn.svg",
+        flags: {
+          core: {
+            active: true
+          }
+        },
+        statuses: ["disarm"]
+      }
     default: return null
   }
 }
