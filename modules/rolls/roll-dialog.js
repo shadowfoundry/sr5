@@ -94,22 +94,36 @@ export default class SR5_RollDialog {
     }
   }
 
+  // SR5 p. 170: an interruption action can only be taken if the initiative score is higher than its cost
+  static hasInitiativeForInterruption(actor, cost){
+    if (!game.combat || !(cost > 0)) return true
+    let combatant = SR5Combat.getCombatantFromActor(actor)
+    if (!combatant || combatant.initiative === null || combatant.initiative === undefined) return true
+    if (combatant.initiative > cost) return true
+    ui.notifications.warn(game.i18n.format("SR5.WARN_NotEnoughInitiative", {
+      actor: actor.name, initiative: combatant.initiative, cost: cost
+    }))
+    return false
+  }
+
   calculRecoil(html){
     let firingModeValue,
       dialogData = this.dialogData
 
-    if (dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"){
-      firingModeValue = 0
-      html.querySelectorAll(".hideBulletsRecoil").forEach(el => el.style.display = 'none')
-    } else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
+    // SR5 p. 180: single-shot (SS) and suppressive fire (SF) weapons neither build nor suffer progressive recoil
+    let noRecoil = dialogData.combat.firingMode.selected === "SS" || dialogData.combat.firingMode.selected === "SF"
+    let cumulativeRecoil = noRecoil ? 0 : dialogData.combat.recoil.cumulative
+    if (noRecoil) firingModeValue = 0
+    else firingModeValue = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
+    html.querySelectorAll(".hideBulletsRecoil").forEach(el => el.style.display = noRecoil ? 'none' : '')
 
     dialogData.combat.ammo.fired = SR5_ConverterHelpers.firingModeToBullet(dialogData.combat.firingMode.selected)
     html.querySelector('[name="recoilBullets"]').value = firingModeValue
-    html.querySelector('[name="recoilCumulative"]').value = dialogData.combat.recoil.cumulative
+    html.querySelector('[name="recoilCumulative"]').value = cumulativeRecoil
     if (dialogData.combat.recoil.compensationWeapon < 1) html.querySelectorAll(".hideWeaponRecoil").forEach(el => el.style.display = 'none')
-    if (dialogData.combat.recoil.cumulative < 1) html.querySelectorAll(".hideCumulativeRecoil").forEach(el => el.style.display = 'none')
+    html.querySelectorAll(".hideCumulativeRecoil").forEach(el => el.style.display = cumulativeRecoil < 1 ? 'none' : '')
 
-    let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + dialogData.combat.recoil.cumulative)
+    let modifiedRecoil = (dialogData.combat.recoil.compensationActor + dialogData.combat.recoil.compensationWeapon) - (firingModeValue + cumulativeRecoil)
     if (modifiedRecoil > 0) modifiedRecoil = 0
     return modifiedRecoil || 0
   }
@@ -235,6 +249,10 @@ export default class SR5_RollDialog {
         break
       case "fullDefense":
         value = actor.system.specialProperties.fullDefenseValue || 0
+        if (isChecked && !actor.effects.find(e => e.origin === "fullDefense") && !SR5_RollDialog.hasInitiativeForInterruption(actor, 10)) {
+          ev.target.checked = false
+          isChecked = false
+        }
         break
       case "reagents":
         if (isChecked) {
@@ -648,7 +666,7 @@ export default class SR5_RollDialog {
       actor = SR5_EntityHelpers.getRealActorFromID(dialogData.owner.actorId),
       label = game.i18n.localize(SR5.dicePoolModTypes[modifierName]),
       position = this.dialog.position,
-      chokeLimitModify, chokeLimitModified, weapon
+      chokeLimitModify, chokeLimitModified, weapon, changeCost
 
     position.height = "auto"
 
@@ -763,7 +781,8 @@ export default class SR5_RollDialog {
           label = game.i18n.localize(SR5.dicePoolModTypes[modifierName])
           //actions
           weapon = await fromUuid(dialogData.owner.itemUuid)
-          if (weapon.system.firingMode.current !== dialogData.combat.firingMode.selected && !dialogData.combat.firingMode.actionSpent){
+          changeCost = SR5_ConverterHelpers.firingModeChangeCost(weapon.system.firingMode, dialogData.combat.firingMode.selected, dialogData.combat.firingMode.actionSpent)
+          if (changeCost > 0){
             action = [{
               type: "simple", value: 1, source: "changeFiringMode"
             }]
@@ -772,7 +791,7 @@ export default class SR5_RollDialog {
             }]
             SR5Combat.changeActionInCombat(dialogData.owner.actorId, action)
             dialogData.combat.firingMode.actionSpent = true
-          } else if (weapon.system.firingMode.current === dialogData.combat.firingMode.selected && dialogData.combat.firingMode.actionSpent){
+          } else if (changeCost < 0){
             action = [{
               type: "simple", value: -1, source: "changeFiringMode"
             }]
@@ -783,11 +802,29 @@ export default class SR5_RollDialog {
             dialogData.combat.firingMode.actionSpent = false
           }
           break
-        case "defenseMode":
+        case "matrixActionType": {
+          // Kill Code p. 43: I Am the Firewall is a Complex action or an Interruption action (-5 Initiative)
+          let chosen = ev.target.value
+          if (chosen === "interruption" && !SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) chosen = ev.target.value = "complex"
+          dialogData.combat.matrixActionType = chosen
+          dialogData.combat.actions = SR5_MiscellaneousHelpers.addActions(dialogData.combat.actions, {
+            type: chosen, value: 1, source: "matrixAction"
+          })
+          return
+        }
+        case "defenseMode": {
+          if (!SR5_RollDialog.hasInitiativeForInterruption(actor, -SR5_ConverterHelpers.activeDefenseToInitMod(ev.target.value))) ev.target.value = "none"
           value = SR5_ConverterHelpers.activeDefenseToMod(ev.target.value, dialogData.combat.activeDefenses)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.characterDefenses[ev.target.value])})`
           dialogData.combat.activeDefenseSelected = ev.target.value
+          // SR5 p. 191-192: dodge, block and parry use a skill, so the Physical limit applies to the defense test
+          let usesSkill = ["dodge", "block", "parryClubs", "parryBlades"].includes(ev.target.value)
+          dialogData.limit.base = usesSkill ? (dialogData.combat.activeDefenses.limit || 0) : 0
+          dialogData.limit.type = usesSkill ? "physicalLimit" : ""
+          let limitRow = html.querySelector('#activeDefenseLimit')
+          if (limitRow) limitRow.style.display = usesSkill ? '' : 'none'
           break
+        }
         case "cover":
           value = SR5_ConverterHelpers.coverToMod(ev.target.value)
           label = `${game.i18n.localize(SR5.dicePoolModTypes[modifierName])} (${game.i18n.localize(SR5.coverTypes[ev.target.value])})`

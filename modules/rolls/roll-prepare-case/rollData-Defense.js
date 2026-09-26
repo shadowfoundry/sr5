@@ -33,10 +33,12 @@ export default async function defense(rollData, actor, chatData){
   rollData.test.typeSub = chatData.test.typeSub
   rollData.dialogSwitch.cover = true
   rollData.combat.activeDefenses.full = actorData.specialProperties.fullDefenseValue || 0
-  rollData.combat.activeDefenses.dodge = actorData.skills?.gymnastics?.rating.value || 0
-  rollData.combat.activeDefenses.block = actorData.skills?.unarmedCombat?.rating.value || 0
-  rollData.combat.activeDefenses.parryClubs = actorData.skills?.clubs?.rating.value || 0
-  rollData.combat.activeDefenses.parryBlades = actorData.skills?.blades?.rating.value || 0
+  rollData.combat.activeDefenses.dodge = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "dodge", "gymnastics")
+  rollData.combat.activeDefenses.block = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "block", "unarmedCombat")
+  rollData.combat.activeDefenses.parryClubs = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "parryClubs", "clubs")
+  rollData.combat.activeDefenses.parryBlades = SR5_PrepareRollHelper.getActiveDefenseValue(actorData, "parryBlades", "blades")
+  // SR5 p. 191-192: dodge, block and parry add a skill, so the Physical limit applies to them
+  rollData.combat.activeDefenses.limit = actorData.limits?.physicalLimit?.value || 0
 
   //Transfering data from chatCard
   rollData.previousMessage.hits = chatData.roll.hits
@@ -139,12 +141,12 @@ async function handleMeleeWeaponModifiers(rollData, actor, chatData){
   }
     
   //Add environmental modifiers
-  let environmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true)
+  let environmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, undefined, true)
   if (environmentalMod !== 0){
     rollData.dicePool.modifiers.push({
       type: "environmentalSceneMod", 
       label: game.i18n.localize("SR5.EnvironmentalModifiers"),
-      value: SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true),
+      value: SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, undefined, true),
     })
   }
 

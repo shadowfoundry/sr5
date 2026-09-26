@@ -16,6 +16,9 @@ import {
 } from "../system/srcombat.js"
 import SR5_RollDialog from "./roll-dialog.js"
 import {
+  isRecoilCarriedOver
+} from "./roll-helpers/recoil.js"
+import {
   SR5_ConverterHelpers 
 } from "./roll-helpers/converter.js"
 import {
@@ -130,11 +133,16 @@ export class SR5_RollTest {
     //Add dice pool modifiers
     dialogData = await SR5_RollTestHelper.handleDicePoolModifiers(dialogData)
 
-    if (dialogData.combat.ammo.fired > 0 && dialogData.combat.firingMode.selected !== "SF"){
-      let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0
-      actualRecoil += dialogData.combat.ammo.fired
-      actor.setFlag("sr5", "cumulativeRecoil", actualRecoil)
-    }
+    // SR5 p. 178: recoil builds up shot after shot until the character spends a simple or complex action on something other than firing
+    // SR5 p. 180: single-shot (SS) and suppressive fire (SF) weapons neither build nor suffer progressive recoil
+    // Outside combat there are no action phases to carry recoil over: each shot stands alone
+    if (dialogData.combat.ammo.fired > 0){
+      if (dialogData.combat.firingMode.selected !== "SS" && dialogData.combat.firingMode.selected !== "SF" && isRecoilCarriedOver(actor)){
+        let actualRecoil = actor.getFlag("sr5", "cumulativeRecoil") || 0
+        actualRecoil += dialogData.combat.ammo.fired
+        await actor.setFlag("sr5", "cumulativeRecoil", actualRecoil)
+      }
+    } else if (dialogData.combat.actions.some(a => a.type === "simple" || a.type === "complex")) await actor.resetRecoil()
 
     // Roll dices
     if (edge) {
@@ -351,8 +359,11 @@ export class SR5_RollTest {
       edgeRoll: true,
     })
 
+    // SR5 p. 58: pushing the limit ignores the test limit, so start from the unlimited hits of the original roll
+    let originalHits = messageData.roll.realHits ?? messageData.roll.hits
     let newMessage = foundry.utils.duplicate(messageData)
-    newMessage.roll.hits = messageData.roll.hits + newRoll.hits
+    newMessage.roll.hits = originalHits + newRoll.hits
+    newMessage.roll.realHits = originalHits + newRoll.realHits
     newMessage.roll.dices = messageData.roll.dices.concat(newRoll.dices)
     newMessage.edge.hasUsedPushTheLimit = true
     newMessage.edge.canUseEdge = false

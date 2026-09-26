@@ -7,6 +7,7 @@ import {
 import {
   SR5_MiscellaneousHelpers 
 } from "../roll-helpers/miscellaneous.js"
+import SR5_RollDialog from "../roll-dialog.js"
 
 export default async function matrixAction(rollData, rollKey, actor){
   let matrixAction = actor.system.matrix.actions[rollKey]
@@ -42,11 +43,23 @@ export default async function matrixAction(rollData, rollKey, actor){
     type: matrixAction.actionType, value: 1, source: "matrixAction"
   })
 
+  // Kill Code p. 43-44: an Interruption action costs 5 Initiative. I Am the Firewall can also be taken as a Complex action
+  // (chosen in the dialog, Complex by default on the hacker's own turn); Intervene is always an Interruption.
+  if (matrixAction.actionType === "interruption") {
+    if (rollKey === "iAmTheFirewall") {
+      let isActorTurn = game.combat?.combatant?.actor?.uuid === actor.uuid
+      rollData.combat.matrixActionType = (isActorTurn || !SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) ? "complex" : "interruption"
+      rollData.combat.actions = SR5_MiscellaneousHelpers.addActions(rollData.combat.actions, {
+        type: rollData.combat.matrixActionType, value: 1, source: "matrixAction"
+      })
+    } else if (!SR5_RollDialog.hasInitiativeForInterruption(actor, 5)) return
+  }
+
   //Add public grid switch
   if (actor.system.matrix.userGrid === "public") rollData.dialogSwitch.publicGrid = true
     
-  //Check target's Marks before rolling if a target is selected.
-  if (game.user.targets.size) {
+  //Check target's Marks before rolling if a target is selected (the support actions target allies, not Matrix icons)
+  if (game.user.targets.size && rollKey !== "iAmTheFirewall" && rollKey !== "intervene") {
     let canContinue = await checkTargetMarks(rollData, matrixAction, actor)
     if (!canContinue) return
   }

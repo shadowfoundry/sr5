@@ -14,11 +14,17 @@ import {
   SR5_CombatHelpers 
 } from "../roll-helpers/combat.js"
 import {
+  isRecoilCarriedOver
+} from "../roll-helpers/recoil.js"
+import {
   SR5_RollMessage 
 } from "../roll-message.js"
 import {
   SR5_MiscellaneousHelpers 
 } from "../roll-helpers/miscellaneous.js"
+import {
+  SR5_ConverterHelpers
+} from "../roll-helpers/converter.js"
 
 //Add info for weapon Roll
 export default async function weapon(rollData, actor, item){
@@ -52,15 +58,25 @@ export default async function weapon(rollData, actor, item){
   rollData.combat.recoil.compensationActor = actorData.recoilCompensation.value
   rollData.combat.recoil.compensationWeapon = itemData.recoilCompensation.value
   rollData.combat.recoil.cumulative = actor.getFlag("sr5", "cumulativeRecoil") || 0
-  rollData.combat.recoil.value = rollData.combat.recoil.compensationActor - rollData.combat.recoil.cumulative
-  if (actor.type !== "actorDrone") rollData.combat.recoil.value += rollData.combat.recoil.compensationWeapon
+  // SR5 p. 179: a mounted weapon gets the vehicle's Body as compensation on top of the weapon's own (updateRecoil sets
+  // the drone's compensation to its Body); the dialog (calculRecoil) already adds both, keep the stored value consistent
+  rollData.combat.recoil.value = rollData.combat.recoil.compensationActor + rollData.combat.recoil.compensationWeapon - rollData.combat.recoil.cumulative
     
   //Handle Targets & range
   rollData = await handleTargetInfo(rollData, actor, item)
   if(!rollData) return
 
+  //SR5 p. 178: outside combat there are no action phases, each shot stands alone
+  if (!isRecoilCarriedOver(actor)){
+    rollData.combat.recoil.value += rollData.combat.recoil.cumulative
+    rollData.combat.recoil.cumulative = 0
+  }
+
   //Handle Martial Arts for Called Shots
   rollData = await handleMartialArtsCalledShot(rollData, actor)
+
+  //Handle ranged weapon current firing mode here too: handleTargetInfo skips it when no scene is viewed
+  if (itemData.category === "rangedWeapon" && !rollData.combat.firingMode.selected) rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
 
   //Handle Toxin
   if (itemData.damageElement === "toxin") rollData.damage.toxin = itemData.toxin
@@ -241,7 +257,7 @@ async function handleTargetInfo(rollData, actor, item){
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
     if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
-    sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect)
+    sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect, true)
   } else { // Handle weapon ranged based on distance
     if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short"
     else if (rollData.target.rangeInMeters < itemData.range.medium.value) rollData.target.range = "medium"
@@ -256,8 +272,7 @@ async function handleTargetInfo(rollData, actor, item){
 
   //Handle ranged weapon current firing mode
   if (itemData.category === "rangedWeapon") {
-    if (itemData.firingMode.current !== "") rollData.combat.firingMode.selected = itemData.firingMode.current
-    else rollData.combat.firingMode.selected = itemData.firingMode.value[0]
+    rollData.combat.firingMode.selected = SR5_ConverterHelpers.firingModeToCode(itemData.firingMode)
   }
     
   //Handle shotgun current choke settings

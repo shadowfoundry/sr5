@@ -11,21 +11,46 @@ import {
   _getSRStatusEffect 
 } from "../../system/effectsList.js"
 
+// A scene whose SR5 tab has never been opened carries none of the four environmental flags, and
+// getFlag then returns undefined. parseInt(undefined) is NaN, one NaN carries through Math.max and
+// Math.min, finalMod > 0 turns false so the "equally severe" step-up never runs, and
+// environmentalLineToMod falls on its default and returns 0: the whole computation is lost without a
+// single error. An unwritten flag is no condition, which is 0.
+function sceneFlag(scene, key) {
+  const raw = parseInt(scene.getFlag("sr5", key))
+  return Number.isNaN(raw) ? 0 : raw
+}
+
 export class SR5_CombatHelpers {
 
   //Handle environmental modifiers
+  //noWind: ignore the wind column (perception, melee); melee: SR5 p. 188, only the Visibility and Light / Glare columns apply
   static handleEnvironmentalModifiers(scene, actor, noWind, areaEffect = {
     visibility:0, light:0, glare:0, wind:0
-  }){
+  }, melee = false){
     let actorData = actor.itemsProperties.environmentalMod
-    let visibilityMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModVisibility")) + areaEffect.visibility + actorData.visibility.value, 0), 4)
-    let lightMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light + actorData.light.value, 0), 4)
-    if (actor.visions.lowLight.isActive && (parseInt(scene.getFlag("sr5", "environModLight")) + areaEffect.light > 2)) lightMod = 0
-    let glareMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModGlare")) + areaEffect.glare + actorData.glare.value, 0), 4)
-    let windMod = Math.min(Math.max(parseInt(scene.getFlag("sr5", "environModWind")) + areaEffect.wind + actorData.wind.value, 0), 4)
+    let visibilityMod = Math.min(Math.max(sceneFlag(scene, "environModVisibility") + areaEffect.visibility + actorData.visibility.value, 0), 4)
+    let lightMod = Math.min(Math.max(sceneFlag(scene, "environModLight") + areaEffect.light + actorData.light.value, 0), 4)
+    // SR5 p. 177: low-light vision treats partial light (1) and dim light (2) as full light; it does nothing in total darkness (3)
+    let sceneLight = sceneFlag(scene, "environModLight") + areaEffect.light
+    if (actor.visions.lowLight.isActive && sceneLight > 0 && sceneLight <= 2) lightMod = 0
+    let glareMod = Math.min(Math.max(sceneFlag(scene, "environModGlare") + areaEffect.glare + actorData.glare.value, 0), 4)
+    let windMod = Math.min(Math.max(sceneFlag(scene, "environModWind") + areaEffect.wind + actorData.wind.value, 0), 4)
 
-    let arrayMod = [visibilityMod, lightMod, glareMod, windMod]
-    if (noWind) arrayMod = [visibilityMod, lightMod, glareMod]
+    // SR5 p. 176: Light and Glare are a single column of the Environmental Modifiers table,
+    // "LUMIERE / EBLOUISSEMENT", with one row per degree (partial light / weak glare, dim light /
+    // moderate glare, total darkness / blinding glare). The scene keeps them as two flags, so the
+    // worst of the two is that column's value.
+    let lightGlareMod = Math.max(lightMod, glareMod)
+
+    // Only then can the "equally severe" rule be applied, since it counts conditions and not flags:
+    // "Si plusieurs modificateurs environnementaux sont aussi severes les uns que les autres,
+    // augmentez la categorie du modificateur d'un cran." With light and glare listed apart, one
+    // condition was counted twice and dim light in moderate glare came out one row too far.
+    let arrayMod = [visibilityMod, lightGlareMod, windMod]
+    // SR5 p. 188: melee uses only the Visibility and Light columns of the p. 176 table, whose Light
+    // column is "Light / Glare": melee drops the wind, as noWind does, and keeps the glare.
+    if (melee || noWind) arrayMod = [visibilityMod, lightGlareMod]
     let finalMod = Math.max(...arrayMod)
 
     if (finalMod > 0 && finalMod < 4) {

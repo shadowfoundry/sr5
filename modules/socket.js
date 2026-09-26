@@ -43,6 +43,7 @@ export class SR5_SocketHandler {
       "deleteSustainedEffect": [SR5_ActorHelper._socketDeleteSustainedEffect],
       "deleteItem": [SR5_MiscellaneousHelpers._socketDeleteItem],
       "updateItem": [SR5_MiscellaneousHelpers._socketUpdateItem],
+      "createItemEffect": [SR5_MiscellaneousHelpers._socketCreateItemEffect],
       "updateChatButton": [SR5_RollMessage._socketUpdateChatButton],
       "updateRollCard": [SR5_RollMessage._socketUpdateRollCard],
       "heal": [SR5_ActorHelper._socketHeal],

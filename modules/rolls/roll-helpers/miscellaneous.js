@@ -54,6 +54,14 @@ export class SR5_MiscellaneousHelpers {
     })
   }
 
+  //Socket for creating an effect on an actor the player does not own (matrix support actions)
+  static async _socketCreateItemEffect(message){
+    let actor = await fromUuid(message.data.actorId)
+    if (!actor) return
+    if (message.data.replace?.length) await actor.deleteEmbeddedDocuments("Item", message.data.replace)
+    await actor.createEmbeddedDocuments("Item", [message.data.effect])
+  }
+
   //Socket for deleting an item
   static async _socketDeleteItem(message){
     let item = await fromUuid(message.data.item)
@@ -73,6 +81,8 @@ export class SR5_MiscellaneousHelpers {
 
   //Add an action to actions array, removing foundry.utils.duplicated source
   static addActions(actions, actionToAdd){
+    //An unknown firing mode converts to no action: never let it into the array, readers expect action.type
+    if (!actionToAdd) return actions
     if (!actions.length) actions.push(actionToAdd)
     else {
       if (actions.find(a => a.source === actionToAdd.source)) {
