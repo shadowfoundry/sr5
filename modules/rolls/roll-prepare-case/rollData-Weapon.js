@@ -200,7 +200,10 @@ async function handleTargetInfo(rollData, actor, item){
   //Handle Targets
   if (game.user.targets.size) {
     //For now, only allow one target for attack;
-    if (game.user.targets.size > 1) return ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`)
+    if (game.user.targets.size > 1) {
+      ui.notifications.warn(`${game.i18n.localize("SR5.WARN_TargetTooMany")}`)
+      return false
+    }
 
     //Get target actor
     let targetActor = await SR5_PrepareRollHelper.getTargetedActor()
@@ -217,16 +220,18 @@ async function handleTargetInfo(rollData, actor, item){
     const targeted = game.user.targets
     const targets = Array.from(targeted)
     for (let t of targets) {
+      // game.user.targets holds Token placeables, whose own x/y are the PIXI position and stay at 0 in V13.
+      // The grid coordinates live on the document, as they do for the attacker in getActorCanvasPosition.
       target = {
-        x: t.x,
-        y: t.y,
+        x: t.document.x,
+        y: t.document.y,
       }
     }
   }
 
   //Add specific data for grenade & missile
   if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") {
-    target = SR5_SystemHelpers.getTemplateItemPosition(item.id)
+    target = await SR5_SystemHelpers.getTemplateItemPosition(item.id)
     rollData.test.typeSub = "grenade"
     rollData.chatCard.templateRemove = true
     rollData.combat.grenade.isGrenade = true
@@ -235,21 +240,48 @@ async function handleTargetInfo(rollData, actor, item){
   }
 
   //Calcul distance between Attacker and Target
-  rollData.target.rangeInMeters = await SR5_SystemHelpers.getDistanceBetweenTwoPoint(attacker, target)
+  // The field is named rangeInMeters and it is compared to the weapon's range table, which is headed
+  // "RANGE IN METERS" (SR5 p. 186). The canvas measures in the scene's own unit, so it is converted here.
+  rollData.target.rangeInMeters = await SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(attacker, target)
 
   //Handle Melee specifics
   if (itemData.category === "meleeWeapon") {
     rollData.combat.reach = itemData.reach.value
-    if (rollData.target.rangeInMeters > (itemData.reach.value + 1,41)) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+    // Melee range is a number of grid spaces: the adjacent one, diagonal included, plus one per point of
+    // Reach (SR5 p. 187). It is counted between the spaces both tokens cover rather than compared to a
+    // distance, which would depend on the scene's scale, its diagonal rule and the tokens' sizes. Only a
+    // measured distance is checked, as for ranged weapons: with no target or no token there is nothing to
+    // refuse. A gridless scene has no space to count, so it falls back to (Reach + 1) grid units.
+    const attackerDocument = actor.token ?? canvas.scene.tokens.find(t => t.actorId === actor.id)
+    const targetDocument = Array.from(game.user.targets).at(-1)?.document
+    let inReach = SR5_SystemHelpers.isInMeleeRange(canvas.grid, attackerDocument?.getOccupiedGridSpaceOffsets(), targetDocument?.getOccupiedGridSpaceOffsets(), itemData.reach.value)
+    if (inReach === null) inReach = rollData.target.rangeInMeters <= (itemData.reach.value + 1) * SR5_SystemHelpers.convertSceneUnitsToMeters(canvas.scene.grid.distance)
+    if (Number.isFinite(rollData.target.rangeInMeters) && !inReach) {
+      ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+      return false
+    }
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, true, areaEffect)
   } else { // Handle weapon ranged based on distance
-    if (rollData.target.rangeInMeters < itemData.range.short.value) rollData.target.range = "short"
-    else if (rollData.target.rangeInMeters < itemData.range.medium.value) rollData.target.range = "medium"
-    else if (rollData.target.rangeInMeters < itemData.range.long.value) rollData.target.range = "long"
-    else if (rollData.target.rangeInMeters < itemData.range.extreme.value) rollData.target.range = "extreme"
-    else if (rollData.target.rangeInMeters > itemData.range.extreme.value) {
-      if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.id)
-      return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+    // SR5 p. 186: the range bands of the Weapon Ranges table are inclusive of their upper bound (0-5, 6-10,
+    // 11-15, 16-20), so a target exactly at short range is at short range. Comparing with < also left the
+    // distance exactly equal to extreme range in no band at all, and the roll kept the initial "short".
+    if (rollData.target.rangeInMeters <= itemData.range.short.value) rollData.target.range = "short"
+    else if (rollData.target.rangeInMeters <= itemData.range.medium.value) rollData.target.range = "medium"
+    else if (rollData.target.rangeInMeters <= itemData.range.long.value) rollData.target.range = "long"
+    else if (rollData.target.rangeInMeters <= itemData.range.extreme.value) rollData.target.range = "extreme"
+    // Only refuse a distance that was actually measured. A ranged attack does not require a designated
+    // target: suppressive fire (SR5 p. 181) is rolled with no target at all, and an actor with no token on
+    // the scene has no position either. In both cases the point stays 0, measurePath returns NaN, and NaN
+    // compares false against every band above - so without this condition the bare else would refuse the
+    // roll as "target too far", which is wrong twice over: there is no target, and nothing is far. An
+    // unmeasurable distance carries no range modifier, which is short range (+0, SR5 p. 186); the GM
+    // applies a band by hand if the fiction calls for one.
+    else if (Number.isFinite(rollData.target.rangeInMeters)) {
+      // removeTemplate matches on flags.sr5.itemUuid, which AbilityTemplate.fromItem fills from
+      // item.uuid; flags.sr5.item holds the id and is what getTemplateItemPosition looks up.
+      if (itemData.category === "grenade"|| itemData.type === "grenadeLauncher" || itemData.type === "missileLauncher") SR5_RollMessage.removeTemplate(null, item.uuid)
+      ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+      return false
     }
     sceneEnvironmentalMod = SR5_CombatHelpers.handleEnvironmentalModifiers(game.scenes.active, actor.system, false, areaEffect)
   }

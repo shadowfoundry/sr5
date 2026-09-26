@@ -412,13 +412,13 @@ export default class SR5_RollDialog {
           break
         }
         case "defenseProneClose":
-          if (isProned && dialogData.target.rangeInMeters <= 5){
+          if (isProned && SR5_MiscellaneousHelpers.proneDefenseRange(dialogData.target.rangeInMeters) === "close"){
             html.querySelector(checkboxName).checked = true
             value = -2
           }
           break
         case "defenseProneFar":
-          if (isProned && dialogData.target.rangeInMeters >= 20){
+          if (isProned && SR5_MiscellaneousHelpers.proneDefenseRange(dialogData.target.rangeInMeters) === "far"){
             html.querySelector(checkboxName).checked = true
             value = 4
           }

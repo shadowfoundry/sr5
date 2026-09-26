@@ -80,7 +80,7 @@ export default async function defense(rollData, actor, chatData){
   }
                 
   //Manage spell area templates
-  if (canvas.scene && chatData.type === "spell" && chatData.spellRange === "area"){
+  if (canvas.scene && chatData.test.type === "spell" && chatData.magic.spell.range === "area"){
     rollData = await handleSpellAreaTemplate(rollData, actor, chatData)
     if (!rollData) return
   }
@@ -170,16 +170,21 @@ async function handleAstralCombat(rollData, actor, chatData){
 
 async function handleSpellAreaTemplate(rollData, actor, chatData){
   // Spell position
-  let spellPosition = SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId) 
+  let spellPosition = await SR5_SystemHelpers.getTemplateItemPosition(chatData.owner.itemId) 
     
   // Get defenser position
   let defenserPosition = SR5_EntityHelpers.getActorCanvasPosition(actor)
     
   // Calcul distance between grenade and defenser
-  let distance = SR5_SystemHelpers.getDistanceBetweenTwoPoint(spellPosition, defenserPosition)
+  // The spell's area is a radius in meters equal to its Force (SR5 p. 283), so the measured distance is
+  // converted to meters before the two are compared.
+  let distance = SR5_SystemHelpers.getDistanceInMetersBetweenTwoPoint(spellPosition, defenserPosition)
     
   //modify the damage based on distance and damage dropoff.
-  if (chatData.magic.spell.area < distance) return ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+  if (chatData.magic.spell.area < distance) {
+    ui.notifications.info(`${game.i18n.localize("SR5.INFO_TargetIsTooFar")}`)
+    return false
+  }
   rollData.magic.spell.range = chatData.magic.spell.range
 
   return rollData
