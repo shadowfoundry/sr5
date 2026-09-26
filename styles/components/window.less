@@ -530,23 +530,47 @@
       border-bottom: 1px solid var(--sr-ui-border-color-idle);
     }
 
+    /* The code surface is dark on purpose, unlike the rest of this sheet.
+       Foundry colours the syntax with a One Dark palette — light purple
+       keywords, pale green strings, light blue method names — which needs a
+       dark background to be legible. The editor was left transparent, so the
+       window's artwork showed through the script; painting it light would keep
+       the skyline out but leave those pale tokens washed out. */
+    code-mirror {
+      flex: 1 1 auto;
+      min-height: 8rem;
+      background: var(--sr-jounal-bg-color) !important;
+      border: 1px solid var(--sr-ui-border-color-idle);
+      border-radius: 3px;
+      overflow: hidden;
+
+      &:focus-within {
+        border-color: var(--sr-ui-border-color-active);
+      }
+    }
+
     code-mirror,
     .cm-editor {
-      background: transparent !important;
-      color: var(--sr-text-color-dark) !important;
+      color: var(--sr-text-color-light) !important;
+
+      .cm-scroller,
+      .cm-content {
+        background: transparent !important;
+      }
 
       .cm-gutters {
-        background: color-mix(in srgb, var(--sr-ui-bg-color-dark) 8%, transparent) !important;
-        color: color-mix(in srgb, var(--sr-text-color-dark) 40%, transparent) !important;
+        background: color-mix(in srgb, var(--sr-text-color-light) 8%, transparent) !important;
+        color: var(--sr-text-color-grey) !important;
         border-right: 1px solid var(--sr-ui-border-color-idle) !important;
       }
 
       .cm-activeLineGutter {
-        background: color-mix(in srgb, var(--sr-ui-border-color-active) 15%, transparent) !important;
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 25%, transparent) !important;
+        color: var(--sr-text-color-light) !important;
       }
 
       .cm-activeLine {
-        background: color-mix(in srgb, var(--sr-ui-border-color-active) 8%, transparent) !important;
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 12%, transparent) !important;
       }
 
       .cm-content {
@@ -556,6 +580,17 @@
       .cm-cursor {
         border-left-color: var(--sr-ui-border-color-active) !important;
       }
+
+      .cm-selectionBackground {
+        background: color-mix(in srgb, var(--sr-ui-border-color-active) 30%, transparent) !important;
+      }
+    }
+
+    /* Two buttons were taking up more room than the script itself: the footer
+       stretched instead of letting the editor have the space. */
+    footer.form-footer {
+      flex: 0 0 auto;
+      padding: 4px 8px;
     }
   }
 
@@ -636,6 +671,34 @@
 
     input[type="file"] {
       color: var(--sr-text-color-dark);
+    }
+
+    /* The generic footer flex-basis: 100% takes the whole column height here
+       and squeezes the file list (.body) down to zero */
+    > footer,
+    > .form-footer {
+      flex: 0 0 auto;
+    }
+
+    /* Picker docked in the sidebar by Filepicker Plus: long labels go above
+       their field instead of wrapping in a thin column, favorites start on the left */
+    &:is(#filepicker-tab *) {
+      .subheader .form-group:not(.current-dir) {
+        flex-wrap: wrap;
+
+        > label {
+          flex: 0 1 auto;
+        }
+
+        > .form-fields,
+        > .split-button {
+          flex: 1 1 8rem;
+        }
+      }
+
+      .subheader .form-group.slim .form-fields {
+        justify-content: flex-start;
+      }
     }
   }
 
