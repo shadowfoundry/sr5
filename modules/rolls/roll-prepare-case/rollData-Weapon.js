@@ -333,11 +333,11 @@ function _buildCalledShotList(rollData){
     rollData.lists.calledShots.dirtyTrick = game.i18n.localize("SR5.CS_DirtyTrick")
   }
 
-  if ((ammoType === "special" || ammoType ==="bolt" || ammoType ==="boltInjection" || ammoType ==="arrow" || ammoType ==="arrowInjection") && rollData.combat.calledShot.martialArts.pin){
+  if ((ammoType === "special" || ammoType ==="bolt" || ammoType ==="boltInjection" || ammoType ==="arrow" || ammoType ==="arrowInjection") ){
     rollData.lists.calledShots.pin = game.i18n.localize("SR5.CS_Pin")
   }
     
-  if (rollData.combat.weaponType === "unarmed" && rollData.combat.calledShot.martialArts.disarm){
+  if (rollData.combat.weaponType === "unarmedCombat"){
     rollData.lists.calledShots.disarm = game.i18n.localize("SR5.CS_Disarm")
   }
 
@@ -351,19 +351,19 @@ function _buildCalledShotList(rollData){
     rollData.lists.calledShots.shakeUp = game.i18n.localize("SR5.CS_ShakeUp")
   }
 
-  if (rollData.combat.weaponType === "meleeWeapon" && rollData.combat.calledShot.martialArts.feint){
+  if (rollData.test.typeSub === "meleeWeapon"){
     rollData.lists.calledShots.feint = game.i18n.localize("SR5.CS_Feint")
   }
 
   rollData.lists.calledShots.splittingDamage = game.i18n.localize("SR5.CS_SplittingDamage")
 
-  if (rollData.combat.weaponType === "meleeWeapon"){
+  if (rollData.test.typeSub === "meleeWeapon"){
     rollData.lists.calledShots.knockdown = game.i18n.localize("SR5.CS_Knockdown")
   }
 
   rollData.lists.calledShots.trickShot = game.i18n.localize("SR5.CS_TrickShot")
 
-  if (rollData.combat.weaponType === "meleeWeapon" || rollData.combat.weaponType === "meleeWeunarmedapon"){
+  if (rollData.test.typeSub === "meleeWeapon" && rollData.combat.calledShot.martialArts.reversal){
     rollData.lists.calledShots.reversal = game.i18n.localize("SR5.CS_Reversal")
   }
 
@@ -417,7 +417,7 @@ function _buildCalledShotList(rollData){
       rollData.lists.calledShotsSpecific.warningShot = game.i18n.localize("SR5.CS_AS_WarningShot")
       rollData.lists.calledShotsSpecific.hitEmWhereItCounts = game.i18n.localize("SR5.CS_AS_HitEmWhereItCounts")
     }
-    if (ammoType === "flare" || ammoType === "gyrojetTaser" || ammoType === "tracer") rollData.lists.calledShotsSpecific.flameOn = game.i18n.localize("SR5.CS_AS_FlameOn")
+    if (ammoType === "flare" || ammoType === "gyrojet" || ammoType === "gyrojetTaser" || ammoType === "tracer") rollData.lists.calledShotsSpecific.flameOn = game.i18n.localize("SR5.CS_AS_FlameOn")
     if (ammoType === "flare") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_FlashBlind")
     if (ammoType === "flechette" || ammoType === "arrow" || ammoType === "arrowBarbedHead" || ammoType === "arrowExplosiveHead" ||
          ammoType === "arrowHammerhead" || ammoType === "arrowIncendiaryHead" || ammoType === "arrowScreamerHead" ||
@@ -425,7 +425,7 @@ function _buildCalledShotList(rollData){
       rollData.lists.calledShotsSpecific.onPinsAndNeedles = game.i18n.localize("SR5.CS_AS_OnPinsAndNeedles")
       rollData.lists.calledShotsSpecific.shreddedFlesh = game.i18n.localize("SR5.CS_AS_ShreddedFlesh")
     }
-    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.flashBlind = game.i18n.localize("SR5.CS_AS_Tag")
+    if (ammoType === "tracker") rollData.lists.calledShotsSpecific.tag = game.i18n.localize("SR5.CS_AS_Tag")
     if (ammoType === "apds" || ammoType === "gauss") rollData.lists.calledShotsSpecific.throughAndInto = game.i18n.localize("SR5.CS_AS_ThroughAndInto")
     if (ammoType === "av" || ammoType === "assaultCannon") rollData.lists.calledShotsSpecific.upTheAnte = game.i18n.localize("SR5.CS_AS_UpTheAnte")
   }
