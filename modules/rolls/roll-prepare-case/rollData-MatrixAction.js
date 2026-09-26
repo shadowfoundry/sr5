@@ -74,18 +74,27 @@ async function checkTargetMarks(rollData, matrixAction, actor){
   for (let t of cibles) {
     rollData.target.grid = t.actor.system.matrix.userGrid
 
-    if (matrixAction.neededMarks > 0 && t.actor.id !== actor.id){
-      let listOfMarkedItem = t.actor.items.map(i => i.system.marks)
-      listOfMarkedItem = listOfMarkedItem.filter(i => i !== undefined)
-      let markItem
-      for (let i of listOfMarkedItem){
-        markItem = i.find(m => m.ownerId === rollData.owner.speakerId)
-        if (markItem) return true
+    // "S" (special) is not a number and asks for no check here
+    let neededMarks = Number(matrixAction.neededMarks)
+    if (neededMarks > 0 && t.actor.id !== actor.id){
+      // SR5 p. 238: owning an icon counts as four marks. Ownership is not tracked here,
+      // so the owner-only actions keep asking for a single mark
+      if (neededMarks > 3) neededMarks = 1
+      let marks = 0
+      for (let item of t.actor.items){
+        const mark = item.system.marks?.find(m => m.ownerId === rollData.owner.speakerId)
+        if (mark?.value > marks) marks = mark.value
       }
-      if (markItem === undefined || markItem?.value < matrixAction.neededMarks) {
+      if (marks < neededMarks) {
         ui.notifications.info(game.i18n.localize("SR5.NotEnoughMarksOnTarget"))
         return false
       }
+      return true
     } else return true
   }
+}
+
+// Exported for the tests
+export {
+  checkTargetMarks
 }

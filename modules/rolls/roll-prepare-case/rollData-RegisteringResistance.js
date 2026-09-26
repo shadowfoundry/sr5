@@ -19,6 +19,7 @@ export default function registeringResistance(rollData, actor, chatData){
 
   //Add others informations
   rollData.test.type = "registeringResistance"
+  rollData.matrix.spriteLevel = actor.system.level
   rollData.previousMessage.actorId = chatData.owner.actorId
   rollData.previousMessage.hits = chatData.roll.hits
   rollData.previousMessage.messageId = chatData.owner.messageId
